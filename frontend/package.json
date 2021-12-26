@@ -1,0 +1,65 @@
+{
+  "name": "",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@emotion/react": "^11.7.1",
+    "@emotion/styled": "^11.6.0",
+    "@mui/material": "^5.2.5",
+    "@testing-library/jest-dom": "^5.14.1",
+    "@testing-library/react": "^11.2.7",
+    "@testing-library/user-event": "^12.8.3",
+    "axios": "^0.24.0",
+    "chart.js": "^3.6.2",
+    "plotly.js": "^2.8.3",
+    "randomcolor": "^0.6.2",
+    "react": "^17.0.2",
+    "react-chartjs-2": "^4.0.0",
+    "react-csv-to-table": "^0.0.4",
+    "react-dom": "^17.0.2",
+    "react-loader-spinner": "^4.0.0",
+    "react-plotly.js": "^2.5.1",
+    "react-promise-tracker": "^2.1.0",
+    "react-scripts": "4.0.3",
+    "react-select": "^5.2.1",
+    "styled-components": "^5.3.3",
+    "web-vitals": "^1.1.2",
+    "xlsx": "^0.17.4"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browser": {
+    "fs": false,
+    "path": false,
+    "os": false
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "file-loader": "^6.2.0",
+    "prettier": "^2.5.1",
+    "url-loader": "^4.1.1"
+  }
+}
