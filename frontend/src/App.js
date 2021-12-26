@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import "./App.css";
-import ArticleList from "./Components/ArticleList";
+import Main from "./Components/Main";
 
 function App() {
   const [articles, setArticles] = useState([]);
@@ -27,7 +27,7 @@ function App() {
         </div>
       </div>
 
-      <ArticleList articles={articles} />
+      <Main />
     </div>
   );
 }
