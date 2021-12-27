@@ -103,74 +103,6 @@ class App extends Component {
     }
   };
 
-  unpack = (rows, key) => {
-    return rows.map((row) => {
-      return row[key];
-    });
-  };
-  //   scatter2dWithClusters(x, y) {
-  //     var x_cluster1 = [];
-  //     var x_cluster2 = [];
-  //     var x_cluster3 = [];
-  //     var x_cluster4 = [];
-
-  //     var y_cluster1 = [];
-  //     var y_cluster2 = [];
-  //     var y_cluster3 = [];
-  //     var y_cluster4 = [];
-
-  //     var colors = [];
-
-  //     for (let j = 0; j < 4; j += 1) {
-  //       colors.push(randomColor());
-  //     }
-
-  //     if (this.state.data != null && x != null && y != null) {
-  //       for (var i = 0; i < this.state.data.length; i++) {
-  //         let rowCol = this.state.clusterColors[i];
-  //         switch (rowCol) {
-  //           case 0:
-  //             x_cluster1.push(this.state.data[i][x]);
-  //             y_cluster1.push(this.state.data[i][y]);
-  //             break;
-  //           case 1:
-  //             x_cluster2.push(this.state.data[i][x]);
-  //             y_cluster2.push(this.state.data[i][y]);
-  //             break;
-  //           case 2:
-  //             x_cluster3.push(this.state.data[i][x]);
-  //             y_cluster3.push(this.state.data[i][y]);
-  //             break;
-  //           case 3:
-  //             x_cluster4.push(this.state.data[i][x]);
-  //             y_cluster4.push(this.state.data[i][y]);
-  //             break;
-
-  //           default:
-  //             console.error();
-  //         }
-  //       }
-  //       var data_new = [];
-  //       let x_clusters = [x_cluster1, x_cluster2, x_cluster3, x_cluster4];
-  //       let y_clusters = [y_cluster1, y_cluster2, y_cluster3, y_cluster4];
-  //       for (var k = 0; k < 4; k += 1) {
-  //         data_new.push({
-  //           name: "Cluster " + k,
-  //           x: x_clusters[k],
-  //           y: y_clusters[k],
-  //           mode: "markers",
-  //           marker: { color: colors[k] },
-  //         });
-  //       }
-  //     }
-
-  //     console.log("before scatter");
-
-  //     this.setState({
-  //       scatter: <Plot data={data_new} style={styles.scatterContainer} />,
-  //     });
-  //   }
-
   scatter2dWithClusters(x, y) {
     var x_clusters = [];
     var y_clusters = [];
@@ -691,9 +623,6 @@ class App extends Component {
     if (!(this.state.num_clusters <= 0)) {
       this.setState({ num_clusters: this.state.num_clusters - 1 });
     }
-  };
-  ToggleClick = () => {
-    this.setState({ show: !this.state.show });
   };
   render() {
     return (
