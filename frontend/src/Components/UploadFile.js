@@ -48,6 +48,7 @@ class App extends Component {
     show: true,
     multiValue: [],
     describingValues: [],
+    identifierColumn: "",
   };
   handleMultiChange = (option) => {
     this.setState({
@@ -86,7 +87,13 @@ class App extends Component {
       return (
         <div>
           <h2>File Details:</h2>
-          <p>File Name: {this.state.selectedFile.name}</p>
+          <p>
+            File Name:{" "}
+            {this.state.selectedFile.name.substr(
+              0,
+              this.state.selectedFile.name.indexOf(".")
+            )}
+          </p>
           <p>File Type: {this.state.selectedFile.type}</p>
           <p>
             {" "}
@@ -108,7 +115,7 @@ class App extends Component {
   scatter2dWithClusters(x, y) {
     var x_clusters = [];
     var y_clusters = [];
-
+    var cluster_texts = [];
     for (
       var num_clusters = 0;
       num_clusters < this.state.num_clusters;
@@ -116,6 +123,7 @@ class App extends Component {
     ) {
       x_clusters.push([]);
       y_clusters.push([]);
+      cluster_texts.push([]);
     }
 
     var colors = [];
@@ -138,6 +146,7 @@ class App extends Component {
           y: y_clusters[k],
           mode: "markers",
           marker: { color: colors[k] },
+          text: cluster_texts[k],
         });
       }
     }
@@ -250,23 +259,29 @@ class App extends Component {
   scatter2d = (x, y) => {
     var x1 = [];
     var y1 = [];
+    var cluster_texts = [];
     if (this.state.data != null && x != null && y != null) {
       console.log(x, y);
       for (var i = 0; i < this.state.data.length; i++) {
         x1.push(this.state.data[i][x]);
         y1.push(this.state.data[i][y]);
+        cluster_texts.push(this.state.data[i]["MappingID2"]);
       }
+      console.log(cluster_texts);
       var data_new = [
         {
           name: "Data",
           x: x1,
           y: y1,
           mode: "markers",
+          text: cluster_texts,
+          hovertemplate:
+            "<i>(%{x:.4f}, %{y:.4f}) </i>" +
+            "<br><b>Mapping ID</b>:%{text}</b></br>",
           marker: { color: this.state.rand },
         },
       ];
     }
-
     console.log("before scatter");
     this.setState({
       scatter: <Plot data={data_new} style={styles.scatterContainer} />,
