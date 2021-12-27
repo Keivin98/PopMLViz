@@ -36,6 +36,7 @@ class App extends Component {
         }}
       />
     ),
+    allActions: [],
     selectActions: [],
     selectedColumns: [null, null],
     selectedOption: null,
@@ -44,14 +45,28 @@ class App extends Component {
     clusterColors: [],
     num_clusters: 0,
     show: true,
+    multiValue: [],
   };
+  handleMultiChange = (option) => {
+    this.setState({
+      multiValue: option,
+      selectActions: this.state.selectActions.filter((elem) => {
+        return option.indexOf(elem) < 0;
+      }),
+    });
+  };
+
   setColumns = (columns) => {
     let act = [];
     for (var i = 0; i < columns.length; i++) {
-      act.push({ label: columns[i]["name"], value: i });
+      act.push({
+        value: columns[i]["name"].toLowerCase(),
+        label: columns[i]["name"],
+      });
     }
-    this.setState({ columns: columns, selectActions: act });
+    this.setState({ columns: columns, selectActions: act, allActions: act });
   };
+
   setData = (data) => {
     this.setState({ data: data });
   };
@@ -467,11 +482,7 @@ class App extends Component {
     }));
 
     this.setData(list);
-    // console.log(this.state.data);
     this.setColumns(columns);
-    // console.log(this.state.columns);
-    // this.scatter2d('PC2', 'PC3');
-    // console.log("after scatter");
   };
 
   // handle file upload
@@ -494,7 +505,6 @@ class App extends Component {
       };
       reader.readAsBinaryString(file);
     } else {
-      console.log("nah nah nah");
       this.UploadCMDataset(e.target.files[0]);
     }
   };
@@ -733,12 +743,38 @@ class App extends Component {
           />
           <div
             style={{
+              width: "300px",
+              paddingVertical: "20px",
+            }}
+          >
+            <label>Describing Columns</label>
+            <Select
+              name="filters"
+              placeholder="Filters"
+              value={this.state.multiValue}
+              options={this.state.selectActions}
+              onChange={this.handleMultiChange}
+              isMulti
+            />
+          </div>
+          <hr
+            style={{
+              color: "black",
+              backgroundColor: "black",
+              width: "40%",
+              height: 5,
+              opacity: 1,
+            }}
+          />
+          <div
+            style={{
               display: "flex",
               flexDirection: "row",
               width: "40%",
-              justifyContent: "space-around",
+              justifyContent: "space-between",
               marginBottom: "5%",
-              height: "30px",
+              height: "50px",
+              paddingTop: "20px",
             }}
           >
             Num clusters: <button onClick={this.DecreaseItem}>-</button>
@@ -789,7 +825,6 @@ class App extends Component {
                     <Select
                       options={this.state.selectActions}
                       onChange={this.handleSelectXChange}
-                      style={styles.dropDown}
                     />
                   </div>
                   <div className="row-md-8" style={styles.dropDown}>
@@ -797,7 +832,6 @@ class App extends Component {
                     <Select
                       options={this.state.selectActions}
                       onChange={this.handleSelectYChange}
-                      style={styles.dropDown}
                     />
                   </div>
 
