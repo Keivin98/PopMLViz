@@ -13,6 +13,7 @@ Chart.register(...registerables);
 class App extends Component {
   state = {
     // Initially, no file is selected
+    rand: randomColor(),
     selectedFile: null,
     uplaodType: null,
     imageURL: "",
@@ -46,6 +47,7 @@ class App extends Component {
     num_clusters: 0,
     show: true,
     multiValue: [],
+    describingValues: [],
   };
   handleMultiChange = (option) => {
     this.setState({
@@ -247,34 +249,20 @@ class App extends Component {
 
   scatter2d = (x, y) => {
     var x1 = [];
-    var x2 = [];
     var y1 = [];
-    var y2 = [];
-
     if (this.state.data != null && x != null && y != null) {
       console.log(x, y);
-      for (var i = 0; i < this.state.data.length / 2; i++) {
+      for (var i = 0; i < this.state.data.length; i++) {
         x1.push(this.state.data[i][x]);
         y1.push(this.state.data[i][y]);
       }
-      for (i; i < 7000; i++) {
-        x2.push(this.state.data[i][x]);
-        y2.push(this.state.data[i][y]);
-      }
       var data_new = [
         {
-          name: "men",
+          name: "Data",
           x: x1,
           y: y1,
           mode: "markers",
-          marker: { color: randomColor() },
-        },
-        {
-          name: "women",
-          x: x2,
-          y: y2,
-          mode: "markers",
-          marker: { color: randomColor() },
+          marker: { color: this.state.rand },
         },
       ];
     }
@@ -282,6 +270,159 @@ class App extends Component {
     console.log("before scatter");
     this.setState({
       scatter: <Plot data={data_new} style={styles.scatterContainer} />,
+    });
+  };
+
+  scatter2dWithColumns = (x, y, distributionData) => {
+    var x1 = [];
+    var x2 = [];
+    var y1 = [];
+    var y2 = [];
+    let colors = [];
+    if (
+      distributionData != null &&
+      distributionData.filter((elem) => {
+        return elem !== 0 && elem !== 1;
+      }).length === 0
+    ) {
+      // this a boolean data, color everything true or false
+      // choose the two representing colors
+      colors = [randomColor(), randomColor()];
+    }
+    if (this.state.data != null && x != null && y != null) {
+      for (var i = 0; i < this.state.data.length; i++) {
+        if (distributionData[i] === 0) {
+          x1.push(this.state.data[i][x]);
+          y1.push(this.state.data[i][y]);
+        } else {
+          x2.push(this.state.data[i][x]);
+          y2.push(this.state.data[i][y]);
+        }
+      }
+      var data_new = [
+        {
+          name: "False",
+          x: x1,
+          y: y1,
+          mode: "markers",
+          marker: { color: colors[0] },
+        },
+        {
+          name: "True",
+          x: x2,
+          y: y2,
+          mode: "markers",
+          marker: { color: colors[1] },
+        },
+      ];
+    }
+
+    console.log("before scatter");
+    this.setState({
+      scatter: <Plot data={data_new} style={styles.scatterContainer} />,
+    });
+  };
+  scatter3dWithColumns = (x, y, z, distributionData) => {
+    var x1 = [];
+    var x2 = [];
+    var z1 = [];
+    var z2 = [];
+    var y1 = [];
+    var y2 = [];
+
+    let colors = [];
+
+    if (
+      distributionData != null &&
+      distributionData.filter((elem) => {
+        return elem !== 0 && elem !== 1;
+      }).length === 0
+    ) {
+      // this a boolean data, color everything true or false
+      // choose the two representing colors
+      colors = [randomColor(), randomColor()];
+    }
+    if (this.state.data != null && x != null && y != null && z != null) {
+      for (var i = 0; i < this.state.data.length; i++) {
+        if (distributionData[i] === 0) {
+          x1.push(this.state.data[i][x]);
+          y1.push(this.state.data[i][y]);
+          z1.push(this.state.data[i][z]);
+        } else {
+          x2.push(this.state.data[i][x]);
+          y2.push(this.state.data[i][y]);
+          z2.push(this.state.data[i][z]);
+        }
+      }
+      var data_new = [
+        {
+          name: "False",
+          x: x1,
+          y: y1,
+          z: z1,
+          mode: "markers",
+          type: "scatter3d",
+          marker: { color: colors[0], size: 2 },
+        },
+        {
+          name: "True",
+          x: x2,
+          y: y2,
+          z: z2,
+          mode: "markers",
+          type: "scatter3d",
+          marker: { color: colors[1], size: 2 },
+        },
+      ];
+      var layout = {
+        autosize: true,
+        height: 680,
+        scene: {
+          aspectratio: {
+            x: 1,
+            y: 1,
+            z: 1,
+          },
+          camera: {
+            center: {
+              x: 0,
+              y: 0,
+              z: 0,
+            },
+            eye: {
+              x: 1.25,
+              y: 1.25,
+              z: 1.25,
+            },
+            up: {
+              x: 0,
+              y: 0,
+              z: 1,
+            },
+          },
+          xaxis: {
+            type: "linear",
+            zeroline: false,
+          },
+          yaxis: {
+            type: "linear",
+            zeroline: false,
+          },
+          zaxis: {
+            type: "linear",
+            zeroline: false,
+          },
+        },
+        title: "3D scatter plot",
+        width: 800,
+      };
+    }
+
+    console.log("before scatter");
+    this.setState({
+      scatter: (
+        <Plot data={data_new} layout={layout} style={styles.scatterContainer} />
+      ),
     });
   };
 
@@ -294,34 +435,20 @@ class App extends Component {
     var y2 = [];
     if (this.state.data != null && x != null && y != null && z != null) {
       console.log(x, y);
-      for (var i = 0; i < this.state.data.length / 2; i++) {
+      for (var i = 0; i < this.state.data.length; i++) {
         x1.push(this.state.data[i][x]);
         y1.push(this.state.data[i][y]);
         z1.push(this.state.data[i][z]);
       }
-      for (i; i < 7000; i++) {
-        x2.push(this.state.data[i][x]);
-        y2.push(this.state.data[i][y]);
-        z2.push(this.state.data[i][z]);
-      }
       var data_new = [
         {
-          name: "men",
+          name: "Data",
           x: x1,
           y: y1,
           z: z1,
           mode: "markers",
           type: "scatter3d",
-          marker: { color: "red", size: 2 },
-        },
-        {
-          name: "women",
-          x: x2,
-          y: y2,
-          z: z2,
-          mode: "markers",
-          type: "scatter3d",
-          marker: { color: "blue", size: 2 },
+          marker: { color: this.state.rand, size: 2 },
         },
       ];
       var layout = {
@@ -463,8 +590,7 @@ class App extends Component {
           this.state.selectedColumns[1],
           this.state.selectedColumns[2]
         );
-      }
-      if (this.state.clusterColors.length === 0) {
+      } else {
         this.scatter3dWithClusters(
           value.label,
           this.state.selectedColumns[1],
@@ -624,6 +750,31 @@ class App extends Component {
       this.setState({ num_clusters: this.state.num_clusters - 1 });
     }
   };
+
+  handleSpecificColumns = (event) => {
+    let distributionData = this.state.data.map((elem) => {
+      return parseInt(elem[event.label], 10);
+    });
+    if (
+      this.state.selectedOption === "2D" ||
+      this.state.selectedOption === null
+    ) {
+      console.log("2d with columns");
+      this.scatter2dWithColumns(
+        this.state.selectedColumns[0],
+        this.state.selectedColumns[1],
+        distributionData
+      );
+    } else {
+      console.log("3d with columns");
+      this.scatter3dWithColumns(
+        this.state.selectedColumns[0],
+        this.state.selectedColumns[1],
+        this.state.selectedColumns[2],
+        distributionData
+      );
+    }
+  };
   render() {
     return (
       <div style={styles.splitScreen}>
@@ -720,7 +871,6 @@ class App extends Component {
           {this.state.isLoading && (
             <Loader type="TailSpin" color="#00BFFF" height="100" width="100" />
           )}
-          {/* {this.scatter2d(this.state.selectedColumns[0], this.state.selectedColumns[1])} */}
           {!this.state.isLoading && (
             <div style={styles.rightPane}>
               {this.state.scatter}
@@ -770,6 +920,16 @@ class App extends Component {
                       <Select
                         options={this.state.selectActions}
                         onChange={this.handleSelectZChange}
+                        style={styles.dropDown}
+                      />
+                    </div>
+                  )}
+                  {this.state.multiValue.length > 0 && (
+                    <div className="row-md-8" style={styles.dropDown}>
+                      Choose Describing Column
+                      <Select
+                        options={this.state.multiValue}
+                        onChange={this.handleSpecificColumns}
                         style={styles.dropDown}
                       />
                     </div>
