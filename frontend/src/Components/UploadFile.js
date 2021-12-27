@@ -62,38 +62,6 @@ class App extends Component {
     console.log(event.target.files[0]);
   };
 
-  // On file upload (click the upload button)
-  CMUpload = () => {
-    // Create an object of formData
-    const formData = new FormData();
-
-    // Update the formData object
-    formData.append(
-      "myFile",
-      this.state.selectedFile,
-      this.state.selectedFile.name
-    );
-
-    // Details of the uploaded file
-    console.log(this.state.selectedFile);
-
-    // Request made to the backend api
-    // Send formData object
-    axios
-      .post("http://localhost:5000/uploadCM", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      })
-      .then((response) => {
-        return (
-          <div>
-            <button onClick={this.onFileUpload}>{response.data}</button>
-          </div>
-        );
-      });
-  };
-
   // File content to be displayed after
   // file upload is complete
   correlationMatrixUpload = () => {
