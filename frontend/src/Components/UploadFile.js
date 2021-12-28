@@ -7,12 +7,9 @@ import Select from "react-select";
 import Plot from "react-plotly.js";
 import Loader from "react-loader-spinner";
 import randomColor from "randomcolor";
-import Latex from "react-latex";
+import { CSVLink, CSVDownload } from "react-csv";
 
 Chart.register(...registerables);
-// var Latex = require("react-latex");
-
-// import pca from "../images/pca.p"
 class App extends Component {
   state = {
     // Initially, no file is selected
@@ -68,6 +65,9 @@ class App extends Component {
     identifierColumn: "",
     selectedOutlierMethod: "",
     OutlierData: null,
+    clusterCheck: false,
+    outlierCheck: false,
+    downloadableData: [],
   };
   handleMultiChange = (option) => {
     this.setState({
@@ -1034,6 +1034,7 @@ class App extends Component {
       );
     }
   };
+
   render() {
     return (
       <div style={styles.splitScreen}>
@@ -1191,6 +1192,7 @@ class App extends Component {
                 </div>
                 <div className="row">
                   <div className="row-md-8"></div>
+
                   <div className="row-md-8" style={styles.dropDown}>
                     X-axis
                     <Select
@@ -1208,7 +1210,6 @@ class App extends Component {
                       />
                     </div>
                   )}
-
                   {this.state.selectedOption === "3D" && (
                     <div className="row-md-8" style={styles.dropDown}>
                       Z-axis
@@ -1230,6 +1231,43 @@ class App extends Component {
                     </div>
                   )}
                 </div>
+
+                {this.state.data !== null && (
+                  <div style={styles.download}>
+                    <label>
+                      <input
+                        name="outliers"
+                        type="checkbox"
+                        checked={this.state.outlierCheck}
+                        onChange={() => {
+                          this.setState({
+                            outlierCheck: !this.state.outlierCheck,
+                          });
+                        }}
+                      />
+                      Remove Outliers
+                    </label>
+                    <label>
+                      <input
+                        name="clustering"
+                        type="checkbox"
+                        checked={this.state.clusterCheck}
+                        onChange={() => {
+                          this.setState({
+                            clusterCheck: !this.state.clusterCheck,
+                          });
+                        }}
+                      />
+                      Include Clustering Information
+                    </label>
+
+                    <button>
+                      <CSVLink data={this.state.downloadableData}>
+                        Download Data
+                      </CSVLink>
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
           )}
@@ -1308,6 +1346,14 @@ const styles = {
     width: "55%",
     marginTop: "10%",
     marginLeft: "30%",
+  },
+  download: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "",
+    position: "fixed",
+    bottom: "20%",
+    right: "5%",
   },
 };
 export default App;
