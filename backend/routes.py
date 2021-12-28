@@ -1,4 +1,5 @@
 from flask import current_app,jsonify,request
+from pandas.core.reshape.tile import cut
 from app import create_app,db
 from models import Articles,articles_schema
 import io
@@ -53,6 +54,35 @@ def uploadCM():
 	with open('./data/pca_%s.csv'% (filename), 'r') as f : 
 		data = f.read()
 	return 	data
+
+@app.route("/detectoutliers", methods=["POST"], strict_slashes=False)
+def detectoutliers():
+	print('detecting outliers')
+	request_df = request.get_json()['df']
+	
+	request_method = request.get_json()['method']
+	std_freedom = int(request_method[0])
+
+	df = pd.json_normalize(request_df)
+	newdf = {}
+	for col in df.columns[1:-2]:
+		# print(col)
+		pcx = df.loc[:, col]
+		pcx = pd.Series(pcx, dtype='float')
+		data_mean, data_std = (pcx.mean()), (pcx.std())
+		print(data_mean, data_std)
+		cut_off = data_std * std_freedom
+		lower, upper = data_mean - cut_off, data_mean + cut_off
+		
+		outliers = [(1 if x < lower or x > upper else 0) for x in pcx]
+		newdf[col] = outliers
+	letters = string.ascii_lowercase
+	filename = ''.join(random.choice(letters) for i in range(5))
+	outliers_result = pd.DataFrame(newdf)
+	outliers_result.to_csv('./data/outlier_%s.csv' % filename, sep=",")
+	with open('./data/outlier_%s.csv'% (filename), 'r') as f : 
+		data = f.read()
+	return data
 
 if __name__ == "__main__":
 	app.run(debug=True)

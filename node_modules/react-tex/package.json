@@ -1,0 +1,45 @@
+{
+  "name": "react-tex",
+  "version": "1.5.0",
+  "description": "React component using Khan Academy's Katex library",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "mocha --require @babel/register tests/.setup.js tests/**/*.spec.js",
+    "build": "./node_modules/.bin/babel ./src/js -o index.js",
+    "prepublish": "npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dhruv004/React-Katex.git"
+  },
+  "keywords": [
+    "react",
+    "latex",
+    "katex",
+    "math"
+  ],
+  "author": "Dhruv",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dhruv004/React-Katex/issues"
+  },
+  "homepage": "https://github.com/dhruv004/React-Katex#readme",
+  "dependencies": {
+    "katex": "0.12.0",
+    "react": "16.14.0",
+    "react-dom": "16.14.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "7.12.1",
+    "@babel/core": "7.12.3",
+    "@babel/preset-env": "7.12.1",
+    "@babel/preset-react": "7.12.1",
+    "@babel/register": "7.12.1",
+    "babel-preset-airbnb": "5.0.0",
+    "chai": "4.2.0",
+    "enzyme": "3.11.0",
+    "enzyme-adapter-react-16": "1.15.5",
+    "mocha": "8.2.0",
+    "react-addons-test-utils": "15.6.2"
+  }
+}

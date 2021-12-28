@@ -7,8 +7,11 @@ import Select from "react-select";
 import Plot from "react-plotly.js";
 import Loader from "react-loader-spinner";
 import randomColor from "randomcolor";
+import Latex from "react-latex";
 
 Chart.register(...registerables);
+// var Latex = require("react-latex");
+
 // import pca from "../images/pca.p"
 class App extends Component {
   state = {
@@ -37,6 +40,20 @@ class App extends Component {
         }}
       />
     ),
+    selectOutlierActions: [
+      {
+        label: "1std",
+        value: "method1",
+      },
+      {
+        label: "2std",
+        value: "method2",
+      },
+      {
+        label: "3std",
+        value: "method3",
+      },
+    ],
     allActions: [],
     selectActions: [],
     selectedColumns: [null, null],
@@ -49,6 +66,8 @@ class App extends Component {
     multiValue: [],
     describingValues: [],
     identifierColumn: "",
+    selectedOutlierMethod: "",
+    OutlierData: null,
   };
   handleMultiChange = (option) => {
     this.setState({
@@ -58,7 +77,9 @@ class App extends Component {
       }),
     });
   };
-
+  handleOutlierChange = (option) => {
+    this.setState({ selectedOutlierMethod: option.label });
+  };
   setColumns = (columns) => {
     let act = [];
     for (var i = 0; i < columns.length; i++) {
@@ -72,6 +93,9 @@ class App extends Component {
 
   setData = (data) => {
     this.setState({ data: data });
+  };
+  setOutlierData = (data) => {
+    this.setState({ OutlierData: data });
   };
   // On file select (from the pop up)
   onFileChange = (event) => {
@@ -444,6 +468,7 @@ class App extends Component {
       // choose the two representing colors
       colors = [randomColor(), randomColor()];
     }
+    console.log(distributionData);
     if (this.state.data != null && y != null) {
       for (var i = 0; i < this.state.data.length; i++) {
         if (distributionData[i] === 0) {
@@ -683,7 +708,7 @@ class App extends Component {
     });
   };
 
-  processData = (dataString, colorlabels) => {
+  processData = async (dataString, outliers) => {
     const dataStringLines = dataString.split(/\r\n|\n/);
     const headers = dataStringLines[0].split(
       /,(?![^"]*"(?:(?:[^"]*"){2})*[^"]*$)/
@@ -719,9 +744,13 @@ class App extends Component {
       name: c,
       selector: c,
     }));
-
-    this.setData(list);
-    this.setColumns(columns);
+    if (outliers === true) {
+      this.setOutlierData(list);
+      //   console.log(this.state.OutlierData);
+    } else {
+      this.setData(list);
+      this.setColumns(columns);
+    }
   };
 
   // handle file upload
@@ -740,7 +769,7 @@ class App extends Component {
         const ws = wb.Sheets[wsname];
         /* Convert array of arrays */
         const data = XLSX.utils.sheet_to_csv(ws, { header: 1 });
-        this.processData(data, this.state.clusterColors);
+        this.processData(data, false);
       };
       reader.readAsBinaryString(file);
     } else {
@@ -896,7 +925,7 @@ class App extends Component {
       .then((r) => {
         console.log(r);
         this.setState({ isLoading: false, selectedUploadOption: "PCA" });
-        this.processData(r.data, this.state.clusterColors);
+        this.processData(r.data, false);
       });
   };
 
@@ -938,6 +967,31 @@ class App extends Component {
             r.data
           );
         }
+      });
+  };
+
+  detectOutliers = () => {
+    const formData = {
+      df: this.state.data,
+      method: this.state.selectedOutlierMethod,
+    };
+    this.setState({ isLoading: true });
+    axios
+      .post("http://localhost:5000/detectoutliers", formData, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+      .then((r) => {
+        console.log(r);
+        this.setState({ isLoading: false });
+        this.processData(r.data, true);
+        this.scatter1dWithColumns(
+          this.state.selectedColumns[0],
+          this.state.OutlierData.map((value) => {
+            return parseInt(value[this.state.selectedColumns[0]], 10);
+          })
+        );
       });
   };
   IncrementItem = () => {
@@ -1067,6 +1121,30 @@ class App extends Component {
             <button onClick={this.IncrementItem}> + </button>
           </div>
           <button onClick={this.runKmeans}>Run Kmeans</button>
+          <hr
+            style={{
+              color: "black",
+              backgroundColor: "black",
+              width: "40%",
+              height: 5,
+              opacity: 1,
+            }}
+          />
+          <div
+            style={{
+              width: "300px",
+              paddingVertical: "20px",
+            }}
+          >
+            Choose the outlier detection method
+            <Select
+              options={this.state.selectOutlierActions}
+              onChange={this.handleOutlierChange}
+            />
+            <button onClick={this.detectOutliers} style={{ marginTop: "20px" }}>
+              Detect Outliers
+            </button>
+          </div>
         </div>
 
         <div
