@@ -158,6 +158,52 @@ class App extends Component {
     });
   }
 
+  scatter1dWithClusters(y) {
+    var x_clusters = [];
+    var y_clusters = [];
+    var cluster_texts = [];
+    for (
+      var num_clusters = 0;
+      num_clusters < this.state.num_clusters;
+      num_clusters++
+    ) {
+      x_clusters.push([]);
+      y_clusters.push([]);
+      cluster_texts.push([]);
+    }
+
+    var colors = [];
+
+    for (let j = 0; j < this.state.num_clusters; j += 1) {
+      colors.push(randomColor());
+    }
+
+    if (this.state.data != null && y != null) {
+      for (var i = 0; i < this.state.data.length; i++) {
+        let rowCol = this.state.clusterColors[i];
+        x_clusters[rowCol].push(i);
+        y_clusters[rowCol].push(this.state.data[i][y]);
+      }
+      var data_new = [];
+      for (var k = 0; k < this.state.num_clusters; k += 1) {
+        data_new.push({
+          name: "Cluster " + k,
+          x: x_clusters[k],
+          y: y_clusters[k],
+          mode: "markers",
+          marker: { color: colors[k] },
+          text: cluster_texts[k],
+        });
+      }
+    }
+
+    console.log("before scatter");
+
+    this.setState({
+      scatter: <Plot data={data_new} style={styles.scatterContainer} />,
+    });
+  }
+
   scatter3dWithClusters(x, y, z) {
     var x_clusters = [];
     var y_clusters = [];
@@ -288,11 +334,43 @@ class App extends Component {
     });
   };
 
+  scatter1d = (y) => {
+    var x1 = [];
+    var y1 = [];
+    var cluster_texts = [];
+    if (this.state.data != null && y != null) {
+      for (var i = 0; i < this.state.data.length; i++) {
+        x1.push(i);
+        y1.push(this.state.data[i][y]);
+        cluster_texts.push(this.state.data[i]["MappingID2"]);
+      }
+      var data_new = [
+        {
+          name: "Data",
+          x: x1,
+          y: y1,
+          mode: "markers",
+          text: cluster_texts,
+          hovertemplate:
+            "<i>(%{x}, %{y:.4f}) </i>" +
+            "<br><b>Mapping ID</b>:%{text}</b></br>",
+          marker: { color: this.state.rand },
+          //   type: "bar",
+        },
+      ];
+    }
+    console.log("before scatter");
+    this.setState({
+      scatter: <Plot data={data_new} style={styles.scatterContainer} />,
+    });
+  };
+
   scatter2dWithColumns = (x, y, distributionData) => {
     var x1 = [];
     var x2 = [];
     var y1 = [];
     var y2 = [];
+    var cluster_texts = [];
     let colors = [];
     if (
       distributionData != null &&
@@ -309,9 +387,11 @@ class App extends Component {
         if (distributionData[i] === 0) {
           x1.push(this.state.data[i][x]);
           y1.push(this.state.data[i][y]);
+          cluster_texts.push(this.state.data[i]["MappingID2"]);
         } else {
           x2.push(this.state.data[i][x]);
           y2.push(this.state.data[i][y]);
+          cluster_texts.push(this.state.data[i]["MappingID2"]);
         }
       }
       var data_new = [
@@ -321,6 +401,10 @@ class App extends Component {
           y: y1,
           mode: "markers",
           marker: { color: colors[0] },
+          text: cluster_texts,
+          hovertemplate:
+            "<i>(%{x:.4f}, %{y:.4f}) </i>" +
+            "<br><b>Mapping ID</b>:%{text}</b></br>",
         },
         {
           name: "True",
@@ -328,6 +412,73 @@ class App extends Component {
           y: y2,
           mode: "markers",
           marker: { color: colors[1] },
+
+          text: cluster_texts,
+          hovertemplate:
+            "<i>(%{x:.4f}, %{y:.4f}) </i>" +
+            "<br><b>Mapping ID</b>:%{text}</b></br>",
+        },
+      ];
+    }
+
+    console.log("before scatter");
+    this.setState({
+      scatter: <Plot data={data_new} style={styles.scatterContainer} />,
+    });
+  };
+
+  scatter1dWithColumns = (y, distributionData) => {
+    var x1 = [];
+    var x2 = [];
+    var y1 = [];
+    var y2 = [];
+    var cluster_texts = [];
+    let colors = [];
+    if (
+      distributionData != null &&
+      distributionData.filter((elem) => {
+        return elem !== 0 && elem !== 1;
+      }).length === 0
+    ) {
+      // this a boolean data, color everything true or false
+      // choose the two representing colors
+      colors = [randomColor(), randomColor()];
+    }
+    if (this.state.data != null && y != null) {
+      for (var i = 0; i < this.state.data.length; i++) {
+        if (distributionData[i] === 0) {
+          x1.push(i);
+          y1.push(this.state.data[i][y]);
+          cluster_texts.push(this.state.data[i]["MappingID2"]);
+        } else {
+          x2.push(i);
+          y2.push(this.state.data[i][y]);
+          cluster_texts.push(this.state.data[i]["MappingID2"]);
+        }
+      }
+      var data_new = [
+        {
+          name: "False",
+          x: x1,
+          y: y1,
+          mode: "markers",
+          marker: { color: colors[0] },
+          text: cluster_texts,
+          hovertemplate:
+            "<i>(%{x}, %{y:.4f}) </i>" +
+            "<br><b>Mapping ID</b>:%{text}</b></br>",
+        },
+        {
+          name: "True",
+          x: x2,
+          y: y2,
+          mode: "markers",
+          marker: { color: colors[1] },
+
+          text: cluster_texts,
+          hovertemplate:
+            "<i>(%{x}, %{y:.4f}) </i>" +
+            "<br><b>Mapping ID</b>:%{text}</b></br>",
         },
       ];
     }
@@ -344,6 +495,7 @@ class App extends Component {
     var z2 = [];
     var y1 = [];
     var y2 = [];
+    var cluster_texts = [];
 
     let colors = [];
 
@@ -363,10 +515,12 @@ class App extends Component {
           x1.push(this.state.data[i][x]);
           y1.push(this.state.data[i][y]);
           z1.push(this.state.data[i][z]);
+          cluster_texts.push(this.state.data[i]["MappingID2"]);
         } else {
           x2.push(this.state.data[i][x]);
           y2.push(this.state.data[i][y]);
           z2.push(this.state.data[i][z]);
+          cluster_texts.push(this.state.data[i]["MappingID2"]);
         }
       }
       var data_new = [
@@ -378,6 +532,10 @@ class App extends Component {
           mode: "markers",
           type: "scatter3d",
           marker: { color: colors[0], size: 2 },
+          text: cluster_texts,
+          hovertemplate:
+            "<i>(%{x:.4f}, %{y:.4f}) </i>" +
+            "<br><b>Mapping ID</b>:%{text}</b></br>",
         },
         {
           name: "True",
@@ -387,6 +545,10 @@ class App extends Component {
           mode: "markers",
           type: "scatter3d",
           marker: { color: colors[1], size: 2 },
+          text: cluster_texts,
+          hovertemplate:
+            "<i>(%{x:.4f}, %{y:.4f}) </i>" +
+            "<br><b>Mapping ID</b>:%{text}</b></br>",
         },
       ];
       var layout = {
@@ -443,17 +605,16 @@ class App extends Component {
 
   scatter3d = (x, y, z) => {
     var x1 = [];
-    var x2 = [];
     var z1 = [];
-    var z2 = [];
     var y1 = [];
-    var y2 = [];
+    var cluster_texts = [];
     if (this.state.data != null && x != null && y != null && z != null) {
       console.log(x, y);
       for (var i = 0; i < this.state.data.length; i++) {
         x1.push(this.state.data[i][x]);
         y1.push(this.state.data[i][y]);
         z1.push(this.state.data[i][z]);
+        cluster_texts.push(this.state.data[i]["MappingID2"]);
       }
       var data_new = [
         {
@@ -463,6 +624,10 @@ class App extends Component {
           z: z1,
           mode: "markers",
           type: "scatter3d",
+          text: cluster_texts,
+          hovertemplate:
+            "<i>(%{x:.4f}, %{y:.4f}) </i>" +
+            "<br><b>Mapping ID</b>:%{text}</b></br>",
           marker: { color: this.state.rand, size: 2 },
         },
       ];
@@ -582,7 +747,9 @@ class App extends Component {
       this.UploadCMDataset(e.target.files[0]);
     }
   };
-
+  sleep = (milliseconds) => {
+    return new Promise((resolve) => setTimeout(resolve, milliseconds));
+  };
   handleSelectXChange = (value) => {
     console.log("x change : ", value);
     this.setState({
@@ -592,7 +759,16 @@ class App extends Component {
         this.state.selectedColumns[2],
       ],
     });
-    if (this.state.selectedColumns[2] === null) {
+    if (
+      this.state.selectedColumns[2] === null &&
+      this.state.selectedColumns[2] === null
+    ) {
+      if (this.state.clusterColors.length === 0) {
+        this.scatter1d(value.label);
+      } else {
+        this.scatter1dWithClusters(value.label);
+      }
+    } else if (this.state.selectedColumns[2] === null) {
       if (this.state.clusterColors.length === 0) {
         this.scatter2d(value.label, this.state.selectedColumns[1]);
       } else {
@@ -674,6 +850,13 @@ class App extends Component {
   onUploadValueChange = (event) => {
     this.setState({
       selectedUploadOption: event.target.value,
+    });
+  };
+  onValueChange1D = (event) => {
+    var newSelected = [this.state.selectedColumns, null, null];
+    this.setState({
+      selectedOption: event.target.value,
+      selectedColumns: newSelected,
     });
   };
   onValueChange2D = (event) => {
@@ -770,10 +953,17 @@ class App extends Component {
     let distributionData = this.state.data.map((elem) => {
       return parseInt(elem[event.label], 10);
     });
+    console.log(distributionData);
     if (
-      this.state.selectedOption === "2D" ||
+      this.state.selectedOption === "1D" ||
       this.state.selectedOption === null
     ) {
+      console.log("1d with columns");
+      this.scatter1dWithColumns(
+        this.state.selectedColumns[0],
+        distributionData
+      );
+    } else if (this.state.selectedOption === "2D") {
       console.log("2d with columns");
       this.scatter2dWithColumns(
         this.state.selectedColumns[0],
@@ -894,6 +1084,15 @@ class App extends Component {
                   <label>
                     <input
                       type="radio"
+                      value="1D"
+                      checked={this.state.selectedOption === "1D"}
+                      onChange={this.onValueChange1D}
+                    />
+                    1D
+                  </label>
+                  <label>
+                    <input
+                      type="radio"
                       value="2D"
                       checked={this.state.selectedOption === "2D"}
                       onChange={this.onValueChange2D}
@@ -921,13 +1120,16 @@ class App extends Component {
                       onChange={this.handleSelectXChange}
                     />
                   </div>
-                  <div className="row-md-8" style={styles.dropDown}>
-                    Y-axis
-                    <Select
-                      options={this.state.selectActions}
-                      onChange={this.handleSelectYChange}
-                    />
-                  </div>
+                  {(this.state.selectedOption === "2D" ||
+                    this.state.selectedOption === "3D") && (
+                    <div className="row-md-8" style={styles.dropDown}>
+                      Y-axis
+                      <Select
+                        options={this.state.selectActions}
+                        onChange={this.handleSelectYChange}
+                      />
+                    </div>
+                  )}
 
                   {this.state.selectedOption === "3D" && (
                     <div className="row-md-8" style={styles.dropDown}>
@@ -1000,7 +1202,6 @@ const styles = {
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-around",
-    padding: "30px",
     width: "70%",
   },
   dropDown: {
