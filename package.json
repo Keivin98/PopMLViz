@@ -1,7 +1,1 @@
-{
-  "dependencies": {
-    "react-katex": "^2.0.2",
-    "react-latex": "^2.0.0",
-    "react-tex": "^1.5.0"
-  }
-}
+{}
