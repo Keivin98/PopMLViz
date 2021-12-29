@@ -37,6 +37,21 @@ class App extends Component {
         }}
       />
     ),
+    DRAlgorithm: "",
+    DRActions: [
+      {
+        label: "PCA",
+        value: "PCA",
+      },
+      {
+        label: "t-SNE 2D",
+        value: "tsne1",
+      },
+      {
+        label: "t-SNE 3D",
+        value: "tsne2",
+      },
+    ],
     selectOutlierActions: [
       {
         label: "1std",
@@ -913,11 +928,20 @@ class App extends Component {
     const formData = {
       filename: file.name,
     };
-    console.log(file);
+    // console.log(file);
     this.setState({ isLoading: true });
+    var url = "http://localhost:5000/";
+    if (this.state.DRAlgorithm === "PCA") {
+      url = url + "uploadCM";
+    } else if (this.state.DRAlgorithm === "t-SNE 2D") {
+      url = url + "cmtsne2d";
+      console.log(url);
+    } else if (this.state.DRAlgorithm === "t-SNE 3D") {
+      url = url + "cmtsne3d";
+    }
 
     axios
-      .post("http://localhost:5000/uploadCM", formData, {
+      .post(url, formData, {
         headers: {
           "Content-Type": "application/json",
         },
@@ -969,7 +993,9 @@ class App extends Component {
         }
       });
   };
-
+  //   runPCA = () => {
+  //     this.UploadCMDataset(this.state.selectedFile);
+  //   };
   detectOutliers = () => {
     const formData = {
       df: this.state.data,
@@ -1035,6 +1061,10 @@ class App extends Component {
     }
   };
 
+  handleDRAChange = (value) => {
+    this.setState({ DRAlgorithm: value.label });
+  };
+
   render() {
     return (
       <div style={styles.splitScreen}>
@@ -1064,6 +1094,35 @@ class App extends Component {
                 />
                 PCA
               </label>
+            </div>
+            <div>
+              <label>
+                <input
+                  type="radio"
+                  value="t-SNE"
+                  checked={this.state.selectedUploadOption === "t-SNE"}
+                  onChange={this.onUploadValueChange}
+                />
+                t-SNE
+              </label>
+
+              {this.state.selectedUploadOption === "Correlation Matrix" && (
+                <div
+                  style={{
+                    width: "300px",
+                    paddingTop: "20px",
+                    paddingBottom: "20px",
+                  }}
+                >
+                  <label>Dimensionality Reduction Algorithms</label>
+                  <Select
+                    name="DRA"
+                    placeholder="Algorithm"
+                    options={this.state.DRActions}
+                    onChange={this.handleDRAChange}
+                  />
+                </div>
+              )}
             </div>
             <input
               type="file"
@@ -1255,6 +1314,7 @@ class App extends Component {
                         onChange={() => {
                           this.setState({
                             clusterCheck: !this.state.clusterCheck,
+                            downloadableData: this.state.data.map((elem) => {}),
                           });
                         }}
                       />
