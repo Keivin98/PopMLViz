@@ -1,14 +1,22 @@
 import axios from "axios";
 import React, { Component } from "react";
-import { CsvToHtmlTable } from "react-csv-to-table";
 import { Chart, registerables } from "chart.js";
 import * as XLSX from "xlsx";
 import Select from "react-select";
 import Plot from "react-plotly.js";
 import Loader from "react-loader-spinner";
-import randomColor from "randomcolor";
-import { CSVLink, CSVDownload } from "react-csv";
+import { CSVLink } from "react-csv";
 
+const randomColors = [
+  "#1aa52a",
+  "#7ddaed",
+  "#0740ba",
+  "#a3a6ed",
+  "#cc9d3f",
+  "#d87368",
+  "#99f7a2",
+  "#ff7ae6",
+];
 Chart.register(...registerables);
 class App extends Component {
   state = {
@@ -18,16 +26,6 @@ class App extends Component {
     imageURL: "",
     columns: null,
     data: null,
-    randomColors: [
-      "#1aa52a",
-      "#7ddaed",
-      "#0740ba",
-      "#a3a6ed",
-      "#cc9d3f",
-      "#d87368",
-      "#99f7a2",
-      "#ff7ae6",
-    ],
     scatter: (
       <Plot
         data={[]}
@@ -63,6 +61,10 @@ class App extends Component {
     ],
     selectOutlierActions: [
       {
+        label: "None",
+        value: "method0",
+      },
+      {
         label: "1std",
         value: "method1",
       },
@@ -87,7 +89,7 @@ class App extends Component {
     multiValue: [],
     describingValues: [],
     identifierColumn: "",
-    selectedOutlierMethod: "",
+    selectedOutlierMethod: null,
     OutlierData: null,
     clusterCheck: false,
     outlierCheck: false,
@@ -177,7 +179,7 @@ class App extends Component {
     var colors = [];
 
     for (let j = 0; j < this.state.num_clusters; j += 1) {
-      colors.push(this.state.randomColors[j]);
+      colors.push(randomColors[j]);
     }
 
     if (this.state.data != null && x != null && y != null) {
@@ -202,7 +204,17 @@ class App extends Component {
     // console.log("before scatter");
 
     this.setState({
-      scatter: <Plot data={data_new} style={styles.scatterContainer} />,
+      scatter: (
+        <Plot
+          data={data_new}
+          style={styles.scatterContainer}
+          layout={{
+            title: "2D plot of " + x + " and " + y,
+            xaxis: { title: x },
+            yaxis: { title: y },
+          }}
+        />
+      ),
     });
   }
 
@@ -223,7 +235,7 @@ class App extends Component {
     var colors = [];
 
     for (let j = 0; j < this.state.num_clusters; j += 1) {
-      colors.push(this.state.randomColors[j]);
+      colors.push(randomColors[j]);
     }
 
     if (this.state.data != null && y != null) {
@@ -270,7 +282,7 @@ class App extends Component {
     var colors = [];
 
     for (let j = 0; j < this.state.num_clusters; j += 1) {
-      colors.push(this.state.randomColors[j]);
+      colors.push(randomColors[j]);
     }
 
     if (this.state.data != null && x != null && y != null) {
@@ -323,17 +335,17 @@ class App extends Component {
           },
         },
         xaxis: {
-          name: x,
+          title: x,
           type: "linear",
           zeroline: false,
         },
         yaxis: {
-          name: y,
+          title: y,
           type: "linear",
           zeroline: false,
         },
         zaxis: {
-          name: z,
+          title: z,
           type: "linear",
           zeroline: false,
         },
@@ -372,13 +384,23 @@ class App extends Component {
           hovertemplate:
             "<i>(%{x:.4f}, %{y:.4f}) </i>" +
             "<br><b>Mapping ID</b>:%{text}</b></br>",
-          marker: { color: this.state.randomColors[0] },
+          marker: { color: randomColors[0] },
         },
       ];
     }
     // console.log("before scatter");
     this.setState({
-      scatter: <Plot data={data_new} style={styles.scatterContainer} />,
+      scatter: (
+        <Plot
+          data={data_new}
+          style={styles.scatterContainer}
+          layout={{
+            title: "2D plot of " + x + " and " + y,
+            xaxis: { title: x },
+            yaxis: { title: y },
+          }}
+        />
+      ),
     });
   };
 
@@ -402,14 +424,24 @@ class App extends Component {
           hovertemplate:
             "<i>(%{x}, %{y:.4f}) </i>" +
             "<br><b>Mapping ID</b>:%{text}</b></br>",
-          marker: { color: this.state.randomColors[0] },
+          marker: { color: randomColors[0] },
           //   type: "bar",
         },
       ];
     }
     // console.log("before scatter");
     this.setState({
-      scatter: <Plot data={data_new} style={styles.scatterContainer} />,
+      scatter: (
+        <Plot
+          data={data_new}
+          style={styles.scatterContainer}
+          layout={{
+            title: "1D plot of " + y,
+            xaxis: { title: "MappingID2" },
+            yaxis: { title: y },
+          }}
+        />
+      ),
     });
   };
 
@@ -428,7 +460,7 @@ class App extends Component {
     ) {
       // this a boolean data, color everything true or false
       // choose the two representing colors
-      colors = [this.state.randomColors[0], this.state.randomColors[1]];
+      colors = [randomColors[0], randomColors[1]];
     }
     if (this.state.data != null && x != null && y != null) {
       for (var i = 0; i < this.state.data.length; i++) {
@@ -471,7 +503,17 @@ class App extends Component {
 
     // console.log("before scatter");
     this.setState({
-      scatter: <Plot data={data_new} style={styles.scatterContainer} />,
+      scatter: (
+        <Plot
+          data={data_new}
+          style={styles.scatterContainer}
+          layout={{
+            title: "2D plot of " + x + " and " + y,
+            xaxis: { title: x },
+            yaxis: { title: y },
+          }}
+        />
+      ),
     });
   };
 
@@ -490,7 +532,7 @@ class App extends Component {
     ) {
       // this a boolean data, color everything true or false
       // choose the two representing colors
-      colors = [this.state.randomColors[0], this.state.randomColors[1]];
+      colors = [randomColors[0], randomColors[1]];
     }
     // console.log(distributionData);
     if (this.state.data != null && y != null) {
@@ -507,9 +549,11 @@ class App extends Component {
       }
       var marker_shape = outliers ? "cross" : "circle";
       var marker_color = outliers ? "#c9d6d3" : colors[1];
+      var data1_name = outliers ? "Data" : "False";
+      var data2_name = outliers ? "Outliers" : "False";
       var data_new = [
         {
-          name: "False",
+          name: data1_name,
           x: x1,
           y: y1,
           mode: "markers",
@@ -520,7 +564,7 @@ class App extends Component {
             "<br><b>Mapping ID</b>:%{text}</b></br>",
         },
         {
-          name: "True",
+          name: data2_name,
           x: x2,
           y: y2,
           mode: "markers",
@@ -536,7 +580,17 @@ class App extends Component {
 
     // console.log("before scatter");
     this.setState({
-      scatter: <Plot data={data_new} style={styles.scatterContainer} />,
+      scatter: (
+        <Plot
+          data={data_new}
+          style={styles.scatterContainer}
+          layout={{
+            title: "1D plot of " + y,
+            xaxis: { title: "MappingID2" },
+            yaxis: { title: y },
+          }}
+        />
+      ),
     });
   };
   scatter3dWithColumns = (x, y, z, distributionData) => {
@@ -558,7 +612,7 @@ class App extends Component {
     ) {
       // this a boolean data, color everything true or false
       // choose the two representing colors
-      colors = [this.state.randomColors[0], this.state.randomColors[1]];
+      colors = [randomColors[0], randomColors[1]];
     }
     if (this.state.data != null && x != null && y != null && z != null) {
       for (var i = 0; i < this.state.data.length; i++) {
@@ -631,14 +685,17 @@ class App extends Component {
           xaxis: {
             type: "linear",
             zeroline: false,
+            title: x,
           },
           yaxis: {
             type: "linear",
             zeroline: false,
+            title: y,
           },
           zaxis: {
             type: "linear",
             zeroline: false,
+            title: z,
           },
         },
         title: "3D scatter plot",
@@ -679,7 +736,7 @@ class App extends Component {
           hovertemplate:
             "<i>(%{x:.4f}, %{y:.4f}) </i>" +
             "<br><b>Mapping ID</b>:%{text}</b></br>",
-          marker: { color: this.state.randomColors[0], size: 2 },
+          marker: { color: randomColors[0], size: 2 },
         },
       ];
       var layout = {
@@ -711,14 +768,17 @@ class App extends Component {
           xaxis: {
             type: "linear",
             zeroline: false,
+            title: x,
           },
           yaxis: {
             type: "linear",
             zeroline: false,
+            title: y,
           },
           zaxis: {
             type: "linear",
             zeroline: false,
+            title: z,
           },
         },
         title: "3D scatter plot",
@@ -818,13 +878,26 @@ class App extends Component {
       ],
     });
     if (
-      this.state.selectedColumns[2] === null &&
+      this.state.selectedColumns[1] === null &&
       this.state.selectedColumns[2] === null
     ) {
-      if (this.state.clusterColors.length === 0) {
-        this.scatter1d(value.label);
+      if (
+        this.state.clusterColors.length !== 0 ||
+        this.state.selectedOutlierMethod !== null
+      ) {
+        if (this.state.selectedOutlierMethod !== null) {
+          this.scatter1dWithColumns(
+            value.label,
+            this.state.OutlierData.map((elem) => {
+              return parseInt(elem[value.label], 10);
+            }),
+            true
+          );
+        } else {
+          this.scatter1dWithClusters(value.label);
+        }
       } else {
-        this.scatter1dWithClusters(value.label);
+        this.scatter1d(value.label);
       }
     } else if (this.state.selectedColumns[2] === null) {
       if (this.state.clusterColors.length === 0) {
