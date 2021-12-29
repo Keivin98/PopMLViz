@@ -1312,16 +1312,32 @@ class App extends Component {
                         type="checkbox"
                         checked={this.state.clusterCheck}
                         onChange={() => {
+                          var newData = [];
+                          for (var i = 0; i < this.state.data.length; i++) {
+                            var row = this.state.data[i];
+                            row = {
+                              ...row,
+                              cluster: this.state.clusterColors[i],
+                            };
+                            newData = [...newData, row];
+                          }
                           this.setState({
                             clusterCheck: !this.state.clusterCheck,
-                            downloadableData: this.state.data.map((elem) => {}),
+                            downloadableData: newData,
                           });
                         }}
                       />
                       Include Clustering Information
                     </label>
 
-                    <button>
+                    <button
+                      onClick={() => {
+                        this.setState({
+                          clusterCheck: false,
+                          outlierCheck: false,
+                        });
+                      }}
+                    >
                       <CSVLink data={this.state.downloadableData}>
                         Download Data
                       </CSVLink>
@@ -1413,7 +1429,7 @@ const styles = {
     justifyContent: "",
     position: "fixed",
     bottom: "20%",
-    right: "5%",
+    right: "30px",
   },
 };
 export default App;
