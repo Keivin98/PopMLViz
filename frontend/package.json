@@ -23,6 +23,7 @@
     "react-promise-tracker": "^2.1.0",
     "react-scripts": "4.0.3",
     "react-select": "^5.2.1",
+    "serve": "^13.0.2",
     "styled-components": "^5.3.3",
     "web-vitals": "^1.1.2",
     "xlsx": "^0.17.4"

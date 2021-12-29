@@ -13,12 +13,21 @@ Chart.register(...registerables);
 class App extends Component {
   state = {
     // Initially, no file is selected
-    rand: randomColor(),
     selectedFile: null,
     uplaodType: null,
     imageURL: "",
     columns: null,
     data: null,
+    randomColors: [
+      "#1aa52a",
+      "#7ddaed",
+      "#0740ba",
+      "#a3a6ed",
+      "#cc9d3f",
+      "#d87368",
+      "#99f7a2",
+      "#ff7ae6",
+    ],
     scatter: (
       <Plot
         data={[]}
@@ -82,7 +91,7 @@ class App extends Component {
     OutlierData: null,
     clusterCheck: false,
     outlierCheck: false,
-    downloadableData: [],
+    downloadableData: null,
   };
   handleMultiChange = (option) => {
     this.setState({
@@ -116,7 +125,7 @@ class App extends Component {
   onFileChange = (event) => {
     // Update the state
     this.setState({ selectedFile: event.target.files[0] });
-    console.log(event.target.files[0]);
+    // console.log(event.target.files[0]);
   };
 
   // File content to be displayed after
@@ -168,7 +177,7 @@ class App extends Component {
     var colors = [];
 
     for (let j = 0; j < this.state.num_clusters; j += 1) {
-      colors.push(randomColor());
+      colors.push(this.state.randomColors[j]);
     }
 
     if (this.state.data != null && x != null && y != null) {
@@ -190,7 +199,7 @@ class App extends Component {
       }
     }
 
-    console.log("before scatter");
+    // console.log("before scatter");
 
     this.setState({
       scatter: <Plot data={data_new} style={styles.scatterContainer} />,
@@ -214,7 +223,7 @@ class App extends Component {
     var colors = [];
 
     for (let j = 0; j < this.state.num_clusters; j += 1) {
-      colors.push(randomColor());
+      colors.push(this.state.randomColors[j]);
     }
 
     if (this.state.data != null && y != null) {
@@ -236,7 +245,7 @@ class App extends Component {
       }
     }
 
-    console.log("before scatter");
+    // console.log("before scatter");
 
     this.setState({
       scatter: <Plot data={data_new} style={styles.scatterContainer} />,
@@ -261,11 +270,11 @@ class App extends Component {
     var colors = [];
 
     for (let j = 0; j < this.state.num_clusters; j += 1) {
-      colors.push(randomColor());
+      colors.push(this.state.randomColors[j]);
     }
 
     if (this.state.data != null && x != null && y != null) {
-      console.log("inside 3d clustering");
+      // console.log("inside 3d clustering");
       for (var i = 0; i < this.state.data.length; i++) {
         let rowCol = this.state.clusterColors[i];
         x_clusters[rowCol].push(this.state.data[i][x]);
@@ -333,7 +342,7 @@ class App extends Component {
       width: 800,
     };
 
-    console.log("before scatter 3d");
+    // console.log("before scatter 3d");
     this.setState({
       scatter: (
         <Plot data={data_new} layout={layout} style={styles.scatterContainer} />
@@ -346,13 +355,13 @@ class App extends Component {
     var y1 = [];
     var cluster_texts = [];
     if (this.state.data != null && x != null && y != null) {
-      console.log(x, y);
+      // console.log(x, y);
       for (var i = 0; i < this.state.data.length; i++) {
         x1.push(this.state.data[i][x]);
         y1.push(this.state.data[i][y]);
         cluster_texts.push(this.state.data[i]["MappingID2"]);
       }
-      console.log(cluster_texts);
+      // console.log(cluster_texts);
       var data_new = [
         {
           name: "Data",
@@ -363,11 +372,11 @@ class App extends Component {
           hovertemplate:
             "<i>(%{x:.4f}, %{y:.4f}) </i>" +
             "<br><b>Mapping ID</b>:%{text}</b></br>",
-          marker: { color: this.state.rand },
+          marker: { color: this.state.randomColors[0] },
         },
       ];
     }
-    console.log("before scatter");
+    // console.log("before scatter");
     this.setState({
       scatter: <Plot data={data_new} style={styles.scatterContainer} />,
     });
@@ -393,12 +402,12 @@ class App extends Component {
           hovertemplate:
             "<i>(%{x}, %{y:.4f}) </i>" +
             "<br><b>Mapping ID</b>:%{text}</b></br>",
-          marker: { color: this.state.rand },
+          marker: { color: this.state.randomColors[0] },
           //   type: "bar",
         },
       ];
     }
-    console.log("before scatter");
+    // console.log("before scatter");
     this.setState({
       scatter: <Plot data={data_new} style={styles.scatterContainer} />,
     });
@@ -419,7 +428,7 @@ class App extends Component {
     ) {
       // this a boolean data, color everything true or false
       // choose the two representing colors
-      colors = [randomColor(), randomColor()];
+      colors = [this.state.randomColors[0], this.state.randomColors[1]];
     }
     if (this.state.data != null && x != null && y != null) {
       for (var i = 0; i < this.state.data.length; i++) {
@@ -460,13 +469,13 @@ class App extends Component {
       ];
     }
 
-    console.log("before scatter");
+    // console.log("before scatter");
     this.setState({
       scatter: <Plot data={data_new} style={styles.scatterContainer} />,
     });
   };
 
-  scatter1dWithColumns = (y, distributionData) => {
+  scatter1dWithColumns = (y, distributionData, outliers) => {
     var x1 = [];
     var x2 = [];
     var y1 = [];
@@ -481,9 +490,9 @@ class App extends Component {
     ) {
       // this a boolean data, color everything true or false
       // choose the two representing colors
-      colors = [randomColor(), randomColor()];
+      colors = [this.state.randomColors[0], this.state.randomColors[1]];
     }
-    console.log(distributionData);
+    // console.log(distributionData);
     if (this.state.data != null && y != null) {
       for (var i = 0; i < this.state.data.length; i++) {
         if (distributionData[i] === 0) {
@@ -496,6 +505,8 @@ class App extends Component {
           cluster_texts.push(this.state.data[i]["MappingID2"]);
         }
       }
+      var marker_shape = outliers ? "cross" : "circle";
+      var marker_color = outliers ? "#c9d6d3" : colors[1];
       var data_new = [
         {
           name: "False",
@@ -513,7 +524,7 @@ class App extends Component {
           x: x2,
           y: y2,
           mode: "markers",
-          marker: { color: colors[1] },
+          marker: { color: marker_color, symbol: marker_shape },
 
           text: cluster_texts,
           hovertemplate:
@@ -523,7 +534,7 @@ class App extends Component {
       ];
     }
 
-    console.log("before scatter");
+    // console.log("before scatter");
     this.setState({
       scatter: <Plot data={data_new} style={styles.scatterContainer} />,
     });
@@ -547,7 +558,7 @@ class App extends Component {
     ) {
       // this a boolean data, color everything true or false
       // choose the two representing colors
-      colors = [randomColor(), randomColor()];
+      colors = [this.state.randomColors[0], this.state.randomColors[1]];
     }
     if (this.state.data != null && x != null && y != null && z != null) {
       for (var i = 0; i < this.state.data.length; i++) {
@@ -635,7 +646,7 @@ class App extends Component {
       };
     }
 
-    console.log("before scatter");
+    // console.log("before scatter");
     this.setState({
       scatter: (
         <Plot data={data_new} layout={layout} style={styles.scatterContainer} />
@@ -649,7 +660,7 @@ class App extends Component {
     var y1 = [];
     var cluster_texts = [];
     if (this.state.data != null && x != null && y != null && z != null) {
-      console.log(x, y);
+      // console.log(x, y);
       for (var i = 0; i < this.state.data.length; i++) {
         x1.push(this.state.data[i][x]);
         y1.push(this.state.data[i][y]);
@@ -668,7 +679,7 @@ class App extends Component {
           hovertemplate:
             "<i>(%{x:.4f}, %{y:.4f}) </i>" +
             "<br><b>Mapping ID</b>:%{text}</b></br>",
-          marker: { color: this.state.rand, size: 2 },
+          marker: { color: this.state.randomColors[0], size: 2 },
         },
       ];
       var layout = {
@@ -715,7 +726,7 @@ class App extends Component {
       };
     }
 
-    console.log("before scatter");
+    // console.log("before scatter");
     this.setState({
       scatter: (
         <Plot data={data_new} layout={layout} style={styles.scatterContainer} />
@@ -770,9 +781,12 @@ class App extends Component {
 
   // handle file upload
   handleFileUpload = (e) => {
-    console.log(e);
+    // console.log(e);
     this.setState({ selectedFile: e.target.files[0] });
-    if (this.state.selectedUploadOption === "PCA") {
+    if (
+      this.state.selectedUploadOption === "PCA" ||
+      this.state.selectedUploadOption === "t-SNE"
+    ) {
       const file = e.target.files[0];
       const reader = new FileReader();
       reader.onload = (evt) => {
@@ -795,7 +809,7 @@ class App extends Component {
     return new Promise((resolve) => setTimeout(resolve, milliseconds));
   };
   handleSelectXChange = (value) => {
-    console.log("x change : ", value);
+    // console.log("x change : ", value);
     this.setState({
       selectedColumns: [
         value.label,
@@ -838,7 +852,7 @@ class App extends Component {
   };
 
   handleSelectYChange = (value) => {
-    console.log("Y change : ", value);
+    // console.log("Y change : ", value);
     this.setState({
       selectedColumns: [this.state.selectedColumns[0], value.label, null],
     });
@@ -867,7 +881,7 @@ class App extends Component {
     return this.state.scatter;
   };
   handleSelectZChange = (value) => {
-    console.log("Z change : ", value);
+    // console.log("Z change : ", value);
     this.setState({
       selectedColumns: [
         this.state.selectedColumns[0],
@@ -920,7 +934,7 @@ class App extends Component {
 
   formSubmit = (event) => {
     event.preventDefault();
-    console.log(this.state.selectedOption);
+    // console.log(this.state.selectedOption);
   };
 
   UploadCMDataset = (file) => {
@@ -935,7 +949,7 @@ class App extends Component {
       url = url + "uploadCM";
     } else if (this.state.DRAlgorithm === "t-SNE 2D") {
       url = url + "cmtsne2d";
-      console.log(url);
+      // console.log(url);
     } else if (this.state.DRAlgorithm === "t-SNE 3D") {
       url = url + "cmtsne3d";
     }
@@ -947,7 +961,7 @@ class App extends Component {
         },
       })
       .then((r) => {
-        console.log(r);
+        // console.log(r);
         this.setState({ isLoading: false, selectedUploadOption: "PCA" });
         this.processData(r.data, false);
       });
@@ -966,7 +980,7 @@ class App extends Component {
         },
       })
       .then((r) => {
-        console.log(r);
+        // console.log(r);
         this.setState({
           isLoading: false,
           selectedUploadOption: "PCA",
@@ -976,14 +990,14 @@ class App extends Component {
           this.state.selectedOption === "2D" ||
           this.state.selectedOption === null
         ) {
-          console.log("2d clustering");
+          // console.log("2d clustering");
           this.scatter2dWithClusters(
             this.state.selectedColumns[0],
             this.state.selectedColumns[1],
             r.data
           );
         } else {
-          console.log("3d clustering");
+          // console.log("3d clustering");
           this.scatter3dWithClusters(
             this.state.selectedColumns[0],
             this.state.selectedColumns[1],
@@ -1009,14 +1023,15 @@ class App extends Component {
         },
       })
       .then((r) => {
-        console.log(r);
+        // console.log(r);
         this.setState({ isLoading: false });
         this.processData(r.data, true);
         this.scatter1dWithColumns(
           this.state.selectedColumns[0],
           this.state.OutlierData.map((value) => {
             return parseInt(value[this.state.selectedColumns[0]], 10);
-          })
+          }),
+          true
         );
       });
   };
@@ -1033,25 +1048,25 @@ class App extends Component {
     let distributionData = this.state.data.map((elem) => {
       return parseInt(elem[event.label], 10);
     });
-    console.log(distributionData);
+    // console.log(distributionData);
     if (
       this.state.selectedOption === "1D" ||
       this.state.selectedOption === null
     ) {
-      console.log("1d with columns");
+      // console.log("1d with columns");
       this.scatter1dWithColumns(
         this.state.selectedColumns[0],
         distributionData
       );
     } else if (this.state.selectedOption === "2D") {
-      console.log("2d with columns");
+      // console.log("2d with columns");
       this.scatter2dWithColumns(
         this.state.selectedColumns[0],
         this.state.selectedColumns[1],
         distributionData
       );
     } else {
-      console.log("3d with columns");
+      // console.log("3d with columns");
       this.scatter3dWithColumns(
         this.state.selectedColumns[0],
         this.state.selectedColumns[1],
@@ -1299,8 +1314,18 @@ class App extends Component {
                         type="checkbox"
                         checked={this.state.outlierCheck}
                         onChange={() => {
+                          var newData = [];
+                          for (var i = 0; i < this.state.data.length; i++) {
+                            var row = this.state.data[i];
+                            row = {
+                              ...row,
+                              outlier: this.state.OutlierData[i],
+                            };
+                            newData = [...newData, row];
+                          }
                           this.setState({
                             outlierCheck: !this.state.outlierCheck,
+                            downloadableData: this.state.OutlierData,
                           });
                         }}
                       />
@@ -1330,15 +1355,14 @@ class App extends Component {
                       Include Clustering Information
                     </label>
 
-                    <button
-                      onClick={() => {
-                        this.setState({
-                          clusterCheck: false,
-                          outlierCheck: false,
-                        });
-                      }}
-                    >
-                      <CSVLink data={this.state.downloadableData}>
+                    <button>
+                      <CSVLink
+                        data={
+                          this.state.downloadableData === null
+                            ? this.state.data
+                            : this.state.downloadableData
+                        }
+                      >
                         Download Data
                       </CSVLink>
                     </button>
@@ -1429,7 +1453,7 @@ const styles = {
     justifyContent: "",
     position: "fixed",
     bottom: "20%",
-    right: "30px",
+    right: "20px",
   },
 };
 export default App;
