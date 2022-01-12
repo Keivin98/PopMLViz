@@ -53,8 +53,10 @@ class DownloadData extends Component {
           value={this.state.columnRange}
           onChange={this.rangeSelector}
           valueLabelDisplay="auto"
+          min={1}
+          max={20}
         />
-        {this.state.columnRange[0]} to {this.state.columnRange[1]}
+        PC{this.state.columnRange[0]} to PC{this.state.columnRange[1]}
         <label>
           <input
             name="clustering"
