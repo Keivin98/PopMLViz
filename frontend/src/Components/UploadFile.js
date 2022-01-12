@@ -5,8 +5,9 @@ import * as XLSX from "xlsx";
 import Select from "react-select";
 import Plot from "react-plotly.js";
 import Loader from "react-loader-spinner";
-import { CSVLink } from "react-csv";
-
+import ScatterPlot from "./ScatterPlot";
+import Incrementor from "./Incrementor";
+import DownloadData from "./DownloadData";
 const randomColors = [
   "#1aa52a",
   "#7ddaed",
@@ -17,7 +18,9 @@ const randomColors = [
   "#99f7a2",
   "#ff7ae6",
 ];
+var selectedOutlierMethod = null;
 Chart.register(...registerables);
+var num_clusters = 2;
 class App extends Component {
   state = {
     // Initially, no file is selected
@@ -26,6 +29,8 @@ class App extends Component {
     imageURL: "",
     columns: null,
     data: null,
+    distributionData: [],
+    pressed: -1,
     scatter: (
       <Plot
         data={[]}
@@ -79,32 +84,29 @@ class App extends Component {
     ],
     allActions: [],
     selectActions: [],
-    selectedColumns: [null, null],
+    selectedColumns: [null, null, null],
     selectedOption: null,
     selectedUploadOption: null,
     isLoading: false,
     clusterColors: [],
-    num_clusters: 0,
     show: true,
     multiValue: [],
     describingValues: [],
     identifierColumn: "",
     selectedOutlierMethod: null,
-    OutlierData: null,
-    clusterCheck: false,
-    outlierCheck: false,
-    downloadableData: null,
+    OutlierData: [],
   };
   handleMultiChange = (option) => {
+    console.log(option);
     this.setState({
-      multiValue: option,
+      multiValue: [{ value: "None", label: "None" }, ...option],
       selectActions: this.state.selectActions.filter((elem) => {
         return option.indexOf(elem) < 0;
       }),
     });
   };
   handleOutlierChange = (option) => {
-    this.setState({ selectedOutlierMethod: option.label });
+    selectedOutlierMethod = option.label;
   };
   setColumns = (columns) => {
     let act = [];
@@ -161,72 +163,122 @@ class App extends Component {
       );
     }
   };
-
-  scatter2dWithClusters(x, y) {
-    var x_clusters = [];
-    var y_clusters = [];
+  scatter1d = (y) => {
+    var x1 = [];
+    var y1 = [];
     var cluster_texts = [];
-    for (
-      var num_clusters = 0;
-      num_clusters < this.state.num_clusters;
-      num_clusters++
-    ) {
-      x_clusters.push([]);
-      y_clusters.push([]);
-      cluster_texts.push([]);
-    }
-
-    var colors = [];
-
-    for (let j = 0; j < this.state.num_clusters; j += 1) {
-      colors.push(randomColors[j]);
-    }
-
-    if (this.state.data != null && x != null && y != null) {
+    if (this.state.data != null && y != null) {
       for (var i = 0; i < this.state.data.length; i++) {
-        let rowCol = this.state.clusterColors[i];
-        x_clusters[rowCol].push(this.state.data[i][x]);
-        y_clusters[rowCol].push(this.state.data[i][y]);
+        x1.push(i);
+        y1.push(this.state.data[i][y]);
+        cluster_texts.push(this.state.data[i]["MappingID2"]);
       }
-      var data_new = [];
-      for (var k = 0; k < this.state.num_clusters; k += 1) {
-        data_new.push({
-          name: "Cluster " + k,
-          x: x_clusters[k],
-          y: y_clusters[k],
+      var data_new = [
+        {
+          name: "Data",
+          x: x1,
+          y: y1,
           mode: "markers",
-          marker: { color: colors[k] },
-          text: cluster_texts[k],
-        });
+          text: cluster_texts,
+          hovertemplate:
+            "<i>(%{x}, %{y:.4f}) </i>" +
+            "<br><b>Mapping ID</b>:%{text}</b></br>",
+          marker: { color: randomColors[0] },
+          //   type: "bar",
+        },
+      ];
+    }
+    // console.log("before scatter");
+    return (
+      <ScatterPlot
+        data={data_new}
+        // style={styles.scatterContainer}
+        layout={{
+          title: "1D plot of " + y,
+          xaxis: { title: "MappingID2" },
+          yaxis: { title: y },
+        }}
+      />
+    );
+  };
+  scatter1dWithColumns = (y, distributionData, outliers) => {
+    var x1 = [];
+    var x2 = [];
+    var y1 = [];
+    var y2 = [];
+    var cluster_texts = [];
+    let colors = [];
+    if (
+      distributionData != null &&
+      distributionData.filter((elem) => {
+        return elem !== 0 && elem !== 1;
+      }).length === 0
+    ) {
+      // this a boolean data, color everything true or false
+      // choose the two representing colors
+      colors = [randomColors[0], randomColors[1]];
+    }
+    // console.log(distributionData);
+    if (this.state.data != null && y != null) {
+      for (var i = 0; i < this.state.data.length; i++) {
+        if (distributionData[i] === 0) {
+          x1.push(i);
+          y1.push(this.state.data[i][y]);
+          cluster_texts.push(this.state.data[i]["MappingID2"]);
+        } else {
+          x2.push(i);
+          y2.push(this.state.data[i][y]);
+          cluster_texts.push(this.state.data[i]["MappingID2"]);
+        }
       }
+      var marker_shape = outliers ? "cross" : "circle";
+      var marker_color = outliers ? "#c9d6d3" : colors[1];
+      var data1_name = outliers ? "Data" : "True";
+      var data2_name = outliers ? "Outliers" : "False";
+      var data_new = [
+        {
+          name: data1_name,
+          x: x1,
+          y: y1,
+          mode: "markers",
+          marker: { color: colors[0] },
+          text: cluster_texts,
+          hovertemplate:
+            "<i>(%{x}, %{y:.4f}) </i>" +
+            "<br><b>Mapping ID</b>:%{text}</b></br>",
+        },
+        {
+          name: data2_name,
+          x: x2,
+          y: y2,
+          mode: "markers",
+          marker: { color: marker_color, symbol: marker_shape },
+
+          text: cluster_texts,
+          hovertemplate:
+            "<i>(%{x}, %{y:.4f}) </i>" +
+            "<br><b>Mapping ID</b>:%{text}</b></br>",
+        },
+      ];
     }
 
     // console.log("before scatter");
-
-    this.setState({
-      scatter: (
-        <Plot
-          data={data_new}
-          style={styles.scatterContainer}
-          layout={{
-            title: "2D plot of " + x + " and " + y,
-            xaxis: { title: x },
-            yaxis: { title: y },
-          }}
-        />
-      ),
-    });
-  }
-
+    return (
+      <ScatterPlot
+        data={data_new}
+        layout={{
+          title: "1D plot of " + y,
+          xaxis: { title: "MappingID2" },
+          yaxis: { title: y },
+        }}
+      />
+    );
+  };
   scatter1dWithClusters(y) {
     var x_clusters = [];
     var y_clusters = [];
     var cluster_texts = [];
-    for (
-      var num_clusters = 0;
-      num_clusters < this.state.num_clusters;
-      num_clusters++
-    ) {
+    for (var num_cl = 0; num_cl < num_clusters; num_cl++) {
       x_clusters.push([]);
       y_clusters.push([]);
       cluster_texts.push([]);
@@ -234,7 +286,7 @@ class App extends Component {
 
     var colors = [];
 
-    for (let j = 0; j < this.state.num_clusters; j += 1) {
+    for (let j = 0; j < num_clusters; j += 1) {
       colors.push(randomColors[j]);
     }
 
@@ -245,7 +297,7 @@ class App extends Component {
         y_clusters[rowCol].push(this.state.data[i][y]);
       }
       var data_new = [];
-      for (var k = 0; k < this.state.num_clusters; k += 1) {
+      for (var k = 0; k < num_clusters; k += 1) {
         data_new.push({
           name: "Cluster " + k,
           x: x_clusters[k],
@@ -259,21 +311,247 @@ class App extends Component {
 
     // console.log("before scatter");
 
-    this.setState({
-      scatter: <Plot data={data_new} style={styles.scatterContainer} />,
-    });
+    return <ScatterPlot data={data_new} />;
   }
+  scatter2d = (x, y) => {
+    var x1 = [];
+    var y1 = [];
+    var cluster_texts = [];
+    if (this.state.data != null && x != null && y != null) {
+      // console.log(x, y);
+      for (var i = 0; i < this.state.data.length; i++) {
+        x1.push(this.state.data[i][x]);
+        y1.push(this.state.data[i][y]);
+        cluster_texts.push(this.state.data[i]["MappingID2"]);
+      }
+      // console.log(cluster_texts);
+      var data_new = [
+        {
+          name: "Data",
+          x: x1,
+          y: y1,
+          mode: "markers",
+          text: cluster_texts,
+          hovertemplate:
+            "<i>(%{x:.4f}, %{y:.4f}) </i>" +
+            "<br><b>Mapping ID</b>:%{text}</b></br>",
+          marker: { color: randomColors[0] },
+        },
+      ];
+    }
+    return (
+      <ScatterPlot
+        data={data_new}
+        layout={{
+          title: "2D plot of " + x + " and " + y,
+          xaxis: { title: x },
+          yaxis: { title: y },
+        }}
+      />
+    );
+  };
+  scatter2dWithClusters(x, y) {
+    var x_clusters = [];
+    var y_clusters = [];
+    var cluster_texts = [];
+    for (var num_cl = 0; num_cl < num_clusters; num_cl++) {
+      x_clusters.push([]);
+      y_clusters.push([]);
+      cluster_texts.push([]);
+    }
 
+    var colors = [];
+
+    for (let j = 0; j < num_clusters; j += 1) {
+      colors.push(randomColors[j]);
+    }
+
+    if (this.state.data != null && x != null && y != null) {
+      for (var i = 0; i < this.state.data.length; i++) {
+        let rowCol = this.state.clusterColors[i];
+        x_clusters[rowCol].push(this.state.data[i][x]);
+        y_clusters[rowCol].push(this.state.data[i][y]);
+      }
+      var data_new = [];
+      for (var k = 0; k < num_clusters; k += 1) {
+        data_new.push({
+          name: "Cluster " + k,
+          x: x_clusters[k],
+          y: y_clusters[k],
+          mode: "markers",
+          marker: { color: colors[k] },
+          text: cluster_texts[k],
+        });
+      }
+    }
+
+    return (
+      <ScatterPlot
+        data={data_new}
+        layout={{
+          title: "2D plot of " + x + " and " + y,
+          xaxis: { title: x },
+          yaxis: { title: y },
+        }}
+      />
+    );
+  }
+  scatter2dWithColumns = (x, y, distributionData, outliers) => {
+    var x1 = [];
+    var x2 = [];
+    var y1 = [];
+    var y2 = [];
+    var cluster_texts = [];
+    let colors = [];
+    if (
+      distributionData != null &&
+      distributionData.filter((elem) => {
+        return elem !== 0 && elem !== 1;
+      }).length === 0
+    ) {
+      // this a boolean data, color everything true or false
+      // choose the two representing colors
+      colors = [randomColors[0], randomColors[1]];
+    }
+    if (this.state.data != null && x != null && y != null) {
+      for (var i = 0; i < this.state.data.length; i++) {
+        if (distributionData[i] === 0) {
+          x1.push(this.state.data[i][x]);
+          y1.push(this.state.data[i][y]);
+          cluster_texts.push(this.state.data[i]["MappingID2"]);
+        } else {
+          x2.push(this.state.data[i][x]);
+          y2.push(this.state.data[i][y]);
+          cluster_texts.push(this.state.data[i]["MappingID2"]);
+        }
+      }
+      var marker_shape = outliers ? "cross" : "circle";
+      var marker_color = outliers ? "#c9d6d3" : colors[1];
+      var data1_name = outliers ? "Data" : "True";
+      var data2_name = outliers ? "Outliers" : "False";
+
+      var data_new = [
+        {
+          name: data1_name,
+          x: x1,
+          y: y1,
+          mode: "markers",
+          marker: { color: colors[0] },
+          text: cluster_texts,
+          hovertemplate:
+            "<i>(%{x:.4f}, %{y:.4f}) </i>" +
+            "<br><b>Mapping ID</b>:%{text}</b></br>",
+        },
+        {
+          name: data2_name,
+          x: x2,
+          y: y2,
+          mode: "markers",
+          marker: { color: marker_color, symbol: marker_shape },
+
+          text: cluster_texts,
+          hovertemplate:
+            "<i>(%{x:.4f}, %{y:.4f}) </i>" +
+            "<br><b>Mapping ID</b>:%{text}</b></br>",
+        },
+      ];
+    }
+
+    return (
+      <ScatterPlot
+        data={data_new}
+        layout={{
+          title: "2D plot of " + x + " and " + y,
+          xaxis: { title: x },
+          yaxis: { title: y },
+        }}
+      />
+    );
+  };
+  scatter3d = (x, y, z) => {
+    var x1 = [];
+    var z1 = [];
+    var y1 = [];
+    var cluster_texts = [];
+    if (this.state.data != null && x != null && y != null && z != null) {
+      // console.log(x, y);
+      for (var i = 0; i < this.state.data.length; i++) {
+        x1.push(this.state.data[i][x]);
+        y1.push(this.state.data[i][y]);
+        z1.push(this.state.data[i][z]);
+        cluster_texts.push(this.state.data[i]["MappingID2"]);
+      }
+      var data_new = [
+        {
+          name: "Data",
+          x: x1,
+          y: y1,
+          z: z1,
+          mode: "markers",
+          type: "scatter3d",
+          text: cluster_texts,
+          hovertemplate:
+            "<i>(%{x:.4f}, %{y:.4f}) </i>" +
+            "<br><b>Mapping ID</b>:%{text}</b></br>",
+          marker: { color: randomColors[0], size: 2 },
+        },
+      ];
+      var layout = {
+        autosize: true,
+        height: 680,
+        scene: {
+          aspectratio: {
+            x: 1,
+            y: 1,
+            z: 1,
+          },
+          camera: {
+            center: {
+              x: 0,
+              y: 0,
+              z: 0,
+            },
+            eye: {
+              x: 1.25,
+              y: 1.25,
+              z: 1.25,
+            },
+            up: {
+              x: 0,
+              y: 0,
+              z: 1,
+            },
+          },
+          xaxis: {
+            type: "linear",
+            zeroline: false,
+            title: x,
+          },
+          yaxis: {
+            type: "linear",
+            zeroline: false,
+            title: y,
+          },
+          zaxis: {
+            type: "linear",
+            zeroline: false,
+            title: z,
+          },
+        },
+        title: "3D scatter plot",
+        width: 800,
+      };
+    }
+
+    // console.log("before scatter");
+    return <ScatterPlot data={data_new} layout={layout} />;
+  };
   scatter3dWithClusters(x, y, z) {
     var x_clusters = [];
     var y_clusters = [];
     var z_clusters = [];
 
-    for (
-      var num_clusters = 0;
-      num_clusters < this.state.num_clusters;
-      num_clusters++
-    ) {
+    for (var num_cl = 0; num_cl < num_clusters; num_cl++) {
       x_clusters.push([]);
       y_clusters.push([]);
       z_clusters.push([]);
@@ -281,7 +559,7 @@ class App extends Component {
 
     var colors = [];
 
-    for (let j = 0; j < this.state.num_clusters; j += 1) {
+    for (let j = 0; j < num_clusters; j += 1) {
       colors.push(randomColors[j]);
     }
 
@@ -295,7 +573,7 @@ class App extends Component {
       }
       var data_new = [];
 
-      for (var k = 0; k < this.state.num_clusters; k += 1) {
+      for (var k = 0; k < num_clusters; k += 1) {
         data_new.push({
           name: "Cluster " + k,
           x: x_clusters[k],
@@ -355,244 +633,9 @@ class App extends Component {
     };
 
     // console.log("before scatter 3d");
-    this.setState({
-      scatter: (
-        <Plot data={data_new} layout={layout} style={styles.scatterContainer} />
-      ),
-    });
+    return <ScatterPlot data={data_new} layout={layout} />;
   }
 
-  scatter2d = (x, y) => {
-    var x1 = [];
-    var y1 = [];
-    var cluster_texts = [];
-    if (this.state.data != null && x != null && y != null) {
-      // console.log(x, y);
-      for (var i = 0; i < this.state.data.length; i++) {
-        x1.push(this.state.data[i][x]);
-        y1.push(this.state.data[i][y]);
-        cluster_texts.push(this.state.data[i]["MappingID2"]);
-      }
-      // console.log(cluster_texts);
-      var data_new = [
-        {
-          name: "Data",
-          x: x1,
-          y: y1,
-          mode: "markers",
-          text: cluster_texts,
-          hovertemplate:
-            "<i>(%{x:.4f}, %{y:.4f}) </i>" +
-            "<br><b>Mapping ID</b>:%{text}</b></br>",
-          marker: { color: randomColors[0] },
-        },
-      ];
-    }
-    // console.log("before scatter");
-    this.setState({
-      scatter: (
-        <Plot
-          data={data_new}
-          style={styles.scatterContainer}
-          layout={{
-            title: "2D plot of " + x + " and " + y,
-            xaxis: { title: x },
-            yaxis: { title: y },
-          }}
-        />
-      ),
-    });
-  };
-
-  scatter1d = (y) => {
-    var x1 = [];
-    var y1 = [];
-    var cluster_texts = [];
-    if (this.state.data != null && y != null) {
-      for (var i = 0; i < this.state.data.length; i++) {
-        x1.push(i);
-        y1.push(this.state.data[i][y]);
-        cluster_texts.push(this.state.data[i]["MappingID2"]);
-      }
-      var data_new = [
-        {
-          name: "Data",
-          x: x1,
-          y: y1,
-          mode: "markers",
-          text: cluster_texts,
-          hovertemplate:
-            "<i>(%{x}, %{y:.4f}) </i>" +
-            "<br><b>Mapping ID</b>:%{text}</b></br>",
-          marker: { color: randomColors[0] },
-          //   type: "bar",
-        },
-      ];
-    }
-    // console.log("before scatter");
-    this.setState({
-      scatter: (
-        <Plot
-          data={data_new}
-          style={styles.scatterContainer}
-          layout={{
-            title: "1D plot of " + y,
-            xaxis: { title: "MappingID2" },
-            yaxis: { title: y },
-          }}
-        />
-      ),
-    });
-  };
-
-  scatter2dWithColumns = (x, y, distributionData) => {
-    var x1 = [];
-    var x2 = [];
-    var y1 = [];
-    var y2 = [];
-    var cluster_texts = [];
-    let colors = [];
-    if (
-      distributionData != null &&
-      distributionData.filter((elem) => {
-        return elem !== 0 && elem !== 1;
-      }).length === 0
-    ) {
-      // this a boolean data, color everything true or false
-      // choose the two representing colors
-      colors = [randomColors[0], randomColors[1]];
-    }
-    if (this.state.data != null && x != null && y != null) {
-      for (var i = 0; i < this.state.data.length; i++) {
-        if (distributionData[i] === 0) {
-          x1.push(this.state.data[i][x]);
-          y1.push(this.state.data[i][y]);
-          cluster_texts.push(this.state.data[i]["MappingID2"]);
-        } else {
-          x2.push(this.state.data[i][x]);
-          y2.push(this.state.data[i][y]);
-          cluster_texts.push(this.state.data[i]["MappingID2"]);
-        }
-      }
-      var data_new = [
-        {
-          name: "False",
-          x: x1,
-          y: y1,
-          mode: "markers",
-          marker: { color: colors[0] },
-          text: cluster_texts,
-          hovertemplate:
-            "<i>(%{x:.4f}, %{y:.4f}) </i>" +
-            "<br><b>Mapping ID</b>:%{text}</b></br>",
-        },
-        {
-          name: "True",
-          x: x2,
-          y: y2,
-          mode: "markers",
-          marker: { color: colors[1] },
-
-          text: cluster_texts,
-          hovertemplate:
-            "<i>(%{x:.4f}, %{y:.4f}) </i>" +
-            "<br><b>Mapping ID</b>:%{text}</b></br>",
-        },
-      ];
-    }
-
-    // console.log("before scatter");
-    this.setState({
-      scatter: (
-        <Plot
-          data={data_new}
-          style={styles.scatterContainer}
-          layout={{
-            title: "2D plot of " + x + " and " + y,
-            xaxis: { title: x },
-            yaxis: { title: y },
-          }}
-        />
-      ),
-    });
-  };
-
-  scatter1dWithColumns = (y, distributionData, outliers) => {
-    var x1 = [];
-    var x2 = [];
-    var y1 = [];
-    var y2 = [];
-    var cluster_texts = [];
-    let colors = [];
-    if (
-      distributionData != null &&
-      distributionData.filter((elem) => {
-        return elem !== 0 && elem !== 1;
-      }).length === 0
-    ) {
-      // this a boolean data, color everything true or false
-      // choose the two representing colors
-      colors = [randomColors[0], randomColors[1]];
-    }
-    // console.log(distributionData);
-    if (this.state.data != null && y != null) {
-      for (var i = 0; i < this.state.data.length; i++) {
-        if (distributionData[i] === 0) {
-          x1.push(i);
-          y1.push(this.state.data[i][y]);
-          cluster_texts.push(this.state.data[i]["MappingID2"]);
-        } else {
-          x2.push(i);
-          y2.push(this.state.data[i][y]);
-          cluster_texts.push(this.state.data[i]["MappingID2"]);
-        }
-      }
-      var marker_shape = outliers ? "cross" : "circle";
-      var marker_color = outliers ? "#c9d6d3" : colors[1];
-      var data1_name = outliers ? "Data" : "False";
-      var data2_name = outliers ? "Outliers" : "False";
-      var data_new = [
-        {
-          name: data1_name,
-          x: x1,
-          y: y1,
-          mode: "markers",
-          marker: { color: colors[0] },
-          text: cluster_texts,
-          hovertemplate:
-            "<i>(%{x}, %{y:.4f}) </i>" +
-            "<br><b>Mapping ID</b>:%{text}</b></br>",
-        },
-        {
-          name: data2_name,
-          x: x2,
-          y: y2,
-          mode: "markers",
-          marker: { color: marker_color, symbol: marker_shape },
-
-          text: cluster_texts,
-          hovertemplate:
-            "<i>(%{x}, %{y:.4f}) </i>" +
-            "<br><b>Mapping ID</b>:%{text}</b></br>",
-        },
-      ];
-    }
-
-    // console.log("before scatter");
-    this.setState({
-      scatter: (
-        <Plot
-          data={data_new}
-          style={styles.scatterContainer}
-          layout={{
-            title: "1D plot of " + y,
-            xaxis: { title: "MappingID2" },
-            yaxis: { title: y },
-          }}
-        />
-      ),
-    });
-  };
   scatter3dWithColumns = (x, y, z, distributionData) => {
     var x1 = [];
     var x2 = [];
@@ -704,94 +747,7 @@ class App extends Component {
     }
 
     // console.log("before scatter");
-    this.setState({
-      scatter: (
-        <Plot data={data_new} layout={layout} style={styles.scatterContainer} />
-      ),
-    });
-  };
-
-  scatter3d = (x, y, z) => {
-    var x1 = [];
-    var z1 = [];
-    var y1 = [];
-    var cluster_texts = [];
-    if (this.state.data != null && x != null && y != null && z != null) {
-      // console.log(x, y);
-      for (var i = 0; i < this.state.data.length; i++) {
-        x1.push(this.state.data[i][x]);
-        y1.push(this.state.data[i][y]);
-        z1.push(this.state.data[i][z]);
-        cluster_texts.push(this.state.data[i]["MappingID2"]);
-      }
-      var data_new = [
-        {
-          name: "Data",
-          x: x1,
-          y: y1,
-          z: z1,
-          mode: "markers",
-          type: "scatter3d",
-          text: cluster_texts,
-          hovertemplate:
-            "<i>(%{x:.4f}, %{y:.4f}) </i>" +
-            "<br><b>Mapping ID</b>:%{text}</b></br>",
-          marker: { color: randomColors[0], size: 2 },
-        },
-      ];
-      var layout = {
-        autosize: true,
-        height: 680,
-        scene: {
-          aspectratio: {
-            x: 1,
-            y: 1,
-            z: 1,
-          },
-          camera: {
-            center: {
-              x: 0,
-              y: 0,
-              z: 0,
-            },
-            eye: {
-              x: 1.25,
-              y: 1.25,
-              z: 1.25,
-            },
-            up: {
-              x: 0,
-              y: 0,
-              z: 1,
-            },
-          },
-          xaxis: {
-            type: "linear",
-            zeroline: false,
-            title: x,
-          },
-          yaxis: {
-            type: "linear",
-            zeroline: false,
-            title: y,
-          },
-          zaxis: {
-            type: "linear",
-            zeroline: false,
-            title: z,
-          },
-        },
-        title: "3D scatter plot",
-        width: 800,
-      };
-    }
-
-    // console.log("before scatter");
-    this.setState({
-      scatter: (
-        <Plot data={data_new} layout={layout} style={styles.scatterContainer} />
-      ),
-    });
+    return <ScatterPlot data={data_new} layout={layout} />;
   };
 
   processData = async (dataString, outliers) => {
@@ -832,7 +788,6 @@ class App extends Component {
     }));
     if (outliers === true) {
       this.setOutlierData(list);
-      //   console.log(this.state.OutlierData);
     } else {
       this.setData(list);
       this.setColumns(columns);
@@ -865,11 +820,7 @@ class App extends Component {
       this.UploadCMDataset(e.target.files[0]);
     }
   };
-  sleep = (milliseconds) => {
-    return new Promise((resolve) => setTimeout(resolve, milliseconds));
-  };
   handleSelectXChange = (value) => {
-    // console.log("x change : ", value);
     this.setState({
       selectedColumns: [
         value.label,
@@ -877,81 +828,16 @@ class App extends Component {
         this.state.selectedColumns[2],
       ],
     });
-    if (
-      this.state.selectedColumns[1] === null &&
-      this.state.selectedColumns[2] === null
-    ) {
-      if (
-        this.state.clusterColors.length !== 0 ||
-        this.state.selectedOutlierMethod !== null
-      ) {
-        if (this.state.selectedOutlierMethod !== null) {
-          this.scatter1dWithColumns(
-            value.label,
-            this.state.OutlierData.map((elem) => {
-              return parseInt(elem[value.label], 10);
-            }),
-            true
-          );
-        } else {
-          this.scatter1dWithClusters(value.label);
-        }
-      } else {
-        this.scatter1d(value.label);
-      }
-    } else if (this.state.selectedColumns[2] === null) {
-      if (this.state.clusterColors.length === 0) {
-        this.scatter2d(value.label, this.state.selectedColumns[1]);
-      } else {
-        this.scatter2dWithClusters(value.label, this.state.selectedColumns[1]);
-      }
-    } else {
-      if (this.state.clusterColors.length === 0) {
-        this.scatter3d(
-          value.label,
-          this.state.selectedColumns[1],
-          this.state.selectedColumns[2]
-        );
-      } else {
-        this.scatter3dWithClusters(
-          value.label,
-          this.state.selectedColumns[1],
-          this.state.selectedColumns[2]
-        );
-      }
-    }
-
-    return this.state.scatter;
   };
 
   handleSelectYChange = (value) => {
-    // console.log("Y change : ", value);
     this.setState({
-      selectedColumns: [this.state.selectedColumns[0], value.label, null],
+      selectedColumns: [
+        this.state.selectedColumns[0],
+        value.label,
+        this.state.selectedColumns[2],
+      ],
     });
-    if (this.state.selectedColumns[2] === null) {
-      if (this.state.clusterColors.length === 0) {
-        this.scatter2d(this.state.selectedColumns[0], value.label);
-      } else {
-        this.scatter2dWithClusters(this.state.selectedColumns[0], value.label);
-      }
-    } else {
-      if (this.state.clusterColors.length === 0) {
-        this.scatter3d(
-          this.state.selectedColumns[0],
-          value.label,
-          this.state.selectedColumns[2]
-        );
-      } else {
-        this.scatter3dWithClusters(
-          this.state.selectedColumns[0],
-          value.label,
-          this.state.selectedColumns[2]
-        );
-      }
-    }
-
-    return this.state.scatter;
   };
   handleSelectZChange = (value) => {
     // console.log("Z change : ", value);
@@ -962,20 +848,6 @@ class App extends Component {
         value.label,
       ],
     });
-    if (this.state.clusterColors.length === 0) {
-      this.scatter3d(
-        this.state.selectedColumns[0],
-        this.state.selectedColumns[1],
-        value.label
-      );
-    } else {
-      this.scatter3dWithClusters(
-        this.state.selectedColumns[0],
-        this.state.selectedColumns[1],
-        value.label
-      );
-    }
-    return this.state.scatter;
   };
 
   onUploadValueChange = (event) => {
@@ -1041,9 +913,10 @@ class App extends Component {
   };
 
   runKmeans = () => {
+    console.log(num_clusters);
     const formData = {
       filename: this.state.selectedFile.name,
-      num_clusters: this.state.num_clusters,
+      num_clusters: num_clusters,
     };
     this.setState({ isLoading: true });
     axios
@@ -1080,79 +953,148 @@ class App extends Component {
         }
       });
   };
-  //   runPCA = () => {
-  //     this.UploadCMDataset(this.state.selectedFile);
-  //   };
   detectOutliers = () => {
-    const formData = {
-      df: this.state.data,
-      method: this.state.selectedOutlierMethod,
-    };
-    this.setState({ isLoading: true });
-    axios
-      .post("http://localhost:5000/detectoutliers", formData, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-      .then((r) => {
-        // console.log(r);
-        this.setState({ isLoading: false });
-        this.processData(r.data, true);
-        this.scatter1dWithColumns(
-          this.state.selectedColumns[0],
-          this.state.OutlierData.map((value) => {
-            return parseInt(value[this.state.selectedColumns[0]], 10);
-          }),
-          true
-        );
-      });
-  };
-  IncrementItem = () => {
-    this.setState({ num_clusters: this.state.num_clusters + 1 });
-  };
-  DecreaseItem = () => {
-    if (!(this.state.num_clusters <= 0)) {
-      this.setState({ num_clusters: this.state.num_clusters - 1 });
+    if (selectedOutlierMethod === "None") {
+      this.setOutlierData([]);
+    } else {
+      const formData = {
+        df: this.state.data,
+        method: selectedOutlierMethod,
+      };
+      this.setState({ isLoading: true });
+      axios
+        .post("http://localhost:5000/detectoutliers", formData, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+        .then((r) => {
+          // console.log(r);
+          this.setState({
+            isLoading: false,
+          });
+          this.processData(r.data, true);
+        });
     }
   };
 
   handleSpecificColumns = (event) => {
-    let distributionData = this.state.data.map((elem) => {
-      return parseInt(elem[event.label], 10);
+    this.setState({
+      distributionData:
+        event.label === "None"
+          ? []
+          : this.state.data.map((elem) => {
+              return parseInt(elem[event.label], 10);
+            }),
     });
-    // console.log(distributionData);
-    if (
-      this.state.selectedOption === "1D" ||
-      this.state.selectedOption === null
-    ) {
-      // console.log("1d with columns");
-      this.scatter1dWithColumns(
-        this.state.selectedColumns[0],
-        distributionData
-      );
-    } else if (this.state.selectedOption === "2D") {
-      // console.log("2d with columns");
-      this.scatter2dWithColumns(
-        this.state.selectedColumns[0],
-        this.state.selectedColumns[1],
-        distributionData
-      );
-    } else {
-      // console.log("3d with columns");
-      this.scatter3dWithColumns(
-        this.state.selectedColumns[0],
-        this.state.selectedColumns[1],
-        this.state.selectedColumns[2],
-        distributionData
-      );
-    }
   };
 
   handleDRAChange = (value) => {
     this.setState({ DRAlgorithm: value.label });
   };
 
+  showScatterPlot = () => {
+    const x = this.state.selectedColumns[0];
+    const y = this.state.selectedColumns[1];
+    const z = this.state.selectedColumns[2];
+    const distributionData = this.state.distributionData;
+    if (
+      this.state.selectedColumns[0] === null &&
+      this.state.selectedColumns[1] === null &&
+      this.state.selectedColumns[2] === null
+    ) {
+      return <ScatterPlot data={[]} />;
+    } else if (
+      this.state.selectedColumns[1] === null &&
+      this.state.selectedColumns[2] === null
+    ) {
+      if (
+        this.state.clusterColors.length > 0 ||
+        distributionData.length > 0 ||
+        this.state.OutlierData.length > 0
+      ) {
+        if (this.state.OutlierData.length > 0) {
+          return this.scatter1dWithColumns(
+            x,
+            this.state.OutlierData.map((elem) => {
+              return parseInt(elem[x], 10);
+            }),
+            true
+          );
+        } else if (distributionData.length > 0) {
+          return this.scatter1dWithColumns(x, distributionData);
+        } else {
+          return this.scatter1dWithClusters(x);
+        }
+      } else {
+        return this.scatter1d(x);
+      }
+    } else if (this.state.selectedColumns[2] === null) {
+      if (
+        this.state.clusterColors.length > 0 ||
+        distributionData.length > 0 ||
+        this.state.OutlierData.length > 0
+      ) {
+        if (this.state.OutlierData.length > 0) {
+          return this.scatter2dWithColumns(
+            x,
+            y,
+            this.state.OutlierData.map((elem) => {
+              var val1 = parseInt(elem[x], 10) === 1;
+              var val2 = parseInt(elem[y], 10) === 1;
+              if (this.state.pressed === 1) {
+                return val1 || val2 ? 1 : 0;
+              } else {
+                return val1 && val2 ? 1 : 0;
+              }
+            }),
+            true
+          );
+        } else if (distributionData.length > 0) {
+          return this.scatter2dWithColumns(x, y, distributionData);
+        } else {
+          return this.scatter2dWithClusters(x, y);
+        }
+      } else {
+        return this.scatter2d(x, y);
+      }
+    } else {
+      if (
+        this.state.clusterColors.length === 0 ||
+        distributionData.length > 0 ||
+        this.state.OutlierData.length > 0
+      ) {
+        if (this.state.OutlierData.length > 0) {
+          return this.scatter2dWithColumns(
+            x,
+            y,
+            z,
+            this.state.OutlierData.map((elem) => {
+              var val1 = parseInt(elem[x], 10) === 1;
+              var val2 = parseInt(elem[y], 10) === 1;
+              var val3 = parseInt(elem[z], 10) === 1;
+              if (this.state.pressed === 0) {
+                return val1 || val2 || val3 ? 1 : 0;
+              } else {
+                return val1 && val2 && val3 ? 1 : 0;
+              }
+            }),
+            true
+          );
+        } else if (distributionData.length > 0) {
+          return this.scatter3dWithColumns(x, y, z, distributionData);
+        } else {
+          return this.scatter2dWithClusters(x, y, z);
+        }
+      } else {
+        return this.scatter3d(x, y, z);
+      }
+    }
+  };
+  IncrementHandler = (data) => {
+    console.log(data);
+    num_clusters = data.num_clusters;
+  };
   render() {
     return (
       <div style={styles.splitScreen}>
@@ -1238,7 +1180,9 @@ class App extends Component {
             <Select
               name="filters"
               placeholder="Filters"
-              value={this.state.multiValue}
+              value={this.state.multiValue.filter((elem) => {
+                return elem.label !== "None";
+              })}
               options={this.state.selectActions}
               onChange={this.handleMultiChange}
               isMulti
@@ -1253,21 +1197,7 @@ class App extends Component {
               opacity: 1,
             }}
           />
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              width: "40%",
-              justifyContent: "space-between",
-              marginBottom: "5%",
-              height: "50px",
-              paddingTop: "20px",
-            }}
-          >
-            Num clusters: <button onClick={this.DecreaseItem}>-</button>
-            {this.state.show ? <p>{this.state.num_clusters}</p> : ""}
-            <button onClick={this.IncrementItem}> + </button>
-          </div>
+          <Incrementor onChange={this.IncrementHandler} />
           <button onClick={this.runKmeans}>Run Kmeans</button>
           <hr
             style={{
@@ -1289,6 +1219,34 @@ class App extends Component {
               options={this.state.selectOutlierActions}
               onChange={this.handleOutlierChange}
             />
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "space-around",
+              }}
+            >
+              <button
+                onClick={() => this.setState({ pressed: 0 })}
+                style={{
+                  marginTop: "20px",
+                  backgroundColor:
+                    this.state.pressed === 0 ? "green" : "transparent",
+                }}
+              >
+                AND
+              </button>
+              <button
+                onClick={() => this.setState({ pressed: 1 })}
+                style={{
+                  marginTop: "20px",
+                  backgroundColor:
+                    this.state.pressed === 1 ? "green" : "transparent",
+                }}
+              >
+                OR
+              </button>
+            </div>
             <button onClick={this.detectOutliers} style={{ marginTop: "20px" }}>
               Detect Outliers
             </button>
@@ -1304,7 +1262,9 @@ class App extends Component {
           )}
           {!this.state.isLoading && (
             <div style={styles.rightPane}>
-              {this.state.scatter}
+              {/* {this.state.scatter} */}
+              {/* <ScatterPlot data={this.state.data} method={this.scatter1d} /> */}
+              {this.showScatterPlot()}
               <div className="container" style={styles.optionsContainer}>
                 <div className="radio" style={styles.dimensions}>
                   <label>
@@ -1379,68 +1339,7 @@ class App extends Component {
                   )}
                 </div>
 
-                {this.state.data !== null && (
-                  <div style={styles.download}>
-                    <label>
-                      <input
-                        name="outliers"
-                        type="checkbox"
-                        checked={this.state.outlierCheck}
-                        onChange={() => {
-                          var newData = [];
-                          for (var i = 0; i < this.state.data.length; i++) {
-                            var row = this.state.data[i];
-                            row = {
-                              ...row,
-                              outlier: this.state.OutlierData[i],
-                            };
-                            newData = [...newData, row];
-                          }
-                          this.setState({
-                            outlierCheck: !this.state.outlierCheck,
-                            downloadableData: this.state.OutlierData,
-                          });
-                        }}
-                      />
-                      Remove Outliers
-                    </label>
-                    <label>
-                      <input
-                        name="clustering"
-                        type="checkbox"
-                        checked={this.state.clusterCheck}
-                        onChange={() => {
-                          var newData = [];
-                          for (var i = 0; i < this.state.data.length; i++) {
-                            var row = this.state.data[i];
-                            row = {
-                              ...row,
-                              cluster: this.state.clusterColors[i],
-                            };
-                            newData = [...newData, row];
-                          }
-                          this.setState({
-                            clusterCheck: !this.state.clusterCheck,
-                            downloadableData: newData,
-                          });
-                        }}
-                      />
-                      Include Clustering Information
-                    </label>
-
-                    <button>
-                      <CSVLink
-                        data={
-                          this.state.downloadableData === null
-                            ? this.state.data
-                            : this.state.downloadableData
-                        }
-                      >
-                        Download Data
-                      </CSVLink>
-                    </button>
-                  </div>
-                )}
+                {this.state.data !== null && <DownloadData />}
               </div>
             </div>
           )}
@@ -1506,27 +1405,6 @@ const styles = {
     width: "15%",
     marginTop: "5%",
     justifyContent: "center",
-  },
-  scatterContainer: {
-    height: "70%",
-    position: "fixed",
-    z_index: 1,
-    top: 0,
-    overflow_x: "hidden",
-    padding_top: "20px",
-    left: 0,
-    backgroud_color: "red",
-    width: "55%",
-    marginTop: "10%",
-    marginLeft: "30%",
-  },
-  download: {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "",
-    position: "fixed",
-    bottom: "20%",
-    right: "20px",
   },
 };
 export default App;
