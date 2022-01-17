@@ -1,5 +1,5 @@
 from flask import current_app,jsonify,request
-from pandas.core.reshape.tile import cut
+# from pandas.core.reshape.tile import cut
 from app import create_app,db
 from models import Articles,articles_schema
 import io
@@ -11,8 +11,8 @@ from common import runKmeans
 from sklearn.cluster import KMeans
 from sklearn.manifold import TSNE
 # Create an application instance
-app = create_app()
 
+app = create_app()
 # Define a route to fetch the avaialable articles
 
 @app.route("/articles", methods=["GET"], strict_slashes=False)
@@ -88,7 +88,7 @@ def uploadCM():
 
 @app.route("/detectoutliers", methods=["POST"], strict_slashes=False)
 def detectoutliers():
-	# print('detecting outliers')
+	print('detecting outliers')
 	request_df = request.get_json()['df']
 	
 	request_method = request.get_json()['method']

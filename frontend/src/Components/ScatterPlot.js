@@ -2,16 +2,6 @@ import React, { Component } from "react";
 import Plot from "react-plotly.js";
 import PropTypes from "prop-types";
 
-const randomColors = [
-  "#1aa52a",
-  "#7ddaed",
-  "#0740ba",
-  "#a3a6ed",
-  "#cc9d3f",
-  "#d87368",
-  "#99f7a2",
-  "#ff7ae6",
-];
 class ScatterPlot extends Component {
   constructor() {
     super();

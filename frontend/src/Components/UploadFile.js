@@ -636,7 +636,7 @@ class App extends Component {
     return <ScatterPlot data={data_new} layout={layout} />;
   }
 
-  scatter3dWithColumns = (x, y, z, distributionData) => {
+  scatter3dWithColumns = (x, y, z, distributionData, outliers) => {
     var x1 = [];
     var x2 = [];
     var z1 = [];
@@ -671,9 +671,14 @@ class App extends Component {
           cluster_texts.push(this.state.data[i]["MappingID2"]);
         }
       }
+      var marker_shape = outliers ? "cross" : "circle";
+      var marker_color = outliers ? "#c9d6d3" : colors[1];
+      var data1_name = outliers ? "Data" : "True";
+      var data2_name = outliers ? "Outliers" : "False";
+
       var data_new = [
         {
-          name: "False",
+          name: data1_name,
           x: x1,
           y: y1,
           z: z1,
@@ -686,13 +691,13 @@ class App extends Component {
             "<br><b>Mapping ID</b>:%{text}</b></br>",
         },
         {
-          name: "True",
+          name: data2_name,
           x: x2,
           y: y2,
           z: z2,
           mode: "markers",
           type: "scatter3d",
-          marker: { color: colors[1], size: 2 },
+          marker: { color: marker_color, symbol: marker_shape, size: 2 },
           text: cluster_texts,
           hovertemplate:
             "<i>(%{x:.4f}, %{y:.4f}) </i>" +
@@ -1060,12 +1065,12 @@ class App extends Component {
       }
     } else {
       if (
-        this.state.clusterColors.length === 0 ||
+        this.state.clusterColors.length > 0 ||
         distributionData.length > 0 ||
         this.state.OutlierData.length > 0
       ) {
         if (this.state.OutlierData.length > 0) {
-          return this.scatter2dWithColumns(
+          return this.scatter3dWithColumns(
             x,
             y,
             z,
@@ -1073,7 +1078,7 @@ class App extends Component {
               var val1 = parseInt(elem[x], 10) === 1;
               var val2 = parseInt(elem[y], 10) === 1;
               var val3 = parseInt(elem[z], 10) === 1;
-              if (this.state.pressed === 0) {
+              if (this.state.pressed === 1) {
                 return val1 || val2 || val3 ? 1 : 0;
               } else {
                 return val1 && val2 && val3 ? 1 : 0;
@@ -1084,7 +1089,7 @@ class App extends Component {
         } else if (distributionData.length > 0) {
           return this.scatter3dWithColumns(x, y, z, distributionData);
         } else {
-          return this.scatter2dWithClusters(x, y, z);
+          return this.scatter3dWithClusters(x, y, z);
         }
       } else {
         return this.scatter3d(x, y, z);
@@ -1339,7 +1344,13 @@ class App extends Component {
                   )}
                 </div>
 
-                {this.state.data !== null && <DownloadData />}
+                {this.state.data !== null && (
+                  <DownloadData
+                    data={this.state.data}
+                    clusterColors={this.state.clusterColors}
+                    OutlierData={this.state.OutlierData}
+                  />
+                )}
               </div>
             </div>
           )}
