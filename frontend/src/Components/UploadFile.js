@@ -279,13 +279,25 @@ class App extends Component {
       />
     );
   };
-  scatter1dWithClusters(y) {
+  scatter1dWithClusters(y, outliers) {
     var x_clusters = [];
     var y_clusters = [];
     var cluster_texts = [];
+    var distributionData = this.state.OutlierData.map((elem) => {
+      return parseInt(elem[y], 10);
+    })
+    if(outliers){
+      var x_clusters_outliers = [];
+      var y_clusters_outliers = [];
+    }
+    
     for (var num_cl = 0; num_cl < num_clusters; num_cl++) {
       x_clusters.push([]);
       y_clusters.push([]);
+      if(outliers){
+        x_clusters_outliers.push([]);
+        y_clusters_outliers.push([]);
+      }
       cluster_texts.push([]);
     }
 
@@ -298,17 +310,33 @@ class App extends Component {
     if (this.state.data != null && y != null) {
       for (var i = 0; i < this.state.data.length; i++) {
         let rowCol = this.state.clusterColors[i];
-        x_clusters[rowCol].push(i);
-        y_clusters[rowCol].push(this.state.data[i][y]);
+        if (outliers && distributionData[i]){
+          x_clusters_outliers[rowCol].push(i);
+          y_clusters_outliers[rowCol].push(this.state.data[i][y]);
+        }
+        else{
+          x_clusters[rowCol].push(i);
+          y_clusters[rowCol].push(this.state.data[i][y]);
+        }
       }
       var data_new = [];
       for (var k = 0; k < num_clusters; k += 1) {
+        if(outliers){
+          data_new.push({
+            name: "Cluster " + k + " Outliers",
+            x: x_clusters_outliers[k],
+            y: y_clusters_outliers[k],
+            mode: "markers",
+            marker: { color: colors[k], symbol: 'cross', opacity:0.5},
+            text: cluster_texts[k],
+          });
+        }
         data_new.push({
           name: "Cluster " + k,
           x: x_clusters[k],
           y: y_clusters[k],
           mode: "markers",
-          marker: { color: colors[k] },
+          marker: { color: colors[k]},
           text: cluster_texts[k],
         });
       }
@@ -1024,17 +1052,24 @@ class App extends Component {
         this.state.OutlierData.length > 0
       ) {
         if (this.state.OutlierData.length > 0) {
-          return this.scatter1dWithColumns(
-            x,
-            this.state.OutlierData.map((elem) => {
-              return parseInt(elem[x], 10);
-            }),
-            true
-          );
+          if (this.state.clusterColors.length > 0) {
+            console.log('here')
+            return this.scatter1dWithClusters(x, true);
+          }
+          else{
+            console.log('here2')
+            return this.scatter1dWithColumns(
+              x,
+              this.state.OutlierData.map((elem) => {
+                return parseInt(elem[x], 10);
+              }),
+              true
+            );
+          }
         } else if (distributionData.length > 0) {
           return this.scatter1dWithColumns(x, distributionData);
         } else {
-          return this.scatter1dWithClusters(x);
+          return this.scatter1dWithClusters(x, false);
         }
       } else {
         return this.scatter1d(x);

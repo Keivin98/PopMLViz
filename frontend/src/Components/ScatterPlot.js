@@ -25,43 +25,6 @@ class ScatterPlot extends Component {
           style={styles.scatterContainer}
           layout={this.props.layout}
         />
-        {/* <div style={{ marginTop: '500%', flexDirection: 'row' }}>
-          <div className="radio">
-            <label>
-              <input
-                type="radio"
-                value="Correlation Matrix"
-                checked={
-                  this.state.selectedUploadOption === 'Correlation Matrix'
-                }
-                onChange={this.onUploadValueChange}
-              />
-              Correlation Matrix
-            </label>
-          </div>
-          <div className="radio">
-            <label>
-              <input
-                type="radio"
-                value="PCA"
-                checked={this.state.selectedUploadOption === 'PCA'}
-                onChange={this.onUploadValueChange}
-              />
-              PCA
-            </label>
-          </div>
-          <div>
-            <label>
-              <input
-                type="radio"
-                value="t-SNE"
-                checked={this.state.selectedUploadOption === 't-SNE'}
-                onChange={this.onUploadValueChange}
-              />
-              t-SNE
-            </label>
-          </div>
-        </div> */}
       </div>
     );
   }
