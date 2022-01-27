@@ -24,17 +24,29 @@ class Incrementor extends Component {
       <div
         style={{
           display: "flex",
-          flexDirection: "row",
+          flexDirection: "column",
           width: "40%",
           justifyContent: "space-between",
           marginBottom: "5%",
           height: "50px",
-          paddingTop: "20px",
+          paddingTop: "10px",
         }}
       >
-        Num clusters: <button onClick={this.DecreaseItem}>-</button>
-        <p>{this.state.num_clusters}</p>
-        <button onClick={this.IncrementItem}> + </button>
+        <div>
+          <label>
+            <h5> Clustering the data </h5>
+          </label>
+        </div>
+        <div style={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "space-between",
+          height: "30px",
+        }}>
+          Num clusters: <button onClick={this.DecreaseItem}>-</button>
+          <p>{this.state.num_clusters}</p>
+          <button onClick={this.IncrementItem}> + </button>
+        </div>        
       </div>
     );
   }

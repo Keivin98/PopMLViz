@@ -8,6 +8,9 @@ import Loader from "react-loader-spinner";
 import ScatterPlot from "./ScatterPlot";
 import Incrementor from "./Incrementor";
 import DownloadData from "./DownloadData";
+import Typography from "@material-ui/core/Typography";
+import Slider from "@material-ui/core/Slider";
+
 const randomColors = [
   "#1aa52a",
   "#7ddaed",
@@ -95,6 +98,8 @@ class App extends Component {
     identifierColumn: "",
     selectedOutlierMethod: null,
     OutlierData: [],
+    columnRange: [1, 10],
+
   };
   handleMultiChange = (option) => {
     console.log(option);
@@ -894,7 +899,7 @@ class App extends Component {
     };
     // console.log(file);
     this.setState({ isLoading: true });
-    var url = "http://localhost:5000/";
+    var url = "http://127.0.0.1:5000/";
     if (this.state.DRAlgorithm === "PCA") {
       url = url + "uploadCM";
     } else if (this.state.DRAlgorithm === "t-SNE 2D") {
@@ -925,7 +930,7 @@ class App extends Component {
     };
     this.setState({ isLoading: true });
     axios
-      .post("http://localhost:5000/runkmeans", formData, {
+      .post("http://127.0.0.1:5000/runkmeans", formData, {
         headers: {
           "Content-Type": "application/json",
         },
@@ -968,7 +973,7 @@ class App extends Component {
       };
       this.setState({ isLoading: true });
       axios
-        .post("http://localhost:5000/detectoutliers", formData, {
+        .post("http://127.0.0.1:5000/detectoutliers", formData, {
           headers: {
             "Content-Type": "application/json",
           },
@@ -1100,6 +1105,10 @@ class App extends Component {
     console.log(data);
     num_clusters = data.num_clusters;
   };
+  rangeSelector = (event, newValue) => {
+    this.setState({ columnRange: newValue });
+    console.log(newValue);
+  };
   render() {
     return (
       <div style={styles.splitScreen}>
@@ -1171,17 +1180,17 @@ class App extends Component {
               color: "black",
               backgroundColor: "black",
               width: "40%",
-              height: 5,
+              height: 3,
               opacity: 1,
             }}
           />
           <div
             style={{
-              width: "300px",
+              width: "270px",
               paddingVertical: "20px",
             }}
           >
-            <label>Describing Columns</label>
+            <label> <h5> Describing Columns </h5></label>
             <Select
               name="filters"
               placeholder="Filters"
@@ -1198,64 +1207,13 @@ class App extends Component {
               color: "black",
               backgroundColor: "black",
               width: "40%",
-              height: 5,
+              height: 3,
               opacity: 1,
             }}
           />
           <Incrementor onChange={this.IncrementHandler} />
           <button onClick={this.runKmeans}>Run Kmeans</button>
-          <hr
-            style={{
-              color: "black",
-              backgroundColor: "black",
-              width: "40%",
-              height: 5,
-              opacity: 1,
-            }}
-          />
-          <div
-            style={{
-              width: "300px",
-              paddingVertical: "20px",
-            }}
-          >
-            Choose the outlier detection method
-            <Select
-              options={this.state.selectOutlierActions}
-              onChange={this.handleOutlierChange}
-            />
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "space-around",
-              }}
-            >
-              <button
-                onClick={() => this.setState({ pressed: 0 })}
-                style={{
-                  marginTop: "20px",
-                  backgroundColor:
-                    this.state.pressed === 0 ? "green" : "transparent",
-                }}
-              >
-                AND
-              </button>
-              <button
-                onClick={() => this.setState({ pressed: 1 })}
-                style={{
-                  marginTop: "20px",
-                  backgroundColor:
-                    this.state.pressed === 1 ? "green" : "transparent",
-                }}
-              >
-                OR
-              </button>
-            </div>
-            <button onClick={this.detectOutliers} style={{ marginTop: "20px" }}>
-              Detect Outliers
-            </button>
-          </div>
+          
         </div>
 
         <div
@@ -1266,9 +1224,7 @@ class App extends Component {
             <Loader type="TailSpin" color="#00BFFF" height="100" width="100" />
           )}
           {!this.state.isLoading && (
-            <div style={styles.rightPane}>
-              {/* {this.state.scatter} */}
-              {/* <ScatterPlot data={this.state.data} method={this.scatter1d} /> */}
+            <div>
               {this.showScatterPlot()}
               <div className="container" style={styles.optionsContainer}>
                 <div className="radio" style={styles.dimensions}>
@@ -1344,11 +1300,75 @@ class App extends Component {
                   )}
                 </div>
 
+          <hr
+            style={{
+              color: "black",
+              backgroundColor: "black",
+              height: 3,
+              opacity: 1,
+            }}
+          />
+          <div
+            style={{
+              width: "250px",
+              paddingVertical: "20px",
+            }}
+          >
+            Choose the outlier detection method
+            <Select
+              options={this.state.selectOutlierActions}
+              onChange={this.handleOutlierChange}
+            />
+            
+            <Typography id="range-slider" gutterBottom>
+              Columns:
+            </Typography>
+            <Slider
+              value={this.state.columnRange}
+              onChange={this.rangeSelector}
+              valueLabelDisplay="auto"
+              min={1}
+              max={20}
+            />
+            PC{this.state.columnRange[0]} to PC{this.state.columnRange[1]}
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "space-around",
+              }}
+            >
+              <button
+                onClick={() => this.state.pressed === 0 ? this.setState({ pressed: -1 }) : this.setState({ pressed: 0})}
+                style={{
+                  marginTop: "20px",
+                  backgroundColor:
+                    this.state.pressed === 0 ? "green" : "transparent",
+                }}
+              >
+                AND
+              </button>
+              <button
+                onClick={() => this.state.pressed === 1 ? this.setState({ pressed: -1 }) : this.setState({ pressed: 1})}
+                style={{
+                  marginTop: "20px",
+                  backgroundColor:
+                    this.state.pressed === 1 ? "green" : "transparent",
+                }}
+              >
+                OR
+              </button>
+            </div>
+            <button onClick={this.detectOutliers} style={{ marginTop: "20px" }} disabled = {this.state.pressed !== 0 && this.state.pressed !== 1 }>
+              Detect Outliers
+            </button>
+          </div>
                 {this.state.data !== null && (
                   <DownloadData
                     data={this.state.data}
                     clusterColors={this.state.clusterColors}
                     OutlierData={this.state.OutlierData}
+                    columnRange={this.state.columnRange}
                   />
                 )}
               </div>
@@ -1401,7 +1421,7 @@ const styles = {
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-around",
-    width: "70%",
+
   },
   dropDown: {
     width: "200px",
@@ -1412,9 +1432,9 @@ const styles = {
     display: "flex",
     flexDirection: "column",
     top: 0,
-    right: 0,
+    right: '4%',
     width: "15%",
-    marginTop: "5%",
+    marginTop: "10%",
     justifyContent: "center",
   },
 };

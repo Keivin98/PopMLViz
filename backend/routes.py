@@ -1,7 +1,6 @@
-from flask import current_app,jsonify,request
+from flask import jsonify,request
 # from pandas.core.reshape.tile import cut
-from app import create_app,db
-from models import Articles,articles_schema
+from app import create_app
 import io
 import pandas as pd
 from sklearn.decomposition import PCA
@@ -13,15 +12,7 @@ from sklearn.manifold import TSNE
 # Create an application instance
 
 app = create_app()
-# Define a route to fetch the avaialable articles
-
-@app.route("/articles", methods=["GET"], strict_slashes=False)
-def articles():
-
-	articles = Articles.query.all()
-	results = articles_schema.dump(articles)
-
-	return jsonify(results)
+# Define a route to fetch the avaialable article
 
 @app.route("/runkmeans", methods=["POST"], strict_slashes=False)
 def runKmeans():
@@ -112,4 +103,4 @@ def detectoutliers():
 	return outliers_result.to_csv()
 
 if __name__ == "__main__":
-	app.run(debug=True)
+	app.run( debug=True)

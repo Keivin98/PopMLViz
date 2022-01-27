@@ -1,7 +1,5 @@
 import React, { Component } from "react";
 import { CSVLink } from "react-csv";
-import Typography from "@material-ui/core/Typography";
-import Slider from "@material-ui/core/Slider";
 import PropTypes from "prop-types";
 
 class DownloadData extends Component {
@@ -11,7 +9,6 @@ class DownloadData extends Component {
     clusterColors: this.props.clusterColors,
     downloadableData: [],
     data: this.props.data,
-    columnRange: [1, 2],
     pressed: -1,
   };
 
@@ -28,74 +25,18 @@ class DownloadData extends Component {
             name="outliers"
             type="checkbox"
             checked={this.state.outlierCheck}
+            readOnly={true}
             disabled={this.state.OutlierData === null}
             onClick={() =>
-              this.setState({ outlierCheck: !this.state.outlierCheck })
-            }
-          />
-          Remove Outliers
-        </label>
-        {this.state.outlierCheck && (
-          <div
-            style={{
-              border: "1px solid black",
-              padding: "10px",
-              justifyContent: "center",
-            }}
-          >
-            <Typography id="range-slider" gutterBottom>
-              Columns:
-            </Typography>
-            <Slider
-              value={this.state.columnRange}
-              onChange={this.rangeSelector}
-              valueLabelDisplay="auto"
-              min={1}
-              max={20}
-            />
-            PC{this.state.columnRange[0]} to PC{this.state.columnRange[1]}
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "space-around",
-              }}
-            >
-              <button
-                onClick={() => this.setState({ pressed: 0 })}
-                style={{
-                  marginTop: "20px",
-                  backgroundColor:
-                    this.state.pressed === 0 ? "green" : "transparent",
-                }}
-              >
-                AND
-              </button>
-              <button
-                onClick={() => this.setState({ pressed: 1 })}
-                style={{
-                  marginTop: "20px",
-                  backgroundColor:
-                    this.state.pressed === 1 ? "green" : "transparent",
-                }}
-              >
-                OR
-              </button>
-            </div>
-            <button
-              style={{
-                marginTop: "20px",
-                marginLeft: "50px",
-              }}
-              onClick={() => {
-                var newData = [];
+              {this.setState({ outlierCheck: !this.state.outlierCheck })
+              var newData = [];
                 // console.log(this.props.OutlierData);
                 for (var i = 0; i < this.state.data.length; i++) {
                   var row = this.state.data[i];
                   var outlierInp = !this.state.pressed;
                   for (
-                    var j = this.state.columnRange[0];
-                    j <= this.state.columnRange[1];
+                    var j = this.props.columnRange[0];
+                    j <= this.props.columnRange[1];
                     j++
                   ) {
                     if (this.state.pressed === 0) {
@@ -118,11 +59,9 @@ class DownloadData extends Component {
                   downloadableData: newData,
                 });
               }}
-            >
-              APPLY
-            </button>
-          </div>
-        )}
+          />
+          {"\t"} Remove Outliers
+        </label>
         <label>
           <input
             name="clustering"
@@ -151,7 +90,7 @@ class DownloadData extends Component {
             }}
             disabled={this.state.clusterColors.length === 0}
           />
-          Include Clustering Info
+          {"\t"} Include Clustering Info
         </label>
         <button>
           <CSVLink
@@ -179,17 +118,19 @@ DownloadData.propTypes = {
   data: PropTypes.array,
   OutlierData: PropTypes.array,
   clusterColors: PropTypes.array,
+  columnRange: PropTypes.array,
 };
 
 const styles = {
   download: {
     display: "flex",
     flexDirection: "column",
-    justifyContent: "",
     position: "fixed",
-    bottom: "20%",
-    right: "30px",
-    width: "200px",
+    bottom: "12%",
+    right: "3%",
+    width: "250px",
+    padding: '20px',
+    border: '1px solid black'
   },
 };
 export default DownloadData;
