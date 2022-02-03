@@ -22,7 +22,7 @@ def runKmeans():
 	# print(input_path)
 	pca_df = pd.read_csv(input_path)
 	# print(pca_df)
-	kmeans = KMeans(n_clusters=num_clusters, random_state=0).fit_predict(pca_df.iloc[:, 1:-1])
+	kmeans = KMeans(n_clusters=num_clusters, random_state=0).fit_predict(pca_df.iloc[:, 1:-2])
 	# print(kmeans)
 	return jsonify(list(map(lambda x : int(x), kmeans)))
 
@@ -83,11 +83,20 @@ def detectoutliers():
 	request_df = request.get_json()['df']
 	
 	request_method = request.get_json()['method']
+	column_range = request.get_json()['columnRange']
 	std_freedom = int(request_method[0])
-
+	print(column_range)
 	df = pd.json_normalize(request_df)
 	newdf = {}
-	for col in df.columns[1:-2]:
+
+	def choose_columns(x):
+		return 'PC' in x 
+		# \ and int(x[-1]) >= column_range[0] \
+		# 		and int(x[-1]) <= column_range[1]
+	
+	columns_of_interest = list(filter(choose_columns, df.columns))
+
+	for col in columns_of_interest:
 		# print(col)
 		pcx = df.loc[:, col]
 		pcx = pd.Series(pcx, dtype='float')
@@ -97,8 +106,10 @@ def detectoutliers():
 		
 		outliers = [(1 if x < lower or x > upper else 0) for x in pcx]
 		newdf[col] = outliers
-	letters = string.ascii_lowercase
-	filename = ''.join(random.choice(letters) for i in range(5))
+		
+	# letters = string.ascii_lowercase
+	# filename = ''.join(random.choice(letters) for i in range(5))
+
 	outliers_result = pd.DataFrame(newdf)
 	return outliers_result.to_csv()
 

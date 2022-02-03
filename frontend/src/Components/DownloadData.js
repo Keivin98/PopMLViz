@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { CSVLink } from "react-csv";
 import PropTypes from "prop-types";
-
+import { Button } from "@material-ui/core";
 class DownloadData extends Component {
   state = {
     outlierCheck: false,
@@ -34,6 +34,7 @@ class DownloadData extends Component {
                 for (var i = 0; i < this.state.data.length; i++) {
                   var row = this.state.data[i];
                   var outlierInp = !this.state.pressed;
+                  console.log(this.props.columnRange);
                   for (
                     var j = this.props.columnRange[0];
                     j <= this.props.columnRange[1];
@@ -92,7 +93,7 @@ class DownloadData extends Component {
           />
           {"\t"} Include Clustering Info
         </label>
-        <button>
+        <Button variant="outlined">
           <CSVLink
             data={
               this.state.downloadableData === null
@@ -108,7 +109,7 @@ class DownloadData extends Component {
           >
             Download Data
           </CSVLink>
-        </button>
+        </Button>
       </div>
     );
   }

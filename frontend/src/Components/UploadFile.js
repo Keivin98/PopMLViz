@@ -8,8 +8,8 @@ import Loader from "react-loader-spinner";
 import ScatterPlot from "./ScatterPlot";
 import Incrementor from "./Incrementor";
 import DownloadData from "./DownloadData";
-import Typography from "@material-ui/core/Typography";
-import Slider from "@material-ui/core/Slider";
+import OutlierBlock from "./OutlierBlock";
+import { Button } from "@material-ui/core";
 
 const randomColors = [
   "#1aa52a",
@@ -24,9 +24,12 @@ const randomColors = [
 var selectedOutlierMethod = null;
 Chart.register(...registerables);
 var num_clusters = 2;
+
+
 class App extends Component {
   state = {
     // Initially, no file is selected
+    columnRange : [1, 10],
     selectedFile: null,
     uplaodType: null,
     imageURL: "",
@@ -98,7 +101,7 @@ class App extends Component {
     identifierColumn: "",
     selectedOutlierMethod: null,
     OutlierData: [],
-    columnRange: [1, 10],
+    
 
   };
   handleMultiChange = (option) => {
@@ -302,8 +305,9 @@ class App extends Component {
     }
 
     var colors = [];
-
-    for (let j = 0; j < num_clusters; j += 1) {
+    colors.push(randomColors[1]);
+    colors.push(randomColors[0]);
+    for (let j = 2; j < num_clusters; j += 1) {
       colors.push(randomColors[j]);
     }
 
@@ -998,6 +1002,7 @@ class App extends Component {
       const formData = {
         df: this.state.data,
         method: selectedOutlierMethod,
+        columnRange : this.state.columnRange,
       };
       this.setState({ isLoading: true });
       axios
@@ -1057,7 +1062,7 @@ class App extends Component {
             return this.scatter1dWithClusters(x, true);
           }
           else{
-            console.log('here2')
+
             return this.scatter1dWithColumns(
               x,
               this.state.OutlierData.map((elem) => {
@@ -1140,11 +1145,13 @@ class App extends Component {
     console.log(data);
     num_clusters = data.num_clusters;
   };
-  rangeSelector = (event, newValue) => {
-    this.setState({ columnRange: newValue });
-    console.log(newValue);
-  };
+  handleOutlierColumnChange = (data) => {
+    console.log(data);
+    this.setState({columnRange: data.columnRange});
+  }
+  
   render() {
+    
     return (
       <div style={styles.splitScreen}>
         <div style={styles.leftPane}>
@@ -1247,7 +1254,7 @@ class App extends Component {
             }}
           />
           <Incrementor onChange={this.IncrementHandler} />
-          <button onClick={this.runKmeans}>Run Kmeans</button>
+          <Button variant="outlined"   onClick={this.runKmeans}>Run Kmeans</Button>
           
         </div>
 
@@ -1355,25 +1362,16 @@ class App extends Component {
               onChange={this.handleOutlierChange}
             />
             
-            <Typography id="range-slider" gutterBottom>
-              Columns:
-            </Typography>
-            <Slider
-              value={this.state.columnRange}
-              onChange={this.rangeSelector}
-              valueLabelDisplay="auto"
-              min={1}
-              max={20}
-            />
-            PC{this.state.columnRange[0]} to PC{this.state.columnRange[1]}
+            <OutlierBlock onChange={this.handleOutlierColumnChange}/>
             <div
               style={{
                 display: "flex",
                 flexDirection: "row",
                 justifyContent: "space-around",
+                padding: '20px'
               }}
             >
-              <button
+              <Button variant="outlined"  
                 onClick={() => this.state.pressed === 0 ? this.setState({ pressed: -1 }) : this.setState({ pressed: 0})}
                 style={{
                   marginTop: "20px",
@@ -1382,8 +1380,8 @@ class App extends Component {
                 }}
               >
                 AND
-              </button>
-              <button
+              </Button>
+              <Button variant="outlined"  
                 onClick={() => this.state.pressed === 1 ? this.setState({ pressed: -1 }) : this.setState({ pressed: 1})}
                 style={{
                   marginTop: "20px",
@@ -1392,11 +1390,22 @@ class App extends Component {
                 }}
               >
                 OR
-              </button>
+              </Button>
             </div>
-            <button onClick={this.detectOutliers} style={{ marginTop: "20px" }} disabled = {this.state.pressed !== 0 && this.state.pressed !== 1 }>
+            <Button 
+              variant="outlined" 
+              onClick={this.detectOutliers} 
+              style={{ marginTop: "20px" }} 
+              disabled = {
+                (
+                  this.state.pressed !== 0 && 
+                  this.state.pressed !== 1
+                ) 
+                || selectedOutlierMethod == null 
+                }
+            >
               Detect Outliers
-            </button>
+            </Button>
           </div>
                 {this.state.data !== null && (
                   <DownloadData
@@ -1445,6 +1454,7 @@ const styles = {
     marginRight: "10px",
     justifyContent: "center",
     alignItems: "center",
+    borderRadius: 10
   },
   radioButtons: {
     display: "flex",

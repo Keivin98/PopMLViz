@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import { Button } from "@material-ui/core";
+
 class Incrementor extends Component {
   state = {
     num_clusters: 2,
@@ -43,9 +45,9 @@ class Incrementor extends Component {
           justifyContent: "space-between",
           height: "30px",
         }}>
-          Num clusters: <button onClick={this.DecreaseItem}>-</button>
+          Num clusters: <Button variant="contained" size="small" onClick={this.DecreaseItem}>-</Button>
           <p>{this.state.num_clusters}</p>
-          <button onClick={this.IncrementItem}> + </button>
+          <Button variant="contained" size="large" onClick={this.IncrementItem}> + </Button>
         </div>        
       </div>
     );
