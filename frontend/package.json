@@ -16,6 +16,7 @@
     "randomcolor": "^0.6.2",
     "rc-slider": "^9.7.5",
     "react": "^17.0.2",
+    "react-bootstrap": "^2.1.2",
     "react-chartjs-2": "^4.0.0",
     "react-csv": "^2.2.1",
     "react-csv-to-table": "^0.0.4",

@@ -1,20 +1,14 @@
-import { useState, useEffect } from "react";
 import "./App.css";
-import Main from "./Components/Main";
-
+import UploadFile from "./Components/UploadFile";
+import Navbar from 'react-bootstrap/Navbar'
 function App() {
-  const [articles, setArticles] = useState([]);
-
-
   return (
-    <div className="App container m-4">
-      <div className="row">
-        <div className="text-center">
-          <h1>Visualization Project</h1>
-        </div>
-      </div>
-
-      <Main />
+    <div>
+      <Navbar style={{paddingLeft: "30px"}} bg="dark" variant="dark">
+          <Navbar.Brand>Data Visualization Tool</Navbar.Brand>
+      </Navbar>
+  
+      <UploadFile />
     </div>
   );
 }

@@ -42,7 +42,6 @@ const styles = {
     overflow_x: 'hidden',
     padding_top: '20px',
     left: 0,
-    backgroud_color: 'red',
     width: '55%',
     marginTop: '7%',
     marginLeft: '26%',

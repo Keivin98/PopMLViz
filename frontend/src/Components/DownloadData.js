@@ -19,7 +19,7 @@ class DownloadData extends Component {
 
   render() {
     return (
-      <div style={styles.download}>
+      <div className="block-example border border-light" style={styles.download}>
         <label>
           <input
             name="outliers"

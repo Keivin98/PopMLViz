@@ -48,7 +48,6 @@ class App extends Component {
           overflow_x: "hidden",
           padding_top: "20px",
           left: 0,
-          backgroud_color: "red",
           width: "55%",
           marginTop: "10%",
           marginLeft: "30%",
@@ -1259,7 +1258,7 @@ class App extends Component {
         </div>
 
         <div
-          className="block-example border border-dark"
+          className="block-example border border-light"
           style={styles.rightPane}
         >
           {this.state.isLoading && (
@@ -1342,18 +1341,10 @@ class App extends Component {
                   )}
                 </div>
 
-          <hr
-            style={{
-              color: "black",
-              backgroundColor: "black",
-              height: 3,
-              opacity: 1,
-            }}
-          />
           <div
             style={{
-              width: "250px",
-              paddingVertical: "20px",
+              width: "280px",
+              marginTop: "20px",
             }}
           >
             Choose the outlier detection method
@@ -1395,7 +1386,7 @@ class App extends Component {
             <Button 
               variant="outlined" 
               onClick={this.detectOutliers} 
-              style={{ marginTop: "20px" }} 
+              style={{ marginLeft: "40px",  }} 
               disabled = {
                 (
                   this.state.pressed !== 0 && 
@@ -1437,7 +1428,6 @@ const styles = {
     overflow_x: "hidden",
     padding_top: "20px",
     left: 0,
-    backgroud_color: "red",
     width: "40%",
     marginTop: "5%",
     marginLeft: "5%",
@@ -1454,12 +1444,11 @@ const styles = {
     marginRight: "10px",
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: 10
+    borderRadius: 10,
   },
   radioButtons: {
     display: "flex",
     flexDirection: "column",
-    color: "blue",
     marginTop: "10px",
   },
   dimensions: {
