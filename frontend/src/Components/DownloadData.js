@@ -34,7 +34,6 @@ class DownloadData extends Component {
                 for (var i = 0; i < this.state.data.length; i++) {
                   var row = this.state.data[i];
                   var outlierInp = !this.state.pressed;
-                  console.log(this.props.columnRange);
                   for (
                     var j = this.props.columnRange[0];
                     j <= this.props.columnRange[1];

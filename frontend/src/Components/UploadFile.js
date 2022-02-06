@@ -10,6 +10,9 @@ import Incrementor from "./Incrementor";
 import DownloadData from "./DownloadData";
 import OutlierBlock from "./OutlierBlock";
 import { Button } from "@material-ui/core";
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import TabOutputOptions from "./TabOutputOptions"
+import 'react-tabs/style/react-tabs.css';
 
 const randomColors = [
   "#1aa52a",
@@ -54,6 +57,7 @@ class App extends Component {
         }}
       />
     ),
+    cluster_names: {},
     DRAlgorithm: "",
     DRActions: [
       {
@@ -378,7 +382,7 @@ class App extends Component {
       for (var k = 0; k < num_clusters; k += 1) {
         if(outliers){
           data_new.push({
-            name: "Cluster " + k + " Outliers",
+            name: "Outliers" + this.state.cluster_names[k],
             x: x_clusters_outliers[k],
             y: y_clusters_outliers[k],
             mode: "markers",
@@ -387,7 +391,7 @@ class App extends Component {
           });
         }
         data_new.push({
-          name: "Cluster " + k,
+          name: this.state.cluster_names[k],
           x: x_clusters[k],
           y: y_clusters[k],
           mode: "markers",
@@ -840,6 +844,7 @@ class App extends Component {
     return <ScatterPlot data={data_new} layout={layout} />;
   };
 
+  
   processData = async (dataString, outliers) => {
     const dataStringLines = dataString.split(/\r\n|\n/);
     const headers = dataStringLines[0].split(
@@ -1016,11 +1021,16 @@ class App extends Component {
         },
       })
       .then((r) => {
+        var cluster_names = {}; 
+        [...Array(num_clusters)].map((x, index) => {
+          cluster_names[index] = index;
+        });
         // console.log(r);
         this.setState({
           isLoading: false,
           selectedUploadOption: "PCA",
           clusterColors: r.data,
+          cluster_names: cluster_names,
         });
         if (
           this.state.selectedOption === "2D" ||
@@ -1195,6 +1205,11 @@ class App extends Component {
     console.log(data);
     this.setState({columnRange: data.columnRange});
   }
+
+  handleTabOutputCallback = (cluster_names) => {
+    console.log(cluster_names);
+    this.setState({cluster_names: cluster_names});
+  }
   
   render() {
     
@@ -1314,7 +1329,13 @@ class App extends Component {
           {!this.state.isLoading && (
             <div>
               {this.showScatterPlot()}
-                <div className="container" style={styles.optionsContainer}>
+              <Tabs style={styles.optionsContainer}>
+                  <TabList>
+                    <Tab>Settings</Tab>
+                    <Tab>Output Options</Tab>
+                  </TabList>
+
+                  <TabPanel>
                     <div className="radio" style={styles.dimensions}>
                       <label>
                         <input
@@ -1454,7 +1475,11 @@ class App extends Component {
                     columnRange={this.state.columnRange}
                   />
                 )}
-              </div>
+                  </TabPanel>
+                  <TabPanel style={styles.outputSettings}>
+                    <TabOutputOptions uniqueClusters = {num_clusters} parentCallback = {this.handleTabOutputCallback} />
+                  </TabPanel>
+                </Tabs>
             </div>
           )}
         </div>
@@ -1505,19 +1530,25 @@ const styles = {
     justifyContent: "space-around",
 
   },
+  outputSettings:{
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-around",
+  },
+
   dropDown: {
     width: "200px",
   },
   optionsContainer: {
-    height: "45%",
     position: "fixed",
+    right: "3%",
+    top: 0, 
+    height: "45%",
     display: "flex",
     flexDirection: "column",
-    top: 0,
-    right: '4%',
     width: "15%",
-    marginTop: "10%",
-    justifyContent: "center",
+    marginTop: "7%",
+    // marginLeft: "175%"
   },
 };
 export default App;

@@ -18,6 +18,8 @@ app = create_app()
 def runKmeans():
 	request_filename = request.get_json()['filename']
 	num_clusters = request.get_json()['num_clusters']
+	if num_clusters < 2:
+		num_clusters = 2
 	input_path = './data/PCA/' + request_filename
 	# print(input_path)
 	pca_df = pd.read_csv(input_path)
