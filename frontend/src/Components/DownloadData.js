@@ -128,8 +128,8 @@ const styles = {
     flexDirection: "column",
     position: "fixed",
     bottom: "15%",
-    right: "5%",
-    width: "250px",
+    right: "7%",
+    width: "10%",
     padding: '20px',
     border: `3px solid`,
     borderRadius: 10

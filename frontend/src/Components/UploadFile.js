@@ -15,14 +15,19 @@ import TabOutputOptions from "./TabOutputOptions"
 import 'react-tabs/style/react-tabs.css';
 
 const randomColors = [
-  "#1aa52a",
-  "#7ddaed",
-  "#0740ba",
-  "#a3a6ed",
+  "#3f91ba",
+  "#801f65",
+  "#86af43",
+  "#d73521",
+  "#1d4c91",
+  "#2c663b",
   "#cc9d3f",
+  "#ff7ae6",
   "#d87368",
   "#99f7a2",
-  "#ff7ae6",
+  "#a3a6ed",
+  "#0740ba",
+  "#277f05"
 ];
 var selectedOutlierMethod = null;
 Chart.register(...registerables);
@@ -203,7 +208,6 @@ class App extends Component {
               uniqueTags.push(categoricalData[catID])
           };
         }
-        console.log("hey", uniqueTags)
       var data_new = [];
       for (var colID = 0; colID < uniqueTags.length; colID ++){
         data_new.push({
@@ -223,7 +227,6 @@ class App extends Component {
     if (this.state.data != null && y != null) {
       for (var i = 0; i < this.state.data.length; i++) {
         var categoryID = uniqueTags.indexOf(categoricalData[i]);
-        console.log("yo", categoryID);
         (data_new[categoryID].x).push(i); 
         (data_new[categoryID].y).push(this.state.data[i][y]);
         cluster_texts.push(this.state.data[i]["PC1"]);
@@ -496,7 +499,7 @@ class App extends Component {
       var data_new = [];
       for (var k = 0; k < num_clusters; k += 1) {
         data_new.push({
-          name: "Cluster " + k,
+          name: this.state.cluster_names[k],
           x: x_clusters[k],
           y: y_clusters[k],
           mode: "markers",
@@ -695,7 +698,7 @@ class App extends Component {
 
       for (var k = 0; k < num_clusters; k += 1) {
         data_new.push({
-          name: "Cluster " + k,
+          name: this.state.cluster_names[k],
           x: x_clusters[k],
           y: y_clusters[k],
           z: z_clusters[k],
