@@ -19,7 +19,7 @@ class DownloadData extends Component {
 
   render() {
     return (
-      <div className="block-example border border-light" style={styles.download}>
+      <div className="block-example border-light" style={styles.download}>
         <label>
           <input
             name="outliers"
@@ -127,11 +127,12 @@ const styles = {
     display: "flex",
     flexDirection: "column",
     position: "fixed",
-    bottom: "12%",
-    right: "3%",
+    bottom: "15%",
+    right: "5%",
     width: "250px",
     padding: '20px',
-    border: '1px solid black'
+    border: `3px solid`,
+    borderRadius: 10
   },
 };
 export default DownloadData;

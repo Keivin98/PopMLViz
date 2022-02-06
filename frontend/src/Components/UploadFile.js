@@ -208,6 +208,8 @@ class App extends Component {
           title: "1D plot of " + y,
           xaxis: { title: "MappingID2" },
           yaxis: { title: y },
+          height: 680,
+          width: 850
         }}
       />
     );
@@ -260,6 +262,8 @@ class App extends Component {
           title: "1D plot of " + y,
           xaxis: { title: "MappingID2" },
           yaxis: { title: y },
+          height: 680,
+          width: 850
         }}
       />
     );
@@ -333,6 +337,8 @@ class App extends Component {
           title: "1D plot of " + y,
           xaxis: { title: "MappingID2" },
           yaxis: { title: y },
+          height: 680,
+          width: 850
         }}
       />
     );
@@ -400,7 +406,10 @@ class App extends Component {
         });
       }
     }
-    return <ScatterPlot data={data_new} />;
+    return <ScatterPlot data={data_new} layout={{
+                                                height: 680,
+                                                width: 850
+                                              }}/>;
   }
   scatter2d = (x, y) => {
     var x1 = [];
@@ -435,6 +444,8 @@ class App extends Component {
           title: "2D plot of " + x + " and " + y,
           xaxis: { title: x },
           yaxis: { title: y },
+          height: 680,
+          width: 850
         }}
       />
     );
@@ -487,6 +498,8 @@ class App extends Component {
           title: "2D plot of " + x + " and " + y,
           xaxis: { title: x },
           yaxis: { title: y },
+          height: 680,
+          width: 850
         }}
       />
     );
@@ -605,7 +618,10 @@ class App extends Component {
           title: "2D plot of " + x + " and " + y,
           xaxis: { title: x },
           yaxis: { title: y },
+          height: 680,
+          width: 850
         }}
+        
       />
     );
   };
@@ -680,7 +696,7 @@ class App extends Component {
           },
         },
         title: "3D scatter plot",
-        width: 800,
+        width: 850,
       };
     }
 
@@ -770,7 +786,7 @@ class App extends Component {
         },
       },
       title: "3d point clustering",
-      width: 800,
+      width: 850,
     };
 
     // console.log("before scatter 3d");
@@ -888,7 +904,7 @@ class App extends Component {
           },
         },
         title: "3D scatter plot",
-        width: 800,
+        width: 850,
       };
     }
 
@@ -1155,7 +1171,7 @@ class App extends Component {
       this.state.selectedColumns[1] === null &&
       this.state.selectedColumns[2] === null
     ) {
-      return <ScatterPlot data={[]} />;
+      return <ScatterPlot data={[]} layout={{height: 680, width: 850}}/>;
     } else if (
       this.state.selectedColumns[1] === null &&
       this.state.selectedColumns[2] === null
@@ -1581,6 +1597,7 @@ const styles = {
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-around",
+    
 
   },
   outputSettings:{
@@ -1590,18 +1607,24 @@ const styles = {
   },
 
   dropDown: {
-    width: "200px",
+    width: "250px",
+    display: "flex",
+    flexDirection: "row",
+    padding: "5px",
+    justifyContent: 'space-around'
   },
   optionsContainer: {
     position: "fixed",
     right: "3%",
     top: 0, 
-    height: "45%",
+    height: "75%",
     display: "flex",
     flexDirection: "column",
-    width: "15%",
+    width: "18%",
+    padding: "10px",
     marginTop: "7%",
-    // marginLeft: "175%"
+    backgroundColor: "#ebeff7",
+    borderRadius: 10
   },
 };
 export default App;
