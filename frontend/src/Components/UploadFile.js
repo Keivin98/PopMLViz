@@ -208,6 +208,58 @@ class App extends Component {
       />
     );
   };
+  scatter1dCategorical = (y, distributionData, categoricalData, outliers) => {
+
+    var cluster_texts = [];
+    var uniqueTags = [];
+    if (distributionData != null) {
+      // find unique values
+      for (var catID = 0; catID < categoricalData.length; catID ++){
+          if (uniqueTags.indexOf(categoricalData[catID]) === -1) {
+              uniqueTags.push(categoricalData[catID])
+          };
+        }
+        console.log("hey", uniqueTags)
+      var data_new = [];
+      for (var colID = 0; colID < uniqueTags.length; colID ++){
+        data_new.push({
+          name: uniqueTags[colID],
+          x: [],
+          y: [],
+          mode: "markers",
+          marker: { color: randomColors[colID] },
+          text: "",
+          hovertemplate:
+            "<i>(%{x}, %{y:.4f}) </i>" +
+            "<br><b>Mapping ID</b>:%{text}</b></br>",
+        });
+      }
+    }
+    // console.log(distributionData);
+    if (this.state.data != null && y != null) {
+      for (var i = 0; i < this.state.data.length; i++) {
+        var categoryID = uniqueTags.indexOf(categoricalData[i]);
+        console.log("yo", categoryID);
+        (data_new[categoryID].x).push(i); 
+        (data_new[categoryID].y).push(this.state.data[i][y]);
+        cluster_texts.push(this.state.data[i]["PC1"]);
+      }
+    }
+    for (colID = 0; colID < uniqueTags.length; colID ++){
+      data_new.text = cluster_texts;
+    }
+
+    return (
+      <ScatterPlot
+        data={data_new}
+        layout={{
+          title: "1D plot of " + y,
+          xaxis: { title: "MappingID2" },
+          yaxis: { title: y },
+        }}
+      />
+    );
+  };
   scatter1dWithColumns = (y, distributionData, outliers) => {
     var x1 = [];
     var x2 = [];
@@ -344,9 +396,6 @@ class App extends Component {
         });
       }
     }
-
-    // console.log("before scatter");
-
     return <ScatterPlot data={data_new} />;
   }
   scatter2d = (x, y) => {
@@ -1021,13 +1070,12 @@ class App extends Component {
   };
 
   handleSpecificColumns = (event) => {
+    console.log(this.state.data);
     this.setState({
       distributionData:
         event.label === "None"
           ? []
-          : this.state.data.map((elem) => {
-              return parseInt(elem[event.label], 10);
-            }),
+          : this.state.data.map(elem => elem[event.label])
     });
   };
 
@@ -1057,7 +1105,6 @@ class App extends Component {
       ) {
         if (this.state.OutlierData.length > 0) {
           if (this.state.clusterColors.length > 0) {
-            console.log('here')
             return this.scatter1dWithClusters(x, true);
           }
           else{
@@ -1071,7 +1118,7 @@ class App extends Component {
             );
           }
         } else if (distributionData.length > 0) {
-          return this.scatter1dWithColumns(x, distributionData);
+          return this.scatter1dCategorical(x, distributionData, distributionData);
         } else {
           return this.scatter1dWithClusters(x, false);
         }
@@ -1267,137 +1314,138 @@ class App extends Component {
           {!this.state.isLoading && (
             <div>
               {this.showScatterPlot()}
-              <div className="container" style={styles.optionsContainer}>
-                <div className="radio" style={styles.dimensions}>
-                  <label>
-                    <input
-                      type="radio"
-                      value="1D"
-                      checked={this.state.selectedOption === "1D"}
-                      onChange={this.onValueChange1D}
-                    />
-                    1D
-                  </label>
-                  <label>
-                    <input
-                      type="radio"
-                      value="2D"
-                      checked={this.state.selectedOption === "2D"}
-                      onChange={this.onValueChange2D}
-                    />
-                    2D
-                  </label>
-                  <div className="radio">
+                <div className="container" style={styles.optionsContainer}>
+                    <div className="radio" style={styles.dimensions}>
+                      <label>
+                        <input
+                        type="radio"
+                        value="1D"
+                        checked={this.state.selectedOption === "1D"}
+                        onChange={this.onValueChange1D}
+                      />
+                      1D
+                    </label>
                     <label>
                       <input
                         type="radio"
-                        value="3D"
-                        checked={this.state.selectedOption === "3D"}
-                        onChange={this.onValueChange3D}
+                        value="2D"
+                        checked={this.state.selectedOption === "2D"}
+                        onChange={this.onValueChange2D}
                       />
-                      3D
+                      2D
                     </label>
+                    <div className="radio">
+                      <label>
+                        <input
+                          type="radio"
+                          value="3D"
+                          checked={this.state.selectedOption === "3D"}
+                          onChange={this.onValueChange3D}
+                        />
+                        3D
+                      </label>
+                    </div>
                   </div>
-                </div>
-                <div className="row">
-                  <div className="row-md-8"></div>
+                  <div className="row">
+                    <div className="row-md-8"></div>
 
-                  <div className="row-md-8" style={styles.dropDown}>
-                    X-axis
-                    <Select
-                      options={this.state.selectActions}
-                      onChange={this.handleSelectXChange}
-                    />
-                  </div>
-                  {(this.state.selectedOption === "2D" ||
-                    this.state.selectedOption === "3D") && (
                     <div className="row-md-8" style={styles.dropDown}>
-                      Y-axis
+                      X-axis
                       <Select
                         options={this.state.selectActions}
-                        onChange={this.handleSelectYChange}
+                        onChange={this.handleSelectXChange}
                       />
                     </div>
-                  )}
-                  {this.state.selectedOption === "3D" && (
-                    <div className="row-md-8" style={styles.dropDown}>
-                      Z-axis
-                      <Select
-                        options={this.state.selectActions}
-                        onChange={this.handleSelectZChange}
-                        style={styles.dropDown}
-                      />
-                    </div>
-                  )}
-                  {this.state.multiValue.length > 0 && (
-                    <div className="row-md-8" style={styles.dropDown}>
-                      Choose Describing Column
-                      <Select
-                        options={this.state.multiValue}
-                        onChange={this.handleSpecificColumns}
-                        style={styles.dropDown}
-                      />
-                    </div>
-                  )}
-                </div>
+                    {(this.state.selectedOption === "2D" ||
+                      this.state.selectedOption === "3D") && (
+                      <div className="row-md-8" style={styles.dropDown}>
+                        Y-axis
+                        <Select
+                          options={this.state.selectActions}
+                          onChange={this.handleSelectYChange}
+                        />
+                      </div>
+                    )}
+                    {this.state.selectedOption === "3D" && (
+                      <div className="row-md-8" style={styles.dropDown}>
+                        Z-axis
+                        <Select
+                          options={this.state.selectActions}
+                          onChange={this.handleSelectZChange}
+                          style={styles.dropDown}
+                        />
+                      </div>
+                    )}
+                    {this.state.multiValue.length > 0 && (
+                      <div className="row-md-8" style={styles.dropDown}>
+                        Choose Describing Column
+                        <Select
+                          options={this.state.multiValue}
+                          onChange={this.handleSpecificColumns}
+                          style={styles.dropDown}
+                        />
+                      </div>
+                    )}
+                  </div>
 
-          <div
-            style={{
-              width: "280px",
-              marginTop: "20px",
-            }}
-          >
-            Choose the outlier detection method
-            <Select
-              options={this.state.selectOutlierActions}
-              onChange={this.handleOutlierChange}
-            />
-            
-            <OutlierBlock onChange={this.handleOutlierColumnChange}/>
             <div
               style={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "space-around",
-                padding: '20px'
+                width: "280px",
+                marginTop: "20px",
               }}
             >
-              <Button variant="outlined"  
-                onClick={() => this.state.pressed === 0 ? this.setState({ pressed: -1 }) : this.setState({ pressed: 0})}
+              Choose the outlier detection method
+              <Select
+                options={this.state.selectOutlierActions}
+                onChange={this.handleOutlierChange}
+              />
+              
+              <OutlierBlock onChange={this.handleOutlierColumnChange}/>
+              <div
                 style={{
-                  marginTop: "20px",
-                  backgroundColor:
-                    this.state.pressed === 0 ? "green" : "transparent",
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-around",
+                  padding: '20px'
                 }}
               >
-                AND
-              </Button>
-              <Button variant="outlined"  
-                onClick={() => this.state.pressed === 1 ? this.setState({ pressed: -1 }) : this.setState({ pressed: 1})}
-                style={{
-                  marginTop: "20px",
-                  backgroundColor:
-                    this.state.pressed === 1 ? "green" : "transparent",
-                }}
+                <Button variant="outlined"  
+                  onClick={() => this.state.pressed === 0 ? this.setState({ pressed: -1 }) : this.setState({ pressed: 0})}
+                  style={{
+                    marginTop: "20px",
+                    backgroundColor:
+                      this.state.pressed === 0 ? "green" : "transparent",
+                  }}
+                >
+                  AND
+                </Button>
+                <Button variant="outlined"  
+                  onClick={() => this.state.pressed === 1 ? this.setState({ pressed: -1 }) : this.setState({ pressed: 1})}
+                  style={{
+                    marginTop: "20px",
+                    backgroundColor:
+                      this.state.pressed === 1 ? "green" : "transparent",
+                  }}
+                >
+                  OR
+                </Button>
+              </div>
+              <Button 
+                variant="outlined" 
+                onClick={this.detectOutliers} 
+                style={{ marginLeft: "40px",  }} 
+                disabled = {
+                  (
+                    this.state.pressed !== 0 && 
+                    this.state.pressed !== 1
+                  ) 
+                  || selectedOutlierMethod == null 
+                  }
               >
-                OR
+                Detect Outliers
               </Button>
             </div>
-            <Button 
-              variant="outlined" 
-              onClick={this.detectOutliers} 
-              style={{ marginLeft: "40px",  }} 
-              disabled = {
-                (
-                  this.state.pressed !== 0 && 
-                  this.state.pressed !== 1
-                ) 
-                || selectedOutlierMethod == null 
-                }
-            >
-              Detect Outliers
-            </Button>
-          </div>
+
                 {this.state.data !== null && (
                   <DownloadData
                     data={this.state.data}
