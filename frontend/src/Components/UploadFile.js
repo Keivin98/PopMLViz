@@ -40,23 +40,6 @@ class App extends Component {
     data: null,
     distributionData: [],
     pressed: -1,
-    scatter: (
-      <Plot
-        data={[]}
-        style={{
-          height: "70%",
-          position: "fixed",
-          z_index: 1,
-          top: 0,
-          overflow_x: "hidden",
-          padding_top: "20px",
-          left: 0,
-          width: "55%",
-          marginTop: "10%",
-          marginLeft: "30%",
-        }}
-      />
-    ),
     cluster_names: {},
     DRAlgorithm: "",
     DRActions: [
@@ -195,21 +178,16 @@ class App extends Component {
             "<i>(%{x}, %{y:.4f}) </i>" +
             "<br><b>Mapping ID</b>:%{text}</b></br>",
           marker: { color: randomColors[0] },
-          //   type: "bar",
         },
       ];
     }
-    // console.log("before scatter");
     return (
       <ScatterPlot
         data={data_new}
-        // style={styles.scatterContainer}
         layout={{
           title: "1D plot of " + y,
           xaxis: { title: "MappingID2" },
           yaxis: { title: y },
-          height: 680,
-          width: 850
         }}
       />
     );
@@ -262,8 +240,6 @@ class App extends Component {
           title: "1D plot of " + y,
           xaxis: { title: "MappingID2" },
           yaxis: { title: y },
-          height: 680,
-          width: 850
         }}
       />
     );
@@ -337,8 +313,6 @@ class App extends Component {
           title: "1D plot of " + y,
           xaxis: { title: "MappingID2" },
           yaxis: { title: y },
-          height: 680,
-          width: 850
         }}
       />
     );
@@ -406,10 +380,7 @@ class App extends Component {
         });
       }
     }
-    return <ScatterPlot data={data_new} layout={{
-                                                height: 680,
-                                                width: 850
-                                              }}/>;
+    return <ScatterPlot data={data_new} />;
   }
   scatter2d = (x, y) => {
     var x1 = [];
@@ -444,8 +415,6 @@ class App extends Component {
           title: "2D plot of " + x + " and " + y,
           xaxis: { title: x },
           yaxis: { title: y },
-          height: 680,
-          width: 850
         }}
       />
     );
@@ -498,8 +467,6 @@ class App extends Component {
           title: "2D plot of " + x + " and " + y,
           xaxis: { title: x },
           yaxis: { title: y },
-          height: 680,
-          width: 850
         }}
       />
     );
@@ -618,8 +585,6 @@ class App extends Component {
           title: "2D plot of " + x + " and " + y,
           xaxis: { title: x },
           yaxis: { title: y },
-          height: 680,
-          width: 850
         }}
         
       />
@@ -655,7 +620,6 @@ class App extends Component {
       ];
       var layout = {
         autosize: true,
-        height: 680,
         scene: {
           aspectratio: {
             x: 1,
@@ -696,7 +660,6 @@ class App extends Component {
           },
         },
         title: "3D scatter plot",
-        width: 850,
       };
     }
 
@@ -745,7 +708,6 @@ class App extends Component {
 
     var layout = {
       autosize: true,
-      height: 680,
       scene: {
         aspectratio: {
           x: 1,
@@ -786,7 +748,6 @@ class App extends Component {
         },
       },
       title: "3d point clustering",
-      width: 850,
     };
 
     // console.log("before scatter 3d");
@@ -863,7 +824,6 @@ class App extends Component {
       ];
       var layout = {
         autosize: true,
-        height: 680,
         scene: {
           aspectratio: {
             x: 1,
@@ -904,7 +864,6 @@ class App extends Component {
           },
         },
         title: "3D scatter plot",
-        width: 850,
       };
     }
 
@@ -1171,7 +1130,7 @@ class App extends Component {
       this.state.selectedColumns[1] === null &&
       this.state.selectedColumns[2] === null
     ) {
-      return <ScatterPlot data={[]} layout={{height: 680, width: 850}}/>;
+      return <ScatterPlot data={[]} />;
     } else if (
       this.state.selectedColumns[1] === null &&
       this.state.selectedColumns[2] === null
@@ -1405,16 +1364,17 @@ class App extends Component {
 
                   <TabPanel>
                     <div className="radio" style={styles.dimensions}>
-                      <label>
+                      <h6>Plot: </h6>
+                      <label style={{marginLeft : "10%"}}>
                         <input
                         type="radio"
                         value="1D"
                         checked={this.state.selectedOption === "1D"}
-                        onChange={this.onValueChange1D}
+                        onChange={this.onValueChange1D}                        
                       />
                       1D
                     </label>
-                    <label>
+                    <label style={{marginLeft : "10%"}}>
                       <input
                         type="radio"
                         value="2D"
@@ -1423,8 +1383,7 @@ class App extends Component {
                       />
                       2D
                     </label>
-                    <div className="radio">
-                      <label>
+                    <label style={{marginLeft : "10%"}}>
                         <input
                           type="radio"
                           value="3D"
@@ -1433,45 +1392,53 @@ class App extends Component {
                         />
                         3D
                       </label>
-                    </div>
                   </div>
                   <div className="row">
                     <div className="row-md-8"></div>
 
-                    <div className="row-md-8" style={styles.dropDown}>
-                      X-axis
+                    <div style={styles.dropDown}>
+                      <label style= {{width : '15%', marginLeft: "3%"}} > 
+                      <h6> X-axis </h6></label>
+                      <div style= {{width : '50%'}} >
                       <Select
                         options={this.state.selectActions}
                         onChange={this.handleSelectXChange}
                       />
+                      </div>
                     </div>
                     {(this.state.selectedOption === "2D" ||
                       this.state.selectedOption === "3D") && (
-                      <div className="row-md-8" style={styles.dropDown}>
-                        Y-axis
+                      <div style={styles.dropDown}>
+                        <label style= {{width : '15%', marginLeft: "3%"}} >
+                        <h6> Y-axis </h6>
+                        </label>
+                      <div style= {{width : '50%'}} >
                         <Select
                           options={this.state.selectActions}
                           onChange={this.handleSelectYChange}
                         />
                       </div>
+                      </div>
                     )}
                     {this.state.selectedOption === "3D" && (
-                      <div className="row-md-8" style={styles.dropDown}>
-                        Z-axis
+                      <div style={styles.dropDown}>
+                        <label style= {{width : '15%', marginLeft: "3%"}} > 
+                        <h6> Z-axis </h6>
+                        </label>
+                      <div style= {{width : '50%'}} >
                         <Select
                           options={this.state.selectActions}
                           onChange={this.handleSelectZChange}
-                          style={styles.dropDown}
                         />
+                      </div>
                       </div>
                     )}
                     {this.state.multiValue.length > 0 && (
                       <div className="row-md-8" style={styles.dropDown}>
-                        Choose Describing Column
+                        <h6>Choose Describing Column</h6>
                         <Select
                           options={this.state.multiValue}
                           onChange={this.handleSpecificColumns}
-                          style={styles.dropDown}
                         />
                       </div>
                     )}
@@ -1479,11 +1446,12 @@ class App extends Component {
 
             <div
               style={{
-                width: "280px",
-                marginTop: "20px",
+                width: "90%",
+                marginTop: "3%",
+                marginLeft: "3%"
               }}
             >
-              Choose the outlier detection method
+              <h6>Choose the outlier detection method</h6>
               <Select
                 options={this.state.selectOutlierActions}
                 onChange={this.handleOutlierChange}
@@ -1522,7 +1490,7 @@ class App extends Component {
               <Button 
                 variant="outlined" 
                 onClick={this.detectOutliers} 
-                style={{ marginLeft: "40px",  }} 
+                style={{ marginLeft: "30%",  }} 
                 disabled = {
                   (
                     this.state.pressed !== 0 && 
@@ -1572,7 +1540,7 @@ const styles = {
     left: 0,
     width: "40%",
     marginTop: "5%",
-    marginLeft: "5%",
+    marginLeft: "3%",
   },
   rightPane: {
     height: "85%",
@@ -1596,9 +1564,9 @@ const styles = {
   dimensions: {
     display: "flex",
     flexDirection: "row",
-    justifyContent: "space-around",
-    
-
+    justifyContent: "baseline",
+    marginLeft: '3%',
+    width: "90%",
   },
   outputSettings:{
     display: "flex",
@@ -1607,11 +1575,11 @@ const styles = {
   },
 
   dropDown: {
-    width: "250px",
+    width: "100%",
     display: "flex",
     flexDirection: "row",
-    padding: "5px",
-    justifyContent: 'space-around'
+    padding: "10px",
+    justifyContent: 'baseline'
   },
   optionsContainer: {
     position: "fixed",

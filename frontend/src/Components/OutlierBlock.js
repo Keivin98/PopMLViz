@@ -29,7 +29,7 @@ class OutlierBlock extends Component {
         }}
       >
         <Typography id="range-slider" gutterBottom>
-              Columns:
+              <h6>Columns: </h6>
         </Typography>
         <div  
             style={{

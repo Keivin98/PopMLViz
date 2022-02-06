@@ -13,17 +13,11 @@ class ScatterPlot extends Component {
 
   render() {
     return (
-      <div
-        style={{
-          marginTop: '30px',
-          display: 'flex',
-          flexDirection: 'column',
-        }}
-      >
+      <div >
         <Plot
           data={this.props.data}
-          style={styles.scatterContainer}
           layout={this.props.layout}
+          style={styles.scatterContainer}
         />
       </div>
     );
@@ -35,16 +29,15 @@ ScatterPlot.propTypes = {
 };
 const styles = {
   scatterContainer: {
-    height: '75%',
     position: 'fixed',
     z_index: 1,
     top: 0,
     overflow_x: 'hidden',
-    padding_top: '20px',
     left: 0,
-    width: '55%',
     marginTop: '7%',
     marginLeft: '26%',
+    width: "50%",
+    height: "75%"
   },
 };
 export default ScatterPlot;
