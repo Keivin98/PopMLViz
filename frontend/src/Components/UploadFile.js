@@ -382,7 +382,7 @@ class App extends Component {
       for (var k = 0; k < num_clusters; k += 1) {
         if(outliers){
           data_new.push({
-            name: "Outliers" + this.state.cluster_names[k],
+            name: "Outliers " + this.state.cluster_names[k],
             x: x_clusters_outliers[k],
             y: y_clusters_outliers[k],
             mode: "markers",
@@ -428,6 +428,58 @@ class App extends Component {
         },
       ];
     }
+    return (
+      <ScatterPlot
+        data={data_new}
+        layout={{
+          title: "2D plot of " + x + " and " + y,
+          xaxis: { title: x },
+          yaxis: { title: y },
+        }}
+      />
+    );
+  };
+  scatter2dCategorical = (x, y, distributionData, categoricalData, outliers) => {
+
+    var cluster_texts = [];
+    var uniqueTags = [];
+    if (distributionData != null) {
+      // find unique values
+      for (var catID = 0; catID < categoricalData.length; catID ++){
+          if (uniqueTags.indexOf(categoricalData[catID]) === -1) {
+              uniqueTags.push(categoricalData[catID])
+          };
+        }
+        console.log("hey", uniqueTags)
+      var data_new = [];
+      for (var colID = 0; colID < uniqueTags.length; colID ++){
+        data_new.push({
+          name: uniqueTags[colID],
+          x: [],
+          y: [],
+          mode: "markers",
+          marker: { color: randomColors[colID] },
+          text: "",
+          hovertemplate:
+            "<i>(%{x}, %{y:.4f}) </i>" +
+            "<br><b>Mapping ID</b>:%{text}</b></br>",
+        });
+      }
+    }
+    // console.log(distributionData);
+    if (this.state.data != null && y != null) {
+      for (var i = 0; i < this.state.data.length; i++) {
+        var categoryID = uniqueTags.indexOf(categoricalData[i]);
+        // console.log("yo", categoryID);
+        (data_new[categoryID].x).push(this.state.data[i][x]); 
+        (data_new[categoryID].y).push(this.state.data[i][y]);
+        cluster_texts.push(this.state.data[i]["PC1"]);
+      }
+    }
+    for (colID = 0; colID < uniqueTags.length; colID ++){
+      data_new.text = cluster_texts;
+    }
+
     return (
       <ScatterPlot
         data={data_new}
@@ -1157,7 +1209,7 @@ class App extends Component {
             true
           );
         } else if (distributionData.length > 0) {
-          return this.scatter2dWithColumns(x, y, distributionData);
+          return this.scatter2dCategorical(x, y, distributionData, distributionData);
         } else {
           return this.scatter2dWithClusters(x, y);
         }
@@ -1473,6 +1525,7 @@ class App extends Component {
                     clusterColors={this.state.clusterColors}
                     OutlierData={this.state.OutlierData}
                     columnRange={this.state.columnRange}
+                    clusterNames={this.state.cluster_names}
                   />
                 )}
                   </TabPanel>

@@ -78,7 +78,7 @@ class DownloadData extends Component {
                   var row = this.state.data[i];
                   row = {
                     ...row,
-                    cluster: this.state.clusterColors[i],
+                    cluster: this.props.clusterNames[this.state.clusterColors[i]],
                   };
                   newData = [...newData, row];
                 }
@@ -119,6 +119,7 @@ DownloadData.propTypes = {
   OutlierData: PropTypes.array,
   clusterColors: PropTypes.array,
   columnRange: PropTypes.array,
+  clusterNames: PropTypes.object,
 };
 
 const styles = {
