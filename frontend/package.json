@@ -5,6 +5,7 @@
   "dependencies": {
     "@emotion/react": "^11.7.1",
     "@emotion/styled": "^11.6.0",
+    "@material-ui/core": "^4.12.3",
     "@mui/material": "^5.2.5",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^11.2.7",
@@ -13,7 +14,9 @@
     "chart.js": "^3.6.2",
     "plotly.js": "^2.8.3",
     "randomcolor": "^0.6.2",
+    "rc-slider": "^9.7.5",
     "react": "^17.0.2",
+    "react-bootstrap": "^2.1.2",
     "react-chartjs-2": "^4.0.0",
     "react-csv": "^2.2.1",
     "react-csv-to-table": "^0.0.4",
@@ -23,6 +26,8 @@
     "react-promise-tracker": "^2.1.0",
     "react-scripts": "4.0.3",
     "react-select": "^5.2.1",
+    "react-tabs": "^3.2.3",
+    "rsuite": "^5.5.2",
     "serve": "^13.0.2",
     "styled-components": "^5.3.3",
     "web-vitals": "^1.1.2",
@@ -59,9 +64,7 @@
   },
   "devDependencies": {
     "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-prettier": "^4.0.0",
     "file-loader": "^6.2.0",
-    "prettier": "^2.5.1",
     "url-loader": "^4.1.1"
   }
 }
