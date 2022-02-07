@@ -197,11 +197,11 @@ class App extends Component {
       />
     );
   };
-  scatter1dCategorical = (y, distributionData, categoricalData, outliers) => {
+  scatterCategorical = (DIM, x, y, z, categoricalData) => {
 
     var cluster_texts = [];
     var uniqueTags = [];
-    if (distributionData != null) {
+    if (categoricalData != null) {
       // find unique values
       for (var catID = 0; catID < categoricalData.length; catID ++){
           if (uniqueTags.indexOf(categoricalData[catID]) === -1) {
@@ -224,11 +224,16 @@ class App extends Component {
       }
     }
     // console.log(distributionData);
-    if (this.state.data != null && y != null) {
+    if (this.state.data != null ) {
       for (var i = 0; i < this.state.data.length; i++) {
         var categoryID = uniqueTags.indexOf(categoricalData[i]);
-        (data_new[categoryID].x).push(i); 
-        (data_new[categoryID].y).push(this.state.data[i][y]);
+        if(DIM === 0){
+          (data_new[categoryID].x).push(i); 
+          (data_new[categoryID].y).push(this.state.data[i][y]);
+        }else if (DIM === 1){
+          (data_new[categoryID].x).push(this.state.data[i][x]); 
+          (data_new[categoryID].y).push(this.state.data[i][y]);
+        }
         cluster_texts.push(this.state.data[i]["PC1"]);
       }
     }
@@ -236,11 +241,15 @@ class App extends Component {
       data_new.text = cluster_texts;
     }
 
+    var plot_title = (DIM === 0 ? "1D plot of " + x 
+                    : DIM === 1 ? "2D plot of " + x + " and " + y 
+                    :             "3D plot of " + x + " and " + y + " and " + z )
+
     return (
       <ScatterPlot
         data={data_new}
         layout={{
-          title: "1D plot of " + y,
+          title: plot_title,
           xaxis: { title: "MappingID2" },
           yaxis: { title: y },
         }}
@@ -1233,7 +1242,7 @@ class App extends Component {
             );
           }
         } else if (distributionData.length > 0) {
-          return this.scatter1dCategorical(x, distributionData, distributionData);
+          return this.scatterCategorical(ONE_DIM, null, x, null, distributionData);
         } else {
           return this.scatterWithClusters(ONE_DIM, x,null, null, false);
         }
@@ -1275,7 +1284,7 @@ class App extends Component {
             );
           }
         } else if (distributionData.length > 0) {
-          return this.scatter2dCategorical(x, y, distributionData, distributionData);
+          return this.scatterCategorical(TWO_DIM, x, y, z, distributionData);
         } else {
           return this.scatter2dWithClusters(x, y);
         }
@@ -1530,12 +1539,16 @@ class App extends Component {
                       </div>
                     )}
                     {this.state.multiValue.length > 0 && (
-                      <div className="row-md-8" style={styles.dropDown}>
-                        <h6>Choose Describing Column</h6>
-                        <Select
-                          options={this.state.multiValue}
-                          onChange={this.handleSpecificColumns}
-                        />
+                      <div style={styles.dropDown}>
+                        <label style= {{width : '55%', marginLeft: "3%"}} > 
+                          <h6>Choose Describing Column</h6>
+                        </label>
+                        <div style= {{width : '40%'}} >
+                          <Select
+                            options={this.state.multiValue}
+                            onChange={this.handleSpecificColumns}
+                          />
+                        </div>
                       </div>
                     )}
                   </div>
