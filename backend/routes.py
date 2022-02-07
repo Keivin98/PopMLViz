@@ -16,13 +16,11 @@ app = create_app()
 
 @app.route("/runkmeans", methods=["POST"], strict_slashes=False)
 def runKmeans():
-	request_filename = request.get_json()['filename']
+	request_df = request.get_json()['df']
 	num_clusters = request.get_json()['num_clusters']
 	if num_clusters < 2:
 		num_clusters = 2
-	input_path = './data/PCA/' + request_filename
-	# print(input_path)
-	pca_df = pd.read_csv(input_path)
+	pca_df = pd.json_normalize(request_df)
 	# print(pca_df)
 	kmeans = KMeans(n_clusters=num_clusters, random_state=0).fit_predict(pca_df.iloc[:, 1:-2])
 	# print(kmeans)
@@ -93,8 +91,6 @@ def detectoutliers():
 
 	def choose_columns(x):
 		return 'PC' in x 
-		# \ and int(x[-1]) >= column_range[0] \
-		# 		and int(x[-1]) <= column_range[1]
 	
 	columns_of_interest = list(filter(choose_columns, df.columns))
 
