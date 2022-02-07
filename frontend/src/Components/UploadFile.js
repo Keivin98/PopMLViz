@@ -373,8 +373,9 @@ class App extends Component {
             text: cluster_texts[k],
           });
         }
+        var name = isNaN(this.state.cluster_names[k]) ? this.state.cluster_names[k] : "Cluster " + this.state.cluster_names[k]
         data_new.push({
-          name: this.state.cluster_names[k],
+          name: name,
           x: x_clusters[k],
           y: y_clusters[k],
           mode: "markers",
@@ -474,13 +475,25 @@ class App extends Component {
       />
     );
   };
-  scatter2dWithClusters(x, y) {
+
+  scatter2dWithClusters(x, y, outliers) {
     var x_clusters = [];
     var y_clusters = [];
     var cluster_texts = [];
+    var distributionData = this.state.OutlierData.map((elem) => {
+      return parseInt(elem[y], 10);
+    })
+    if(outliers){
+      var x_clusters_outliers = [];
+      var y_clusters_outliers = [];
+    }
     for (var num_cl = 0; num_cl < num_clusters; num_cl++) {
       x_clusters.push([]);
       y_clusters.push([]);
+      if(outliers){
+        x_clusters_outliers.push([]);
+        y_clusters_outliers.push([]);
+      }
       cluster_texts.push([]);
     }
 
@@ -493,13 +506,30 @@ class App extends Component {
     if (this.state.data != null && x != null && y != null) {
       for (var i = 0; i < this.state.data.length; i++) {
         let rowCol = this.state.clusterColors[i];
-        x_clusters[rowCol].push(this.state.data[i][x]);
-        y_clusters[rowCol].push(this.state.data[i][y]);
+        if (outliers && distributionData[i]){
+          x_clusters_outliers[rowCol].push(this.state.data[i][x]);
+          y_clusters_outliers[rowCol].push(this.state.data[i][y]);
+        }
+        else{
+          x_clusters[rowCol].push(this.state.data[i][x]);
+          y_clusters[rowCol].push(this.state.data[i][y]);
+        }
       }
       var data_new = [];
       for (var k = 0; k < num_clusters; k += 1) {
+        if(outliers){
+          data_new.push({
+            name: "Outliers " + this.state.cluster_names[k],
+            x: x_clusters_outliers[k],
+            y: y_clusters_outliers[k],
+            mode: "markers",
+            marker: { color: colors[k], symbol: 'cross', opacity:0.5},
+            text: cluster_texts[k],
+          });
+        }
+        var name = isNaN(this.state.cluster_names[k]) ? this.state.cluster_names[k] : "Cluster " + this.state.cluster_names[k]
         data_new.push({
-          name: this.state.cluster_names[k],
+          name: name,
           x: x_clusters[k],
           y: y_clusters[k],
           mode: "markers",
@@ -1172,7 +1202,11 @@ class App extends Component {
         this.state.OutlierData.length > 0
       ) {
         if (this.state.OutlierData.length > 0) {
-          return this.scatter2dWithColumns(
+          if (this.state.clusterColors.length > 0) {
+            return this.scatter2dWithClusters(x, y, true);
+          }
+          else{
+            return this.scatter2dWithColumns(
             x,
             y,
             this.state.OutlierData.map((elem) => {
@@ -1185,7 +1219,8 @@ class App extends Component {
               }
             }),
             true
-          );
+            );
+          }
         } else if (distributionData.length > 0) {
           return this.scatter2dCategorical(x, y, distributionData, distributionData);
         } else {
