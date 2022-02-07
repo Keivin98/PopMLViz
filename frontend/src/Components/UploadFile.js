@@ -39,7 +39,6 @@ class App extends Component {
     // Initially, no file is selected
     columnRange : [1, 10],
     selectedFile: null,
-    uplaodType: null,
     imageURL: "",
     columns: null,
     data: null,
@@ -89,11 +88,8 @@ class App extends Component {
     show: true,
     multiValue: [],
     describingValues: [],
-    identifierColumn: "",
     selectedOutlierMethod: null,
     OutlierData: [],
-    
-
   };
   handleMultiChange = (option) => {
     console.log(option);
@@ -197,7 +193,7 @@ class App extends Component {
       />
     );
   };
-  scatterCategorical = (DIM, x, y, z, categoricalData, outliers) => {
+  scatterCategorical = (DIM, x, y, z, categoricalData) => {
 
     var cluster_texts = [];
     var uniqueTags = [];
@@ -211,7 +207,7 @@ class App extends Component {
           };
         }
       var data_new = [];
-      var data_new_outliers = [];
+
       for (var colID = 0; colID < uniqueTags.length; colID ++){
         if(DIM === 2){
           data_new.push({
@@ -221,7 +217,7 @@ class App extends Component {
             z: [],
             type: "scatter3d",
             mode: "markers",
-            marker: { color: randomColors[colID], size: 4},
+            marker: { color: randomColors[colID], size: 2},
             text: "",
             hovertemplate:
               "<i>(%{x}, %{y:.4f}) </i>"
@@ -238,94 +234,28 @@ class App extends Component {
               "<i>(%{x}, %{y:.4f}) </i>"
           });
         }
-      }
-      if (outliers){
-        for (var colID = 0; colID < uniqueTags.length; colID ++){
-          if(DIM === 2){
-            data_new_outliers.push({
-              name: uniqueTags[colID],
-              x: [],
-              y: [],
-              z: [],
-              type: "scatter3d",
-              mode: "markers",
-              marker: { color: randomColors[colID], size: 4},
-              text: "",
-              hovertemplate:
-                "<i>(%{x}, %{y:.4f}) </i>"
-            });
-          }else{
-            data_new_outliers.push({
-              name: uniqueTags[colID],
-              x: [],
-              y: [],
-              mode: "markers",
-              marker: { color: randomColors[colID] },
-              text: "",
-              hovertemplate:
-                "<i>(%{x}, %{y:.4f}) </i>"
-            });
-          }
         }
       }
-    }
 
     if (this.state.data != null ) {
       for (var i = 0; i < this.state.data.length; i++) {
         var categoryID = uniqueTags.indexOf(categoricalData[i]);
         if(DIM === 0){
-          if(outliers){
-            if (categoricalData[i]){
-              (data_new_outliers[categoryID].x).push(i); 
-              (data_new_outliers[categoryID].y).push(this.state.data[i][x]);
-            }else{
-              (data_new[categoryID].x).push(this.state.data[i][x]); 
-              (data_new[categoryID].y).push(this.state.data[i][y]);
-            }
-          } else {
-              (data_new[categoryID].x).push(this.state.data[i][x]); 
-              (data_new[categoryID].y).push(this.state.data[i][y]);
-          }
-          
+          (data_new[categoryID].x).push(i); 
+          (data_new[categoryID].y).push(this.state.data[i][x]);
         }else if (DIM === 1){
-          if(outliers){
-            if (categoricalData[i]){
-              (data_new_outliers[categoryID].x).push(this.state.data[i][x]); 
-              (data_new_outliers[categoryID].y).push(this.state.data[i][y]);
-            }else{
-              (data_new[categoryID].x).push(this.state.data[i][x]); 
-              (data_new[categoryID].y).push(this.state.data[i][y]);
-            }
-          } else {
-              (data_new[categoryID].x).push(this.state.data[i][x]); 
-              (data_new[categoryID].y).push(this.state.data[i][y]);
-          }
-        }else{
-          if(outliers){
-            if (categoricalData[i]){
-              (data_new_outliers[categoryID].x).push(this.state.data[i][x]); 
-              (data_new_outliers[categoryID].y).push(this.state.data[i][y]);
-              (data_new_outliers[categoryID].z).push(this.state.data[i][z]);
-            }else{
+          (data_new[categoryID].x).push(this.state.data[i][x]); 
+          (data_new[categoryID].y).push(this.state.data[i][y]);
+        }else {
               (data_new[categoryID].x).push(this.state.data[i][x]); 
               (data_new[categoryID].y).push(this.state.data[i][y]);
               (data_new[categoryID].z).push(this.state.data[i][z]);
-            }
-          } else {
-              (data_new[categoryID].x).push(this.state.data[i][x]); 
-              (data_new[categoryID].y).push(this.state.data[i][y]);
-              (data_new[categoryID].z).push(this.state.data[i][z]);
-          }
-          
         }
         cluster_texts.push(this.state.data[i][x]);
       }
-    }
+    }    
     for (colID = 0; colID < uniqueTags.length; colID ++){
       data_new.text = cluster_texts;
-      if (outliers) {
-        data_new_outliers.text = cluster_texts;
-      }
     }
     
     var plot_title = (DIM === 0 ? "1D plot of " + x 
@@ -392,7 +322,7 @@ class App extends Component {
     
     return (
       <ScatterPlot
-        data={data_new.concat(data_new_outliers)}
+        data={data_new}
         layout={layout}
       />
     );
@@ -579,6 +509,186 @@ class App extends Component {
     );
   }
   
+  scatterCategoricalandOutliers = (DIM, x, y, z, categoricalData, distributionData, outliersOnly) => {
+
+    var cluster_texts = [];
+    var uniqueTags = [];
+    var layout = {};
+    if (categoricalData != null) {
+      // find unique values
+      for (var catID = 0; catID < categoricalData.length; catID ++){
+          if (uniqueTags.indexOf(categoricalData[catID]) === -1) {
+              uniqueTags.push(categoricalData[catID])
+          };
+        }
+      var data_new = [];
+
+      for (var colID = 0; colID < uniqueTags.length; colID ++){
+        var outlierColor = outliersOnly ? 'grey' : randomColors[colID];
+        var otherColor = outliersOnly ? randomColors[0] : randomColors[colID];
+        var title = outliersOnly ? '0' : uniqueTags[colID];
+        if(DIM === 2){
+          // actual data
+          data_new.push({
+            name: title,
+            x: [],
+            y: [],
+            z: [],
+            type: "scatter3d",
+            mode: "markers",
+            marker: { color: otherColor, size: 2},
+            text: "",
+            hovertemplate:
+              "<i>(%{x}, %{y:.4f}) </i>"
+          });
+          // outliers 
+          data_new.push({
+            name: "Outliers " + title,
+            x: [],
+            y: [],
+            z: [],
+            type: "scatter3d",
+            mode: "markers",
+            marker: { color: outlierColor, size: 2, symbol: 'cross', opacity: '0.5'},
+            text: "",
+            hovertemplate:
+              "<i>(%{x}, %{y:.4f}) </i>"
+          });
+        }else{
+          data_new.push({
+            name: title,
+            x: [],
+            y: [],
+            mode: "markers",
+            marker: { color: otherColor },
+            text: "",
+            hovertemplate:
+              "<i>(%{x}, %{y:.4f}) </i>"
+          });
+          data_new.push({
+            name: "Outlier " + title,
+            x: [],
+            y: [],
+            mode: "markers",
+            marker: { color: outlierColor, symbol: 'cross', opacity: '0.5' },
+            text: "",
+            hovertemplate:
+              "<i>(%{x}, %{y:.4f}) </i>"
+          });
+        }
+      }
+    }
+
+    if (this.state.data != null ) {
+      for (var i = 0; i < this.state.data.length; i++) {
+        var categoryID = uniqueTags.indexOf(categoricalData[i]);
+        if(DIM === 0){
+          if (distributionData[i]){
+            // console.log()
+            (data_new[2*categoryID + 1].x).push(i); 
+            (data_new[2*categoryID + 1].y).push(this.state.data[i][x]);
+          }else{
+            (data_new[2*categoryID].x).push(i); 
+            (data_new[2*categoryID].y).push(this.state.data[i][x]);
+          }
+        }else if (DIM === 1){
+          if (distributionData[i]){
+            (data_new[2*categoryID + 1].x).push(this.state.data[i][x]); 
+            (data_new[2*categoryID + 1].y).push(this.state.data[i][y]);
+
+          }else{
+            (data_new[2*categoryID].x).push(this.state.data[i][x]); 
+            (data_new[2*categoryID].y).push(this.state.data[i][y]);
+          }
+        }else {
+          if (distributionData[i]){
+            (data_new[2*categoryID + 1].x).push(this.state.data[i][x]); 
+            (data_new[2*categoryID + 1].y).push(this.state.data[i][y]);
+            (data_new[2*categoryID + 1].z).push(this.state.data[i][z]);
+          }else{
+            (data_new[2*categoryID].x).push(this.state.data[i][x]); 
+            (data_new[2*categoryID].y).push(this.state.data[i][y]);
+            (data_new[2*categoryID].z).push(this.state.data[i][z]);
+          }
+        }
+        cluster_texts.push(this.state.data[i][x]);
+      }
+    }    
+    for (colID = 0; colID < uniqueTags.length; colID ++){
+      data_new.text = cluster_texts;
+    }
+    
+    var plot_title = (DIM === 0 ? "1D plot of " + x 
+                    : DIM === 1 ? "2D plot of " + x + " and " + y 
+                    :             "3D plot of " + x + " and " + y + " and " + z )
+
+    if (DIM === 0){
+      layout = {
+        title: plot_title,
+        xaxis: { title: "MappingID2" },
+        yaxis: { title: y },
+      }
+    }else if (DIM === 1){
+      layout = {
+        title: plot_title,
+        xaxis: { title: x },
+        yaxis: { title: y },
+      }
+    }else {
+      layout = {
+        autosize: true,
+        scene: {
+          aspectratio: {
+            x: 1,
+            y: 1,
+            z: 1,
+          },
+          camera: {
+            center: {
+              x: 0,
+              y: 0,
+              z: 0,
+            },
+            eye: {
+              x: 1.25,
+              y: 1.25,
+              z: 1.25,
+            },
+            up: {
+              x: 0,
+              y: 0,
+              z: 1,
+            },
+          },
+          xaxis: {
+            type: "linear",
+            zeroline: false,
+            title: x,
+          },
+          yaxis: {
+            type: "linear",
+            zeroline: false,
+            title: y,
+          },
+          zaxis: {
+            type: "linear",
+            zeroline: false,
+            title: z,
+          },
+        },
+        title: plot_title,
+      };
+    }
+    
+    return (
+      <ScatterPlot
+        data={data_new}
+        layout={layout}
+      />
+    );
+  };
+
+  
   scatter2d = (x, y) => {
     var x1 = [];
     var y1 = [];
@@ -616,7 +726,6 @@ class App extends Component {
       />
     );
   };
-
   
   scatter3d = (x, y, z) => {
     var x1 = [];
@@ -954,16 +1063,19 @@ class App extends Component {
             }),);
           }
           else{
-            return this.scatterCategorical(
+            console.log("here")
+            return this.scatterCategoricalandOutliers(
               ONE_DIM,
-              x, null, null, 
+              x, null, null, this.state.OutlierData.map((elem) => {
+                return parseInt(elem[x], 10);
+              }),
               this.state.OutlierData.map((elem) => {
                 return parseInt(elem[x], 10);
-              })
+              }), true
             );
           }
         } else if (distributionData.length > 0) {
-          return this.scatterCategorical(ONE_DIM, x, null, null, distributionData);
+          return this.scatterCategorical(ONE_DIM, x, null, null, distributionData, false);
         } else {
           return this.scatterWithClusters(ONE_DIM, x,null, null, false);
         }
@@ -989,12 +1101,20 @@ class App extends Component {
             }));
           }
           else{
-            return this.scatterCategorical(
+            return this.scatterCategoricalandOutliers(
             TWO_DIM,
             x,
             y,
             null,
             this.state.OutlierData.map((elem) => {
+              var val1 = parseInt(elem[x], 10) === 1;
+              var val2 = parseInt(elem[y], 10) === 1;
+              if (this.state.pressed === 1) {
+                return val1 || val2 ? 1 : 0;
+              } else {
+                return val1 && val2 ? 1 : 0;
+              }
+            }),this.state.OutlierData.map((elem) => {
               var val1 = parseInt(elem[x], 10) === 1;
               var val2 = parseInt(elem[y], 10) === 1;
               if (this.state.pressed === 1) {
@@ -1034,10 +1154,12 @@ class App extends Component {
           if (this.state.clusterColors.length > 0){
             return this.scatterWithClusters(THREE_DIM, x, y, z, true, combine_outliers);
           }else{
-            return this.scatter3dWithColumns(
+            return this.scatterCategoricalandOutliers(
+              THREE_DIM,
               x,
               y,
               z,
+              combine_outliers,
               combine_outliers,
               true
             );
