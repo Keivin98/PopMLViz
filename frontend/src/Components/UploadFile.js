@@ -320,18 +320,15 @@ class App extends Component {
       />
     );
   };
-  scatter1dWithClusters(y, outliers) {
+  scatterWithClusters(DIM, x, y, z,  outliers, distributionData) {
     var x_clusters = [];
     var y_clusters = [];
     var cluster_texts = [];
-    var distributionData = this.state.OutlierData.map((elem) => {
-      return parseInt(elem[y], 10);
-    })
+
     if(outliers){
       var x_clusters_outliers = [];
       var y_clusters_outliers = [];
     }
-    
     for (var num_cl = 0; num_cl < num_clusters; num_cl++) {
       x_clusters.push([]);
       y_clusters.push([]);
@@ -343,27 +340,37 @@ class App extends Component {
     }
 
     var colors = [];
-    colors.push(randomColors[1]);
-    colors.push(randomColors[0]);
-    for (let j = 2; j < num_clusters; j += 1) {
+
+    for (let j = 0; j < num_clusters; j += 1) {
       colors.push(randomColors[j]);
     }
 
-    if (this.state.data != null && y != null) {
+    if (this.state.data != null) {
       for (var i = 0; i < this.state.data.length; i++) {
         let rowCol = this.state.clusterColors[i];
         if (outliers && distributionData[i]){
-          x_clusters_outliers[rowCol].push(i);
-          y_clusters_outliers[rowCol].push(this.state.data[i][y]);
+          if (DIM === 0){
+            x_clusters_outliers[rowCol].push(i);  
+            y_clusters_outliers[rowCol].push(this.state.data[i][x]);
+          }else{
+            x_clusters_outliers[rowCol].push(this.state.data[i][x]);
+            y_clusters_outliers[rowCol].push(this.state.data[i][y]);
+          }
         }
         else{
-          x_clusters[rowCol].push(i);
-          y_clusters[rowCol].push(this.state.data[i][y]);
+          if (DIM === 0){
+            x_clusters[rowCol].push(i);  
+            y_clusters[rowCol].push(this.state.data[i][x]);
+          }else{
+            x_clusters[rowCol].push(this.state.data[i][x]);
+            y_clusters[rowCol].push(this.state.data[i][y]);
+          }
         }
       }
       var data_new = [];
       for (var k = 0; k < num_clusters; k += 1) {
         if(outliers){
+          console.log('here', x_clusters_outliers[k].length)
           data_new.push({
             name: "Outliers " + this.state.cluster_names[k],
             x: x_clusters_outliers[k],
@@ -379,13 +386,24 @@ class App extends Component {
           x: x_clusters[k],
           y: y_clusters[k],
           mode: "markers",
-          marker: { color: colors[k]},
+          marker: { color: colors[k] },
           text: cluster_texts[k],
         });
       }
     }
-    return <ScatterPlot data={data_new} />;
+    var plot_title = (DIM === 0 ? "1D plot of " + x : "2D plot of " + x + " and " + y)
+    return (
+      <ScatterPlot
+        data={data_new}
+        layout={{
+          title: plot_title,
+          xaxis: { title: x },
+          yaxis: { title: y },
+        }}
+      />
+    );
   }
+  
   scatter2d = (x, y) => {
     var x1 = [];
     var y1 = [];
@@ -476,80 +494,6 @@ class App extends Component {
     );
   };
 
-  scatter2dWithClusters(x, y, outliers) {
-    var x_clusters = [];
-    var y_clusters = [];
-    var cluster_texts = [];
-    var distributionData = this.state.OutlierData.map((elem) => {
-      return parseInt(elem[y], 10);
-    })
-    if(outliers){
-      var x_clusters_outliers = [];
-      var y_clusters_outliers = [];
-    }
-    for (var num_cl = 0; num_cl < num_clusters; num_cl++) {
-      x_clusters.push([]);
-      y_clusters.push([]);
-      if(outliers){
-        x_clusters_outliers.push([]);
-        y_clusters_outliers.push([]);
-      }
-      cluster_texts.push([]);
-    }
-
-    var colors = [];
-
-    for (let j = 0; j < num_clusters; j += 1) {
-      colors.push(randomColors[j]);
-    }
-
-    if (this.state.data != null && x != null && y != null) {
-      for (var i = 0; i < this.state.data.length; i++) {
-        let rowCol = this.state.clusterColors[i];
-        if (outliers && distributionData[i]){
-          x_clusters_outliers[rowCol].push(this.state.data[i][x]);
-          y_clusters_outliers[rowCol].push(this.state.data[i][y]);
-        }
-        else{
-          x_clusters[rowCol].push(this.state.data[i][x]);
-          y_clusters[rowCol].push(this.state.data[i][y]);
-        }
-      }
-      var data_new = [];
-      for (var k = 0; k < num_clusters; k += 1) {
-        if(outliers){
-          data_new.push({
-            name: "Outliers " + this.state.cluster_names[k],
-            x: x_clusters_outliers[k],
-            y: y_clusters_outliers[k],
-            mode: "markers",
-            marker: { color: colors[k], symbol: 'cross', opacity:0.5},
-            text: cluster_texts[k],
-          });
-        }
-        var name = isNaN(this.state.cluster_names[k]) ? this.state.cluster_names[k] : "Cluster " + this.state.cluster_names[k]
-        data_new.push({
-          name: name,
-          x: x_clusters[k],
-          y: y_clusters[k],
-          mode: "markers",
-          marker: { color: colors[k] },
-          text: cluster_texts[k],
-        });
-      }
-    }
-
-    return (
-      <ScatterPlot
-        data={data_new}
-        layout={{
-          title: "2D plot of " + x + " and " + y,
-          xaxis: { title: x },
-          yaxis: { title: y },
-        }}
-      />
-    );
-  }
   scatter2dWithColumns = (x, y, distributionData, outliers) => {
     var x1 = [];
     var x2 = [];
@@ -1158,6 +1102,9 @@ class App extends Component {
     const y = this.state.selectedColumns[1];
     const z = this.state.selectedColumns[2];
     const distributionData = this.state.distributionData;
+    const ONE_DIM = 0; 
+    const TWO_DIM = 1; 
+    const THREE_DIM = 2; 
     if (
       this.state.selectedColumns[0] === null &&
       this.state.selectedColumns[1] === null &&
@@ -1175,10 +1122,11 @@ class App extends Component {
       ) {
         if (this.state.OutlierData.length > 0) {
           if (this.state.clusterColors.length > 0) {
-            return this.scatter1dWithClusters(x, true);
+            return this.scatterWithClusters(ONE_DIM, x, null, null, true, this.state.OutlierData.map((elem) => {
+              return parseInt(elem[x], 10);
+            }),);
           }
           else{
-
             return this.scatter1dWithColumns(
               x,
               this.state.OutlierData.map((elem) => {
@@ -1190,7 +1138,7 @@ class App extends Component {
         } else if (distributionData.length > 0) {
           return this.scatter1dCategorical(x, distributionData, distributionData);
         } else {
-          return this.scatter1dWithClusters(x, false);
+          return this.scatterWithClusters(ONE_DIM, x,null, null, false);
         }
       } else {
         return this.scatter1d(x);
@@ -1203,7 +1151,15 @@ class App extends Component {
       ) {
         if (this.state.OutlierData.length > 0) {
           if (this.state.clusterColors.length > 0) {
-            return this.scatter2dWithClusters(x, y, true);
+            return this.scatterWithClusters(TWO_DIM, x, y, null, true, this.state.OutlierData.map((elem) => {
+              var val1 = parseInt(elem[x], 10) === 1;
+              var val2 = parseInt(elem[y], 10) === 1;
+              if (this.state.pressed === 1) {
+                return val1 || val2 ? 1 : 0;
+              } else {
+                return val1 && val2 ? 1 : 0;
+              }
+            }));
           }
           else{
             return this.scatter2dWithColumns(
