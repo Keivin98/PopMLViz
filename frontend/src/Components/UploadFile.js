@@ -3,7 +3,6 @@ import React, { Component } from "react";
 import { Chart, registerables } from "chart.js";
 import * as XLSX from "xlsx";
 import Select from "react-select";
-import Plot from "react-plotly.js";
 import Loader from "react-loader-spinner";
 import ScatterPlot from "./ScatterPlot";
 import Incrementor from "./Incrementor";
@@ -431,7 +430,7 @@ class App extends Component {
             z: z_clusters[k],
             mode: "markers",
             type: "scatter3d",
-            marker: { color: colors[k],  size: 4},
+            marker: { color: colors[k],  size: 2},
             text: cluster_texts[k],
           });
         }else{
@@ -549,7 +548,7 @@ class App extends Component {
             z: [],
             type: "scatter3d",
             mode: "markers",
-            marker: { color: outlierColor, size: 2, symbol: 'cross', opacity: '0.5'},
+            marker: { color: outlierColor, size: 4, symbol: 'cross', opacity: '0.5'},
             text: "",
             hovertemplate:
               "<i>(%{x}, %{y:.4f}) </i>"
@@ -1020,7 +1019,6 @@ class App extends Component {
   };
 
   handleSpecificColumns = (event) => {
-    console.log(this.state.data);
     this.setState({
       distributionData:
         event.label === "None"
@@ -1057,13 +1055,24 @@ class App extends Component {
         this.state.OutlierData.length > 0
       ) {
         if (this.state.OutlierData.length > 0) {
+          var combine_outliers = this.state.OutlierData.map((elem) => {
+            return parseInt(elem[x], 10);
+          });
+
           if (this.state.clusterColors.length > 0) {
-            return this.scatterWithClusters(ONE_DIM, x, null, null, true, this.state.OutlierData.map((elem) => {
-              return parseInt(elem[x], 10);
-            }),);
+            return this.scatterWithClusters(ONE_DIM, x, null, null, true, combine_outliers);
+          }else if (distributionData.length > 0){
+            return this.scatterCategoricalandOutliers(
+              ONE_DIM,
+              x,
+              null,
+              null,
+              distributionData,
+              combine_outliers,
+              false
+            );
           }
           else{
-            console.log("here")
             return this.scatterCategoricalandOutliers(
               ONE_DIM,
               x, null, null, this.state.OutlierData.map((elem) => {
@@ -1089,16 +1098,27 @@ class App extends Component {
         this.state.OutlierData.length > 0
       ) {
         if (this.state.OutlierData.length > 0) {
+          var combine_outliers = this.state.OutlierData.map((elem) => {
+            var val1 = parseInt(elem[x], 10) === 1;
+            var val2 = parseInt(elem[y], 10) === 1;
+            if (this.state.pressed === 1) {
+              return val1 || val2 ? 1 : 0;
+            } else {
+              return val1 && val2 ? 1 : 0;
+            }
+          });
           if (this.state.clusterColors.length > 0) {
-            return this.scatterWithClusters(TWO_DIM, x, y, null, true, this.state.OutlierData.map((elem) => {
-              var val1 = parseInt(elem[x], 10) === 1;
-              var val2 = parseInt(elem[y], 10) === 1;
-              if (this.state.pressed === 1) {
-                return val1 || val2 ? 1 : 0;
-              } else {
-                return val1 && val2 ? 1 : 0;
-              }
-            }));
+            return this.scatterWithClusters(TWO_DIM, x, y, null, true, combine_outliers);
+          }else if (distributionData.length > 0){
+            return this.scatterCategoricalandOutliers(
+              TWO_DIM,
+              x,
+              y,
+              null,
+              distributionData,
+              combine_outliers,
+              false
+            );
           }
           else{
             return this.scatterCategoricalandOutliers(
@@ -1153,7 +1173,18 @@ class App extends Component {
           });
           if (this.state.clusterColors.length > 0){
             return this.scatterWithClusters(THREE_DIM, x, y, z, true, combine_outliers);
-          }else{
+          }else if (distributionData.length > 0){
+            return this.scatterCategoricalandOutliers(
+              THREE_DIM,
+              x,
+              y,
+              z,
+              distributionData,
+              combine_outliers,
+              false
+            );
+          }
+          else{
             return this.scatterCategoricalandOutliers(
               THREE_DIM,
               x,
