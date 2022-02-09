@@ -1219,6 +1219,15 @@ class App extends Component {
     this.setState({cluster_names: cluster_names});
   }
   
+  onPressReset = () => {
+    this.setState({
+      OutlierData: [],
+      cluster_names: {},
+      clusterColors: [],
+      distributionData: [],
+    })
+  }
+  
   render() {
     
     return (
@@ -1324,6 +1333,12 @@ class App extends Component {
           />
           <Incrementor onChange={this.IncrementHandler} />
           <Button variant="outlined"   onClick={this.runKmeans}>Run Kmeans</Button>
+          <div style= {{marginTop: "20%"}}>
+          <Button variant="outlined" style={{color:"red", fontWeight:'bold', fontStyle:'italic'}}
+          onClick={this.onPressReset}>
+            RESET
+          </Button>
+          </div>
           
         </div>
 
