@@ -17,13 +17,16 @@ app = create_app()
 @app.route("/runkmeans", methods=["POST"], strict_slashes=False)
 def runKmeans():
 	request_df = request.get_json()['df']
+	
 	num_clusters = request.get_json()['num_clusters']
 	if num_clusters < 2:
 		num_clusters = 2
 	pca_df = pd.json_normalize(request_df)
-	# print(pca_df)
-	kmeans = KMeans(n_clusters=num_clusters, random_state=0).fit_predict(pca_df.iloc[:, 1:-2])
-	# print(kmeans)
+	try:
+		pca_cols = [x for x in pca_df.columns if 'PC' in x]
+	except:
+		pca_cols = pca_df.columns
+	kmeans = KMeans(n_clusters=num_clusters, random_state=123).fit_predict(pca_df[pca_cols])
 	return jsonify(list(map(lambda x : int(x), kmeans)))
 
 @app.route("/cmtsne2d", methods=["POST"], strict_slashes=False)
@@ -59,23 +62,17 @@ def cmtsne3d():
 
 @app.route("/uploadCM", methods=["POST"], strict_slashes=False)
 def uploadCM():
-	# print('CM')
-	request_filename = request.get_json()['filename']
-	# kmeans = request.get_json()['runKmeans']
-	input_path = './data/PCA/' + request_filename
-	df = pd.read_csv(input_path)
-	pca_new = PCA(n_components=20)#, whiten=True
-	principalComponents_new = pca_new.fit_transform(df)
-	# if kmeans: 
-	# 	labels = runKmeans(df)
-	# print(principalComponents_new.shape)
-	letters = string.ascii_lowercase
-	filename = ''.join(random.choice(letters) for i in range(5))
-	completeRes = np.append([['PC%s'%(i) for i in range(1,21)]], principalComponents_new, axis = 0)
-	np.savetxt('./data/pca_%s.csv' % (filename), completeRes, delimiter=",", fmt='%s')
-	with open('./data/pca_%s.csv'% (filename), 'r') as f : 
-		data = f.read()
-	return 	data
+	
+	request_df = request.get_json()['df']
+	# print(request_df)
+	cm_df = pd.json_normalize(request_df)
+	components = min(20, len(cm_df.columns))
+	pca_new = PCA(n_components = components)
+	print(2)
+	principalComponents_new = pca_new.fit_transform(cm_df)
+	completeRes = pd.DataFrame(principalComponents_new, columns=['PC%s'%(i) for i in range(1,components + 1)])
+	return completeRes.to_json()
+	
 
 @app.route("/detectoutliers", methods=["POST"], strict_slashes=False)
 def detectoutliers():
@@ -110,6 +107,9 @@ def detectoutliers():
 
 	outliers_result = pd.DataFrame(newdf)
 	return outliers_result.to_csv()
+@app.route("/")
+def hello():
+    return "<h1 style='color:blue'>Hello There!</h1>"
 
 if __name__ == "__main__":
-	app.run( debug=True)
+	app.run(host='0.0.0.0', debug=True)

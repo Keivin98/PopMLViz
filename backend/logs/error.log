@@ -1,0 +1,1131 @@
+[2022-02-22 13:59:21 +0300] [6591] [DEBUG] Current configuration:
+  config: gunicorn.conf
+  wsgi_app: None
+  bind: ['127.0.0.1:5000']
+  backlog: 2048
+  workers: 1
+  worker_class: sync
+  threads: 1
+  worker_connections: 1000
+  max_requests: 0
+  max_requests_jitter: 0
+  timeout: 30
+  graceful_timeout: 30
+  keepalive: 2
+  limit_request_line: 4094
+  limit_request_fields: 100
+  limit_request_field_size: 8190
+  reload: False
+  reload_engine: auto
+  reload_extra_files: []
+  spew: False
+  check_config: False
+  print_config: False
+  preload_app: False
+  sendfile: None
+  reuse_port: False
+  chdir: /home/local/QCRI/kisufaj/VisualizePlots/backend
+  daemon: False
+  raw_env: []
+  pidfile: None
+  worker_tmp_dir: None
+  user: 1980764994
+  group: 1980760577
+  umask: 0
+  initgroups: False
+  tmp_upload_dir: None
+  secure_scheme_headers: {'X-FORWARDED-PROTOCOL': 'ssl', 'X-FORWARDED-PROTO': 'https', 'X-FORWARDED-SSL': 'on'}
+  forwarded_allow_ips: ['127.0.0.1']
+  accesslog: /home/local/QCRI/kisufaj/VisualizePlots/backend/logs/access.log
+  disable_redirect_access_to_syslog: False
+  access_log_format: %(h)s %(l)s %(u)s %(t)s "%(r)s" %(s)s %(b)s "%(f)s" "%(a)s"
+  errorlog: /home/local/QCRI/kisufaj/VisualizePlots/backend/logs/error.log
+  loglevel: debug
+  capture_output: False
+  logger_class: gunicorn.glogging.Logger
+  logconfig: None
+  logconfig_dict: {}
+  syslog_addr: udp://localhost:514
+  syslog: False
+  syslog_prefix: None
+  syslog_facility: user
+  enable_stdio_inheritance: False
+  statsd_host: None
+  dogstatsd_tags: 
+  statsd_prefix: 
+  proc_name: None
+  default_proc_name: routes::app
+  pythonpath: None
+  paste: None
+  on_starting: <function OnStarting.on_starting at 0x7f635bb0a4c0>
+  on_reload: <function OnReload.on_reload at 0x7f635bb0a5e0>
+  when_ready: <function WhenReady.when_ready at 0x7f635bb0a700>
+  pre_fork: <function Prefork.pre_fork at 0x7f635bb0a820>
+  post_fork: <function Postfork.post_fork at 0x7f635bb0a940>
+  post_worker_init: <function PostWorkerInit.post_worker_init at 0x7f635bb0aa60>
+  worker_int: <function WorkerInt.worker_int at 0x7f635bb0ab80>
+  worker_abort: <function WorkerAbort.worker_abort at 0x7f635bb0aca0>
+  pre_exec: <function PreExec.pre_exec at 0x7f635bb0adc0>
+  pre_request: <function PreRequest.pre_request at 0x7f635bb0aee0>
+  post_request: <function PostRequest.post_request at 0x7f635bb0af70>
+  child_exit: <function ChildExit.child_exit at 0x7f635bb230d0>
+  worker_exit: <function WorkerExit.worker_exit at 0x7f635bb231f0>
+  nworkers_changed: <function NumWorkersChanged.nworkers_changed at 0x7f635bb23310>
+  on_exit: <function OnExit.on_exit at 0x7f635bb23430>
+  proxy_protocol: False
+  proxy_allow_ips: ['127.0.0.1']
+  keyfile: None
+  certfile: None
+  ssl_version: 2
+  cert_reqs: 0
+  ca_certs: None
+  suppress_ragged_eofs: True
+  do_handshake_on_connect: False
+  ciphers: None
+  raw_paste_global_conf: []
+  strip_header_spaces: False
+[2022-02-22 13:59:21 +0300] [6591] [INFO] Starting gunicorn 20.1.0
+[2022-02-22 13:59:21 +0300] [6591] [ERROR] Connection in use: ('127.0.0.1', 5000)
+[2022-02-22 13:59:21 +0300] [6591] [DEBUG] connection to ('127.0.0.1', 5000) failed: [Errno 98] Address already in use
+[2022-02-22 13:59:21 +0300] [6591] [ERROR] Retrying in 1 second.
+[2022-02-22 13:59:22 +0300] [6591] [ERROR] Connection in use: ('127.0.0.1', 5000)
+[2022-02-22 13:59:22 +0300] [6591] [DEBUG] connection to ('127.0.0.1', 5000) failed: [Errno 98] Address already in use
+[2022-02-22 13:59:22 +0300] [6591] [ERROR] Retrying in 1 second.
+[2022-02-22 13:59:23 +0300] [6591] [ERROR] Connection in use: ('127.0.0.1', 5000)
+[2022-02-22 13:59:23 +0300] [6591] [DEBUG] connection to ('127.0.0.1', 5000) failed: [Errno 98] Address already in use
+[2022-02-22 13:59:23 +0300] [6591] [ERROR] Retrying in 1 second.
+[2022-02-22 13:59:24 +0300] [6591] [ERROR] Connection in use: ('127.0.0.1', 5000)
+[2022-02-22 13:59:24 +0300] [6591] [DEBUG] connection to ('127.0.0.1', 5000) failed: [Errno 98] Address already in use
+[2022-02-22 13:59:24 +0300] [6591] [ERROR] Retrying in 1 second.
+[2022-02-22 13:59:25 +0300] [6591] [ERROR] Connection in use: ('127.0.0.1', 5000)
+[2022-02-22 13:59:25 +0300] [6591] [DEBUG] connection to ('127.0.0.1', 5000) failed: [Errno 98] Address already in use
+[2022-02-22 13:59:25 +0300] [6591] [ERROR] Retrying in 1 second.
+[2022-02-22 13:59:26 +0300] [6591] [ERROR] Can't connect to ('127.0.0.1', 5000)
+[2022-02-22 14:10:25 +0300] [8967] [DEBUG] Current configuration:
+  config: gunicorn.conf
+  wsgi_app: None
+  bind: ['127.0.0.1:5000']
+  backlog: 2048
+  workers: 1
+  worker_class: sync
+  threads: 1
+  worker_connections: 1000
+  max_requests: 0
+  max_requests_jitter: 0
+  timeout: 30
+  graceful_timeout: 30
+  keepalive: 2
+  limit_request_line: 4094
+  limit_request_fields: 100
+  limit_request_field_size: 8190
+  reload: False
+  reload_engine: auto
+  reload_extra_files: []
+  spew: False
+  check_config: False
+  print_config: False
+  preload_app: False
+  sendfile: None
+  reuse_port: False
+  chdir: /home/local/QCRI/kisufaj/VisualizePlots/backend
+  daemon: False
+  raw_env: []
+  pidfile: None
+  worker_tmp_dir: None
+  user: 1980764994
+  group: 1980760577
+  umask: 0
+  initgroups: False
+  tmp_upload_dir: None
+  secure_scheme_headers: {'X-FORWARDED-PROTOCOL': 'ssl', 'X-FORWARDED-PROTO': 'https', 'X-FORWARDED-SSL': 'on'}
+  forwarded_allow_ips: ['127.0.0.1']
+  accesslog: /home/local/QCRI/kisufaj/VisualizePlots/backend/logs/access.log
+  disable_redirect_access_to_syslog: False
+  access_log_format: %(h)s %(l)s %(u)s %(t)s "%(r)s" %(s)s %(b)s "%(f)s" "%(a)s"
+  errorlog: /home/local/QCRI/kisufaj/VisualizePlots/backend/logs/error.log
+  loglevel: debug
+  capture_output: False
+  logger_class: gunicorn.glogging.Logger
+  logconfig: None
+  logconfig_dict: {}
+  syslog_addr: udp://localhost:514
+  syslog: False
+  syslog_prefix: None
+  syslog_facility: user
+  enable_stdio_inheritance: False
+  statsd_host: None
+  dogstatsd_tags: 
+  statsd_prefix: 
+  proc_name: None
+  default_proc_name: routes::app
+  pythonpath: None
+  paste: None
+  on_starting: <function OnStarting.on_starting at 0x7f6fb37d34c0>
+  on_reload: <function OnReload.on_reload at 0x7f6fb37d35e0>
+  when_ready: <function WhenReady.when_ready at 0x7f6fb37d3700>
+  pre_fork: <function Prefork.pre_fork at 0x7f6fb37d3820>
+  post_fork: <function Postfork.post_fork at 0x7f6fb37d3940>
+  post_worker_init: <function PostWorkerInit.post_worker_init at 0x7f6fb37d3a60>
+  worker_int: <function WorkerInt.worker_int at 0x7f6fb37d3b80>
+  worker_abort: <function WorkerAbort.worker_abort at 0x7f6fb37d3ca0>
+  pre_exec: <function PreExec.pre_exec at 0x7f6fb37d3dc0>
+  pre_request: <function PreRequest.pre_request at 0x7f6fb37d3ee0>
+  post_request: <function PostRequest.post_request at 0x7f6fb37d3f70>
+  child_exit: <function ChildExit.child_exit at 0x7f6fb37ec0d0>
+  worker_exit: <function WorkerExit.worker_exit at 0x7f6fb37ec1f0>
+  nworkers_changed: <function NumWorkersChanged.nworkers_changed at 0x7f6fb37ec310>
+  on_exit: <function OnExit.on_exit at 0x7f6fb37ec430>
+  proxy_protocol: False
+  proxy_allow_ips: ['127.0.0.1']
+  keyfile: None
+  certfile: None
+  ssl_version: 2
+  cert_reqs: 0
+  ca_certs: None
+  suppress_ragged_eofs: True
+  do_handshake_on_connect: False
+  ciphers: None
+  raw_paste_global_conf: []
+  strip_header_spaces: False
+[2022-02-22 14:10:25 +0300] [8967] [INFO] Starting gunicorn 20.1.0
+[2022-02-22 14:10:25 +0300] [8967] [ERROR] Connection in use: ('127.0.0.1', 5000)
+[2022-02-22 14:10:25 +0300] [8967] [DEBUG] connection to ('127.0.0.1', 5000) failed: [Errno 98] Address already in use
+[2022-02-22 14:10:25 +0300] [8967] [ERROR] Retrying in 1 second.
+[2022-02-22 14:10:26 +0300] [8967] [ERROR] Connection in use: ('127.0.0.1', 5000)
+[2022-02-22 14:10:26 +0300] [8967] [DEBUG] connection to ('127.0.0.1', 5000) failed: [Errno 98] Address already in use
+[2022-02-22 14:10:26 +0300] [8967] [ERROR] Retrying in 1 second.
+[2022-02-22 14:10:27 +0300] [8967] [ERROR] Connection in use: ('127.0.0.1', 5000)
+[2022-02-22 14:10:27 +0300] [8967] [DEBUG] connection to ('127.0.0.1', 5000) failed: [Errno 98] Address already in use
+[2022-02-22 14:10:27 +0300] [8967] [ERROR] Retrying in 1 second.
+[2022-02-22 14:10:28 +0300] [8967] [ERROR] Connection in use: ('127.0.0.1', 5000)
+[2022-02-22 14:10:28 +0300] [8967] [DEBUG] connection to ('127.0.0.1', 5000) failed: [Errno 98] Address already in use
+[2022-02-22 14:10:28 +0300] [8967] [ERROR] Retrying in 1 second.
+[2022-02-22 14:10:29 +0300] [8967] [ERROR] Connection in use: ('127.0.0.1', 5000)
+[2022-02-22 14:10:29 +0300] [8967] [DEBUG] connection to ('127.0.0.1', 5000) failed: [Errno 98] Address already in use
+[2022-02-22 14:10:29 +0300] [8967] [ERROR] Retrying in 1 second.
+[2022-02-22 14:10:30 +0300] [8967] [ERROR] Can't connect to ('127.0.0.1', 5000)
+[2022-02-22 14:23:05 +0300] [12158] [DEBUG] Current configuration:
+  config: gunicorn.conf
+  wsgi_app: None
+  bind: ['127.0.0.1:5000']
+  backlog: 2048
+  workers: 1
+  worker_class: sync
+  threads: 1
+  worker_connections: 1000
+  max_requests: 0
+  max_requests_jitter: 0
+  timeout: 30
+  graceful_timeout: 30
+  keepalive: 2
+  limit_request_line: 4094
+  limit_request_fields: 100
+  limit_request_field_size: 8190
+  reload: False
+  reload_engine: auto
+  reload_extra_files: []
+  spew: False
+  check_config: False
+  print_config: False
+  preload_app: False
+  sendfile: None
+  reuse_port: False
+  chdir: /home/local/QCRI/kisufaj/VisualizePlots/backend
+  daemon: False
+  raw_env: []
+  pidfile: None
+  worker_tmp_dir: None
+  user: 0
+  group: 0
+  umask: 0
+  initgroups: False
+  tmp_upload_dir: None
+  secure_scheme_headers: {'X-FORWARDED-PROTOCOL': 'ssl', 'X-FORWARDED-PROTO': 'https', 'X-FORWARDED-SSL': 'on'}
+  forwarded_allow_ips: ['127.0.0.1']
+  accesslog: /home/local/QCRI/kisufaj/VisualizePlots/backend/logs/access.log
+  disable_redirect_access_to_syslog: False
+  access_log_format: %(h)s %(l)s %(u)s %(t)s "%(r)s" %(s)s %(b)s "%(f)s" "%(a)s"
+  errorlog: /home/local/QCRI/kisufaj/VisualizePlots/backend/logs/error.log
+  loglevel: debug
+  capture_output: False
+  logger_class: gunicorn.glogging.Logger
+  logconfig: None
+  logconfig_dict: {}
+  syslog_addr: udp://localhost:514
+  syslog: False
+  syslog_prefix: None
+  syslog_facility: user
+  enable_stdio_inheritance: False
+  statsd_host: None
+  dogstatsd_tags: 
+  statsd_prefix: 
+  proc_name: None
+  default_proc_name: routes:app
+  pythonpath: None
+  paste: None
+  on_starting: <function OnStarting.on_starting at 0x7fcabf1bb430>
+  on_reload: <function OnReload.on_reload at 0x7fcabf1bb550>
+  when_ready: <function WhenReady.when_ready at 0x7fcabf1bb670>
+  pre_fork: <function Prefork.pre_fork at 0x7fcabf1bb790>
+  post_fork: <function Postfork.post_fork at 0x7fcabf1bb8b0>
+  post_worker_init: <function PostWorkerInit.post_worker_init at 0x7fcabf1bb9d0>
+  worker_int: <function WorkerInt.worker_int at 0x7fcabf1bbaf0>
+  worker_abort: <function WorkerAbort.worker_abort at 0x7fcabf1bbc10>
+  pre_exec: <function PreExec.pre_exec at 0x7fcabf1bbd30>
+  pre_request: <function PreRequest.pre_request at 0x7fcabf1bbe50>
+  post_request: <function PostRequest.post_request at 0x7fcabf1bbee0>
+  child_exit: <function ChildExit.child_exit at 0x7fcabf1d4040>
+  worker_exit: <function WorkerExit.worker_exit at 0x7fcabf1d4160>
+  nworkers_changed: <function NumWorkersChanged.nworkers_changed at 0x7fcabf1d4280>
+  on_exit: <function OnExit.on_exit at 0x7fcabf1d43a0>
+  proxy_protocol: False
+  proxy_allow_ips: ['127.0.0.1']
+  keyfile: None
+  certfile: None
+  ssl_version: 2
+  cert_reqs: 0
+  ca_certs: None
+  suppress_ragged_eofs: True
+  do_handshake_on_connect: False
+  ciphers: None
+  raw_paste_global_conf: []
+  strip_header_spaces: False
+[2022-02-22 14:23:05 +0300] [12158] [INFO] Starting gunicorn 20.1.0
+[2022-02-22 14:23:05 +0300] [12158] [DEBUG] Arbiter booted
+[2022-02-22 14:23:05 +0300] [12158] [INFO] Listening at: http://127.0.0.1:5000 (12158)
+[2022-02-22 14:23:05 +0300] [12158] [INFO] Using worker: sync
+[2022-02-22 14:23:05 +0300] [12160] [INFO] Booting worker with pid: 12160
+[2022-02-22 14:23:05 +0300] [12158] [DEBUG] 1 workers
+[2022-02-22 14:57:48 +0300] [12160] [DEBUG] Invalid request from ip=127.0.0.1: Invalid HTTP method: '-F'
+[2022-02-22 14:58:11 +0300] [12160] [DEBUG] POST /runkmeans
+[2022-02-22 14:58:11,982] ERROR in app: Exception on /runkmeans [POST]
+Traceback (most recent call last):
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask/app.py", line 2070, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask/app.py", line 1515, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask_cors/extension.py", line 165, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask/app.py", line 1513, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask/app.py", line 1499, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**req.view_args)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/routes.py", line 19, in runKmeans
+    request_df = request.get_json()['df']
+TypeError: 'NoneType' object is not subscriptable
+[2022-02-22 14:58:40 +0300] [12160] [DEBUG] POST /runkmeans
+[2022-02-22 14:58:40,930] ERROR in app: Exception on /runkmeans [POST]
+Traceback (most recent call last):
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask/app.py", line 2070, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask/app.py", line 1515, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask_cors/extension.py", line 165, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask/app.py", line 1513, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask/app.py", line 1499, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**req.view_args)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/routes.py", line 19, in runKmeans
+    request_df = request.get_json()['df']
+TypeError: 'NoneType' object is not subscriptable
+[2022-02-22 15:59:40 +0300] [12160] [INFO] Worker exiting (pid: 12160)
+[2022-02-22 15:59:40 +0300] [12158] [INFO] Handling signal: term
+[2022-02-22 15:59:40 +0300] [12158] [WARNING] Worker with pid 12160 was terminated due to signal 15
+[2022-02-22 15:59:40 +0300] [12158] [INFO] Shutting down: Master
+[2022-02-22 16:05:12 +0300] [30167] [DEBUG] Current configuration:
+  config: gunicorn.conf
+  wsgi_app: None
+  bind: ['127.0.0.1:5000']
+  backlog: 2048
+  workers: 1
+  worker_class: sync
+  threads: 1
+  worker_connections: 1000
+  max_requests: 0
+  max_requests_jitter: 0
+  timeout: 30
+  graceful_timeout: 30
+  keepalive: 2
+  limit_request_line: 4094
+  limit_request_fields: 100
+  limit_request_field_size: 8190
+  reload: False
+  reload_engine: auto
+  reload_extra_files: []
+  spew: False
+  check_config: False
+  print_config: False
+  preload_app: False
+  sendfile: None
+  reuse_port: False
+  chdir: /home/local/QCRI/kisufaj/VisualizePlots/backend
+  daemon: False
+  raw_env: []
+  pidfile: None
+  worker_tmp_dir: None
+  user: 0
+  group: 0
+  umask: 0
+  initgroups: False
+  tmp_upload_dir: None
+  secure_scheme_headers: {'X-FORWARDED-PROTOCOL': 'ssl', 'X-FORWARDED-PROTO': 'https', 'X-FORWARDED-SSL': 'on'}
+  forwarded_allow_ips: ['127.0.0.1']
+  accesslog: /home/local/QCRI/kisufaj/VisualizePlots/backend/logs/access.log
+  disable_redirect_access_to_syslog: False
+  access_log_format: %(h)s %(l)s %(u)s %(t)s "%(r)s" %(s)s %(b)s "%(f)s" "%(a)s"
+  errorlog: /home/local/QCRI/kisufaj/VisualizePlots/backend/logs/error.log
+  loglevel: debug
+  capture_output: False
+  logger_class: gunicorn.glogging.Logger
+  logconfig: None
+  logconfig_dict: {}
+  syslog_addr: udp://localhost:514
+  syslog: False
+  syslog_prefix: None
+  syslog_facility: user
+  enable_stdio_inheritance: False
+  statsd_host: None
+  dogstatsd_tags: 
+  statsd_prefix: 
+  proc_name: None
+  default_proc_name: routes:app
+  pythonpath: None
+  paste: None
+  on_starting: <function OnStarting.on_starting at 0x7f1ade799430>
+  on_reload: <function OnReload.on_reload at 0x7f1ade799550>
+  when_ready: <function WhenReady.when_ready at 0x7f1ade799670>
+  pre_fork: <function Prefork.pre_fork at 0x7f1ade799790>
+  post_fork: <function Postfork.post_fork at 0x7f1ade7998b0>
+  post_worker_init: <function PostWorkerInit.post_worker_init at 0x7f1ade7999d0>
+  worker_int: <function WorkerInt.worker_int at 0x7f1ade799af0>
+  worker_abort: <function WorkerAbort.worker_abort at 0x7f1ade799c10>
+  pre_exec: <function PreExec.pre_exec at 0x7f1ade799d30>
+  pre_request: <function PreRequest.pre_request at 0x7f1ade799e50>
+  post_request: <function PostRequest.post_request at 0x7f1ade799ee0>
+  child_exit: <function ChildExit.child_exit at 0x7f1ade7b2040>
+  worker_exit: <function WorkerExit.worker_exit at 0x7f1ade7b2160>
+  nworkers_changed: <function NumWorkersChanged.nworkers_changed at 0x7f1ade7b2280>
+  on_exit: <function OnExit.on_exit at 0x7f1ade7b23a0>
+  proxy_protocol: False
+  proxy_allow_ips: ['127.0.0.1']
+  keyfile: None
+  certfile: None
+  ssl_version: 2
+  cert_reqs: 0
+  ca_certs: None
+  suppress_ragged_eofs: True
+  do_handshake_on_connect: False
+  ciphers: None
+  raw_paste_global_conf: []
+  strip_header_spaces: False
+[2022-02-22 16:05:12 +0300] [30167] [INFO] Starting gunicorn 20.1.0
+[2022-02-22 16:05:12 +0300] [30167] [DEBUG] Arbiter booted
+[2022-02-22 16:05:12 +0300] [30167] [INFO] Listening at: http://127.0.0.1:5000 (30167)
+[2022-02-22 16:05:12 +0300] [30167] [INFO] Using worker: sync
+[2022-02-22 16:05:12 +0300] [30169] [INFO] Booting worker with pid: 30169
+[2022-02-22 16:05:12 +0300] [30167] [DEBUG] 1 workers
+[2022-02-22 16:07:30 +0300] [30169] [DEBUG] GET /
+[2022-02-22 16:07:38 +0300] [30169] [DEBUG] GET /runkmeans
+[2022-02-22 16:10:15 +0300] [30167] [INFO] Handling signal: term
+[2022-02-22 16:10:15 +0300] [30169] [INFO] Worker exiting (pid: 30169)
+[2022-02-22 16:10:15 +0300] [30167] [INFO] Shutting down: Master
+[2022-02-22 16:28:40 +0300] [3149] [DEBUG] Current configuration:
+  config: gunicorn.conf
+  wsgi_app: None
+  bind: ['0.0.0.0:5000']
+  backlog: 2048
+  workers: 1
+  worker_class: sync
+  threads: 1
+  worker_connections: 1000
+  max_requests: 0
+  max_requests_jitter: 0
+  timeout: 30
+  graceful_timeout: 30
+  keepalive: 2
+  limit_request_line: 4094
+  limit_request_fields: 100
+  limit_request_field_size: 8190
+  reload: False
+  reload_engine: auto
+  reload_extra_files: []
+  spew: False
+  check_config: False
+  print_config: False
+  preload_app: False
+  sendfile: None
+  reuse_port: False
+  chdir: /home/local/QCRI/kisufaj/VisualizePlots/backend
+  daemon: False
+  raw_env: []
+  pidfile: None
+  worker_tmp_dir: None
+  user: 0
+  group: 0
+  umask: 0
+  initgroups: False
+  tmp_upload_dir: None
+  secure_scheme_headers: {'X-FORWARDED-PROTOCOL': 'ssl', 'X-FORWARDED-PROTO': 'https', 'X-FORWARDED-SSL': 'on'}
+  forwarded_allow_ips: ['127.0.0.1']
+  accesslog: /home/local/QCRI/kisufaj/VisualizePlots/backend/logs/access.log
+  disable_redirect_access_to_syslog: False
+  access_log_format: %(h)s %(l)s %(u)s %(t)s "%(r)s" %(s)s %(b)s "%(f)s" "%(a)s"
+  errorlog: /home/local/QCRI/kisufaj/VisualizePlots/backend/logs/error.log
+  loglevel: debug
+  capture_output: False
+  logger_class: gunicorn.glogging.Logger
+  logconfig: None
+  logconfig_dict: {}
+  syslog_addr: udp://localhost:514
+  syslog: False
+  syslog_prefix: None
+  syslog_facility: user
+  enable_stdio_inheritance: False
+  statsd_host: None
+  dogstatsd_tags: 
+  statsd_prefix: 
+  proc_name: None
+  default_proc_name: routes:app
+  pythonpath: None
+  paste: None
+  on_starting: <function OnStarting.on_starting at 0x7f352c8f4430>
+  on_reload: <function OnReload.on_reload at 0x7f352c8f4550>
+  when_ready: <function WhenReady.when_ready at 0x7f352c8f4670>
+  pre_fork: <function Prefork.pre_fork at 0x7f352c8f4790>
+  post_fork: <function Postfork.post_fork at 0x7f352c8f48b0>
+  post_worker_init: <function PostWorkerInit.post_worker_init at 0x7f352c8f49d0>
+  worker_int: <function WorkerInt.worker_int at 0x7f352c8f4af0>
+  worker_abort: <function WorkerAbort.worker_abort at 0x7f352c8f4c10>
+  pre_exec: <function PreExec.pre_exec at 0x7f352c8f4d30>
+  pre_request: <function PreRequest.pre_request at 0x7f352c8f4e50>
+  post_request: <function PostRequest.post_request at 0x7f352c8f4ee0>
+  child_exit: <function ChildExit.child_exit at 0x7f352c90d040>
+  worker_exit: <function WorkerExit.worker_exit at 0x7f352c90d160>
+  nworkers_changed: <function NumWorkersChanged.nworkers_changed at 0x7f352c90d280>
+  on_exit: <function OnExit.on_exit at 0x7f352c90d3a0>
+  proxy_protocol: False
+  proxy_allow_ips: ['127.0.0.1']
+  keyfile: None
+  certfile: None
+  ssl_version: 2
+  cert_reqs: 0
+  ca_certs: None
+  suppress_ragged_eofs: True
+  do_handshake_on_connect: False
+  ciphers: None
+  raw_paste_global_conf: []
+  strip_header_spaces: False
+[2022-02-22 16:28:40 +0300] [3149] [INFO] Starting gunicorn 20.1.0
+[2022-02-22 16:28:40 +0300] [3149] [DEBUG] Arbiter booted
+[2022-02-22 16:28:40 +0300] [3149] [INFO] Listening at: http://0.0.0.0:5000 (3149)
+[2022-02-22 16:28:40 +0300] [3149] [INFO] Using worker: sync
+[2022-02-22 16:28:40 +0300] [3151] [INFO] Booting worker with pid: 3151
+[2022-02-22 16:28:40 +0300] [3149] [DEBUG] 1 workers
+[2022-02-22 16:28:58 +0300] [3151] [DEBUG] OPTIONS /runkmeans
+[2022-02-22 16:28:58 +0300] [3151] [DEBUG] POST /runkmeans
+[2022-02-22 16:29:33 +0300] [3151] [DEBUG] OPTIONS /runkmeans
+[2022-02-22 16:29:33 +0300] [3151] [DEBUG] POST /runkmeans
+[2022-02-22 16:29:44 +0300] [3151] [DEBUG] OPTIONS /detectoutliers
+[2022-02-22 16:29:44 +0300] [3151] [DEBUG] POST /detectoutliers
+[2022-02-22 16:37:30 +0300] [3151] [DEBUG] OPTIONS /uploadCM
+[2022-02-22 16:37:30 +0300] [3151] [DEBUG] POST /uploadCM
+[2022-02-22 16:37:30,673] ERROR in app: Exception on /uploadCM [POST]
+Traceback (most recent call last):
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask/app.py", line 2070, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask/app.py", line 1515, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask_cors/extension.py", line 165, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask/app.py", line 1513, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask/app.py", line 1499, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**req.view_args)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/routes.py", line 69, in uploadCM
+    num_clusters = 2
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/pandas/util/_decorators.py", line 311, in wrapper
+    return func(*args, **kwargs)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/pandas/io/parsers/readers.py", line 586, in read_csv
+    return _read(filepath_or_buffer, kwds)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/pandas/io/parsers/readers.py", line 482, in _read
+    parser = TextFileReader(filepath_or_buffer, **kwds)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/pandas/io/parsers/readers.py", line 811, in __init__
+    self._engine = self._make_engine(self.engine)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/pandas/io/parsers/readers.py", line 1040, in _make_engine
+    return mapping[engine](self.f, **self.options)  # type: ignore[call-arg]
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/pandas/io/parsers/c_parser_wrapper.py", line 51, in __init__
+    self._open_handles(src, kwds)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/pandas/io/parsers/base_parser.py", line 222, in _open_handles
+    self.handles = get_handle(
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/pandas/io/common.py", line 702, in get_handle
+    handle = open(
+FileNotFoundError: [Errno 2] No such file or directory: './data/PCA/GRM_for_MElS_small.csv'
+[2022-02-22 16:38:08 +0300] [3151] [DEBUG] OPTIONS /uploadCM
+[2022-02-22 16:38:08 +0300] [3151] [DEBUG] POST /uploadCM
+[2022-02-22 16:38:08,831] ERROR in app: Exception on /uploadCM [POST]
+Traceback (most recent call last):
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask/app.py", line 2070, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask/app.py", line 1515, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask_cors/extension.py", line 165, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask/app.py", line 1513, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask/app.py", line 1499, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**req.view_args)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/routes.py", line 69, in uploadCM
+    pca_new = PCA(n_components=20)#, whiten=True
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/pandas/util/_decorators.py", line 311, in wrapper
+    return func(*args, **kwargs)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/pandas/io/parsers/readers.py", line 586, in read_csv
+    return _read(filepath_or_buffer, kwds)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/pandas/io/parsers/readers.py", line 482, in _read
+    parser = TextFileReader(filepath_or_buffer, **kwds)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/pandas/io/parsers/readers.py", line 811, in __init__
+    self._engine = self._make_engine(self.engine)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/pandas/io/parsers/readers.py", line 1040, in _make_engine
+    return mapping[engine](self.f, **self.options)  # type: ignore[call-arg]
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/pandas/io/parsers/c_parser_wrapper.py", line 51, in __init__
+    self._open_handles(src, kwds)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/pandas/io/parsers/base_parser.py", line 222, in _open_handles
+    self.handles = get_handle(
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/pandas/io/common.py", line 702, in get_handle
+    handle = open(
+FileNotFoundError: [Errno 2] No such file or directory: './data/PCA/GRM_for_MElS_small.csv'
+[2022-02-22 16:39:21 +0300] [3151] [DEBUG] OPTIONS /uploadCM
+[2022-02-22 16:39:21 +0300] [3151] [DEBUG] POST /uploadCM
+[2022-02-22 16:39:21,989] ERROR in app: Exception on /uploadCM [POST]
+Traceback (most recent call last):
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask/app.py", line 2070, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask/app.py", line 1515, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask_cors/extension.py", line 165, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask/app.py", line 1513, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask/app.py", line 1499, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**req.view_args)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/routes.py", line 69, in uploadCM
+    print(1)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/pandas/util/_decorators.py", line 311, in wrapper
+    return func(*args, **kwargs)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/pandas/io/parsers/readers.py", line 586, in read_csv
+    return _read(filepath_or_buffer, kwds)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/pandas/io/parsers/readers.py", line 482, in _read
+    parser = TextFileReader(filepath_or_buffer, **kwds)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/pandas/io/parsers/readers.py", line 811, in __init__
+    self._engine = self._make_engine(self.engine)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/pandas/io/parsers/readers.py", line 1040, in _make_engine
+    return mapping[engine](self.f, **self.options)  # type: ignore[call-arg]
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/pandas/io/parsers/c_parser_wrapper.py", line 51, in __init__
+    self._open_handles(src, kwds)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/pandas/io/parsers/base_parser.py", line 222, in _open_handles
+    self.handles = get_handle(
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/pandas/io/common.py", line 702, in get_handle
+    handle = open(
+FileNotFoundError: [Errno 2] No such file or directory: './data/PCA/GRM_for_MElS_small.csv'
+[2022-02-22 16:39:54 +0300] [3151] [INFO] Worker exiting (pid: 3151)
+[2022-02-22 16:39:54 +0300] [3149] [INFO] Handling signal: term
+[2022-02-22 16:39:54 +0300] [3149] [WARNING] Worker with pid 3151 was terminated due to signal 15
+[2022-02-22 16:39:54 +0300] [3149] [INFO] Shutting down: Master
+[2022-02-22 16:39:54 +0300] [4973] [DEBUG] Current configuration:
+  config: gunicorn.conf
+  wsgi_app: None
+  bind: ['0.0.0.0:5000']
+  backlog: 2048
+  workers: 1
+  worker_class: sync
+  threads: 1
+  worker_connections: 1000
+  max_requests: 0
+  max_requests_jitter: 0
+  timeout: 30
+  graceful_timeout: 30
+  keepalive: 2
+  limit_request_line: 4094
+  limit_request_fields: 100
+  limit_request_field_size: 8190
+  reload: False
+  reload_engine: auto
+  reload_extra_files: []
+  spew: False
+  check_config: False
+  print_config: False
+  preload_app: False
+  sendfile: None
+  reuse_port: False
+  chdir: /home/local/QCRI/kisufaj/VisualizePlots/backend
+  daemon: False
+  raw_env: []
+  pidfile: None
+  worker_tmp_dir: None
+  user: 0
+  group: 0
+  umask: 0
+  initgroups: False
+  tmp_upload_dir: None
+  secure_scheme_headers: {'X-FORWARDED-PROTOCOL': 'ssl', 'X-FORWARDED-PROTO': 'https', 'X-FORWARDED-SSL': 'on'}
+  forwarded_allow_ips: ['127.0.0.1']
+  accesslog: /home/local/QCRI/kisufaj/VisualizePlots/backend/logs/access.log
+  disable_redirect_access_to_syslog: False
+  access_log_format: %(h)s %(l)s %(u)s %(t)s "%(r)s" %(s)s %(b)s "%(f)s" "%(a)s"
+  errorlog: /home/local/QCRI/kisufaj/VisualizePlots/backend/logs/error.log
+  loglevel: debug
+  capture_output: False
+  logger_class: gunicorn.glogging.Logger
+  logconfig: None
+  logconfig_dict: {}
+  syslog_addr: udp://localhost:514
+  syslog: False
+  syslog_prefix: None
+  syslog_facility: user
+  enable_stdio_inheritance: False
+  statsd_host: None
+  dogstatsd_tags: 
+  statsd_prefix: 
+  proc_name: None
+  default_proc_name: routes:app
+  pythonpath: None
+  paste: None
+  on_starting: <function OnStarting.on_starting at 0x7fa3fbf47430>
+  on_reload: <function OnReload.on_reload at 0x7fa3fbf47550>
+  when_ready: <function WhenReady.when_ready at 0x7fa3fbf47670>
+  pre_fork: <function Prefork.pre_fork at 0x7fa3fbf47790>
+  post_fork: <function Postfork.post_fork at 0x7fa3fbf478b0>
+  post_worker_init: <function PostWorkerInit.post_worker_init at 0x7fa3fbf479d0>
+  worker_int: <function WorkerInt.worker_int at 0x7fa3fbf47af0>
+  worker_abort: <function WorkerAbort.worker_abort at 0x7fa3fbf47c10>
+  pre_exec: <function PreExec.pre_exec at 0x7fa3fbf47d30>
+  pre_request: <function PreRequest.pre_request at 0x7fa3fbf47e50>
+  post_request: <function PostRequest.post_request at 0x7fa3fbf47ee0>
+  child_exit: <function ChildExit.child_exit at 0x7fa3fbf60040>
+  worker_exit: <function WorkerExit.worker_exit at 0x7fa3fbf60160>
+  nworkers_changed: <function NumWorkersChanged.nworkers_changed at 0x7fa3fbf60280>
+  on_exit: <function OnExit.on_exit at 0x7fa3fbf603a0>
+  proxy_protocol: False
+  proxy_allow_ips: ['127.0.0.1']
+  keyfile: None
+  certfile: None
+  ssl_version: 2
+  cert_reqs: 0
+  ca_certs: None
+  suppress_ragged_eofs: True
+  do_handshake_on_connect: False
+  ciphers: None
+  raw_paste_global_conf: []
+  strip_header_spaces: False
+[2022-02-22 16:39:54 +0300] [4973] [INFO] Starting gunicorn 20.1.0
+[2022-02-22 16:39:54 +0300] [4973] [DEBUG] Arbiter booted
+[2022-02-22 16:39:54 +0300] [4973] [INFO] Listening at: http://0.0.0.0:5000 (4973)
+[2022-02-22 16:39:54 +0300] [4973] [INFO] Using worker: sync
+[2022-02-22 16:39:54 +0300] [4977] [INFO] Booting worker with pid: 4977
+[2022-02-22 16:39:54 +0300] [4973] [DEBUG] 1 workers
+[2022-02-22 16:41:57 +0300] [4977] [DEBUG] OPTIONS /uploadCM
+[2022-02-22 16:41:57 +0300] [4977] [DEBUG] POST /uploadCM
+[2022-02-22 16:41:57,733] ERROR in app: Exception on /uploadCM [POST]
+Traceback (most recent call last):
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask/app.py", line 2070, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask/app.py", line 1515, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask_cors/extension.py", line 165, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask/app.py", line 1513, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask/app.py", line 1499, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**req.view_args)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/routes.py", line 66, in uploadCM
+    if num_clusters < 2:
+UnboundLocalError: local variable 'num_clusters' referenced before assignment
+[2022-02-22 16:42:21 +0300] [4973] [INFO] Handling signal: term
+[2022-02-22 16:42:21 +0300] [4977] [INFO] Worker exiting (pid: 4977)
+[2022-02-22 16:42:22 +0300] [4973] [INFO] Shutting down: Master
+[2022-02-22 16:42:22 +0300] [5519] [DEBUG] Current configuration:
+  config: gunicorn.conf
+  wsgi_app: None
+  bind: ['0.0.0.0:5000']
+  backlog: 2048
+  workers: 1
+  worker_class: sync
+  threads: 1
+  worker_connections: 1000
+  max_requests: 0
+  max_requests_jitter: 0
+  timeout: 30
+  graceful_timeout: 30
+  keepalive: 2
+  limit_request_line: 4094
+  limit_request_fields: 100
+  limit_request_field_size: 8190
+  reload: False
+  reload_engine: auto
+  reload_extra_files: []
+  spew: False
+  check_config: False
+  print_config: False
+  preload_app: False
+  sendfile: None
+  reuse_port: False
+  chdir: /home/local/QCRI/kisufaj/VisualizePlots/backend
+  daemon: False
+  raw_env: []
+  pidfile: None
+  worker_tmp_dir: None
+  user: 0
+  group: 0
+  umask: 0
+  initgroups: False
+  tmp_upload_dir: None
+  secure_scheme_headers: {'X-FORWARDED-PROTOCOL': 'ssl', 'X-FORWARDED-PROTO': 'https', 'X-FORWARDED-SSL': 'on'}
+  forwarded_allow_ips: ['127.0.0.1']
+  accesslog: /home/local/QCRI/kisufaj/VisualizePlots/backend/logs/access.log
+  disable_redirect_access_to_syslog: False
+  access_log_format: %(h)s %(l)s %(u)s %(t)s "%(r)s" %(s)s %(b)s "%(f)s" "%(a)s"
+  errorlog: /home/local/QCRI/kisufaj/VisualizePlots/backend/logs/error.log
+  loglevel: debug
+  capture_output: False
+  logger_class: gunicorn.glogging.Logger
+  logconfig: None
+  logconfig_dict: {}
+  syslog_addr: udp://localhost:514
+  syslog: False
+  syslog_prefix: None
+  syslog_facility: user
+  enable_stdio_inheritance: False
+  statsd_host: None
+  dogstatsd_tags: 
+  statsd_prefix: 
+  proc_name: None
+  default_proc_name: routes:app
+  pythonpath: None
+  paste: None
+  on_starting: <function OnStarting.on_starting at 0x7f6c4909f430>
+  on_reload: <function OnReload.on_reload at 0x7f6c4909f550>
+  when_ready: <function WhenReady.when_ready at 0x7f6c4909f670>
+  pre_fork: <function Prefork.pre_fork at 0x7f6c4909f790>
+  post_fork: <function Postfork.post_fork at 0x7f6c4909f8b0>
+  post_worker_init: <function PostWorkerInit.post_worker_init at 0x7f6c4909f9d0>
+  worker_int: <function WorkerInt.worker_int at 0x7f6c4909faf0>
+  worker_abort: <function WorkerAbort.worker_abort at 0x7f6c4909fc10>
+  pre_exec: <function PreExec.pre_exec at 0x7f6c4909fd30>
+  pre_request: <function PreRequest.pre_request at 0x7f6c4909fe50>
+  post_request: <function PostRequest.post_request at 0x7f6c4909fee0>
+  child_exit: <function ChildExit.child_exit at 0x7f6c490b8040>
+  worker_exit: <function WorkerExit.worker_exit at 0x7f6c490b8160>
+  nworkers_changed: <function NumWorkersChanged.nworkers_changed at 0x7f6c490b8280>
+  on_exit: <function OnExit.on_exit at 0x7f6c490b83a0>
+  proxy_protocol: False
+  proxy_allow_ips: ['127.0.0.1']
+  keyfile: None
+  certfile: None
+  ssl_version: 2
+  cert_reqs: 0
+  ca_certs: None
+  suppress_ragged_eofs: True
+  do_handshake_on_connect: False
+  ciphers: None
+  raw_paste_global_conf: []
+  strip_header_spaces: False
+[2022-02-22 16:42:22 +0300] [5519] [INFO] Starting gunicorn 20.1.0
+[2022-02-22 16:42:22 +0300] [5519] [DEBUG] Arbiter booted
+[2022-02-22 16:42:22 +0300] [5519] [INFO] Listening at: http://0.0.0.0:5000 (5519)
+[2022-02-22 16:42:22 +0300] [5519] [INFO] Using worker: sync
+[2022-02-22 16:42:22 +0300] [5521] [INFO] Booting worker with pid: 5521
+[2022-02-22 16:42:22 +0300] [5519] [DEBUG] 1 workers
+[2022-02-22 16:42:27 +0300] [5521] [DEBUG] OPTIONS /uploadCM
+[2022-02-22 16:42:27 +0300] [5521] [DEBUG] POST /uploadCM
+[2022-02-22 16:42:27,403] ERROR in app: Exception on /uploadCM [POST]
+Traceback (most recent call last):
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask/app.py", line 2070, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask/app.py", line 1515, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask_cors/extension.py", line 165, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask/app.py", line 1513, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask/app.py", line 1499, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**req.view_args)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/routes.py", line 66, in uploadCM
+    cm_df = pd.json_normalize(request_df)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/pandas/io/json/_normalize.py", line 423, in _json_normalize
+    raise NotImplementedError
+NotImplementedError
+[2022-02-22 16:44:56 +0300] [5521] [DEBUG] OPTIONS /uploadCM
+[2022-02-22 16:44:56 +0300] [5521] [DEBUG] POST /uploadCM
+[2022-02-22 16:44:56,859] ERROR in app: Exception on /uploadCM [POST]
+Traceback (most recent call last):
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask/app.py", line 2070, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask/app.py", line 1515, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask_cors/extension.py", line 165, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask/app.py", line 1513, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask/app.py", line 1499, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**req.view_args)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/routes.py", line 66, in uploadCM
+    request_df = request.get_json()['df']
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/pandas/io/json/_normalize.py", line 423, in _json_normalize
+    raise NotImplementedError
+NotImplementedError
+[2022-02-22 16:45:06 +0300] [5519] [INFO] Handling signal: term
+[2022-02-22 16:45:06 +0300] [5521] [INFO] Worker exiting (pid: 5521)
+[2022-02-22 16:45:06 +0300] [5519] [INFO] Shutting down: Master
+[2022-02-22 16:45:06 +0300] [5991] [DEBUG] Current configuration:
+  config: gunicorn.conf
+  wsgi_app: None
+  bind: ['0.0.0.0:5000']
+  backlog: 2048
+  workers: 1
+  worker_class: sync
+  threads: 1
+  worker_connections: 1000
+  max_requests: 0
+  max_requests_jitter: 0
+  timeout: 30
+  graceful_timeout: 30
+  keepalive: 2
+  limit_request_line: 4094
+  limit_request_fields: 100
+  limit_request_field_size: 8190
+  reload: False
+  reload_engine: auto
+  reload_extra_files: []
+  spew: False
+  check_config: False
+  print_config: False
+  preload_app: False
+  sendfile: None
+  reuse_port: False
+  chdir: /home/local/QCRI/kisufaj/VisualizePlots/backend
+  daemon: False
+  raw_env: []
+  pidfile: None
+  worker_tmp_dir: None
+  user: 0
+  group: 0
+  umask: 0
+  initgroups: False
+  tmp_upload_dir: None
+  secure_scheme_headers: {'X-FORWARDED-PROTOCOL': 'ssl', 'X-FORWARDED-PROTO': 'https', 'X-FORWARDED-SSL': 'on'}
+  forwarded_allow_ips: ['127.0.0.1']
+  accesslog: /home/local/QCRI/kisufaj/VisualizePlots/backend/logs/access.log
+  disable_redirect_access_to_syslog: False
+  access_log_format: %(h)s %(l)s %(u)s %(t)s "%(r)s" %(s)s %(b)s "%(f)s" "%(a)s"
+  errorlog: /home/local/QCRI/kisufaj/VisualizePlots/backend/logs/error.log
+  loglevel: debug
+  capture_output: False
+  logger_class: gunicorn.glogging.Logger
+  logconfig: None
+  logconfig_dict: {}
+  syslog_addr: udp://localhost:514
+  syslog: False
+  syslog_prefix: None
+  syslog_facility: user
+  enable_stdio_inheritance: False
+  statsd_host: None
+  dogstatsd_tags: 
+  statsd_prefix: 
+  proc_name: None
+  default_proc_name: routes:app
+  pythonpath: None
+  paste: None
+  on_starting: <function OnStarting.on_starting at 0x7f7b9677d430>
+  on_reload: <function OnReload.on_reload at 0x7f7b9677d550>
+  when_ready: <function WhenReady.when_ready at 0x7f7b9677d670>
+  pre_fork: <function Prefork.pre_fork at 0x7f7b9677d790>
+  post_fork: <function Postfork.post_fork at 0x7f7b9677d8b0>
+  post_worker_init: <function PostWorkerInit.post_worker_init at 0x7f7b9677d9d0>
+  worker_int: <function WorkerInt.worker_int at 0x7f7b9677daf0>
+  worker_abort: <function WorkerAbort.worker_abort at 0x7f7b9677dc10>
+  pre_exec: <function PreExec.pre_exec at 0x7f7b9677dd30>
+  pre_request: <function PreRequest.pre_request at 0x7f7b9677de50>
+  post_request: <function PostRequest.post_request at 0x7f7b9677dee0>
+  child_exit: <function ChildExit.child_exit at 0x7f7b96796040>
+  worker_exit: <function WorkerExit.worker_exit at 0x7f7b96796160>
+  nworkers_changed: <function NumWorkersChanged.nworkers_changed at 0x7f7b96796280>
+  on_exit: <function OnExit.on_exit at 0x7f7b967963a0>
+  proxy_protocol: False
+  proxy_allow_ips: ['127.0.0.1']
+  keyfile: None
+  certfile: None
+  ssl_version: 2
+  cert_reqs: 0
+  ca_certs: None
+  suppress_ragged_eofs: True
+  do_handshake_on_connect: False
+  ciphers: None
+  raw_paste_global_conf: []
+  strip_header_spaces: False
+[2022-02-22 16:45:06 +0300] [5991] [INFO] Starting gunicorn 20.1.0
+[2022-02-22 16:45:06 +0300] [5991] [DEBUG] Arbiter booted
+[2022-02-22 16:45:06 +0300] [5991] [INFO] Listening at: http://0.0.0.0:5000 (5991)
+[2022-02-22 16:45:06 +0300] [5991] [INFO] Using worker: sync
+[2022-02-22 16:45:06 +0300] [5995] [INFO] Booting worker with pid: 5995
+[2022-02-22 16:45:07 +0300] [5991] [DEBUG] 1 workers
+[2022-02-22 16:45:14 +0300] [5995] [DEBUG] OPTIONS /uploadCM
+[2022-02-22 16:45:14 +0300] [5995] [DEBUG] POST /uploadCM
+[2022-02-22 16:45:14,952] ERROR in app: Exception on /uploadCM [POST]
+Traceback (most recent call last):
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask/app.py", line 2070, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask/app.py", line 1515, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask_cors/extension.py", line 165, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask/app.py", line 1513, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask/app.py", line 1499, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**req.view_args)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/routes.py", line 67, in uploadCM
+    cm_df = pd.json_normalize(request_df)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/pandas/io/json/_normalize.py", line 423, in _json_normalize
+    raise NotImplementedError
+NotImplementedError
+[2022-02-22 16:46:38 +0300] [5995] [DEBUG] OPTIONS /detectoutliers
+[2022-02-22 16:46:38 +0300] [5995] [DEBUG] POST /detectoutliers
+[2022-02-22 16:48:37 +0300] [5991] [INFO] Handling signal: term
+[2022-02-22 16:48:37 +0300] [5995] [INFO] Worker exiting (pid: 5995)
+[2022-02-22 16:48:37 +0300] [5991] [INFO] Shutting down: Master
+[2022-02-22 17:22:50 +0300] [13140] [DEBUG] Current configuration:
+  config: gunicorn.conf
+  wsgi_app: None
+  bind: ['0.0.0.0:5000']
+  backlog: 2048
+  workers: 1
+  worker_class: sync
+  threads: 1
+  worker_connections: 1000
+  max_requests: 0
+  max_requests_jitter: 0
+  timeout: 30
+  graceful_timeout: 30
+  keepalive: 2
+  limit_request_line: 4094
+  limit_request_fields: 100
+  limit_request_field_size: 8190
+  reload: False
+  reload_engine: auto
+  reload_extra_files: []
+  spew: False
+  check_config: False
+  print_config: False
+  preload_app: False
+  sendfile: None
+  reuse_port: False
+  chdir: /home/local/QCRI/kisufaj/VisualizePlots/backend
+  daemon: False
+  raw_env: []
+  pidfile: None
+  worker_tmp_dir: None
+  user: 0
+  group: 0
+  umask: 0
+  initgroups: False
+  tmp_upload_dir: None
+  secure_scheme_headers: {'X-FORWARDED-PROTOCOL': 'ssl', 'X-FORWARDED-PROTO': 'https', 'X-FORWARDED-SSL': 'on'}
+  forwarded_allow_ips: ['127.0.0.1']
+  accesslog: /home/local/QCRI/kisufaj/VisualizePlots/backend/logs/access.log
+  disable_redirect_access_to_syslog: False
+  access_log_format: %(h)s %(l)s %(u)s %(t)s "%(r)s" %(s)s %(b)s "%(f)s" "%(a)s"
+  errorlog: /home/local/QCRI/kisufaj/VisualizePlots/backend/logs/error.log
+  loglevel: debug
+  capture_output: False
+  logger_class: gunicorn.glogging.Logger
+  logconfig: None
+  logconfig_dict: {}
+  syslog_addr: udp://localhost:514
+  syslog: False
+  syslog_prefix: None
+  syslog_facility: user
+  enable_stdio_inheritance: False
+  statsd_host: None
+  dogstatsd_tags: 
+  statsd_prefix: 
+  proc_name: None
+  default_proc_name: routes:app
+  pythonpath: None
+  paste: None
+  on_starting: <function OnStarting.on_starting at 0x7f967cad1430>
+  on_reload: <function OnReload.on_reload at 0x7f967cad1550>
+  when_ready: <function WhenReady.when_ready at 0x7f967cad1670>
+  pre_fork: <function Prefork.pre_fork at 0x7f967cad1790>
+  post_fork: <function Postfork.post_fork at 0x7f967cad18b0>
+  post_worker_init: <function PostWorkerInit.post_worker_init at 0x7f967cad19d0>
+  worker_int: <function WorkerInt.worker_int at 0x7f967cad1af0>
+  worker_abort: <function WorkerAbort.worker_abort at 0x7f967cad1c10>
+  pre_exec: <function PreExec.pre_exec at 0x7f967cad1d30>
+  pre_request: <function PreRequest.pre_request at 0x7f967cad1e50>
+  post_request: <function PostRequest.post_request at 0x7f967cad1ee0>
+  child_exit: <function ChildExit.child_exit at 0x7f967caea040>
+  worker_exit: <function WorkerExit.worker_exit at 0x7f967caea160>
+  nworkers_changed: <function NumWorkersChanged.nworkers_changed at 0x7f967caea280>
+  on_exit: <function OnExit.on_exit at 0x7f967caea3a0>
+  proxy_protocol: False
+  proxy_allow_ips: ['127.0.0.1']
+  keyfile: None
+  certfile: None
+  ssl_version: 2
+  cert_reqs: 0
+  ca_certs: None
+  suppress_ragged_eofs: True
+  do_handshake_on_connect: False
+  ciphers: None
+  raw_paste_global_conf: []
+  strip_header_spaces: False
+[2022-02-22 17:22:50 +0300] [13140] [INFO] Starting gunicorn 20.1.0
+[2022-02-22 17:22:50 +0300] [13140] [DEBUG] Arbiter booted
+[2022-02-22 17:22:50 +0300] [13140] [INFO] Listening at: http://0.0.0.0:5000 (13140)
+[2022-02-22 17:22:50 +0300] [13140] [INFO] Using worker: sync
+[2022-02-22 17:22:50 +0300] [13142] [INFO] Booting worker with pid: 13142
+[2022-02-22 17:22:50 +0300] [13140] [DEBUG] 1 workers
+[2022-02-22 17:50:06 +0300] [13142] [DEBUG] GET /
+[2022-02-22 17:50:42 +0300] [13142] [DEBUG] OPTIONS /runkmeans
+[2022-02-22 17:50:42 +0300] [13142] [DEBUG] POST /runkmeans
+[2022-02-22 17:51:06 +0300] [13142] [DEBUG] GET /
+[2022-02-22 17:56:10 +0300] [13142] [DEBUG] GET /
+[2022-02-22 18:03:41 +0300] [13142] [DEBUG] GET /
+[2022-03-06 16:21:28 +0300] [13142] [DEBUG] Invalid request from ip=10.1.221.2: Invalid HTTP request line: 'ÿôÿý\x06'
+[2022-03-07 16:54:39 +0300] [13142] [DEBUG] GET /
+[2022-03-07 16:56:10 +0300] [13142] [DEBUG] GET /
+[2022-03-07 16:56:10 +0300] [13142] [DEBUG] GET /favicon.ico
+[2022-03-07 16:58:54 +0300] [13142] [DEBUG] GET /
+[2022-03-07 17:00:15 +0300] [13142] [DEBUG] OPTIONS /runkmeans
+[2022-03-07 17:00:15 +0300] [13142] [DEBUG] POST /runkmeans
+[2022-03-07 17:00:45 +0300] [13142] [DEBUG] OPTIONS /runkmeans
+[2022-03-07 17:00:45 +0300] [13142] [DEBUG] POST /runkmeans
+[2022-03-07 18:16:41 +0300] [13142] [DEBUG] OPTIONS /runkmeans
+[2022-03-07 18:16:41 +0300] [13142] [DEBUG] POST /runkmeans
+[2022-03-07 18:17:43 +0300] [13142] [DEBUG] OPTIONS /runkmeans
+[2022-03-07 18:17:43 +0300] [13142] [DEBUG] POST /runkmeans
+[2022-03-07 18:18:03 +0300] [13142] [DEBUG] OPTIONS /runkmeans
+[2022-03-07 18:18:03 +0300] [13142] [DEBUG] POST /runkmeans
+[2022-03-07 18:21:24 +0300] [13142] [DEBUG] OPTIONS /runkmeans
+[2022-03-07 18:21:24 +0300] [13142] [DEBUG] POST /runkmeans
+[2022-03-08 11:07:31 +0300] [13142] [DEBUG] OPTIONS /runkmeans
+[2022-03-08 11:07:31 +0300] [13142] [DEBUG] POST /runkmeans
+[2022-03-08 11:08:06 +0300] [13142] [DEBUG] OPTIONS /runkmeans
+[2022-03-08 11:08:06 +0300] [13142] [DEBUG] POST /runkmeans
+[2022-03-08 11:16:47 +0300] [13142] [DEBUG] OPTIONS /runkmeans
+[2022-03-08 11:16:47 +0300] [13142] [DEBUG] POST /runkmeans
+[2022-03-08 11:40:50 +0300] [13142] [DEBUG] OPTIONS /runkmeans
+[2022-03-08 11:40:50 +0300] [13142] [DEBUG] POST /runkmeans
+[2022-03-08 11:46:24 +0300] [13142] [DEBUG] OPTIONS /runkmeans
+[2022-03-08 11:46:24 +0300] [13142] [DEBUG] POST /runkmeans
+[2022-03-08 11:46:50 +0300] [13142] [DEBUG] OPTIONS /detectoutliers
+[2022-03-08 11:46:50 +0300] [13142] [DEBUG] POST /detectoutliers
+[2022-03-08 11:47:14 +0300] [13142] [DEBUG] OPTIONS /detectoutliers
+[2022-03-08 11:47:14 +0300] [13142] [DEBUG] POST /detectoutliers
+[2022-03-08 11:47:37 +0300] [13142] [DEBUG] OPTIONS /runkmeans
+[2022-03-08 11:47:37 +0300] [13142] [DEBUG] POST /runkmeans
+[2022-03-08 11:48:10 +0300] [13142] [DEBUG] OPTIONS /detectoutliers
+[2022-03-08 11:48:10 +0300] [13142] [DEBUG] POST /detectoutliers
+[2022-03-08 11:49:13 +0300] [13142] [DEBUG] OPTIONS /detectoutliers
+[2022-03-08 11:49:13 +0300] [13142] [DEBUG] POST /detectoutliers
+[2022-03-08 11:49:35 +0300] [13142] [DEBUG] OPTIONS /detectoutliers
+[2022-03-08 11:49:35 +0300] [13142] [DEBUG] POST /detectoutliers
