@@ -1,0 +1,13 @@
+● VisualizationProject.service - Visualization Project Flask API
+   Loaded: loaded (/etc/systemd/system/VisualizationProject.service; enabled; vendor preset: enabled)
+   Active: active (running) since Tue 2022-02-22 16:05:12 +03; 4min 31s ago
+ Main PID: 30167 (gunicorn)
+   CGroup: /system.slice/VisualizationProject.service
+           ├─30167 /home/local/QCRI/kisufaj/VisualizePlots/backend/env/bin/python3.9 /home/local/QCRI/kisufaj/VisualizePlots/backend/env/bin/gunicorn -c gunicorn.conf -b 127.0.0.1:5000 routes:app
+           └─30169 /home/local/QCRI/kisufaj/VisualizePlots/backend/env/bin/python3.9 /home/local/QCRI/kisufaj/VisualizePlots/backend/env/bin/gunicorn -c gunicorn.conf -b 127.0.0.1:5000 routes:app
+
+Feb 22 16:05:12 DAUBGENEVIS001 systemd[1]: Started Visualization Project Flask API.
+Feb 22 16:05:12 DAUBGENEVIS001 gunicorn[30167]: !!!
+Feb 22 16:05:12 DAUBGENEVIS001 gunicorn[30167]: !!! WARNING: configuration file should have a valid Python extension.
+Feb 22 16:05:12 DAUBGENEVIS001 gunicorn[30167]: !!!
+Feb 22 16:05:24 DAUBGENEVIS001 systemd[1]: Started Visualization Project Flask API.

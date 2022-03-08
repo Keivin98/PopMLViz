@@ -851,27 +851,27 @@ class App extends Component {
   handleFileUpload = (e) => {
     // console.log(e);
     this.setState({ selectedFile: e.target.files[0] });
-    if (
-      this.state.selectedUploadOption === "PCA" ||
-      this.state.selectedUploadOption === "t-SNE"
-    ) {
-      const file = e.target.files[0];
-      const reader = new FileReader();
-      reader.onload = (evt) => {
-        /* Parse data */
-        const bstr = evt.target.result;
-        const wb = XLSX.read(bstr, { type: "binary" });
-        /* Get first worksheet */
-        const wsname = wb.SheetNames[0];
-        const ws = wb.Sheets[wsname];
-        /* Convert array of arrays */
-        const data = XLSX.utils.sheet_to_csv(ws, { header: 1 });
-        this.processData(data, false);
-      };
-      reader.readAsBinaryString(file);
-    } else {
-      this.UploadCMDataset(e.target.files[0]);
-    }
+    const file = e.target.files[0];
+    const reader = new FileReader();
+    reader.onload = (evt) => {
+      /* Parse data */
+      const bstr = evt.target.result;
+      const wb = XLSX.read(bstr, { type: "binary" });
+      /* Get first worksheet */
+      const wsname = wb.SheetNames[0];
+      const ws = wb.Sheets[wsname];
+      /* Convert array of arrays */
+      const data = XLSX.utils.sheet_to_csv(ws, { header: 1 });
+      this.processData(data, false).then(() => { if (
+        this.state.selectedUploadOption === "PCA" ||
+        this.state.selectedUploadOption === "t-SNE"
+      ) {} 
+      else {
+        this.UploadCMDataset(e.target.files[0]);
+      }});
+    };
+    reader.readAsBinaryString(file);
+   
   };
   handleSelectXChange = (value) => {
     this.setState({
@@ -938,11 +938,11 @@ class App extends Component {
   UploadCMDataset = (file) => {
     // Create an object of formData
     const formData = {
-      filename: file.name,
+      df: this.state.data,
     };
     // console.log(file);
     this.setState({ isLoading: true });
-    var url = "http://127.0.0.1:5000/";
+    var url = "http://10.4.4.115:5000/";
     if (this.state.DRAlgorithm === "PCA") {
       url = url + "uploadCM";
     } else if (this.state.DRAlgorithm === "t-SNE 2D") {
@@ -973,7 +973,7 @@ class App extends Component {
     };
     this.setState({ isLoading: true });
     axios
-      .post("http://127.0.0.1:5000/runkmeans", formData, {
+      .post("http://10.4.4.115:5000/runkmeans", formData, {
         headers: {
           "Content-Type": "application/json",
         },
@@ -1003,7 +1003,7 @@ class App extends Component {
       };
       this.setState({ isLoading: true });
       axios
-        .post("http://127.0.0.1:5000/detectoutliers", formData, {
+        .post("http://10.4.4.115:5000/detectoutliers", formData, {
           headers: {
             "Content-Type": "application/json",
           },
