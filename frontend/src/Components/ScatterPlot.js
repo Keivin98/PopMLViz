@@ -37,7 +37,7 @@ const styles = {
     marginTop: '12%',
     marginLeft: '26%',
     width: "52%",
-    height: "75%"
+    height: "73%"
   },
 };
 export default ScatterPlot;
