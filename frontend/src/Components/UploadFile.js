@@ -1360,7 +1360,7 @@ class App extends Component {
             <div>
               {this.showScatterPlot()}
               <div className="radio" style={styles.dimensions}>
-              <FormControl style = {{marginLeft:'2%'}}>
+              <FormControl style = {{marginLeft:'2%', marginTop: '2%'}}>
                 <FormLabel id="demo-row-radio-buttons-group-label">Plot</FormLabel>
                 <RadioGroup
                   row
@@ -1375,7 +1375,7 @@ class App extends Component {
                 </RadioGroup>
               </FormControl>
               <div style={styles.dropDown}>
-                      <label style= {{width : '25%', marginLeft: "10%"}} > 
+                      <label style= {{width : '25%', marginLeft: "12%"}} > 
                       <h6 style={{fontSize: "1vw"}}> X-axis </h6></label>
                       <div style= {{width : '75%'}} >
                       <Select
@@ -1386,25 +1386,27 @@ class App extends Component {
                     </div>
                     
                       <div style={styles.dropDown}>
-                        <label style= {{width : '25%', marginLeft: "10%"}} >
+                        <label style= {{width : '25%', marginLeft: "12%"}} >
                         <h6 style={{fontSize: "1vw"}}> Y-axis </h6>
                         </label>
                       <div style= {{width : '75%'}} >
                         <Select
                           options={this.state.selectActions}
                           onChange={this.handleSelectYChange}
+                          isDisabled={this.state.selectedOption !== "3D" &&
+                                        this.state.selectedOption !== "2D" }
                         />
                       </div>
                       </div>
                       <div style={styles.dropDown}>
-                        <label style= {{width : '25%', marginLeft: "10%"}} > 
+                        <label style= {{width : '25%', marginLeft: "12%"}} > 
                         <h6 style={{fontSize: "1vw"}}> Z-axis </h6>
                         </label>
                       <div style= {{width : '75%'}} >
                         <Select
                           options={this.state.selectActions}
                           onChange={this.handleSelectZChange}
-                          disabled={true}
+                          isDisabled={this.state.selectedOption !== "3D"}
                         />
                       </div>
                       </div>
@@ -1542,7 +1544,7 @@ const styles = {
     marginLeft: "3%",
   },
   rightPane: {
-    height: "90%",
+    height: "88%",
     position: "fixed",
     display: "flex",
     flexDirection: "row",
@@ -1582,13 +1584,14 @@ const styles = {
   },
 
   dropDown: {
-    width: "25%",
+    width: "23%",
+    marginLeft: '4%'
   },
   optionsContainer: {
     position: "fixed",
     right: "1%",
     top: -10, 
-    height: "87%",
+    height: "85%",
     display: "flex",
     flexDirection: "column",
     width: "20%",
