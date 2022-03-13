@@ -34,9 +34,9 @@ const styles = {
     top: 0,
     overflow_x: 'hidden',
     left: 0,
-    marginTop: '7%',
+    marginTop: '12%',
     marginLeft: '26%',
-    width: "50%",
+    width: "52%",
     height: "75%"
   },
 };

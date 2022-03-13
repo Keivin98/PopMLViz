@@ -10,7 +10,12 @@ import DownloadData from "./DownloadData";
 import OutlierBlock from "./OutlierBlock";
 import { Button } from "@material-ui/core";
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
-import TabOutputOptions from "./TabOutputOptions"
+import TabOutputOptions from "./TabOutputOptions";
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormControl from '@mui/material/FormControl';
+import FormLabel from '@mui/material/FormLabel';
 import 'react-tabs/style/react-tabs.css';
 
 const randomColors = [
@@ -132,7 +137,7 @@ class App extends Component {
     if (this.state.selectedFile) {
       return (
         <div>
-          <h2>File Details:</h2>
+          <h2 style={{fontSize: "1vw"}}>File Details:</h2>
           <p>
             File Name:{" "}
             {this.state.selectedFile.name.substr(
@@ -152,7 +157,7 @@ class App extends Component {
       return (
         <div>
           <br />
-          <h4>Upload the Dataset</h4>
+          <h4 style={{fontSize: "1vw"}}>Upload the Dataset</h4>
         </div>
       );
     }
@@ -908,27 +913,29 @@ class App extends Component {
       selectedUploadOption: event.target.value,
     });
   };
-  onValueChange1D = (event) => {
-    var newSelected = [this.state.selectedColumns, null, null];
-    this.setState({
-      selectedOption: event.target.value,
-      selectedColumns: newSelected,
-    });
-  };
-  onValueChange2D = (event) => {
-    var newSelected = this.state.selectedColumns;
-    newSelected[2] = null;
-    this.setState({
-      selectedOption: event.target.value,
-      selectedColumns: newSelected,
-    });
-  };
 
-  onValueChange3D = (event) => {
-    this.setState({
-      selectedOption: event.target.value,
-    });
-  };
+  onValueChangeDims = (event) => {
+    var value = event.target.value;
+    var newSelected = []
+    if (value === '1D'){
+      newSelected = [this.state.selectedColumns[0], null, null];
+      this.setState({
+        selectedOption: event.target.value,
+        selectedColumns: newSelected,
+      });
+    } else if(value === '2D') {
+      newSelected = this.state.selectedColumns;
+      newSelected[2] = null;
+      this.setState({
+        selectedOption: event.target.value,
+        selectedColumns: newSelected,
+      });
+    }else{
+      this.setState({
+        selectedOption: value,
+      });
+    }
+  }
 
   formSubmit = (event) => {
     event.preventDefault();
@@ -1310,7 +1317,7 @@ class App extends Component {
               paddingVertical: "20px",
             }}
           >
-            <label> <h5> Describing Columns </h5></label>
+            <label> <h5 style={{fontSize: "1vw"}}> Describing Columns </h5></label>
             <Select
               name="filters"
               placeholder="Filters"
@@ -1352,6 +1359,56 @@ class App extends Component {
           {!this.state.isLoading && (
             <div>
               {this.showScatterPlot()}
+              <div className="radio" style={styles.dimensions}>
+              <FormControl style = {{marginLeft:'2%'}}>
+                <FormLabel id="demo-row-radio-buttons-group-label">Plot</FormLabel>
+                <RadioGroup
+                  row
+                  aria-labelledby="demo-row-radio-buttons-group-label"
+                  name="row-radio-buttons-group"
+                  value={this.state.selectedOption}
+                  onChange={this.onValueChangeDims}
+                >
+                  <FormControlLabel value="1D" control={<Radio color="success" size="small"/>} label="1D" />
+                  <FormControlLabel value="2D" control={<Radio color="success" size="small"/>} label="2D" />
+                  <FormControlLabel value="3D" control={<Radio color="success" size="small"/>} label="3D" />
+                </RadioGroup>
+              </FormControl>
+              <div style={styles.dropDown}>
+                      <label style= {{width : '25%', marginLeft: "10%"}} > 
+                      <h6 style={{fontSize: "1vw"}}> X-axis </h6></label>
+                      <div style= {{width : '75%'}} >
+                      <Select
+                        options={this.state.selectActions}
+                        onChange={this.handleSelectXChange}
+                      />
+                      </div>
+                    </div>
+                    
+                      <div style={styles.dropDown}>
+                        <label style= {{width : '25%', marginLeft: "10%"}} >
+                        <h6 style={{fontSize: "1vw"}}> Y-axis </h6>
+                        </label>
+                      <div style= {{width : '75%'}} >
+                        <Select
+                          options={this.state.selectActions}
+                          onChange={this.handleSelectYChange}
+                        />
+                      </div>
+                      </div>
+                      <div style={styles.dropDown}>
+                        <label style= {{width : '25%', marginLeft: "10%"}} > 
+                        <h6 style={{fontSize: "1vw"}}> Z-axis </h6>
+                        </label>
+                      <div style= {{width : '75%'}} >
+                        <Select
+                          options={this.state.selectActions}
+                          onChange={this.handleSelectZChange}
+                          disabled={true}
+                        />
+                      </div>
+                      </div>
+                  </div>
               <Tabs style={styles.optionsContainer}>
                   <TabList>
                     <Tab>Settings</Tab>
@@ -1359,80 +1416,14 @@ class App extends Component {
                   </TabList>
 
                   <TabPanel>
-                    <div className="radio" style={styles.dimensions}>
-                      <h6>Plot: </h6>
-                      <label style={{marginLeft : "10%"}}>
-                        <input
-                        type="radio"
-                        value="1D"
-                        checked={this.state.selectedOption === "1D"}
-                        onChange={this.onValueChange1D}                        
-                      />
-                      1D
-                    </label>
-                    <label style={{marginLeft : "10%"}}>
-                      <input
-                        type="radio"
-                        value="2D"
-                        checked={this.state.selectedOption === "2D"}
-                        onChange={this.onValueChange2D}
-                      />
-                      2D
-                    </label>
-                    <label style={{marginLeft : "10%"}}>
-                        <input
-                          type="radio"
-                          value="3D"
-                          checked={this.state.selectedOption === "3D"}
-                          onChange={this.onValueChange3D}
-                        />
-                        3D
-                      </label>
-                  </div>
                   <div className="row">
                     <div className="row-md-8"></div>
 
-                    <div style={styles.dropDown}>
-                      <label style= {{width : '15%', marginLeft: "3%"}} > 
-                      <h6> X-axis </h6></label>
-                      <div style= {{width : '50%'}} >
-                      <Select
-                        options={this.state.selectActions}
-                        onChange={this.handleSelectXChange}
-                      />
-                      </div>
-                    </div>
-                    {(this.state.selectedOption === "2D" ||
-                      this.state.selectedOption === "3D") && (
-                      <div style={styles.dropDown}>
-                        <label style= {{width : '15%', marginLeft: "3%"}} >
-                        <h6> Y-axis </h6>
-                        </label>
-                      <div style= {{width : '50%'}} >
-                        <Select
-                          options={this.state.selectActions}
-                          onChange={this.handleSelectYChange}
-                        />
-                      </div>
-                      </div>
-                    )}
-                    {this.state.selectedOption === "3D" && (
-                      <div style={styles.dropDown}>
-                        <label style= {{width : '15%', marginLeft: "3%"}} > 
-                        <h6> Z-axis </h6>
-                        </label>
-                      <div style= {{width : '50%'}} >
-                        <Select
-                          options={this.state.selectActions}
-                          onChange={this.handleSelectZChange}
-                        />
-                      </div>
-                      </div>
-                    )}
+                    
                     {this.state.multiValue.length > 0 && (
                       <div style={styles.dropDown}>
                         <label style= {{width : '55%', marginLeft: "3%"}} > 
-                          <h6>Choose Describing Column</h6>
+                          <h6 style={{fontSize: "1vw"}}>Choose Describing Column</h6>
                         </label>
                         <div style= {{width : '40%'}} >
                           <Select
@@ -1451,7 +1442,7 @@ class App extends Component {
                 marginLeft: "3%"
               }}
             >
-              <h6>Choose the outlier detection method</h6>
+              <h6  style={{fontSize: "1vw"}} >Choose the outlier detection method</h6>
               <Select
                 options={this.state.selectOutlierActions}
                 onChange={this.handleOutlierChange}
@@ -1469,7 +1460,7 @@ class App extends Component {
                 <Button variant="outlined"  
                   onClick={() => this.state.pressed === 0 ? this.setState({ pressed: -1 }) : this.setState({ pressed: 0})}
                   style={{
-                    marginTop: "20px",
+                    marginTop: "10%",
                     backgroundColor:
                       this.state.pressed === 0 ? "green" : "transparent",
                   }}
@@ -1479,7 +1470,7 @@ class App extends Component {
                 <Button variant="outlined"  
                   onClick={() => this.state.pressed === 1 ? this.setState({ pressed: -1 }) : this.setState({ pressed: 1})}
                   style={{
-                    marginTop: "20px",
+                    marginTop: "10%",
                     backgroundColor:
                       this.state.pressed === 1 ? "green" : "transparent",
                   }}
@@ -1487,20 +1478,28 @@ class App extends Component {
                   OR
                 </Button>
               </div>
-              <Button 
-                variant="outlined" 
-                onClick={this.detectOutliers} 
-                style={{ marginLeft: "30%",  }} 
-                disabled = {
-                  (
-                    this.state.pressed !== 0 && 
-                    this.state.pressed !== 1
-                  ) 
-                  || selectedOutlierMethod == null 
-                  }
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-around",
+                }}
               >
-                Detect Outliers
+                <Button 
+                  variant="outlined" 
+                  onClick={this.detectOutliers} 
+                  style={{ }} 
+                  disabled = {
+                    (
+                      this.state.pressed !== 0 && 
+                      this.state.pressed !== 1
+                    ) 
+                    || selectedOutlierMethod == null 
+                    }
+                >
+                  Detect Outliers
               </Button>
+              </div>
             </div>
 
                 {this.state.data !== null && (
@@ -1543,7 +1542,7 @@ const styles = {
     marginLeft: "3%",
   },
   rightPane: {
-    height: "85%",
+    height: "90%",
     position: "fixed",
     display: "flex",
     flexDirection: "row",
@@ -1555,6 +1554,7 @@ const styles = {
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 10,
+    // backgroundColor: 'red'
   },
   radioButtons: {
     display: "flex",
@@ -1562,11 +1562,18 @@ const styles = {
     marginTop: "10px",
   },
   dimensions: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "baseline",
-    marginLeft: '3%',
-    width: "90%",
+    position: 'fixed',
+    z_index: 1,
+    top: '10%',
+    overflow_x: 'hidden',
+    left: 0,
+    marginLeft: '26%',
+    width: "52%",
+    display:'flex',
+    flexDirection:'row',
+    padding: "10px",
+    backgroundColor: "#ebeff7",
+    borderRadius: 10
   },
   outputSettings:{
     display: "flex",
@@ -1575,22 +1582,18 @@ const styles = {
   },
 
   dropDown: {
-    width: "100%",
-    display: "flex",
-    flexDirection: "row",
-    padding: "10px",
-    justifyContent: 'baseline'
+    width: "25%",
   },
   optionsContainer: {
     position: "fixed",
-    right: "3%",
-    top: 0, 
-    height: "75%",
+    right: "1%",
+    top: -10, 
+    height: "87%",
     display: "flex",
     flexDirection: "column",
-    width: "18%",
+    width: "20%",
     padding: "10px",
-    marginTop: "7%",
+    marginTop: "6%",
     backgroundColor: "#ebeff7",
     borderRadius: 10
   },

@@ -36,7 +36,7 @@ class Incrementor extends Component {
       >
         <div>
           <label>
-            <h5> Clustering the data </h5>
+            <h5> Cluster data </h5>
           </label>
         </div>
         <div style={{
