@@ -127,7 +127,7 @@ const styles = {
     display: "flex",
     flexDirection: "column",
     position: "fixed",
-    bottom: "4%",
+    bottom: "6%",
     right: "4%",
     width: "15%",
     padding: '20px',

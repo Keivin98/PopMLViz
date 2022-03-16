@@ -33,7 +33,6 @@ const randomColors = [
   "#0740ba",
   "#277f05"
 ];
-var selectedOutlierMethod = null;
 Chart.register(...registerables);
 var num_clusters = 2;
 
@@ -92,6 +91,7 @@ class App extends Component {
     show: true,
     multiValue: [],
     describingValues: [],
+    selectedDescribingColumn: { value: "None", label: "None" },
     selectedOutlierMethod: null,
     OutlierData: [],
   };
@@ -105,7 +105,8 @@ class App extends Component {
     });
   };
   handleOutlierChange = (option) => {
-    selectedOutlierMethod = option.label;
+    console.log(this.state.selectedOutlierMethod)
+    this.setState({selectedOutlierMethod : option.label});
   };
   setColumns = (columns) => {
     let act = [];
@@ -263,8 +264,8 @@ class App extends Component {
     }
     
     var plot_title = (DIM === 0 ? "1D plot of " + x 
-                    : DIM === 1 ? "2D plot of " + x + " and " + y 
-                    :             "3D plot of " + x + " and " + y + " and " + z )
+                    : DIM === 1 ? "2D plot of " + x + "and " + y 
+                    :             "3D plot of " + x + ", " + y + " and " + z )
 
     if (DIM === 0){
       layout = {
@@ -452,7 +453,7 @@ class App extends Component {
     }
     var plot_title = (DIM === 0 ? "1D plot of " + x 
                     : DIM === 1 ? "2D plot of " + x + " and " + y 
-                    :             "3D plot of " + x + " and " + y + " and " + z )
+                    :             "3D plot of " + x + ", " + y + " and " + z )
     
     if (DIM === 2){
       layout = {
@@ -624,7 +625,7 @@ class App extends Component {
     
     var plot_title = (DIM === 0 ? "1D plot of " + x 
                     : DIM === 1 ? "2D plot of " + x + " and " + y 
-                    :             "3D plot of " + x + " and " + y + " and " + z )
+                    :             "3D plot of " + x + ", " + y + " and " + z )
 
     if (DIM === 0){
       layout = {
@@ -800,7 +801,7 @@ class App extends Component {
             title: z,
           },
         },
-        title: "3D scatter plot",
+        title:  "3D plot of " + x + ", " + y + " and " + z ,
       };
     }
 
@@ -987,6 +988,7 @@ class App extends Component {
       })
       .then((r) => {
         var cluster_names = {}; 
+        // eslint-disable-next-line array-callback-return
         [...Array(num_clusters)].map((x, index) => {
           cluster_names[index] = index;
         });
@@ -1000,12 +1002,12 @@ class App extends Component {
       })
   };
   detectOutliers = () => {
-    if (selectedOutlierMethod === "None") {
+    if (this.state.selectedOutlierMethod === "None") {
       this.setOutlierData([]);
     } else {
       const formData = {
         df: this.state.data,
-        method: selectedOutlierMethod,
+        method: this.state.selectedOutlierMethod,
         columnRange : this.state.columnRange,
       };
       this.setState({ isLoading: true });
@@ -1030,7 +1032,8 @@ class App extends Component {
       distributionData:
         event.label === "None"
           ? []
-          : this.state.data.map(elem => elem[event.label])
+          : this.state.data.map(elem => elem[event.label]),
+      selectedDescribingColumn : event
     });
   };
 
@@ -1105,7 +1108,7 @@ class App extends Component {
         this.state.OutlierData.length > 0
       ) {
         if (this.state.OutlierData.length > 0) {
-          var combine_outliers = this.state.OutlierData.map((elem) => {
+            combine_outliers = this.state.OutlierData.map((elem) => {
             var val1 = parseInt(elem[x], 10) === 1;
             var val2 = parseInt(elem[y], 10) === 1;
             if (this.state.pressed === 1) {
@@ -1168,7 +1171,7 @@ class App extends Component {
         this.state.OutlierData.length > 0
       ) {
         if (this.state.OutlierData.length > 0) {
-          var combine_outliers = this.state.OutlierData.map((elem) => {
+            combine_outliers = this.state.OutlierData.map((elem) => {
             var val1 = parseInt(elem[x], 10) === 1;
             var val2 = parseInt(elem[y], 10) === 1;
             var val3 = parseInt(elem[z], 10) === 1;
@@ -1213,16 +1216,16 @@ class App extends Component {
     }
   };
   IncrementHandler = (data) => {
-    console.log(data);
+    // console.log(data);
     num_clusters = data.num_clusters;
   };
   handleOutlierColumnChange = (data) => {
-    console.log(data);
+    // console.log(data);
     this.setState({columnRange: data.columnRange});
   }
 
   handleTabOutputCallback = (cluster_names) => {
-    console.log(cluster_names);
+    // console.log(cluster_names);
     this.setState({cluster_names: cluster_names});
   }
   
@@ -1354,11 +1357,14 @@ class App extends Component {
           style={styles.rightPane}
         >
           {this.state.isLoading && (
-            <Loader type="TailSpin" color="#00BFFF" height="100" width="100" />
+            <Loader type="TailSpin" color="#00BFFF" height="100" width="100" style={{marginRight: '25%'}}/>
           )}
           {!this.state.isLoading && (
             <div>
               {this.showScatterPlot()}
+            </div>
+            )
+          }<div>
               <div className="radio" style={styles.dimensions}>
               <FormControl style = {{marginLeft:'2%', marginTop: '2%'}}>
                 <FormLabel id="demo-row-radio-buttons-group-label">Plot</FormLabel>
@@ -1413,8 +1419,8 @@ class App extends Component {
                   </div>
               <Tabs style={styles.optionsContainer}>
                   <TabList>
-                    <Tab>Settings</Tab>
-                    <Tab>Output Options</Tab>
+                    <Tab forceRenderTabPanel={true} defaultFocus={true}>Settings</Tab>
+                    <Tab forceRenderTabPanel={true}>Output Options</Tab>
                   </TabList>
 
                   <TabPanel>
@@ -1423,12 +1429,18 @@ class App extends Component {
 
                     
                     {this.state.multiValue.length > 0 && (
-                      <div style={styles.dropDown}>
-                        <label style= {{width : '55%', marginLeft: "3%"}} > 
-                          <h6 style={{fontSize: "1vw"}}>Choose Describing Column</h6>
+                      <div style={styles.describingColumnDropDown}>
+                        <label style= {{marginLeft: "3%"}} > 
+                          <h6 style={{
+                            fontSize: "1vw",width: "90%",
+                            marginTop: "3%",
+                            marginLeft: "2%"}}>
+                              Choose Describing Column
+                            </h6>
                         </label>
-                        <div style= {{width : '40%'}} >
+                        <div >
                           <Select
+                            value={this.state.selectedDescribingColumn}
                             options={this.state.multiValue}
                             onChange={this.handleSpecificColumns}
                           />
@@ -1447,10 +1459,11 @@ class App extends Component {
               <h6  style={{fontSize: "1vw"}} >Choose the outlier detection method</h6>
               <Select
                 options={this.state.selectOutlierActions}
+                defaultValue={this.state.selectOutlierActions.filter((x) => {return x.label === this.state.selectedOutlierMethod})[0]}
                 onChange={this.handleOutlierChange}
               />
               
-              <OutlierBlock onChange={this.handleOutlierColumnChange}/>
+              <OutlierBlock columnRange= {this.state.columnRange} onChange={this.handleOutlierColumnChange}/>
               <div
                 style={{
                   display: "flex",
@@ -1496,7 +1509,7 @@ class App extends Component {
                       this.state.pressed !== 0 && 
                       this.state.pressed !== 1
                     ) 
-                    || selectedOutlierMethod == null 
+                    || this.state.selectedOutlierMethod == null 
                     }
                 >
                   Detect Outliers
@@ -1519,7 +1532,6 @@ class App extends Component {
                   </TabPanel>
                 </Tabs>
             </div>
-          )}
         </div>
       </div>
     );
@@ -1586,6 +1598,10 @@ const styles = {
   dropDown: {
     width: "23%",
     marginLeft: '4%'
+  },
+  describingColumnDropDown: {
+    width: "90%",
+    marginLeft: '3%'
   },
   optionsContainer: {
     position: "fixed",
