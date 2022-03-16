@@ -2,10 +2,11 @@ import React, { Component } from "react";
 import Typography from "@material-ui/core/Typography";
 import Slider from "@material-ui/core/Slider";
 import { Button } from "@material-ui/core";
+import PropTypes from "prop-types";
 
 class OutlierBlock extends Component {
   state = {
-    columnRange: [1,10],
+    columnRange: this.props.columnRange,
   };
 
   rangeSelector = (event, newValue) => {
@@ -58,5 +59,7 @@ class OutlierBlock extends Component {
     );
   }
 }
-
+OutlierBlock.propTypes = {
+  columnRange: PropTypes.array,
+};
 export default OutlierBlock;
