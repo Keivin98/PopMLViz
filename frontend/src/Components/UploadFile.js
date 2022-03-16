@@ -94,6 +94,7 @@ class App extends Component {
     selectedDescribingColumn: { value: "None", label: "None" },
     selectedOutlierMethod: null,
     OutlierData: [],
+    showOutputOptions: false,
   };
   handleMultiChange = (option) => {
     console.log(option);
@@ -998,6 +999,7 @@ class App extends Component {
           selectedUploadOption: "PCA",
           clusterColors: r.data,
           cluster_names: cluster_names,
+          showOutputOptions: true
         });
       })
   };
@@ -1033,7 +1035,8 @@ class App extends Component {
         event.label === "None"
           ? []
           : this.state.data.map(elem => elem[event.label]),
-      selectedDescribingColumn : event
+      selectedDescribingColumn : event,
+      showOutputOptions: false, 
     });
   };
 
@@ -1288,7 +1291,7 @@ class App extends Component {
                     paddingBottom: "20px",
                   }}
                 >
-                  <label>Dimensionality Reduction Algorithms</label>
+                  <label>Dimensionality Reduction</label>
                   <Select
                     name="DRA"
                     placeholder="Algorithm"
@@ -1419,8 +1422,8 @@ class App extends Component {
                   </div>
               <Tabs style={styles.optionsContainer}>
                   <TabList>
-                    <Tab forceRenderTabPanel={true} defaultFocus={true}>Settings</Tab>
-                    <Tab forceRenderTabPanel={true}>Output Options</Tab>
+                    <Tab  defaultFocus={true}>Settings</Tab>
+                    <Tab >Output Options</Tab>
                   </TabList>
 
                   <TabPanel>
@@ -1430,11 +1433,11 @@ class App extends Component {
                     
                     {this.state.multiValue.length > 0 && (
                       <div style={styles.describingColumnDropDown}>
-                        <label style= {{marginLeft: "3%"}} > 
+                        <label style= {{marginLeft: "1%"}} > 
                           <h6 style={{
-                            fontSize: "1vw",width: "90%",
+                            fontSize: "1vw",width: "100%",
                             marginTop: "3%",
-                            marginLeft: "2%"}}>
+                            marginLeft: "1%"}}>
                               Choose Describing Column
                             </h6>
                         </label>
@@ -1527,9 +1530,9 @@ class App extends Component {
                   />
                 )}
                   </TabPanel>
-                  <TabPanel style={styles.outputSettings}>
+                  {this.state.showOutputOptions && <TabPanel style={styles.outputSettings}>
                     <TabOutputOptions uniqueClusters = {num_clusters} parentCallback = {this.handleTabOutputCallback} />
-                  </TabPanel>
+                  </TabPanel>}
                 </Tabs>
             </div>
         </div>
