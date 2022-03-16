@@ -226,7 +226,7 @@ class App extends Component {
             marker: { color: randomColors[colID], size: 2},
             text: "",
             hovertemplate:
-              "<i>(%{x}, %{y:.4f}) </i>"
+              "<i>(%{x:.4f}, %{y:.4f}) </i>"
           });
         }else{
           data_new.push({
@@ -237,7 +237,7 @@ class App extends Component {
             marker: { color: randomColors[colID] },
             text: "",
             hovertemplate:
-              "<i>(%{x}, %{y:.4f}) </i>"
+              "<i>(%{x:.4f}, %{y:.4f}) </i>"
           });
         }
         }
@@ -416,6 +416,7 @@ class App extends Component {
               type: "scatter3d",
               marker: { color: colors[k],  size: 4, symbol: 'cross', opacity:0.5},
               text: cluster_texts[k],
+              hovertemplate: "<i>(%{x:.4f}, %{y:.4f}, %{z:.4f}) </i>"
             });
           } else{
             data_new.push({
@@ -425,6 +426,7 @@ class App extends Component {
               mode: "markers",
               marker: { color: colors[k], symbol: 'cross', opacity:0.5},
               text: cluster_texts[k],
+              hovertemplate: "<i>(%{x:.4f}, %{y:.4f}, %{z:.4f}) </i>"
             });
           }
         }
@@ -439,6 +441,7 @@ class App extends Component {
             type: "scatter3d",
             marker: { color: colors[k],  size: 2},
             text: cluster_texts[k],
+            hovertemplate: "<i>(%{x:.4f}, %{y:.4f}, %{z:.4f}) </i>"
           });
         }else{
           data_new.push({
@@ -448,6 +451,7 @@ class App extends Component {
             mode: "markers",
             marker: { color: colors[k] },
             text: cluster_texts[k],
+            hovertemplate: "<i>(%{x:.4f}, %{y:.4f}) </i>"
           });
         }
       }
@@ -545,7 +549,7 @@ class App extends Component {
             marker: { color: otherColor, size: 2},
             text: "",
             hovertemplate:
-              "<i>(%{x}, %{y:.4f}) </i>"
+              "<i>(%{x:.4f}, %{y:.4f}) </i>"
           });
           // outliers 
           data_new.push({
@@ -558,7 +562,7 @@ class App extends Component {
             marker: { color: outlierColor, size: 4, symbol: 'cross', opacity: '0.5'},
             text: "",
             hovertemplate:
-              "<i>(%{x}, %{y:.4f}) </i>"
+              "<i>(%{x:.4f}, %{y:.4f}) </i>"
           });
         }else{
           data_new.push({
@@ -569,7 +573,7 @@ class App extends Component {
             marker: { color: otherColor },
             text: "",
             hovertemplate:
-              "<i>(%{x}, %{y:.4f}) </i>"
+              "<i>(%{x:.4f}, %{y:.4f}) </i>"
           });
           data_new.push({
             name: "Outlier " + title,
@@ -579,7 +583,7 @@ class App extends Component {
             marker: { color: outlierColor, symbol: 'cross', opacity: '0.5' },
             text: "",
             hovertemplate:
-              "<i>(%{x}, %{y:.4f}) </i>"
+              "<i>(%{x:.4f}, %{y:.4f}) </i>"
           });
         }
       }
