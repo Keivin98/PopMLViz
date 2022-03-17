@@ -82,31 +82,72 @@ def detectoutliers():
 	request_method = request.get_json()['method']
 	column_range = request.get_json()['columnRange']
 	std_freedom = int(request_method[0])
-	print(column_range)
 	df = pd.json_normalize(request_df)
 	newdf = {}
 
-	def choose_columns(x):
-		return 'PC' in x 
+    def choose_columns(x):
+        return ('PC%d' % (x))
+
+    columns_of_interest = list(map(choose_columns, column_range))
+
+    for col in columns_of_interest:
+        # print(col)
+        if col in (df.columns):
+            pcx = df.loc[:, col]
+            pcx = pd.Series(pcx, dtype='float')
+            data_mean, data_std = (pcx.mean()), (pcx.std())
+            cut_off = data_std * std_freedom
+            lower, upper = data_mean - cut_off, data_mean + cut_off
+
+            outliers = [(1 if x < lower or x > upper else 0) for x in pcx]
+            newdf[col] = outliers
+
+    outliers_result = pd.DataFrame(newdf)
+    if combineType == 0:
+        apply_combineType = outliers_result.aggregate(lambda x : all(x), axis=1)
+    else:
+        apply_combineType = outliers_result.aggregate(lambda x : any(x), axis=1)
+    
+    def binary(x):
+        if x :
+            return 1
+        return 0
+    change_to_binary = apply_combineType.apply(binary)
+    
+    return change_to_binary.to_csv()
+
+# def detectoutliers():
+# 	print('detecting outliers')
+# 	request_df = request.get_json()['df']
 	
-	columns_of_interest = list(filter(choose_columns, df.columns))
+# 	request_method = request.get_json()['method']
+# 	column_range = request.get_json()['columnRange']
+# 	std_freedom = int(request_method[0])
+# 	print(column_range)
+# 	df = pd.json_normalize(request_df)
+# 	newdf = {}
 
-	for col in columns_of_interest:
-		# print(col)
-		pcx = df.loc[:, col]
-		pcx = pd.Series(pcx, dtype='float')
-		data_mean, data_std = (pcx.mean()), (pcx.std())
-		cut_off = data_std * std_freedom
-		lower, upper = data_mean - cut_off, data_mean + cut_off
-		
-		outliers = [(1 if x < lower or x > upper else 0) for x in pcx]
-		newdf[col] = outliers
-		
-	# letters = string.ascii_lowercase
-	# filename = ''.join(random.choice(letters) for i in range(5))
+# 	def choose_columns(x):
+# 		return 'PC' in x 
+	
+# 	columns_of_interest = list(filter(choose_columns, df.columns))
 
-	outliers_result = pd.DataFrame(newdf)
-	return outliers_result.to_csv()
+# 	for col in columns_of_interest:
+# 		# print(col)
+# 		pcx = df.loc[:, col]
+# 		pcx = pd.Series(pcx, dtype='float')
+# 		data_mean, data_std = (pcx.mean()), (pcx.std())
+# 		cut_off = data_std * std_freedom
+# 		lower, upper = data_mean - cut_off, data_mean + cut_off
+		
+# 		outliers = [(1 if x < lower or x > upper else 0) for x in pcx]
+# 		newdf[col] = outliers
+		
+# 	# letters = string.ascii_lowercase
+# 	# filename = ''.join(random.choice(letters) for i in range(5))
+
+# 	outliers_result = pd.DataFrame(newdf)
+# 	return outliers_result.to_csv()
 @app.route("/")
 def hello():
     return "<h1 style='color:blue'>Hello There!</h1>"
