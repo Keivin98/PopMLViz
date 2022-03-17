@@ -154,12 +154,6 @@ class App extends Component {
               this.state.selectedFile.name.indexOf(".")
             )}
           </p>
-          <p>File Type: {this.state.selectedFile.type}</p>
-          <p>
-            {" "}
-            Last Modified:{" "}
-            {this.state.selectedFile.lastModifiedDate.toDateString()}
-          </p>
         </div>
       );
     } else {
