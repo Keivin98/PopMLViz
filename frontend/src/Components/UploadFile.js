@@ -539,11 +539,10 @@ class App extends Component {
           };
         }
       var data_new = [];
-
       for (var colID = 0; colID < uniqueTags.length; colID ++){
         var outlierColor = outliersOnly ? 'grey' : randomColors[colID];
         var otherColor = outliersOnly ? randomColors[0] : randomColors[colID];
-        var title = outliersOnly ? '0' : uniqueTags[colID];
+        var title = outliersOnly  ? '0' : uniqueTags[colID];
         if(DIM === 2){
           // actual data
           data_new.push({
@@ -583,7 +582,7 @@ class App extends Component {
               "<i>(%{x:.4f}, %{y:.4f}) </i>"
           });
           data_new.push({
-            name: "Outlier " + title,
+            name: "Outliers " + title,
             x: [],
             y: [],
             mode: "markers",
@@ -1017,6 +1016,7 @@ class App extends Component {
       })
   };
   detectOutliers = () => {
+
     if (this.state.selectedOutlierMethod === "None") {
       this.setOutlierData([]);
     } else {
@@ -1024,6 +1024,7 @@ class App extends Component {
         df: this.state.data,
         method: this.state.selectedOutlierMethod,
         columnRange : this.state.columnRange,
+        combineType: this.state.pressed,
       };
       this.setState({ isLoading: true });
       axios
@@ -1033,7 +1034,7 @@ class App extends Component {
           },
         })
         .then((r) => {
-          // console.log(r);
+          console.log(r);
           this.setState({
             isLoading: false,
           });
@@ -1064,6 +1065,9 @@ class App extends Component {
     const y = this.state.selectedColumns[1];
     const z = this.state.selectedColumns[2];
     const distributionData = this.state.distributionData;
+    const outlierData = this.state.OutlierData.map((elem) => {
+      return parseInt(elem[0], 10);
+    } );
     const ONE_DIM = 0; 
     const TWO_DIM = 1; 
     const THREE_DIM = 2; 
@@ -1080,15 +1084,11 @@ class App extends Component {
       if (
         this.state.clusterColors.length > 0 ||
         distributionData.length > 0 ||
-        this.state.OutlierData.length > 0
+        outlierData.length > 0
       ) {
-        if (this.state.OutlierData.length > 0) {
-          var combine_outliers = this.state.OutlierData.map((elem) => {
-            return parseInt(elem[x], 10);
-          });
-
+        if (outlierData.length > 0) {
           if (this.state.clusterColors.length > 0) {
-            return this.scatterWithClusters(ONE_DIM, x, null, null, true, combine_outliers);
+            return this.scatterWithClusters(ONE_DIM, x, null, null, true, outlierData);
           }else if (distributionData.length > 0){
             return this.scatterCategoricalandOutliers(
               ONE_DIM,
@@ -1096,19 +1096,14 @@ class App extends Component {
               null,
               null,
               distributionData,
-              combine_outliers,
+              outlierData,
               false
             );
           }
-          else{
+          else{     
             return this.scatterCategoricalandOutliers(
               ONE_DIM,
-              x, null, null, this.state.OutlierData.map((elem) => {
-                return parseInt(elem[x], 10);
-              }),
-              this.state.OutlierData.map((elem) => {
-                return parseInt(elem[x], 10);
-              }), true
+              x, null, null, outlierData, outlierData , true
             );
           }
         } else if (distributionData.length > 0) {
@@ -1123,20 +1118,11 @@ class App extends Component {
       if (
         this.state.clusterColors.length > 0 ||
         distributionData.length > 0 ||
-        this.state.OutlierData.length > 0
+        outlierData.length > 0
       ) {
-        if (this.state.OutlierData.length > 0) {
-            combine_outliers = this.state.OutlierData.map((elem) => {
-            var val1 = parseInt(elem[x], 10) === 1;
-            var val2 = parseInt(elem[y], 10) === 1;
-            if (this.state.pressed === 1) {
-              return val1 || val2 ? 1 : 0;
-            } else {
-              return val1 && val2 ? 1 : 0;
-            }
-          });
+        if (outlierData.length > 0) {
           if (this.state.clusterColors.length > 0) {
-            return this.scatterWithClusters(TWO_DIM, x, y, null, true, combine_outliers);
+            return this.scatterWithClusters(TWO_DIM, x, y, null, true, outlierData);
           }else if (distributionData.length > 0){
             return this.scatterCategoricalandOutliers(
               TWO_DIM,
@@ -1144,7 +1130,7 @@ class App extends Component {
               y,
               null,
               distributionData,
-              combine_outliers,
+              outlierData,
               false
             );
           }
@@ -1154,23 +1140,8 @@ class App extends Component {
             x,
             y,
             null,
-            this.state.OutlierData.map((elem) => {
-              var val1 = parseInt(elem[x], 10) === 1;
-              var val2 = parseInt(elem[y], 10) === 1;
-              if (this.state.pressed === 1) {
-                return val1 || val2 ? 1 : 0;
-              } else {
-                return val1 && val2 ? 1 : 0;
-              }
-            }),this.state.OutlierData.map((elem) => {
-              var val1 = parseInt(elem[x], 10) === 1;
-              var val2 = parseInt(elem[y], 10) === 1;
-              if (this.state.pressed === 1) {
-                return val1 || val2 ? 1 : 0;
-              } else {
-                return val1 && val2 ? 1 : 0;
-              }
-            }),
+            outlierData, 
+            outlierData,
             true
             );
           }
@@ -1186,21 +1157,11 @@ class App extends Component {
       if (
         this.state.clusterColors.length > 0 ||
         distributionData.length > 0 ||
-        this.state.OutlierData.length > 0
+        outlierData.length > 0
       ) {
-        if (this.state.OutlierData.length > 0) {
-            combine_outliers = this.state.OutlierData.map((elem) => {
-            var val1 = parseInt(elem[x], 10) === 1;
-            var val2 = parseInt(elem[y], 10) === 1;
-            var val3 = parseInt(elem[z], 10) === 1;
-            if (this.state.pressed === 1) {
-              return val1 || val2 || val3 ? 1 : 0;
-            } else {
-              return val1 && val2 && val3 ? 1 : 0;
-            }
-          });
+        if (outlierData.length > 0) {
           if (this.state.clusterColors.length > 0){
-            return this.scatterWithClusters(THREE_DIM, x, y, z, true, combine_outliers);
+            return this.scatterWithClusters(THREE_DIM, x, y, z, true, outlierData);
           }else if (distributionData.length > 0){
             return this.scatterCategoricalandOutliers(
               THREE_DIM,
@@ -1208,7 +1169,7 @@ class App extends Component {
               y,
               z,
               distributionData,
-              combine_outliers,
+              outlierData,
               false
             );
           }
@@ -1218,8 +1179,8 @@ class App extends Component {
               x,
               y,
               z,
-              combine_outliers,
-              combine_outliers,
+              outlierData,
+              outlierData,
               true
             );
           }
@@ -1437,7 +1398,7 @@ class App extends Component {
                   </div>
               <Tabs style={styles.optionsContainer}>
                   <TabList>
-                    <Tab  defaultFocus={true}>Settings</Tab>
+                    <Tab >Settings</Tab>
                     <Tab >Output Options</Tab>
                   </TabList>
 
@@ -1545,9 +1506,9 @@ class App extends Component {
                   />
                 )}
                   </TabPanel>
-                  {this.state.showOutputOptions && <TabPanel style={styles.outputSettings}>
-                    <TabOutputOptions uniqueClusters = {num_clusters} parentCallback = {this.handleTabOutputCallback} />
-                  </TabPanel>}
+                  <TabPanel style={styles.outputSettings}> {this.state.showOutputOptions && 
+                    <TabOutputOptions uniqueClusters = {num_clusters} parentCallback = {this.handleTabOutputCallback} />}
+                  </TabPanel>
                 </Tabs>
             </div>
         </div>

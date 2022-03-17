@@ -80,7 +80,10 @@ def detectoutliers():
 	request_df = request.get_json()['df']
 	
 	request_method = request.get_json()['method']
-	column_range = request.get_json()['columnRange']
+	column_range_req = request.get_json()['columnRange']
+	column_range = list(range(column_range_req[0], column_range_req[1] + 1)) # [1,2,3,4,5,6,7,8,9,10]
+
+	combine_type = int(request.get_json()['combineType'])
 	std_freedom = int(request_method[0])
 	df = pd.json_normalize(request_df)
 	newdf = {}
@@ -103,7 +106,7 @@ def detectoutliers():
             newdf[col] = outliers
 
     outliers_result = pd.DataFrame(newdf)
-    if combineType == 0:
+    if combine_type == 0:
         apply_combineType = outliers_result.aggregate(lambda x : all(x), axis=1)
     else:
         apply_combineType = outliers_result.aggregate(lambda x : any(x), axis=1)
@@ -116,38 +119,6 @@ def detectoutliers():
     
     return change_to_binary.to_csv()
 
-# def detectoutliers():
-# 	print('detecting outliers')
-# 	request_df = request.get_json()['df']
-	
-# 	request_method = request.get_json()['method']
-# 	column_range = request.get_json()['columnRange']
-# 	std_freedom = int(request_method[0])
-# 	print(column_range)
-# 	df = pd.json_normalize(request_df)
-# 	newdf = {}
-
-# 	def choose_columns(x):
-# 		return 'PC' in x 
-	
-# 	columns_of_interest = list(filter(choose_columns, df.columns))
-
-# 	for col in columns_of_interest:
-# 		# print(col)
-# 		pcx = df.loc[:, col]
-# 		pcx = pd.Series(pcx, dtype='float')
-# 		data_mean, data_std = (pcx.mean()), (pcx.std())
-# 		cut_off = data_std * std_freedom
-# 		lower, upper = data_mean - cut_off, data_mean + cut_off
-		
-# 		outliers = [(1 if x < lower or x > upper else 0) for x in pcx]
-# 		newdf[col] = outliers
-		
-# 	# letters = string.ascii_lowercase
-# 	# filename = ''.join(random.choice(letters) for i in range(5))
-
-# 	outliers_result = pd.DataFrame(newdf)
-# 	return outliers_result.to_csv()
 @app.route("/")
 def hello():
     return "<h1 style='color:blue'>Hello There!</h1>"
