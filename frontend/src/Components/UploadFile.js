@@ -98,9 +98,16 @@ class App extends Component {
   };
   handleMultiChange = (option) => {
     console.log(option);
+    let act = [];
+    for (var i = 0; i < this.state.columns.length; i++) {
+      act.push({
+        value: this.state.columns[i]["name"].toLowerCase(),
+        label: this.state.columns[i]["name"],
+      });
+    }
     this.setState({
       multiValue: [{ value: "None", label: "None" }, ...option],
-      selectActions: this.state.selectActions.filter((elem) => {
+      selectActions: act.filter((elem) => {
         return option.indexOf(elem) < 0;
       }),
     });
@@ -1003,7 +1010,9 @@ class App extends Component {
           selectedUploadOption: "PCA",
           clusterColors: r.data,
           cluster_names: cluster_names,
-          showOutputOptions: true
+          showOutputOptions: true,
+          distributionData: [],
+          selectedDescribingColumn : { value: "None", label: "None" },
         });
       })
   };
@@ -1041,6 +1050,8 @@ class App extends Component {
           : this.state.data.map(elem => elem[event.label]),
       selectedDescribingColumn : event,
       showOutputOptions: false, 
+      cluster_names:[],
+      clusterColors: []
     });
   };
 
