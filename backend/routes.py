@@ -9,10 +9,13 @@ import numpy as np
 from common import runKmeans
 from sklearn.cluster import KMeans
 from sklearn.manifold import TSNE
+import os
+import subprocess
 # Create an application instance
 
 app = create_app()
 # Define a route to fetch the avaialable article
+UPLOAD_FOLDER = './data/'
 
 @app.route("/runkmeans", methods=["POST"], strict_slashes=False)
 def runKmeans():
@@ -73,6 +76,27 @@ def uploadCM():
 	completeRes = pd.DataFrame(principalComponents_new, columns=['PC%s'%(i) for i in range(1,components + 1)])
 	return completeRes.to_json()
 	
+@app.route('/uploadPCAIR', methods=['POST'])
+def uploadPCAIR():
+	target=os.path.join(UPLOAD_FOLDER,'test_docs')
+	if not os.path.isdir(target):
+		os.mkdir(target)
+	# logger.info("welcome to upload`")
+	file = request.files['file'] 
+	# filename = secure_filename(file.filename)
+	destination="/".join([target, file.filename])
+	file.save(destination)
+	# session['uploadFilePath']=destination
+	response="Whatever you wish too return"
+	return response
+
+@app.route('/runPCAIR', methods=['POST'])
+def runPCAIR():
+	subprocess.run(["Rscript", "PCA_AIR.r"])
+	
+	return pd.read_csv('./data/test_docs/ALL_PCS1.csv').to_csv()
+
+
 
 @app.route("/detectoutliers", methods=["POST"], strict_slashes=False)
 def detectoutliers():
@@ -88,40 +112,40 @@ def detectoutliers():
 	df = pd.json_normalize(request_df)
 	newdf = {}
 
-    def choose_columns(x):
-        return ('PC%d' % (x))
+	def choose_columns(x):
+		return ('PC%d' % (x))
 
-    columns_of_interest = list(map(choose_columns, column_range))
+	columns_of_interest = list(map(choose_columns, column_range))
 
-    for col in columns_of_interest:
-        # print(col)
-        if col in (df.columns):
-            pcx = df.loc[:, col]
-            pcx = pd.Series(pcx, dtype='float')
-            data_mean, data_std = (pcx.mean()), (pcx.std())
-            cut_off = data_std * std_freedom
-            lower, upper = data_mean - cut_off, data_mean + cut_off
+	for col in columns_of_interest:
+		# print(col)
+		if col in (df.columns):
+			pcx = df.loc[:, col]
+			pcx = pd.Series(pcx, dtype='float')
+			data_mean, data_std = (pcx.mean()), (pcx.std())
+			cut_off = data_std * std_freedom
+			lower, upper = data_mean - cut_off, data_mean + cut_off
 
-            outliers = [(1 if x < lower or x > upper else 0) for x in pcx]
-            newdf[col] = outliers
+			outliers = [(1 if x < lower or x > upper else 0) for x in pcx]
+			newdf[col] = outliers
 
-    outliers_result = pd.DataFrame(newdf)
-    if combine_type == 0:
-        apply_combineType = outliers_result.aggregate(lambda x : all(x), axis=1)
-    else:
-        apply_combineType = outliers_result.aggregate(lambda x : any(x), axis=1)
-    
-    def binary(x):
-        if x :
-            return 1
-        return 0
-    change_to_binary = apply_combineType.apply(binary)
-    
-    return change_to_binary.to_csv()
+	outliers_result = pd.DataFrame(newdf)
+	if combine_type == 0:
+		apply_combineType = outliers_result.aggregate(lambda x : all(x), axis=1)
+	else:
+		apply_combineType = outliers_result.aggregate(lambda x : any(x), axis=1)
+	
+	def binary(x):
+		if x :
+			return 1
+		return 0
+	change_to_binary = apply_combineType.apply(binary)
+	
+	return change_to_binary.to_csv()
 
 @app.route("/")
 def hello():
-    return "<h1 style='color:blue'>Hello There!</h1>"
+	return "<h1 style='color:blue'>Hello There!</h1>"
 
 if __name__ == "__main__":
 	app.run(host='0.0.0.0', debug=True)

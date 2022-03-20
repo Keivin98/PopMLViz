@@ -8,6 +8,7 @@ import ScatterPlot from "./ScatterPlot";
 import Incrementor from "./Incrementor";
 import DownloadData from "./DownloadData";
 import OutlierBlock from "./OutlierBlock";
+import PCAir from "./PCAir";
 import { Button } from "@material-ui/core";
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import TabOutputOptions from "./TabOutputOptions";
@@ -33,6 +34,16 @@ const randomColors = [
   "#0740ba",
   "#277f05"
 ];
+
+const randomShapes = [
+  'circle',
+  'square',
+  'diamond',
+  'x',
+  'star',
+  'triangle-up',
+  'bowtie'
+]
 Chart.register(...registerables);
 var num_clusters = 2;
 
@@ -95,6 +106,7 @@ class App extends Component {
     selectedOutlierMethod: null,
     OutlierData: [],
     showOutputOptions: false,
+    selectedColorShape: 0, 
   };
   handleMultiChange = (option) => {
     console.log(option);
@@ -219,32 +231,62 @@ class App extends Component {
 
       for (var colID = 0; colID < uniqueTags.length; colID ++){
         if(DIM === 2){
-          data_new.push({
-            name: uniqueTags[colID],
-            x: [],
-            y: [],
-            z: [],
-            type: "scatter3d",
-            mode: "markers",
-            marker: { color: randomColors[colID], size: 2},
-            text: "",
-            hovertemplate:
-              "<i>(%{x:.4f}, %{y:.4f}) </i>"
-          });
+          if(this.state.selectedColorShape === 0){
+            data_new.push({
+              name: uniqueTags[colID],
+              x: [],
+              y: [],
+              z: [],
+              type: "scatter3d",
+              mode: "markers",
+              marker: { color: randomColors[colID], symbol: randomShapes[0], size: 2},
+              text: "",
+              hovertemplate:
+                "<i>(%{x:.4f}, %{y:.4f}) </i>"
+            });
+          }else{
+            data_new.push({
+              name: uniqueTags[colID],
+              x: [],
+              y: [],
+              z: [],
+              type: "scatter3d",
+              mode: "markers",
+              marker: { color: randomColors[0], symbol: randomShapes[colID], size: 2},
+              text: "",
+              hovertemplate:
+                "<i>(%{x:.4f}, %{y:.4f}) </i>"
+            });
+          }
+          
         }else{
-          data_new.push({
-            name: uniqueTags[colID],
-            x: [],
-            y: [],
-            mode: "markers",
-            marker: { color: randomColors[colID] },
-            text: "",
-            hovertemplate:
-              "<i>(%{x:.4f}, %{y:.4f}) </i>"
-          });
-        }
-        }
+          if(this.state.selectedColorShape === 0){
+            data_new.push({
+              name: uniqueTags[colID],
+              x: [],
+              y: [],
+              mode: "markers",
+              marker: { color: randomColors[colID], symbol: randomShapes[0]},
+              text: "",
+              hovertemplate:
+                "<i>(%{x:.4f}, %{y:.4f}) </i>"
+            });
+        }else{
+            data_new.push({
+              name: uniqueTags[colID],
+              x: [],
+              y: [],
+              mode: "markers",
+              marker: { color: randomColors[0], symbol: randomShapes[colID] },
+              text: "",
+              hovertemplate:
+                "<i>(%{x:.4f}, %{y:.4f}) </i>"
+            });
+        } 
+      
       }
+     }
+    }
 
     if (this.state.data != null ) {
       for (var i = 0; i < this.state.data.length; i++) {
@@ -945,6 +987,13 @@ class App extends Component {
     }
   }
 
+  onValueChangeColorShape = (event) => {
+    console.log(event.target.value);
+    this.setState({
+        selectedColorShape: event.target.value,
+      });
+  }
+
   formSubmit = (event) => {
     event.preventDefault();
     // console.log(this.state.selectedOption);
@@ -1011,6 +1060,24 @@ class App extends Component {
         });
       })
   };
+
+  runPCAir = () => {
+    this.setState({ isLoading: true });
+    axios
+      .post("http://10.4.4.115:5000/runPCAIR", {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+      .then((r) => {
+        console.log(r.data);
+        this.setState({
+          isLoading: false,
+        });
+        this.processData(r.data, false);
+      })
+  }
+
   detectOutliers = () => {
 
     if (this.state.selectedOutlierMethod === "None") {
@@ -1030,7 +1097,6 @@ class App extends Component {
           },
         })
         .then((r) => {
-          console.log(r);
           this.setState({
             isLoading: false,
           });
@@ -1201,6 +1267,8 @@ class App extends Component {
     // console.log(cluster_names);
     this.setState({cluster_names: cluster_names});
   }
+
+  
   
   onPressReset = () => {
     this.setState({
@@ -1242,6 +1310,17 @@ class App extends Component {
                 PCA
               </label>
             </div>
+            <div className="radio">
+              <label>
+                <input
+                  type="radio"
+                  value="PCAir"
+                  checked={this.state.selectedUploadOption === "PCAir"}
+                  onChange={this.onUploadValueChange}
+                />
+                PCAir
+              </label>
+            </div>
             <div>
               <label>
                 <input
@@ -1270,13 +1349,20 @@ class App extends Component {
                   />
                 </div>
               )}
+              {this.state.selectedUploadOption === "PCAir" && (
+                <div>
+                  <PCAir />
+                  <Button variant="outlined"   onClick={this.runPCAir}>Run PCAir</Button>
+                </div>
+              )}
             </div>
-            <input
+            {this.state.selectedUploadOption !== "PCAir" && (
+                <input
               type="file"
               accept=".csv,.xlsx,.xls"
               disabled={this.state.selectedUploadOption === null}
               onChange={this.handleFileUpload}
-            />
+            /> )}
           </form>
           <hr
             style={{
@@ -1418,6 +1504,19 @@ class App extends Component {
                             onChange={this.handleSpecificColumns}
                           />
                         </div>
+                        <FormControl style = {{marginLeft:'2%', marginTop: '2%'}}>
+                          <FormLabel id="describingColumn-row-radio-buttons-group-label">Identify by: </FormLabel>
+                            <RadioGroup
+                              row
+                              aria-labelledby="describingColumn-row-radio-buttons-group-label"
+                              name="row-radio-buttons-group"
+                              onChange={this.onValueChangeColorShape}
+                              style = {{marginLeft:'2%', marginTop: '2%'}}
+                            >
+                              <FormControlLabel value={0} control={<Radio color="success" size="small"/>} label="Color" />
+                              <FormControlLabel value={1} control={<Radio color="success" size="small"/>} label="Shape" />
+                            </RadioGroup>
+                        </FormControl>
                       </div>
                     )}
                   </div>
