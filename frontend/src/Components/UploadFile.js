@@ -131,7 +131,9 @@ class App extends Component {
     this.setState({ data: data });
   };
   setOutlierData = (data) => {
-    this.setState({ OutlierData: data });
+    this.setState({ OutlierData: data.map((elem) => {
+      return parseInt(elem[0], 10);
+    } )})
   };
   // On file select (from the pop up)
   onFileChange = (event) => {
@@ -1059,9 +1061,7 @@ class App extends Component {
     const y = this.state.selectedColumns[1];
     const z = this.state.selectedColumns[2];
     const distributionData = this.state.distributionData;
-    const outlierData = this.state.OutlierData.map((elem) => {
-      return parseInt(elem[0], 10);
-    } );
+    const outlierData = this.state.OutlierData;
     const ONE_DIM = 0; 
     const TWO_DIM = 1; 
     const THREE_DIM = 2; 
