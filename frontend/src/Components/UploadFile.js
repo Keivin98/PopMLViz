@@ -160,7 +160,7 @@ class App extends Component {
     if (this.state.selectedFile) {
       return (
         <div>
-          <h2 style={{fontSize: "1vw"}}>File Details:</h2>
+          <h2 style={{fontSize: "0.8vw"}}>File Details:</h2>
           <p>
             File Name:{" "}
             {this.state.selectedFile.name.substr(
@@ -174,7 +174,7 @@ class App extends Component {
       return (
         <div>
           <br />
-          <h4 style={{fontSize: "1vw"}}>Upload the Dataset</h4>
+          <h4 style={{fontSize: "0.8vw"}}>Upload the Dataset</h4>
         </div>
       );
     }
@@ -1379,7 +1379,7 @@ class App extends Component {
               paddingVertical: "20px",
             }}
           >
-            <label> <h5 style={{fontSize: "1vw"}}> Describing Columns </h5></label>
+            <label> <h5 style={{fontSize: "0.8vw"}}> Describing Columns </h5></label>
             <Select
               name="filters"
               placeholder="Filters"
@@ -1441,7 +1441,7 @@ class App extends Component {
               </FormControl>
               <div style={styles.dropDown}>
                       <label style= {{width : '25%', marginLeft: "12%"}} > 
-                      <h6 style={{fontSize: "1vw"}}> X-axis </h6></label>
+                      <h6 style={{fontSize: "0.8vw"}}> X-axis </h6></label>
                       <div style= {{width : '75%'}} >
                       <Select
                         options={this.state.selectActions}
@@ -1452,7 +1452,7 @@ class App extends Component {
                     
                       <div style={styles.dropDown}>
                         <label style= {{width : '25%', marginLeft: "12%"}} >
-                        <h6 style={{fontSize: "1vw"}}> Y-axis </h6>
+                        <h6 style={{fontSize: "0.8vw"}}> Y-axis </h6>
                         </label>
                       <div style= {{width : '75%'}} >
                         <Select
@@ -1465,7 +1465,7 @@ class App extends Component {
                       </div>
                       <div style={styles.dropDown}>
                         <label style= {{width : '25%', marginLeft: "12%"}} > 
-                        <h6 style={{fontSize: "1vw"}}> Z-axis </h6>
+                        <h6 style={{fontSize: "0.8vw"}}> Z-axis </h6>
                         </label>
                       <div style= {{width : '75%'}} >
                         <Select
@@ -1491,7 +1491,7 @@ class App extends Component {
                       <div style={styles.describingColumnDropDown}>
                         <label style= {{marginLeft: "1%"}} > 
                           <h6 style={{
-                            fontSize: "1vw",width: "100%",
+                            fontSize: "0.8vw",width: "100%",
                             marginTop: "3%",
                             marginLeft: "1%"}}>
                               Choose Describing Column
@@ -1528,7 +1528,7 @@ class App extends Component {
                 marginLeft: "3%"
               }}
             >
-              <h6  style={{fontSize: "1vw"}} >Choose the outlier detection method</h6>
+              <h6  style={{fontSize: "0.8vw"}} >Choose the outlier detection method</h6>
               <Select
                 options={this.state.selectOutlierActions}
                 defaultValue={this.state.selectOutlierActions.filter((x) => {return x.label === this.state.selectedOutlierMethod})[0]}
