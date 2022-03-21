@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import Loader from "react-loader-spinner";
 
 class PCAir extends Component {
@@ -16,7 +15,7 @@ class PCAir extends Component {
         loading:true,
     })
 
-    fetch('http://10.4.4.115:5000/uploadPCAIR', {
+    fetch('http://127.0.0.1:5000/uploadPCAIR', {
       method: 'POST',
       body: data,
     }).then((response) => {
