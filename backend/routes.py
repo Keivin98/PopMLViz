@@ -11,6 +11,7 @@ from sklearn.cluster import KMeans
 from sklearn.manifold import TSNE
 import os
 import subprocess
+import rpy2.robjects as robjects
 # Create an application instance
 
 app = create_app()
@@ -92,7 +93,7 @@ def uploadPCAIR():
 
 @app.route('/runPCAIR', methods=['POST'])
 def runPCAIR():
-	subprocess.run(["sudo", "Rscript", "PCA_AIR.r"])
+	robjects.r.source("./PCA_AIR.r", encoding="utf-8")
 	
 	return pd.read_csv('./data/test_docs/ALL_PCS1.csv').to_csv()
 
