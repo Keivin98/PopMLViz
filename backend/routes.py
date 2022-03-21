@@ -92,7 +92,7 @@ def uploadPCAIR():
 
 @app.route('/runPCAIR', methods=['POST'])
 def runPCAIR():
-	subprocess.run(["Rscript", "PCA_AIR.r"])
+	subprocess.run(["sudo", "Rscript", "PCA_AIR.r"])
 	
 	return pd.read_csv('./data/test_docs/ALL_PCS1.csv').to_csv()
 

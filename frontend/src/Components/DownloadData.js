@@ -33,6 +33,11 @@ class DownloadData extends Component {
                 // console.log(this.props.OutlierData);
                 for (var i = 0; i < this.state.data.length; i++) {
                   var row = this.state.downloadableData.length > 0 ? this.state.downloadableData[i] : this.state.data[i];
+                  // row = this.state.outlierCheck ? row : this.state.data[i];
+                  if (!this.state.clusterCheck) {
+                    row = Object.fromEntries(Object.entries(row).filter(([key]) => key !== 'cluster'));
+
+                  }
                   var outlierInp = this.props.OutlierData[i];
                   row = {
                     ...row,
@@ -61,6 +66,9 @@ class DownloadData extends Component {
                 var newData = [];
                 for (var i = 0; i < this.state.data.length; i++) {
                   var row = this.state.downloadableData.length > 0 ? this.state.downloadableData[i] : this.state.data[i];
+                  if (!this.state.outlierCheck) {
+                    row = Object.fromEntries(Object.entries(row).filter(([key]) => key !== 'outlier'));
+                  }                  
                   row = {
                     ...row,
                     cluster: this.props.clusterNames[this.props.clusterColors[i]],

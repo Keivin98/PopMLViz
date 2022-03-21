@@ -219,7 +219,7 @@ class App extends Component {
     var cluster_texts = [];
     var uniqueTags = [];
     var layout = {};
-
+    var data_new = [];
     if (categoricalData != null) {
       // find unique values
       for (var catID = 0; catID < categoricalData.length; catID ++){
@@ -227,41 +227,42 @@ class App extends Component {
               uniqueTags.push(categoricalData[catID])
           };
         }
-      var data_new = [];
+      
 
       for (var colID = 0; colID < uniqueTags.length; colID ++){
+        data_new.push({})
         if(DIM === 2){
-          if(this.state.selectedColorShape === 0){
-            data_new.push({
+          if(this.state.selectedColorShape === '0'){
+            data_new[colID] = {
               name: uniqueTags[colID],
               x: [],
               y: [],
               z: [],
               type: "scatter3d",
               mode: "markers",
-              marker: { color: randomColors[colID], symbol: randomShapes[0], size: 2},
+              marker: { color: randomColors[colID], symbol: randomShapes[0], size: 4},
               text: "",
               hovertemplate:
                 "<i>(%{x:.4f}, %{y:.4f}) </i>"
-            });
+            };
           }else{
-            data_new.push({
+            data_new[colID] = {
               name: uniqueTags[colID],
               x: [],
               y: [],
               z: [],
               type: "scatter3d",
               mode: "markers",
-              marker: { color: randomColors[0], symbol: randomShapes[colID], size: 2},
+              marker: { color: randomColors[0], symbol: randomShapes[colID], size: 4},
               text: "",
               hovertemplate:
                 "<i>(%{x:.4f}, %{y:.4f}) </i>"
-            });
+            };
           }
           
         }else{
-          if(this.state.selectedColorShape === 0){
-            data_new.push({
+          if(this.state.selectedColorShape === '0'){
+            data_new[colID] = {
               name: uniqueTags[colID],
               x: [],
               y: [],
@@ -270,9 +271,9 @@ class App extends Component {
               text: "",
               hovertemplate:
                 "<i>(%{x:.4f}, %{y:.4f}) </i>"
-            });
+            };
         }else{
-            data_new.push({
+          data_new[colID] ={
               name: uniqueTags[colID],
               x: [],
               y: [],
@@ -281,7 +282,7 @@ class App extends Component {
               text: "",
               hovertemplate:
                 "<i>(%{x:.4f}, %{y:.4f}) </i>"
-            });
+            };
         } 
       
       }
@@ -988,10 +989,11 @@ class App extends Component {
   }
 
   onValueChangeColorShape = (event) => {
-    console.log(event.target.value);
+    // console.log(event.target.value === '0');
     this.setState({
         selectedColorShape: event.target.value,
       });
+      this.showScatterPlot();
   }
 
   formSubmit = (event) => {
@@ -1064,7 +1066,7 @@ class App extends Component {
   runPCAir = () => {
     this.setState({ isLoading: true });
     axios
-      .post("http://10.4.4.115:5000/runPCAIR", {
+      .post("http://localhost:5000/runPCAIR", {
         headers: {
           "Content-Type": "application/json",
         },
