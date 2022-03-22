@@ -96,11 +96,11 @@ def uploadPCAIR():
 
 @app.route('/runPCAIR', methods=['POST'])
 def runPCAIR():
-	BiocManager = importr('BiocManager')
-	packnames = ('GENESIS', 'SNPRelate', 'GWASTools')
-	names_to_install = [x for x in packnames if not rpackages.isinstalled(x)]
-	if len(names_to_install) > 0:
-		utils.install_packages(StrVector(names_to_install))
+	#BiocManager = importr('BiocManager')
+	#packnames = ('GENESIS', 'SNPRelate', 'GWASTools')
+	#names_to_install = [x for x in packnames if not rpackages.isinstalled(x)]
+	#if len(names_to_install) > 0:
+	#	BiocManager.install(StrVector(names_to_install))
 	robjects.r.source("./PCA_AIR.r", encoding="utf-8")
 	
 	return pd.read_csv('./data/test_docs/ALL_PCS1.csv').to_csv()
