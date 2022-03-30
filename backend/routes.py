@@ -33,39 +33,35 @@ def runKmeans():
 		pca_cols = [x for x in pca_df.columns if 'PC' in x]
 	except:
 		pca_cols = pca_df.columns
+	
+	if not pca_cols:
+		pca_cols = pca_df.columns
 	kmeans = KMeans(n_clusters=num_clusters, random_state=123).fit_predict(pca_df[pca_cols])
 	return jsonify(list(map(lambda x : int(x), kmeans)))
 
 @app.route("/cmtsne2d", methods=["POST"], strict_slashes=False)
 def cmtsne2d():
 	# print('tsne')
-	request_filename = request.get_json()['filename']
-	# kmeans = request.get_json()['runKmeans']
-	input_path = './data/PCA/' + request_filename
-	df = pd.read_csv(input_path)
-	tsne_visualization = TSNE(random_state=123).fit_transform(df)
-	letters = string.ascii_lowercase
-	filename = ''.join(random.choice(letters) for i in range(5))
-	completeRes = np.append([['TSNE%s'%(i) for i in range(1,3)]], tsne_visualization, axis = 0)
-	np.savetxt('./data/tsne2d_%s.csv' % (filename), completeRes, delimiter=",", fmt='%s')
-	with open('./data/tsne2d_%s.csv'% (filename), 'r') as f : 
-		data = f.read()
-	return 	data
+	request_df = request.get_json()['df']
+	pca_df = pd.json_normalize(request_df)
+	try:
+		pca_cols = [x for x in pca_df.columns if 'PC' in x]
+	except:
+		pca_cols = pca_df.columns
+	tsne_visualization = TSNE(random_state=123).fit_transform(pca_df[pca_cols])
+	return pd.DataFrame(tsne_visualization).to_csv()
 
 @app.route("/cmtsne3d", methods=["POST"], strict_slashes=False)
 def cmtsne3d():
 	# print('tsne')
-	request_filename = request.get_json()['filename']
-	input_path = './data/PCA/' + request_filename
-	df = pd.read_csv(input_path)
-	tsne_visualization = TSNE(n_components=3, random_state=123).fit_transform(df)
-	letters = string.ascii_lowercase
-	filename = ''.join(random.choice(letters) for _ in range(5))
-	completeRes = np.append([['TSNE%s'%(i) for i in range(1,4)]], tsne_visualization, axis = 0)
-	np.savetxt('./data/tsne3d_%s.csv' % (filename), completeRes, delimiter=",", fmt='%s')
-	with open('./data/tsne3d_%s.csv'% (filename), 'r') as f : 
-		data = f.read()
-	return 	data
+	request_df = request.get_json()['df']
+	pca_df = pd.json_normalize(request_df)
+	try:
+		pca_cols = [x for x in pca_df.columns if 'PC' in x]
+	except:
+		pca_cols = pca_df.columns
+	tsne_visualization = TSNE(n_components=3, random_state=123).fit_transform(pca_df[pca_cols])
+	return pd.DataFrame(tsne_visualization).to_csv()
 
 @app.route("/uploadCM", methods=["POST"], strict_slashes=False)
 def uploadCM():

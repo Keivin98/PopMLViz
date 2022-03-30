@@ -3,3 +3,4 @@
 /backend/data
 /frontend/public/datasets
 /add_random_values_to_ds.py
+/frontend/.env
