@@ -943,8 +943,11 @@ class App extends Component {
       const data = XLSX.utils.sheet_to_csv(ws, { header: 1 });
       this.processData(data, false).then(() => { 
         if (this.state.selectedUploadOption === "PCA") {}
-        else if (this.state.selectedUploadOption === "t-SNE") {
-          this.runTSNE();
+        else if (this.state.selectedUploadOption === "t-SNE 2D") {
+          this.runTSNE2d();
+        } 
+        else if (this.state.selectedUploadOption === "t-SNE 3D") {
+          this.runTSNE3d();
         } 
         else {
         this.UploadCMDataset(e.target.files[0]);
@@ -1392,12 +1395,23 @@ class App extends Component {
               <label>
                 <input
                   type="radio"
-                  value="t-SNE"
-                  checked={this.state.selectedUploadOption === "t-SNE"}
+                  value="t-SNE 2D"
+                  checked={this.state.selectedUploadOption === "t-SNE 2D"}
                   onChange={this.onUploadValueChange}
                 />
-                t-SNE
+                t-SNE 2D
               </label>
+            </div>
+            <div>
+              <label>
+                <input
+                  type="radio"
+                  value="t-SNE 3D"
+                  checked={this.state.selectedUploadOption === "t-SNE 3D"}
+                  onChange={this.onUploadValueChange}
+                />
+                t-SNE 3D
+              </label> 
 
               {this.state.selectedUploadOption === "Correlation Matrix" && (
                 <div
