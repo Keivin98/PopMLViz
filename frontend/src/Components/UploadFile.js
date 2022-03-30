@@ -18,7 +18,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import 'react-tabs/style/react-tabs.css';
-
+require('dotenv').config()
 const randomColors = [
   "#3f91ba",
   "#801f65",
@@ -183,11 +183,21 @@ class App extends Component {
     var x1 = [];
     var y1 = [];
     var cluster_texts = [];
+    var mapping_id = true; 
+    var hoverTemplate = "<i>(%{x}, %{y:.4f}) </i>" +
+    "<br><b>Mapping ID</b>:%{text}</b></br>";
     if (this.state.data != null && y != null) {
       for (var i = 0; i < this.state.data.length; i++) {
         x1.push(i);
         y1.push(this.state.data[i][y]);
-        cluster_texts.push(this.state.data[i]["MappingID2"]);
+        
+        if (mapping_id && this.state.data[i]["MappingID2"] == null) {
+          mapping_id = false;
+          hoverTemplate = "<i>(%{x}, %{y:.4f}) </i>";
+        }
+        if (mapping_id){
+          cluster_texts.push(this.state.data[i]["MappingID2"]);
+        }
       }
       var data_new = [
         {
@@ -196,9 +206,7 @@ class App extends Component {
           y: y1,
           mode: "markers",
           text: cluster_texts,
-          hovertemplate:
-            "<i>(%{x}, %{y:.4f}) </i>" +
-            "<br><b>Mapping ID</b>:%{text}</b></br>",
+          hovertemplate: hoverTemplate,
           marker: { color: randomColors[0] },
         },
       ];
@@ -748,12 +756,22 @@ class App extends Component {
     var x1 = [];
     var y1 = [];
     var cluster_texts = [];
+    var mapping_id = true;
+    var hoverTemplate = "<i>(%{x:.4f}, %{y:.4f}) </i>" +
+    "<br><b>Mapping ID</b>:%{text}</b></br>";
+
     if (this.state.data != null && x != null && y != null) {
       // console.log(x, y);
       for (var i = 0; i < this.state.data.length; i++) {
         x1.push(this.state.data[i][x]);
         y1.push(this.state.data[i][y]);
-        cluster_texts.push(this.state.data[i]["MappingID2"]);
+        if (mapping_id && this.state.data[i]["MappingID2"] == null) {
+          mapping_id = false;
+          hoverTemplate = "<i>(%{x}, %{y:.4f} %{z}, %{z:.4f}) </i>";
+        }
+        if (mapping_id){
+          cluster_texts.push(this.state.data[i]["MappingID2"]);
+        }
       }
       // console.log(cluster_texts);
       var data_new = [
@@ -763,9 +781,7 @@ class App extends Component {
           y: y1,
           mode: "markers",
           text: cluster_texts,
-          hovertemplate:
-            "<i>(%{x:.4f}, %{y:.4f}) </i>" +
-            "<br><b>Mapping ID</b>:%{text}</b></br>",
+          hovertemplate: hoverTemplate,
           marker: { color: randomColors[0] },
         },
       ];
@@ -787,13 +803,22 @@ class App extends Component {
     var z1 = [];
     var y1 = [];
     var cluster_texts = [];
+    var mapping_id = true; 
+    var hoverTemplate = "<i>(%{x:.4f}, %{y:.4f} %{z}, %{z:.4f}) </i>" +
+    "<br><b>Mapping ID</b>:%{text}</b></br>";
     if (this.state.data != null && x != null && y != null && z != null) {
       // console.log(x, y);
       for (var i = 0; i < this.state.data.length; i++) {
         x1.push(this.state.data[i][x]);
         y1.push(this.state.data[i][y]);
         z1.push(this.state.data[i][z]);
-        cluster_texts.push(this.state.data[i]["MappingID2"]);
+        if (mapping_id && this.state.data[i]["MappingID2"] == null) {
+          mapping_id = false;
+          hoverTemplate = "<i>(%{x}, %{y:.4f} %{z}, %{z:.4f}) </i>";
+        }
+        if (mapping_id){
+          cluster_texts.push(this.state.data[i]["MappingID2"]);
+        }
       }
       var data_new = [
         {
@@ -804,9 +829,7 @@ class App extends Component {
           mode: "markers",
           type: "scatter3d",
           text: cluster_texts,
-          hovertemplate:
-            "<i>(%{x:.4f}, %{y:.4f}) </i>" +
-            "<br><b>Mapping ID</b>:%{text}</b></br>",
+          hovertemplate: hoverTemplate,
           marker: { color: randomColors[0], size: 2 },
         },
       ];
@@ -918,11 +941,12 @@ class App extends Component {
       const ws = wb.Sheets[wsname];
       /* Convert array of arrays */
       const data = XLSX.utils.sheet_to_csv(ws, { header: 1 });
-      this.processData(data, false).then(() => { if (
-        this.state.selectedUploadOption === "PCA" ||
-        this.state.selectedUploadOption === "t-SNE"
-      ) {} 
-      else {
+      this.processData(data, false).then(() => { 
+        if (this.state.selectedUploadOption === "PCA") {}
+        else if (this.state.selectedUploadOption === "t-SNE") {
+          this.runTSNE();
+        } 
+        else {
         this.UploadCMDataset(e.target.files[0]);
       }});
     };
@@ -1008,7 +1032,8 @@ class App extends Component {
     };
     // console.log(file);
     this.setState({ isLoading: true });
-    var url = "http://10.4.4.115:5000/";
+    var url = `http://${process.env.REACT_APP_DOMAIN}:5000/`;
+
     if (this.state.DRAlgorithm === "PCA") {
       url = url + "uploadCM";
     } else if (this.state.DRAlgorithm === "t-SNE 2D") {
@@ -1037,9 +1062,10 @@ class App extends Component {
       df: this.state.data,
       num_clusters: num_clusters,
     };
+    console.log(`http://${process.env.REACT_APP_DOMAIN}:5000/runkmeans`)
     this.setState({ isLoading: true });
     axios
-      .post("http://10.4.4.115:5000/runkmeans", formData, {
+      .post(`http://${process.env.REACT_APP_DOMAIN}:5000/runkmeans`, formData, {
         headers: {
           "Content-Type": "application/json",
         },
@@ -1062,17 +1088,56 @@ class App extends Component {
         });
       })
   };
-
-  runPCAir = () => {
+  runTSNE2d = () => {
+    const formData = {
+      df: this.state.data,
+    };
     this.setState({ isLoading: true });
     axios
-      .post("http://10.4.4.115:5000/runPCAIR", {
+      .post(`http://${process.env.REACT_APP_DOMAIN}:5000/cmtsne2d`, formData, {
         headers: {
           "Content-Type": "application/json",
         },
       })
       .then((r) => {
-        console.log(r.data);
+        this.setState({
+          isLoading: false,
+          distributionData: [],
+          selectedDescribingColumn : { value: "None", label: "None" },
+        });
+        this.processData(r.data, false);
+      })
+  }
+  runTSNE3d = () => {
+    const formData = {
+      df: this.state.data,
+    };
+    this.setState({ isLoading: true });
+    axios
+      .post(`http://${process.env.REACT_APP_DOMAIN}:5000/cmtsne3d`, formData, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+      .then((r) => {
+        this.setState({
+          isLoading: false,
+          distributionData: [],
+          selectedDescribingColumn : { value: "None", label: "None" },
+        });
+        this.processData(r.data, false);
+      })
+  }
+  runPCAir = () => {
+    this.setState({ isLoading: true });
+    axios
+      .post(`http://${process.env.REACT_APP_DOMAIN}:5000/runPCAIR`, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+      .then((r) => {
+        // console.log(r.data);
         this.setState({
           isLoading: false,
         });
@@ -1093,7 +1158,7 @@ class App extends Component {
       };
       this.setState({ isLoading: true });
       axios
-        .post("http://10.4.4.115:5000/detectoutliers", formData, {
+        .post(`http://${process.env.REACT_APP_DOMAIN}:5000/detectoutliers`, formData, {
           headers: {
             "Content-Type": "application/json",
           },
@@ -1316,11 +1381,11 @@ class App extends Component {
               <label>
                 <input
                   type="radio"
-                  value="PCAir"
-                  checked={this.state.selectedUploadOption === "PCAir"}
+                  value="PC-AiR"
+                  checked={this.state.selectedUploadOption === "PC-AiR"}
                   onChange={this.onUploadValueChange}
                 />
-                PCAir
+                PC-AiR
               </label>
             </div>
             <div>
@@ -1351,14 +1416,14 @@ class App extends Component {
                   />
                 </div>
               )}
-              {this.state.selectedUploadOption === "PCAir" && (
+              {this.state.selectedUploadOption === "PC-AiR" && (
                 <div>
                   <PCAir />
-                  <Button variant="outlined"   onClick={this.runPCAir}>Run PCAir</Button>
+                  <Button variant="outlined"   onClick={this.runPCAir}>Run PC-AiR</Button>
                 </div>
               )}
             </div>
-            {this.state.selectedUploadOption !== "PCAir" && (
+            {this.state.selectedUploadOption !== "PC-AiR" && (
                 <input
               type="file"
               accept=".csv,.xlsx,.xls"
