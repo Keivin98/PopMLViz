@@ -3,12 +3,12 @@ import React, { Component } from "react";
 import { Chart, registerables } from "chart.js";
 import * as XLSX from "xlsx";
 import Select from "react-select";
-import Loader from "react-loader-spinner";
 import ScatterPlot from "./ScatterPlot";
 import Incrementor from "./Incrementor";
 import DownloadData from "./DownloadData";
 import OutlierBlock from "./OutlierBlock";
 import PCAir from "./PCAir";
+import ProgressBarTime from './ProgressBarTime'
 import { Button } from "@material-ui/core";
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import TabOutputOptions from "./TabOutputOptions";
@@ -18,6 +18,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import 'react-tabs/style/react-tabs.css';
+
 require('dotenv').config()
 const randomColors = [
   "#3f91ba",
@@ -51,6 +52,8 @@ var num_clusters = 2;
 class App extends Component {
   state = {
     // Initially, no file is selected
+    ProgressBarType : 'Loader',
+    ProgressBarTimeInterval: 5,
     columnRange : [1, 10],
     selectedFile: null,
     imageURL: "",
@@ -1065,8 +1068,9 @@ class App extends Component {
       df: this.state.data,
       num_clusters: num_clusters,
     };
-    console.log(`http://${process.env.REACT_APP_DOMAIN}:5000/runkmeans`)
-    this.setState({ isLoading: true });
+    
+    this.setState({ isLoading: true, ProgressBarType : 'Loader' });
+    
     axios
       .post(`http://${process.env.REACT_APP_DOMAIN}:5000/runkmeans`, formData, {
         headers: {
@@ -1095,7 +1099,7 @@ class App extends Component {
     const formData = {
       df: this.state.data,
     };
-    this.setState({ isLoading: true });
+    this.setState({ isLoading: true, ProgressBarType: 'ProgressBar', ProgressBarTimeInterval: 70 });
     axios
       .post(`http://${process.env.REACT_APP_DOMAIN}:5000/cmtsne2d`, formData, {
         headers: {
@@ -1115,7 +1119,7 @@ class App extends Component {
     const formData = {
       df: this.state.data,
     };
-    this.setState({ isLoading: true });
+    this.setState({ isLoading: true, ProgressBarType: 'ProgressBar', ProgressBarTimeInterval: 70 });
     axios
       .post(`http://${process.env.REACT_APP_DOMAIN}:5000/cmtsne3d`, formData, {
         headers: {
@@ -1132,7 +1136,7 @@ class App extends Component {
       })
   }
   runPCAir = () => {
-    this.setState({ isLoading: true });
+    this.setState({ isLoading: true, ProgressBarType: 'ProgressBar', ProgressBarTimeInterval: 40 });
     axios
       .post(`http://${process.env.REACT_APP_DOMAIN}:5000/runPCAIR`, {
         headers: {
@@ -1402,6 +1406,7 @@ class App extends Component {
                 t-SNE 2D
               </label>
             </div>
+            
             <div>
               <label>
                 <input
@@ -1497,7 +1502,7 @@ class App extends Component {
           style={styles.rightPane}
         >
           {this.state.isLoading && (
-            <Loader type="TailSpin" color="#00BFFF" height="100" width="100" style={{marginRight: '25%'}}/>
+            <ProgressBarTime totalTime={this.state.ProgressBarTimeInterval} type={this.state.ProgressBarType} />
           )}
           {!this.state.isLoading && (
             <div>
