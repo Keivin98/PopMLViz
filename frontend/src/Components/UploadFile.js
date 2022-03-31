@@ -4,6 +4,7 @@ import { Chart, registerables } from "chart.js";
 import * as XLSX from "xlsx";
 import Select from "react-select";
 import ScatterPlot from "./ScatterPlot";
+import BarPlot from "./BarPlot";
 import Incrementor from "./Incrementor";
 import DownloadData from "./DownloadData";
 import OutlierBlock from "./OutlierBlock";
@@ -887,15 +888,28 @@ class App extends Component {
 
   processData = async (dataString, outliers) => {
     const dataStringLines = dataString.split(/\r\n|\n/);
-    const headers = dataStringLines[0].split(
-      /,(?![^"]*"(?:(?:[^"]*"){2})*[^"]*$)/
-    );
+    var selectedUploadOption = this.state.selectedUploadOption;
+    var headers  = [];
+    if (selectedUploadOption === "admixture") {
+      headers = [...Array(dataStringLines[0].split(" ").length)].map((x, index) => {
+        return ('v' + (index+1))
+      });
+    }else{
+      headers = dataStringLines[0].split(
+        /,(?![^"]*"(?:(?:[^"]*"){2})*[^"]*$)/
+      );
+    }
 
     const list = [];
     for (let i = 1; i < dataStringLines.length; i++) {
-      const row = dataStringLines[i].split(
-        /,(?![^"]*"(?:(?:[^"]*"){2})*[^"]*$)/
-      );
+      var row = [];
+      if (selectedUploadOption === "admixture") {
+        row = dataStringLines[i].split(" ");
+      }else{
+        row = dataStringLines[i].split(
+          /,(?![^"]*"(?:(?:[^"]*"){2})*[^"]*$)/
+        );
+      }
       if (headers && row.length === headers.length) {
         const obj = {};
         for (let j = 0; j < headers.length; j++) {
@@ -945,7 +959,7 @@ class App extends Component {
       /* Convert array of arrays */
       const data = XLSX.utils.sheet_to_csv(ws, { header: 1 });
       this.processData(data, false).then(() => { 
-        if (this.state.selectedUploadOption === "PCA") {}
+        if (this.state.selectedUploadOption === "PCA" || this.state.selectedUploadOption === "admixture") {}
         else if (this.state.selectedUploadOption === "t-SNE 2D") {
           this.runTSNE2d();
         } 
@@ -1019,7 +1033,6 @@ class App extends Component {
   }
 
   onValueChangeColorShape = (event) => {
-    // console.log(event.target.value === '0');
     this.setState({
         selectedColorShape: event.target.value,
       });
@@ -1028,7 +1041,6 @@ class App extends Component {
 
   formSubmit = (event) => {
     event.preventDefault();
-    // console.log(this.state.selectedOption);
   };
 
   UploadCMDataset = (file) => {
@@ -1036,15 +1048,13 @@ class App extends Component {
     const formData = {
       df: this.state.data,
     };
-    // console.log(file);
-    this.setState({ isLoading: true });
+    this.setState({ isLoading: true, ProgressBarType: 'ProgressBar', ProgressBarTimeInterval: 150 });
     var url = `http://${process.env.REACT_APP_DOMAIN}:5000/`;
 
     if (this.state.DRAlgorithm === "PCA") {
       url = url + "uploadCM";
     } else if (this.state.DRAlgorithm === "t-SNE 2D") {
       url = url + "cmtsne2d";
-      // console.log(url);
     } else if (this.state.DRAlgorithm === "t-SNE 3D") {
       url = url + "cmtsne3d";
     }
@@ -1056,7 +1066,6 @@ class App extends Component {
         },
       })
       .then((r) => {
-        // console.log(r);
         this.setState({ isLoading: false, selectedUploadOption: "PCA" });
         this.processData(r.data, false);
       });
@@ -1079,14 +1088,11 @@ class App extends Component {
       })
       .then((r) => {
         var cluster_names = {}; 
-        // eslint-disable-next-line array-callback-return
         [...Array(num_clusters)].map((x, index) => {
           cluster_names[index] = index;
         });
-        // console.log(r);
         this.setState({
           isLoading: false,
-          selectedUploadOption: "PCA",
           clusterColors: r.data,
           cluster_names: cluster_names,
           showOutputOptions: true,
@@ -1144,7 +1150,6 @@ class App extends Component {
         },
       })
       .then((r) => {
-        // console.log(r.data);
         this.setState({
           isLoading: false,
         });
@@ -1163,7 +1168,7 @@ class App extends Component {
         columnRange : this.state.columnRange,
         combineType: this.state.pressed,
       };
-      this.setState({ isLoading: true });
+      this.setState({ isLoading: true, ProgressBarType: 'Loader' });
       axios
         .post(`http://${process.env.REACT_APP_DOMAIN}:5000/detectoutliers`, formData, {
           headers: {
@@ -1196,6 +1201,7 @@ class App extends Component {
     this.setState({ DRAlgorithm: value.label });
   };
 
+  
   showScatterPlot = () => {
     const x = this.state.selectedColumns[0];
     const y = this.state.selectedColumns[1];
@@ -1204,127 +1210,132 @@ class App extends Component {
     const outlierData = this.state.OutlierData;
     const ONE_DIM = 0; 
     const TWO_DIM = 1; 
-    const THREE_DIM = 2; 
-    if (
-      this.state.selectedColumns[0] === null &&
-      this.state.selectedColumns[1] === null &&
-      this.state.selectedColumns[2] === null
-    ) {
-      return <ScatterPlot data={[]} />;
-    } else if (
-      this.state.selectedColumns[1] === null &&
-      this.state.selectedColumns[2] === null
-    ) {
+    const THREE_DIM = 2;
+    if (this.state.selectedUploadOption === 'admixture'){
+      return <BarPlot data={this.state.data} />
+    }
+    else{
       if (
-        this.state.clusterColors.length > 0 ||
-        distributionData.length > 0 ||
-        outlierData.length > 0
+        this.state.selectedColumns[0] === null &&
+        this.state.selectedColumns[1] === null &&
+        this.state.selectedColumns[2] === null
       ) {
-        if (outlierData.length > 0) {
-          if (this.state.clusterColors.length > 0) {
-            return this.scatterWithClusters(ONE_DIM, x, null, null, true, outlierData);
-          }else if (distributionData.length > 0){
-            return this.scatterCategoricalandOutliers(
-              ONE_DIM,
-              x,
-              null,
-              null,
-              distributionData,
-              outlierData,
-              false
-            );
+        return <ScatterPlot data={[]} />;
+      } else if (
+        this.state.selectedColumns[1] === null &&
+        this.state.selectedColumns[2] === null
+      ) {
+        if (
+          this.state.clusterColors.length > 0 ||
+          distributionData.length > 0 ||
+          outlierData.length > 0
+        ) {
+          if (outlierData.length > 0) {
+            if (this.state.clusterColors.length > 0) {
+              return this.scatterWithClusters(ONE_DIM, x, null, null, true, outlierData);
+            }else if (distributionData.length > 0){
+              return this.scatterCategoricalandOutliers(
+                ONE_DIM,
+                x,
+                null,
+                null,
+                distributionData,
+                outlierData,
+                false
+              );
+            }
+            else{     
+              return this.scatterCategoricalandOutliers(
+                ONE_DIM,
+                x, null, null, outlierData, outlierData , true
+              );
+            }
+          } else if (distributionData.length > 0) {
+            return this.scatterCategorical(ONE_DIM, x, null, null, distributionData, false);
+          } else {
+            return this.scatterWithClusters(ONE_DIM, x,null, null, false);
           }
-          else{     
-            return this.scatterCategoricalandOutliers(
-              ONE_DIM,
-              x, null, null, outlierData, outlierData , true
-            );
-          }
-        } else if (distributionData.length > 0) {
-          return this.scatterCategorical(ONE_DIM, x, null, null, distributionData, false);
         } else {
-          return this.scatterWithClusters(ONE_DIM, x,null, null, false);
+          return this.scatter1d(x);
         }
-      } else {
-        return this.scatter1d(x);
-      }
-    } else if (this.state.selectedColumns[2] === null) {
-      if (
-        this.state.clusterColors.length > 0 ||
-        distributionData.length > 0 ||
-        outlierData.length > 0
-      ) {
-        if (outlierData.length > 0) {
-          if (this.state.clusterColors.length > 0) {
-            return this.scatterWithClusters(TWO_DIM, x, y, null, true, outlierData);
-          }else if (distributionData.length > 0){
-            return this.scatterCategoricalandOutliers(
+      } else if (this.state.selectedColumns[2] === null) {
+        if (
+          this.state.clusterColors.length > 0 ||
+          distributionData.length > 0 ||
+          outlierData.length > 0
+        ) {
+          if (outlierData.length > 0) {
+            if (this.state.clusterColors.length > 0) {
+              return this.scatterWithClusters(TWO_DIM, x, y, null, true, outlierData);
+            }else if (distributionData.length > 0){
+              return this.scatterCategoricalandOutliers(
+                TWO_DIM,
+                x,
+                y,
+                null,
+                distributionData,
+                outlierData,
+                false
+              );
+            }
+            else{
+              return this.scatterCategoricalandOutliers(
               TWO_DIM,
               x,
               y,
               null,
-              distributionData,
-              outlierData,
-              false
-            );
-          }
-          else{
-            return this.scatterCategoricalandOutliers(
-            TWO_DIM,
-            x,
-            y,
-            null,
-            outlierData, 
-            outlierData,
-            true
-            );
-          }
-        } else if (distributionData.length > 0) {
-          return this.scatterCategorical(TWO_DIM, x, y, z, distributionData);
-        } else {
-          return this.scatterWithClusters(TWO_DIM, x, y, null, false, null, null);
-        }
-      } else {
-        return this.scatter2d(x, y);
-      }
-    } else {
-      if (
-        this.state.clusterColors.length > 0 ||
-        distributionData.length > 0 ||
-        outlierData.length > 0
-      ) {
-        if (outlierData.length > 0) {
-          if (this.state.clusterColors.length > 0){
-            return this.scatterWithClusters(THREE_DIM, x, y, z, true, outlierData);
-          }else if (distributionData.length > 0){
-            return this.scatterCategoricalandOutliers(
-              THREE_DIM,
-              x,
-              y,
-              z,
-              distributionData,
-              outlierData,
-              false
-            );
-          }
-          else{
-            return this.scatterCategoricalandOutliers(
-              THREE_DIM,
-              x,
-              y,
-              z,
-              outlierData,
+              outlierData, 
               outlierData,
               true
-            );
+              );
+            }
+          } else if (distributionData.length > 0) {
+            return this.scatterCategorical(TWO_DIM, x, y, z, distributionData);
+          } else {
+            return this.scatterWithClusters(TWO_DIM, x, y, null, false, null, null);
           }
-        } else if (distributionData.length > 0) {
-          return this.scatterCategorical(THREE_DIM, x, y, z, distributionData);
         } else {
-          return this.scatterWithClusters(THREE_DIM, x, y, z, false, null, null);
+          return this.scatter2d(x, y);
         }
       } else {
-        return this.scatter3d(x, y, z);
+        if (
+          this.state.clusterColors.length > 0 ||
+          distributionData.length > 0 ||
+          outlierData.length > 0
+        ) {
+          if (outlierData.length > 0) {
+            if (this.state.clusterColors.length > 0){
+              return this.scatterWithClusters(THREE_DIM, x, y, z, true, outlierData);
+            }else if (distributionData.length > 0){
+              return this.scatterCategoricalandOutliers(
+                THREE_DIM,
+                x,
+                y,
+                z,
+                distributionData,
+                outlierData,
+                false
+              );
+            }
+            else{
+              return this.scatterCategoricalandOutliers(
+                THREE_DIM,
+                x,
+                y,
+                z,
+                outlierData,
+                outlierData,
+                true
+              );
+            }
+          } else if (distributionData.length > 0) {
+            return this.scatterCategorical(THREE_DIM, x, y, z, distributionData);
+          } else {
+            return this.scatterWithClusters(THREE_DIM, x, y, z, false, null, null);
+          }
+        } else {
+          return this.scatter3d(x, y, z);
+        }
       }
     }
   };
@@ -1406,7 +1417,6 @@ class App extends Component {
                 t-SNE 2D
               </label>
             </div>
-            
             <div>
               <label>
                 <input
@@ -1416,6 +1426,17 @@ class App extends Component {
                   onChange={this.onUploadValueChange}
                 />
                 t-SNE 3D
+              </label> 
+            </div>
+            <div>
+              <label>
+                <input
+                  type="radio"
+                  value="admixture"
+                  checked={this.state.selectedUploadOption === "admixture"}
+                  onChange={this.onUploadValueChange}
+                />
+                Admixture
               </label> 
 
               {this.state.selectedUploadOption === "Correlation Matrix" && (
@@ -1445,7 +1466,7 @@ class App extends Component {
             {this.state.selectedUploadOption !== "PC-AiR" && (
                 <input
               type="file"
-              accept=".csv,.xlsx,.xls"
+              accept=".csv,.xlsx,.xls,.Q"
               disabled={this.state.selectedUploadOption === null}
               onChange={this.handleFileUpload}
             /> )}
@@ -1520,9 +1541,9 @@ class App extends Component {
                   value={this.state.selectedOption}
                   onChange={this.onValueChangeDims}
                 >
-                  <FormControlLabel value="1D" control={<Radio color="success" size="small"/>} label="1D" />
-                  <FormControlLabel value="2D" control={<Radio color="success" size="small"/>} label="2D" />
-                  <FormControlLabel value="3D" control={<Radio color="success" size="small"/>} label="3D" />
+                  <FormControlLabel value="1D" disabled = {this.state.selectedUploadOption === 'admixture'} control={<Radio color="success" size="small"/>} label="1D" />
+                  <FormControlLabel value="2D" disabled = {this.state.selectedUploadOption === 'admixture'} control={<Radio color="success" size="small"/>} label="2D" />
+                  <FormControlLabel value="3D" disabled = {this.state.selectedUploadOption === 'admixture'} control={<Radio color="success" size="small"/>} label="3D" />
                 </RadioGroup>
               </FormControl>
               <div style={styles.dropDown}>
@@ -1532,6 +1553,7 @@ class App extends Component {
                       <Select
                         options={this.state.selectActions}
                         onChange={this.handleSelectXChange}
+                        isDisabled={this.state.selectedUploadOption === 'admixture'}
                       />
                       </div>
                     </div>
@@ -1568,7 +1590,8 @@ class App extends Component {
                     <Tab >Output Options</Tab>
                   </TabList>
 
-                  <TabPanel>
+                  { this.state.selectedUploadOption !== 'admixture' && ( <div> <TabPanel>
+                   
                   <div className="row">
                     <div className="row-md-8"></div>
 
@@ -1687,7 +1710,7 @@ class App extends Component {
                   </TabPanel>
                   <TabPanel style={styles.outputSettings}> {this.state.showOutputOptions && 
                     <TabOutputOptions uniqueClusters = {num_clusters} parentCallback = {this.handleTabOutputCallback} />}
-                  </TabPanel>
+                  </TabPanel> </div>)}
                 </Tabs>
             </div>
         </div>
