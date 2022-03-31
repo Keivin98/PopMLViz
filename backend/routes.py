@@ -48,6 +48,8 @@ def cmtsne2d():
 		pca_cols = [x for x in pca_df.columns if 'PC' in x]
 	except:
 		pca_cols = pca_df.columns
+	if not pca_cols:
+		pca_cols = pca_df.columns
 	tsne_visualization = TSNE(random_state=123).fit_transform(pca_df[pca_cols])
 	return pd.DataFrame(tsne_visualization).to_csv()
 
@@ -59,6 +61,8 @@ def cmtsne3d():
 	try:
 		pca_cols = [x for x in pca_df.columns if 'PC' in x]
 	except:
+		pca_cols = pca_df.columns
+	if not pca_cols:
 		pca_cols = pca_df.columns
 	tsne_visualization = TSNE(n_components=3, random_state=123).fit_transform(pca_df[pca_cols])
 	return pd.DataFrame(tsne_visualization).to_csv()
