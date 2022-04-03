@@ -113,7 +113,7 @@ class App extends Component {
     selectedColorShape: 0, 
   };
   handleMultiChange = (option) => {
-    console.log(option);
+    // console.log(option);
     let act = [];
     for (var i = 0; i < this.state.columns.length; i++) {
       act.push({
@@ -129,7 +129,7 @@ class App extends Component {
     });
   };
   handleOutlierChange = (option) => {
-    console.log(this.state.selectedOutlierMethod)
+    // console.log(this.state.selectedOutlierMethod)
     this.setState({selectedOutlierMethod : option.label});
   };
   setColumns = (columns) => {
@@ -894,12 +894,12 @@ class App extends Component {
       headers = [...Array(dataStringLines[0].split(" ").length)].map((x, index) => {
         return ('v' + (index+1))
       });
-    }else{
+    } else{
       headers = dataStringLines[0].split(
         /,(?![^"]*"(?:(?:[^"]*"){2})*[^"]*$)/
       );
     }
-
+    // console.log('here', dataStringLines[0]);
     const list = [];
     for (let i = 1; i < dataStringLines.length; i++) {
       var row = [];
@@ -945,32 +945,32 @@ class App extends Component {
 
   // handle file upload
   handleFileUpload = (e) => {
-    // console.log(e);
-    this.setState({ selectedFile: e.target.files[0] });
-    const file = e.target.files[0];
-    const reader = new FileReader();
-    reader.onload = (evt) => {
-      /* Parse data */
-      const bstr = evt.target.result;
-      const wb = XLSX.read(bstr, { type: "binary" });
-      /* Get first worksheet */
-      const wsname = wb.SheetNames[0];
-      const ws = wb.Sheets[wsname];
-      /* Convert array of arrays */
-      const data = XLSX.utils.sheet_to_csv(ws, { header: 1 });
-      this.processData(data, false).then(() => { 
-        if (this.state.selectedUploadOption === "PCA" || this.state.selectedUploadOption === "admixture") {}
-        else if (this.state.selectedUploadOption === "t-SNE 2D") {
-          this.runTSNE2d();
-        } 
-        else if (this.state.selectedUploadOption === "t-SNE 3D") {
-          this.runTSNE3d();
-        } 
-        else {
-        this.UploadCMDataset(e.target.files[0]);
-      }});
-    };
-    reader.readAsBinaryString(file);
+    if (this.state.selectedUploadOption === "Correlation Matrix") {
+      this.UploadCMDataset(e);
+    } else {
+      this.setState({ selectedFile: e.target.files[0] });
+      const file = e.target.files[0];
+      const reader = new FileReader();
+      reader.onload = (evt) => {
+        /* Parse data */
+        const bstr = evt.target.result;
+        const wb = XLSX.read(bstr, { type: "binary" });
+        /* Get first worksheet */
+        const wsname = wb.SheetNames[0];
+        const ws = wb.Sheets[wsname];
+        /* Convert array of arrays */
+        const data = XLSX.utils.sheet_to_csv(ws, { header: 1 });
+        this.processData(data, false).then(() => { 
+          if (this.state.selectedUploadOption === "PCA" || this.state.selectedUploadOption === "admixture") {}
+          else if (this.state.selectedUploadOption === "t-SNE 2D") {
+            this.runTSNE2d();
+          } 
+          else if (this.state.selectedUploadOption === "t-SNE 3D") {
+            this.runTSNE3d();
+          } });
+      };
+      reader.readAsBinaryString(file);
+    }
    
   };
   handleSelectXChange = (value) => {
@@ -1043,36 +1043,29 @@ class App extends Component {
     event.preventDefault();
   };
 
-  UploadCMDataset = (file) => {
-    // Create an object of formData
-    const formData = {
-      df: this.state.data,
-    };
+  UploadCMDataset = (e) => {
     this.setState({ isLoading: true, ProgressBarType: 'ProgressBar', ProgressBarTimeInterval: 150 });
-    var url = `http://${process.env.REACT_APP_DOMAIN}:5000/`;
+    // Create an object of formData
+    const formData = new FormData();
+    formData.append('file', e.target.files[0]);
+    formData.append('filename', e.target.value);
+    this.setState({
+        loading:true,
+    })
 
-    if (this.state.DRAlgorithm === "PCA") {
-      url = url + "uploadCM";
-    } else if (this.state.DRAlgorithm === "t-SNE 2D") {
-      url = url + "cmtsne2d";
-    } else if (this.state.DRAlgorithm === "t-SNE 3D") {
-      url = url + "cmtsne3d";
-    }
-
-    axios
-      .post(url, formData, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-      .then((r) => {
-        this.setState({ isLoading: false, selectedUploadOption: "PCA" });
-        this.processData(r.data, false);
-      });
+    axios.post(`http://${process.env.REACT_APP_DOMAIN}:5000/uploadCM`, formData, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then((response) => {
+      // console.log(response)
+      this.setState({ isLoading: false, selectedUploadOption: "PCA" });
+      this.processData(response.data, false);
+    });
   };
 
   runKmeans = () => {
-    console.log(num_clusters);
+    // console.log(num_clusters);
     const formData = {
       df: this.state.data,
       num_clusters: num_clusters,

@@ -69,16 +69,27 @@ def cmtsne3d():
 
 @app.route("/uploadCM", methods=["POST"], strict_slashes=False)
 def uploadCM():
-	
-	request_df = request.get_json()['df']
-	# print(request_df)
-	cm_df = pd.json_normalize(request_df)
+	target=os.path.join(UPLOAD_FOLDER,'test_docs')
+	if not os.path.isdir(target):
+		os.mkdir(target)
+	# logger.info("welcome to upload`")
+	file = request.files['file'] 
+	# filename = secure_filename(file.filename)
+	destination="/".join([target, file.filename])
+	file.save(destination)
+	# session['uploadFilePath']=destination
+	cm_df = pd.read_csv(destination)
+	# request_df = request.get_json()['df']
+	# # print(request_df)
+	# cm_df = pd.json_normalize(request_df)
 	components = min(20, len(cm_df.columns))
 	pca_new = PCA(n_components = components)
-	print(2)
+	# print(2)
 	principalComponents_new = pca_new.fit_transform(cm_df)
-	completeRes = pd.DataFrame(principalComponents_new, columns=['PC%s'%(i) for i in range(1,components + 1)])
-	return completeRes.to_json()
+	# completeRes = pd.DataFrame(principalComponents_new, columns=['PC%s'%(i) for i in range(1,components + 1)])
+	# completeRes.to_json()
+	print(pd.DataFrame(principalComponents_new).to_csv())
+	return pd.DataFrame(principalComponents_new).to_csv()
 	
 @app.route('/uploadPCAIR', methods=['POST'])
 def uploadPCAIR():
