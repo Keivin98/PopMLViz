@@ -69,14 +69,14 @@ class App extends Component {
         label: "PCA",
         value: "PCA",
       },
-      {
-        label: "t-SNE 2D",
-        value: "tsne1",
-      },
-      {
-        label: "t-SNE 3D",
-        value: "tsne2",
-      },
+      // {
+      //   label: "t-SNE 2D",
+      //   value: "tsne1",
+      // },
+      // {
+      //   label: "t-SNE 3D",
+      //   value: "tsne2",
+      // },
     ],
     selectOutlierActions: [
       {
