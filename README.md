@@ -6,20 +6,24 @@ mkdir /backend/data
 mkdir /frontend/public/datasets
 ```
 
-Add your PSA datasets to public/datasets.
+Add your datasets to public/datasets.
 
-Open a terminal and on the /backend folder run :
+Open a terminal and run :
 
 ```
-source /venv/bin/activate
-flask run
+cd backend/
+source /env/bin/activate
+pip install -r requirements.txt
+./run
 ```
 
 Open another terminal and on the /frontend/ folder run:
 
 ```
+cd frontend/
+echo "REACT_APP_DOMAIN=localhost" > .env
 npm install
-npm run
+npm start
 ```
 
 Your web-browser will load http://localhost:3000
