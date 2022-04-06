@@ -4,16 +4,13 @@ import Slider from "@material-ui/core/Slider";
 import { Button } from "@material-ui/core";
 import PropTypes from "prop-types";
 
-class OutlierBlock extends Component {
+class AdmixOptions extends Component {
   state = {
     columnRange: this.props.columnRange,
   };
 
   rangeSelector = (event, newValue) => {
     this.setState({ columnRange: newValue });
-  };
-  handleApplyClick = () => {
-    this.props.onChange(this.state);
   };
 
   render() {
@@ -30,7 +27,7 @@ class OutlierBlock extends Component {
         }}
       >
         <Typography id="range-slider" gutterBottom>
-          <h6>Columns: </h6>
+          <h6>Alpha: </h6>
         </Typography>
         <div
           style={{
@@ -43,23 +40,26 @@ class OutlierBlock extends Component {
             value={this.state.columnRange}
             onChange={this.rangeSelector}
             valueLabelDisplay="auto"
-            min={1}
-            max={20}
+            min={0}
+            max={100}
           />
           <Button
-            onClick={this.handleApplyClick}
+            onClick={(event) => {
+              this.props.parentCallback(this.state.columnRange);
+              event.preventDefault();
+            }}
             variant="outlined"
             style={{ marginLeft: "10px" }}
           >
             Apply
           </Button>
         </div>
-        PC{this.state.columnRange[0]} to PC{this.state.columnRange[1]}
+        Chosen alpha: {this.state.columnRange} %
       </div>
     );
   }
 }
-OutlierBlock.propTypes = {
-  columnRange: PropTypes.array,
+AdmixOptions.propTypes = {
+  columnRange: PropTypes.number,
 };
-export default OutlierBlock;
+export default AdmixOptions;
