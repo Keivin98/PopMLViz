@@ -27,6 +27,7 @@ class ScatterAdmix extends Component {
       clusterColors: [],
       clusterNames: [],
       PCAdata: [],
+      alphaVal: 0,
     };
   }
   range = (start, end) => {
@@ -43,7 +44,10 @@ class ScatterAdmix extends Component {
       return parseFloat(a);
     });
     const rowDescending = [...parsedRow].sort((a, b) => b - a);
-    if (rowDescending[0] - rowDescending[1] < 0.2) {
+    // if (rowDescending[0] - rowDescending[1] < 0.2) {
+    //   return parsedRow.length;
+    // }
+    if (rowDescending[0] < this.props.alphaVal / 100.0) {
       return parsedRow.length;
     } else {
       return parsedRow.indexOf(rowDescending[0]);
@@ -53,6 +57,13 @@ class ScatterAdmix extends Component {
   componentDidMount() {
     //Split the data between pca and admix
     if (this.props.data !== null) {
+      this.setState({ alphaVal: this.props.alphaVal });
+      this.splitPCAandADMIX();
+    }
+  }
+  componentDidUpdate(prevProps) {
+    console.log(this.props.alphaVal);
+    if (prevProps.alphaVal !== this.props.alphaVal) {
       this.splitPCAandADMIX();
     }
   }
@@ -99,7 +110,8 @@ class ScatterAdmix extends Component {
       var data_new = [];
       for (var k = 0; k < num_clusters + 1; k += 1) {
         var name = this.state.clusterNames[k];
-
+        var symbol = k == num_clusters ? "cross" : "circle";
+        var color = k == num_clusters ? "grey" : colors[k];
         if (DIM === 2) {
           data_new.push({
             name: name,
@@ -108,7 +120,7 @@ class ScatterAdmix extends Component {
             z: z_clusters[k],
             mode: "markers",
             type: "scatter3d",
-            marker: { color: colors[k], size: 2 },
+            marker: { color: color, size: 2, symbol: symbol },
             text: cluster_texts[k],
             hovertemplate: "<i>(%{x:.4f}, %{y:.4f}, %{z:.4f}) </i>",
           });
@@ -118,7 +130,7 @@ class ScatterAdmix extends Component {
             x: x_clusters[k],
             y: y_clusters[k],
             mode: "markers",
-            marker: { color: colors[k] },
+            marker: { color: color, symbol: symbol },
             text: cluster_texts[k],
             hovertemplate: "<i>(%{x:.4f}, %{y:.4f}) </i>",
           });
@@ -189,41 +201,6 @@ class ScatterAdmix extends Component {
     );
   }
   splitPCAandADMIX = () => {
-    // let allKeys = Object.keys(this.props.data[0]);
-    // let PCAKeys = allKeys.filter((val) => {
-    //   return val.startsWith("PC");
-    // });
-    // let admixKeys = allKeys.filter((val) => {
-    //   return val.startsWith("V");
-    // });
-    // let PCAdata = [];
-    // let AdmixData = [];
-
-    // // get the PCA Data
-    // this.props.data.map((row) => {
-    //   let PCArow = Object.keys(row)
-    //     .filter((key) => PCAKeys.indexOf(key) > -1)
-    //     .reduce((obj, key) => {
-    //       return Object.assign(obj, {
-    //         [key]: row[key],
-    //       });
-    //     }, {});
-    //   PCAdata.push(PCArow);
-    // });
-
-    // // get the Admix Data
-    // this.props.data.map((row) => {
-    //   let Admixrow = Object.keys(row)
-    //     .filter((key) => admixKeys.indexOf(key) > -1)
-    //     .reduce((obj, key) => {
-    //       return Object.assign(obj, {
-    //         [key]: row[key],
-    //       });
-    //     }, {});
-    //   AdmixData.push(Admixrow);
-    // });
-
-    // map the admix data to their cluster data
     let clusterColors = this.props.AdmixData.map((row) => {
       return this.assignClusterToRow(row);
     });
@@ -235,10 +212,11 @@ class ScatterAdmix extends Component {
         ? "Cluster " + num
         : "Undefined Cluster";
     });
-    console.log(clusterNames);
+    // console.log(clusterNames);
     this.setState({
       clusterNames: clusterNames,
       clusterColors: clusterColors,
+      alphaval: this.props.alphaVal,
     });
   };
 
@@ -267,6 +245,7 @@ class ScatterAdmix extends Component {
 ScatterAdmix.propTypes = {
   PCAdata: PropTypes.array,
   AdmixData: PropTypes.array,
+  alphaVal: PropTypes.number,
   x: PropTypes.string,
   y: PropTypes.string,
   z: PropTypes.string,

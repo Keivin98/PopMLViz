@@ -20,8 +20,10 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
 import Loader from "react-loader-spinner";
+import Slider from "@material-ui/core/Slider";
 
 import "react-tabs/style/react-tabs.css";
+import AdmixOptions from "./AdmixOptions";
 
 require("dotenv").config();
 const randomColors = [
@@ -66,6 +68,7 @@ class App extends Component {
     pressed: -1,
     cluster_names: {},
     DRAlgorithm: "",
+    alphaVal: 40,
     DRActions: [
       {
         label: "PCA",
@@ -1269,6 +1272,7 @@ class App extends Component {
         <ScatterAdmix
           PCAdata={this.state.data}
           AdmixData={this.state.admix}
+          alphaVal={this.state.alphaVal}
           x={this.state.selectedColumns[0]}
           y={this.state.selectedColumns[1]}
           z={this.state.selectedColumns[2]}
@@ -1464,7 +1468,10 @@ class App extends Component {
     // console.log(cluster_names);
     this.setState({ cluster_names: cluster_names });
   };
-
+  handleAdmixOptionsCallback = (alphaVal) => {
+    console.log(alphaVal);
+    this.setState({ alphaVal: alphaVal });
+  };
   onPressReset = () => {
     this.setState({
       OutlierData: [],
@@ -1779,172 +1786,194 @@ class App extends Component {
                 <Tab>Settings</Tab>
                 <Tab>Output Options</Tab>
               </TabList>
+              {this.state.selectedUploadOption !== "admixture" &&
+                this.state.selectedUploadOption !== "pcairandadmixture" && (
+                  <div>
+                    {" "}
+                    <TabPanel>
+                      <div className="row">
+                        <div className="row-md-8"></div>
 
-              {this.state.selectedUploadOption !== "admixture" && (
-                <div>
-                  {" "}
-                  <TabPanel>
-                    <div className="row">
-                      <div className="row-md-8"></div>
-
-                      {this.state.multiValue.length > 0 && (
-                        <div style={styles.describingColumnDropDown}>
-                          <label style={{ marginLeft: "1%" }}>
-                            <h6
-                              style={{
-                                fontSize: "0.8vw",
-                                width: "100%",
-                                marginTop: "3%",
-                                marginLeft: "1%",
-                              }}
-                            >
-                              Choose Describing Column
-                            </h6>
-                          </label>
-                          <div>
-                            <Select
-                              value={this.state.selectedDescribingColumn}
-                              options={this.state.multiValue}
-                              onChange={this.handleSpecificColumns}
-                            />
-                          </div>
-                          <FormControl
-                            style={{ marginLeft: "2%", marginTop: "2%" }}
-                          >
-                            <FormLabel id="describingColumn-row-radio-buttons-group-label">
-                              Identify by:{" "}
-                            </FormLabel>
-                            <RadioGroup
-                              row
-                              aria-labelledby="describingColumn-row-radio-buttons-group-label"
-                              name="row-radio-buttons-group"
-                              onChange={this.onValueChangeColorShape}
+                        {this.state.multiValue.length > 0 && (
+                          <div style={styles.describingColumnDropDown}>
+                            <label style={{ marginLeft: "1%" }}>
+                              <h6
+                                style={{
+                                  fontSize: "0.8vw",
+                                  width: "100%",
+                                  marginTop: "3%",
+                                  marginLeft: "1%",
+                                }}
+                              >
+                                Choose Describing Column
+                              </h6>
+                            </label>
+                            <div>
+                              <Select
+                                value={this.state.selectedDescribingColumn}
+                                options={this.state.multiValue}
+                                onChange={this.handleSpecificColumns}
+                              />
+                            </div>
+                            <FormControl
                               style={{ marginLeft: "2%", marginTop: "2%" }}
                             >
-                              <FormControlLabel
-                                value={0}
-                                control={<Radio color="success" size="small" />}
-                                label="Color"
-                              />
-                              <FormControlLabel
-                                value={1}
-                                control={<Radio color="success" size="small" />}
-                                label="Shape"
-                              />
-                            </RadioGroup>
-                          </FormControl>
-                        </div>
-                      )}
-                    </div>
+                              <FormLabel id="describingColumn-row-radio-buttons-group-label">
+                                Identify by:{" "}
+                              </FormLabel>
+                              <RadioGroup
+                                row
+                                aria-labelledby="describingColumn-row-radio-buttons-group-label"
+                                name="row-radio-buttons-group"
+                                onChange={this.onValueChangeColorShape}
+                                style={{ marginLeft: "2%", marginTop: "2%" }}
+                              >
+                                <FormControlLabel
+                                  value={0}
+                                  control={
+                                    <Radio color="success" size="small" />
+                                  }
+                                  label="Color"
+                                />
+                                <FormControlLabel
+                                  value={1}
+                                  control={
+                                    <Radio color="success" size="small" />
+                                  }
+                                  label="Shape"
+                                />
+                              </RadioGroup>
+                            </FormControl>
+                          </div>
+                        )}
+                      </div>
 
-                    <div
-                      style={{
-                        width: "90%",
-                        marginTop: "3%",
-                        marginLeft: "3%",
-                      }}
-                    >
-                      <h6 style={{ fontSize: "0.8vw" }}>
-                        Choose the outlier detection method
-                      </h6>
-                      <Select
-                        options={this.state.selectOutlierActions}
-                        defaultValue={
-                          this.state.selectOutlierActions.filter((x) => {
-                            return x.label === this.state.selectedOutlierMethod;
-                          })[0]
-                        }
-                        onChange={this.handleOutlierChange}
-                      />
-
-                      <OutlierBlock
-                        columnRange={this.state.columnRange}
-                        onChange={this.handleOutlierColumnChange}
-                      />
                       <div
                         style={{
-                          display: "flex",
-                          flexDirection: "row",
-                          justifyContent: "space-around",
-                          padding: "20px",
+                          width: "90%",
+                          marginTop: "3%",
+                          marginLeft: "3%",
                         }}
                       >
-                        <Button
-                          variant="outlined"
-                          onClick={() =>
-                            this.state.pressed === 0
-                              ? this.setState({ pressed: -1 })
-                              : this.setState({ pressed: 0 })
+                        <h6 style={{ fontSize: "0.8vw" }}>
+                          Choose the outlier detection method
+                        </h6>
+                        <Select
+                          options={this.state.selectOutlierActions}
+                          defaultValue={
+                            this.state.selectOutlierActions.filter((x) => {
+                              return (
+                                x.label === this.state.selectedOutlierMethod
+                              );
+                            })[0]
                           }
+                          onChange={this.handleOutlierChange}
+                        />
+
+                        <OutlierBlock
+                          columnRange={this.state.columnRange}
+                          onChange={this.handleOutlierColumnChange}
+                        />
+                        <div
                           style={{
-                            marginTop: "10%",
-                            backgroundColor:
+                            display: "flex",
+                            flexDirection: "row",
+                            justifyContent: "space-around",
+                            padding: "20px",
+                          }}
+                        >
+                          <Button
+                            variant="outlined"
+                            onClick={() =>
                               this.state.pressed === 0
-                                ? "green"
-                                : "transparent",
-                          }}
-                        >
-                          AND
-                        </Button>
-                        <Button
-                          variant="outlined"
-                          onClick={() =>
-                            this.state.pressed === 1
-                              ? this.setState({ pressed: -1 })
-                              : this.setState({ pressed: 1 })
-                          }
-                          style={{
-                            marginTop: "10%",
-                            backgroundColor:
+                                ? this.setState({ pressed: -1 })
+                                : this.setState({ pressed: 0 })
+                            }
+                            style={{
+                              marginTop: "10%",
+                              backgroundColor:
+                                this.state.pressed === 0
+                                  ? "green"
+                                  : "transparent",
+                            }}
+                          >
+                            AND
+                          </Button>
+                          <Button
+                            variant="outlined"
+                            onClick={() =>
                               this.state.pressed === 1
-                                ? "green"
-                                : "transparent",
+                                ? this.setState({ pressed: -1 })
+                                : this.setState({ pressed: 1 })
+                            }
+                            style={{
+                              marginTop: "10%",
+                              backgroundColor:
+                                this.state.pressed === 1
+                                  ? "green"
+                                  : "transparent",
+                            }}
+                          >
+                            OR
+                          </Button>
+                        </div>
+                        <div
+                          style={{
+                            display: "flex",
+                            flexDirection: "row",
+                            justifyContent: "space-around",
                           }}
                         >
-                          OR
-                        </Button>
+                          <Button
+                            variant="outlined"
+                            onClick={this.detectOutliers}
+                            style={{}}
+                            disabled={
+                              (this.state.pressed !== 0 &&
+                                this.state.pressed !== 1) ||
+                              this.state.selectedOutlierMethod == null
+                            }
+                          >
+                            Detect Outliers
+                          </Button>
+                        </div>
                       </div>
-                      <div
-                        style={{
-                          display: "flex",
-                          flexDirection: "row",
-                          justifyContent: "space-around",
-                        }}
-                      >
-                        <Button
-                          variant="outlined"
-                          onClick={this.detectOutliers}
-                          style={{}}
-                          disabled={
-                            (this.state.pressed !== 0 &&
-                              this.state.pressed !== 1) ||
-                            this.state.selectedOutlierMethod == null
-                          }
-                        >
-                          Detect Outliers
-                        </Button>
-                      </div>
-                    </div>
 
-                    {this.state.data !== null && (
-                      <DownloadData
-                        data={this.state.data}
-                        clusterColors={this.state.clusterColors}
-                        OutlierData={this.state.OutlierData}
-                        columnRange={this.state.columnRange}
-                        clusterNames={this.state.cluster_names}
-                      />
-                    )}
-                  </TabPanel>
+                      {this.state.data !== null && (
+                        <DownloadData
+                          data={this.state.data}
+                          clusterColors={this.state.clusterColors}
+                          OutlierData={this.state.OutlierData}
+                          columnRange={this.state.columnRange}
+                          clusterNames={this.state.cluster_names}
+                        />
+                      )}
+                    </TabPanel>
+                    <TabPanel style={styles.outputSettings}>
+                      {" "}
+                      {this.state.showOutputOptions && (
+                        <TabOutputOptions
+                          uniqueClusters={num_clusters}
+                          parentCallback={this.handleTabOutputCallback}
+                        />
+                      )}
+                    </TabPanel>{" "}
+                  </div>
+                )}
+              {this.state.selectedUploadOption === "pcairandadmixture" && (
+                <div>
+                  <AdmixOptions
+                    columnRange={40}
+                    parentCallback={this.handleAdmixOptionsCallback}
+                  />
                   <TabPanel style={styles.outputSettings}>
-                    {" "}
                     {this.state.showOutputOptions && (
                       <TabOutputOptions
                         uniqueClusters={num_clusters}
                         parentCallback={this.handleTabOutputCallback}
                       />
                     )}
-                  </TabPanel>{" "}
+                  </TabPanel>
                 </div>
               )}
             </Tabs>
