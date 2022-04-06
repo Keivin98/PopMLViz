@@ -5,6 +5,7 @@ import * as XLSX from "xlsx";
 import Select from "react-select";
 import ScatterPlot from "./ScatterPlot";
 import BarPlot from "./BarPlot";
+import ScatterAdmix from "./ScatterAdmix";
 import Incrementor from "./Incrementor";
 import DownloadData from "./DownloadData";
 import OutlierBlock from "./OutlierBlock";
@@ -18,6 +19,8 @@ import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
+import Loader from "react-loader-spinner";
+
 import "react-tabs/style/react-tabs.css";
 
 require("dotenv").config();
@@ -110,9 +113,9 @@ class App extends Component {
     OutlierData: [],
     showOutputOptions: false,
     selectedColorShape: 0,
+    admix: [],
   };
   handleMultiChange = (option) => {
-    // console.log(option);
     let act = [];
     for (var i = 0; i < this.state.columns.length; i++) {
       act.push({
@@ -128,7 +131,6 @@ class App extends Component {
     });
   };
   handleOutlierChange = (option) => {
-    // console.log(this.state.selectedOutlierMethod)
     this.setState({ selectedOutlierMethod: option.label });
   };
   setColumns = (columns) => {
@@ -144,6 +146,9 @@ class App extends Component {
 
   setData = (data) => {
     this.setState({ data: data });
+  };
+  setAdmix = (data) => {
+    this.setState({ admix: data });
   };
   setOutlierData = (data) => {
     this.setState({
@@ -893,7 +898,7 @@ class App extends Component {
     return <ScatterPlot data={data_new} layout={layout} />;
   };
 
-  processData = async (dataString, outliers) => {
+  processData = async (dataString, outliers, admix) => {
     const dataStringLines = dataString.split(/\r\n|\n/);
     var selectedUploadOption = this.state.selectedUploadOption;
     var headers = [];
@@ -943,13 +948,23 @@ class App extends Component {
     if (outliers === true) {
       this.setOutlierData(list);
     } else {
-      this.setData(list);
-      this.setColumns(columns);
+      if (admix != null) {
+        if (admix === 1) {
+          this.setData(list);
+          this.setColumns(columns);
+        }
+        if (admix === 2) {
+          this.setAdmix(list);
+        }
+      } else {
+        this.setData(list);
+        this.setColumns(columns);
+      }
     }
   };
 
   // handle file upload
-  handleFileUpload = (e) => {
+  handleFileUpload = (e, admix) => {
     if (this.state.selectedUploadOption === "Correlation Matrix") {
       this.UploadCMDataset(e);
     } else {
@@ -965,7 +980,7 @@ class App extends Component {
         const ws = wb.Sheets[wsname];
         /* Convert array of arrays */
         const data = XLSX.utils.sheet_to_csv(ws, { header: 1 });
-        this.processData(data, false).then(() => {
+        this.processData(data, false, admix).then(() => {
           if (
             this.state.selectedUploadOption === "PCA" ||
             this.state.selectedUploadOption === "admixture"
@@ -980,6 +995,15 @@ class App extends Component {
       reader.readAsBinaryString(file);
     }
   };
+
+  handleAdmixFileUpload1 = (e) => {
+    this.handleFileUpload(e, 1);
+  };
+
+  handleAdmixFileUpload2 = (e) => {
+    this.handleFileUpload(e, 2);
+  };
+
   handleSelectXChange = (value) => {
     this.setState({
       selectedColumns: [
@@ -1231,8 +1255,25 @@ class App extends Component {
     const ONE_DIM = 0;
     const TWO_DIM = 1;
     const THREE_DIM = 2;
+
     if (this.state.selectedUploadOption === "admixture") {
       return <BarPlot data={this.state.data} />;
+    }
+    if (
+      this.state.selectedUploadOption === "pcairandadmixture" &&
+      this.state.data != null &&
+      this.state.admix.length > 0
+    ) {
+      // console.log("entered here");
+      return (
+        <ScatterAdmix
+          PCAdata={this.state.data}
+          AdmixData={this.state.admix}
+          x={this.state.selectedColumns[0]}
+          y={this.state.selectedColumns[1]}
+          z={this.state.selectedColumns[2]}
+        />
+      );
     } else {
       if (
         this.state.selectedColumns[0] === null &&
@@ -1496,15 +1537,26 @@ class App extends Component {
                 t-SNE 3D
               </label>
             </div>
+            <label>
+              <input
+                type="radio"
+                value="admixture"
+                checked={this.state.selectedUploadOption === "admixture"}
+                onChange={this.onUploadValueChange}
+              />
+              Admixture
+            </label>
             <div>
               <label>
                 <input
                   type="radio"
-                  value="admixture"
-                  checked={this.state.selectedUploadOption === "admixture"}
+                  value="pcairandadmixture"
+                  checked={
+                    this.state.selectedUploadOption === "pcairandadmixture"
+                  }
                   onChange={this.onUploadValueChange}
                 />
-                Admixture
+                PC-AiR and Admixture
               </label>
 
               {this.state.selectedUploadOption === "Correlation Matrix" && (
@@ -1524,6 +1576,42 @@ class App extends Component {
                   />
                 </div>
               )}
+              {this.state.selectedUploadOption === "pcairandadmixture" && (
+                <div
+                  style={{
+                    width: "350px",
+                    paddingTop: "20px",
+                    paddingBottom: "20px",
+                  }}
+                >
+                  <label>Upload necessary files for Admixture</label>
+                  <div style={styles.littleUpload}>
+                    <label style={{ marginRight: "3%" }}>PC-AiR</label>
+                    <input
+                      type="file"
+                      accept=".csv,.xlsx,.xls"
+                      onChange={this.handleAdmixFileUpload1}
+                    />
+                  </div>
+                  <div style={styles.littleUpload}>
+                    <label style={{ marginRight: "4%" }}>Admix</label>
+                    <input
+                      type="file"
+                      accept=".csv,.xlsx,.xls"
+                      onChange={this.handleAdmixFileUpload2}
+                    />
+                  </div>
+                  {this.state.loading && (
+                    <Loader
+                      type="TailSpin"
+                      color="#00BFFF"
+                      height="30"
+                      width="30"
+                      style={{ marginTop: "2%", marginLeft: "20%" }}
+                    />
+                  )}
+                </div>
+              )}
               {this.state.selectedUploadOption === "PC-AiR" && (
                 <div>
                   <PCAir />
@@ -1533,14 +1621,15 @@ class App extends Component {
                 </div>
               )}
             </div>
-            {this.state.selectedUploadOption !== "PC-AiR" && (
-              <input
-                type="file"
-                accept=".csv,.xlsx,.xls,.Q"
-                disabled={this.state.selectedUploadOption === null}
-                onChange={this.handleFileUpload}
-              />
-            )}
+            {this.state.selectedUploadOption !== "PC-AiR" &&
+              this.state.selectedUploadOption !== "pcairandadmixture" && (
+                <input
+                  type="file"
+                  accept=".csv,.xlsx,.xls,.Q"
+                  disabled={this.state.selectedUploadOption === null}
+                  onChange={this.handleFileUpload}
+                />
+              )}
           </form>
           <hr
             style={{
@@ -1662,8 +1751,8 @@ class App extends Component {
                     options={this.state.selectActions}
                     onChange={this.handleSelectYChange}
                     isDisabled={
-                      this.state.selectedOption !== "3D" &&
-                      this.state.selectedOption !== "2D" &&
+                      (this.state.selectedOption !== "3D" &&
+                        this.state.selectedOption !== "2D") ||
                       this.state.selectedUploadOption === "admixture"
                     }
                   />
@@ -1678,7 +1767,7 @@ class App extends Component {
                     options={this.state.selectActions}
                     onChange={this.handleSelectZChange}
                     isDisabled={
-                      this.state.selectedOption !== "3D" &&
+                      this.state.selectedOption !== "3D" ||
                       this.state.selectedUploadOption === "admixture"
                     }
                   />
@@ -1943,6 +2032,11 @@ const styles = {
     marginTop: "6%",
     backgroundColor: "#ebeff7",
     borderRadius: 10,
+  },
+  littleUpload: {
+    display: "flex",
+    flexDirection: "row",
+    padding: "2px",
   },
 };
 export default App;
