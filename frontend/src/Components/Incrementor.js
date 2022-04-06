@@ -47,7 +47,7 @@ class Incrementor extends Component {
         }}>
           Num clusters: <Button variant="contained" size="small" onClick={this.DecreaseItem}>-</Button>
           <p>{this.state.num_clusters}</p>
-          <Button variant="contained" size="large" onClick={this.IncrementItem}> + </Button>
+          <Button variant="contained" size="small" onClick={this.IncrementItem}> + </Button>
         </div>        
       </div>
     );
