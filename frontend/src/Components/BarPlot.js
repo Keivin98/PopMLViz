@@ -25,6 +25,24 @@ class BarPlot extends Component {
       clusterColors: [],
     };
   }
+  assignClusterToRow = (row) => {
+      // returns index of maximum value
+      // unless max and second max are less than 0.2 apart
+       
+      const rowDescending = [...row].sort((a,b) => b - a)
+      if (rowDescending[0] - rowDescending[1] < 0.2){
+          return row.length;
+      } else{
+          return row.indexOf(rowDescending[0])
+      }
+  }
+   range = (start, end) => {
+	/* generate a range : [start, start+1, ..., end-1, end] */
+	var len = end - start + 1;
+	var a = new Array(len);
+	for (let i = 0; i < len; i++) a[i] = start + i;
+	return a;
+}
   BarPlotFromData = () => {
     var x_clusters = [];
     var y_clusters = [];
@@ -33,26 +51,34 @@ class BarPlot extends Component {
     if (this.props.data !== [] && this.props.data != null) {
       const num_clusters = Object.keys(this.props.data[0]).length
 
-      for (var num_cl = 0; num_cl < num_clusters; num_cl++) {
+      for (var num_cl1 = 0; num_cl1 < num_clusters; num_cl1++) {
         x_clusters.push([]);
         y_clusters.push([]);
+        for (var num_cl2 = 0; num_cl2 < num_clusters + 1; num_cl2++) {
+            x_clusters[num_cl1].push([]);
+            y_clusters[num_cl1].push([]);
+        }
       }
       for (let j = 0; j < num_clusters; j += 1) {
         colors.push(randomColors[j]);
       }
       for (var i = 0; i < this.props.data.length; i++) {
         let rowCol = this.props.data[i];
+        let maxCluster = this.assignClusterToRow(Object.values(rowCol).map(a => {
+            return parseFloat(a)
+        }));
+        // console.log(maxCluster)
         for (var j = 0; j < num_clusters; j++) {
-          x_clusters[j].push(i);  
-          y_clusters[j].push(rowCol['v' + (j+1)]);
+          x_clusters[j][maxCluster].push(this.props.data.length * maxCluster + i);  
+          y_clusters[j][maxCluster].push(rowCol['v' + (j+1)]);
           }
       }
-      for (var k = 0; k < this.props.data.length; k += 1) {
+      for (var k = 0; k < num_clusters; k += 1) {
         data_new.push({
             type: 'bar',
             name: k,
-            x: x_clusters[k],
-            y: y_clusters[k],
+            x: this.range(0, x_clusters[k].flat(1).length),
+            y: y_clusters[k].flat(1),
           });
       }
     }
