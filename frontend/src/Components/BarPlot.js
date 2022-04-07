@@ -43,44 +43,29 @@ class BarPlot extends Component {
   };
 
   BarPlotFromData = () => {
-    var y_clusters = [];
+    var values = [];
     var colors = [];
     var data_new = [];
 
     if (this.props.data !== [] && this.props.data != null) {
       const num_clusters = Object.keys(this.props.data[0]).length;
 
-      // initialize the clusters in the form of [[[], [], [], ...], ...]
-      // we will have x values for clusters that sum up to 1 (the result of admixture) ---- this forms the stacked plot
-      // we say we have x + 1 clusters in this case, 1 for each column and 1 for uncertainty
-
-      for (var num_cl1 = 0; num_cl1 < num_clusters; num_cl1++) {
-        y_clusters.push([]);
-        for (var num_cl2 = 0; num_cl2 < num_clusters + 1; num_cl2++) {
-          y_clusters[num_cl1].push([]);
-        }
-      }
-
       for (let j = 0; j < num_clusters; j += 1) {
         colors.push(randomColors[j]);
       }
 
-      const dataLength = this.props.data.length;
-      for (var i = 0; i < this.props.data.length; i++) {
-        let rowCol = this.props.data[i];
-        // get the cluster this entity belongs to
-        let maxCluster = this.assignClusterToRow(rowCol);
+      let sortedValues = [...this.props.data].sort((a, b) => {
+        return this.assignClusterToRow(a) > this.assignClusterToRow(b) ? 1 : -1;
+      });
 
-        for (var j = 0; j < num_clusters; j++) {
-          y_clusters[j][maxCluster].push(rowCol["v" + (j + 1)]);
-        }
-      }
-      for (var k = 0; k < num_clusters; k += 1) {
+      for (let n = 1; n < num_clusters + 1; n += 1) {
+        let y_values = sortedValues.map((x) => x["v" + n]);
+
         data_new.push({
           type: "bar",
-          name: k,
-          x: this.range(0, y_clusters[k].flat(1).length),
-          y: y_clusters[k].flat(1),
+          name: n,
+          x: this.range(0, y_values.length),
+          y: y_values,
         });
       }
     }
@@ -88,7 +73,7 @@ class BarPlot extends Component {
     return (
       <Plot
         data={data_new}
-        layout={{ barmode: "stack" }}
+        layout={{ title: "ADMIXTURE", barmode: "stack" }}
         style={styles.barContainer}
       />
     );
@@ -98,9 +83,11 @@ class BarPlot extends Component {
     return <div>{this.BarPlotFromData()}</div>;
   }
 }
+
 BarPlot.propTypes = {
   data: PropTypes.array,
 };
+
 const styles = {
   barContainer: {
     position: "fixed",
