@@ -30,6 +30,7 @@ class ScatterAdmix extends Component {
       alphaVal: 0,
     };
   }
+
   range = (start, end) => {
     /* generate a range : [start, start+1, ..., end-1, end] */
     var len = end - start + 1;
@@ -66,8 +67,11 @@ class ScatterAdmix extends Component {
     if (prevProps.alphaVal !== this.props.alphaVal) {
       this.splitPCAandADMIX();
     }
+    if (prevProps.outlierData !== this.props.outlierData) {
+      this.splitPCAandADMIX();
+    }
   }
-  scatterWithClusters(DIM, x, y, z) {
+  scatterWithClusters(DIM, x, y, z, outliers, outlierData) {
     var x_clusters = [];
     var y_clusters = [];
     var layout = {};
@@ -75,12 +79,25 @@ class ScatterAdmix extends Component {
       var z_clusters = [];
     }
     var cluster_texts = [];
-
+    if (outliers) {
+      var x_clusters_outliers = [];
+      var y_clusters_outliers = [];
+      if (DIM === 2) {
+        var z_clusters_outliers = [];
+      }
+    }
     for (var num_cl = 0; num_cl < num_clusters + 1; num_cl++) {
       x_clusters.push([]);
       y_clusters.push([]);
       if (DIM === 2) {
         z_clusters.push([]);
+      }
+      if (outliers) {
+        x_clusters_outliers.push([]);
+        y_clusters_outliers.push([]);
+        if (DIM === 2) {
+          z_clusters_outliers.push([]);
+        }
       }
       cluster_texts.push([]);
     }
@@ -95,23 +112,72 @@ class ScatterAdmix extends Component {
       //   console.log(this.state.PCAdata);
       for (var i = 0; i < this.props.PCAdata.length; i++) {
         let rowCol = this.state.clusterColors[i];
-        if (DIM === 0) {
-          x_clusters[rowCol].push(i);
-          y_clusters[rowCol].push(this.props.PCAdata[i][x]);
-        } else if (DIM === 1) {
-          x_clusters[rowCol].push(this.props.PCAdata[i][x]);
-          y_clusters[rowCol].push(this.props.PCAdata[i][y]);
+        if (outliers && outlierData[i]) {
+          if (DIM === 0) {
+            x_clusters_outliers[rowCol].push(i);
+            y_clusters_outliers[rowCol].push(this.state.data[i][x]);
+          } else if (DIM === 1) {
+            x_clusters_outliers[rowCol].push(this.state.data[i][x]);
+            y_clusters_outliers[rowCol].push(this.state.data[i][y]);
+          } else {
+            x_clusters_outliers[rowCol].push(this.state.data[i][x]);
+            y_clusters_outliers[rowCol].push(this.state.data[i][y]);
+            z_clusters_outliers[rowCol].push(this.state.data[i][z]);
+          }
         } else {
-          x_clusters[rowCol].push(this.props.PCAdata[i][x]);
-          y_clusters[rowCol].push(this.props.PCAdata[i][y]);
-          z_clusters[rowCol].push(this.props.PCAdata[i][z]);
+          if (DIM === 0) {
+            x_clusters[rowCol].push(i);
+            y_clusters[rowCol].push(this.props.PCAdata[i][x]);
+          } else if (DIM === 1) {
+            x_clusters[rowCol].push(this.props.PCAdata[i][x]);
+            y_clusters[rowCol].push(this.props.PCAdata[i][y]);
+          } else {
+            x_clusters[rowCol].push(this.props.PCAdata[i][x]);
+            y_clusters[rowCol].push(this.props.PCAdata[i][y]);
+            z_clusters[rowCol].push(this.props.PCAdata[i][z]);
+          }
         }
       }
       var data_new = [];
       for (var k = 0; k < num_clusters + 1; k += 1) {
         var name = this.state.clusterNames[k];
-        var symbol = k == num_clusters ? "cross" : "circle";
-        var color = k == num_clusters ? "grey" : colors[k];
+        var symbol = k == num_clusters ? "triangle" : "circle";
+        var color = k == num_clusters ? "#bfbfbf" : colors[k];
+        if (outliers) {
+          if (DIM === 2) {
+            data_new.push({
+              name: "Outliers " + name[k],
+              x: x_clusters_outliers[k],
+              y: y_clusters_outliers[k],
+              z: z_clusters_outliers[k],
+              mode: "markers",
+              type: "scatter3d",
+              marker: {
+                color: colors[k],
+                size: 4,
+                symbol: "cross",
+                opacity: 0.5,
+              },
+              text: cluster_texts[k],
+              hovertemplate: "<i>(%{x:.4f}, %{y:.4f}, %{z:.4f}) </i>",
+            });
+          } else {
+            data_new.push({
+              name: "Outliers " + name[k],
+              x: x_clusters_outliers[k],
+              y: y_clusters_outliers[k],
+              mode: "markers",
+              marker: {
+                color: colors[k],
+                size: 8,
+                symbol: "cross",
+                opacity: 0.5,
+              },
+              text: cluster_texts[k],
+              hovertemplate: "<i>(%{x:.4f}, %{y:.4f}, %{z:.4f}) </i>",
+            });
+          }
+        }
         if (DIM === 2) {
           data_new.push({
             name: name,
@@ -130,7 +196,7 @@ class ScatterAdmix extends Component {
             x: x_clusters[k],
             y: y_clusters[k],
             mode: "markers",
-            marker: { color: color, symbol: symbol },
+            marker: { color: color, size: 8, symbol: symbol },
             text: cluster_texts[k],
             hovertemplate: "<i>(%{x:.4f}, %{y:.4f}) </i>",
           });
@@ -195,7 +261,6 @@ class ScatterAdmix extends Component {
         yaxis: { title: y },
       };
     }
-    console.log(data_new);
     return (
       <Plot data={data_new} layout={layout} style={styles.ScatterContainer} />
     );
@@ -208,7 +273,7 @@ class ScatterAdmix extends Component {
       0,
       Object.values(this.props.AdmixData[0]).length + 1
     ).map((num) => {
-      return num <= Object.values(this.props.AdmixData[0]).length
+      return num < Object.values(this.props.AdmixData[0]).length
         ? "Cluster " + num
         : "Undefined Cluster";
     });
@@ -226,15 +291,29 @@ class ScatterAdmix extends Component {
         return dim == null ? 0 : 1;
       })
       .reduce((total, curr) => (total = total + curr), 0);
-    if (this.props.PCAdata == null || DIMS <= 0) {
+
+    if (this.props.PCAdata == null || DIMS == 0) {
       return <Plot data={[]} style={styles.ScatterContainer} />;
     } else {
-      return this.scatterWithClusters(
-        DIMS - 1,
-        this.props.x,
-        this.props.y,
-        this.props.z
-      );
+      if (this.props.outlierData.length > 0) {
+        return this.scatterWithClusters(
+          DIMS - 1,
+          this.props.x,
+          this.props.y,
+          this.props.z,
+          true,
+          this.props.outlierData
+        );
+      } else {
+        return this.scatterWithClusters(
+          DIMS - 1,
+          this.props.x,
+          this.props.y,
+          this.props.z,
+          false,
+          null
+        );
+      }
     }
   };
 

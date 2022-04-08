@@ -21,6 +21,7 @@ class AdmixOptions extends Component {
           flexDirection: "column",
           width: "100%",
           justifyContent: "space-between",
+          marginTop: "10%",
           marginBottom: "5%",
           height: "50px",
           paddingTop: "10px",

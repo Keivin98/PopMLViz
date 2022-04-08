@@ -1273,6 +1273,7 @@ class App extends Component {
           PCAdata={this.state.data}
           AdmixData={this.state.admix}
           alphaVal={this.state.alphaVal}
+          outlierData={outlierData}
           x={this.state.selectedColumns[0]}
           y={this.state.selectedColumns[1]}
           z={this.state.selectedColumns[2]}
@@ -1962,10 +1963,94 @@ class App extends Component {
                 )}
               {this.state.selectedUploadOption === "pcairandadmixture" && (
                 <div>
-                  <AdmixOptions
-                    columnRange={40}
-                    parentCallback={this.handleAdmixOptionsCallback}
-                  />
+                  <div
+                    style={{
+                      width: "90%",
+                      marginTop: "3%",
+                      marginLeft: "3%",
+                    }}
+                  >
+                    <h6 style={{ fontSize: "0.8vw" }}>
+                      Choose the outlier detection method
+                    </h6>
+                    <Select
+                      options={this.state.selectOutlierActions}
+                      defaultValue={
+                        this.state.selectOutlierActions.filter((x) => {
+                          return x.label === this.state.selectedOutlierMethod;
+                        })[0]
+                      }
+                      onChange={this.handleOutlierChange}
+                    />
+
+                    <OutlierBlock
+                      columnRange={this.state.columnRange}
+                      onChange={this.handleOutlierColumnChange}
+                    />
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        justifyContent: "space-around",
+                        padding: "20px",
+                      }}
+                    >
+                      <Button
+                        variant="outlined"
+                        onClick={() =>
+                          this.state.pressed === 0
+                            ? this.setState({ pressed: -1 })
+                            : this.setState({ pressed: 0 })
+                        }
+                        style={{
+                          marginTop: "10%",
+                          backgroundColor:
+                            this.state.pressed === 0 ? "green" : "transparent",
+                        }}
+                      >
+                        AND
+                      </Button>
+                      <Button
+                        variant="outlined"
+                        onClick={() =>
+                          this.state.pressed === 1
+                            ? this.setState({ pressed: -1 })
+                            : this.setState({ pressed: 1 })
+                        }
+                        style={{
+                          marginTop: "10%",
+                          backgroundColor:
+                            this.state.pressed === 1 ? "green" : "transparent",
+                        }}
+                      >
+                        OR
+                      </Button>
+                    </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        justifyContent: "space-around",
+                      }}
+                    >
+                      <Button
+                        variant="outlined"
+                        onClick={this.detectOutliers}
+                        style={{}}
+                        disabled={
+                          (this.state.pressed !== 0 &&
+                            this.state.pressed !== 1) ||
+                          this.state.selectedOutlierMethod == null
+                        }
+                      >
+                        Detect Outliers
+                      </Button>
+                    </div>
+                    <AdmixOptions
+                      columnRange={40}
+                      parentCallback={this.handleAdmixOptionsCallback}
+                    />
+                  </div>
                   <TabPanel style={styles.outputSettings}>
                     {this.state.showOutputOptions && (
                       <TabOutputOptions
