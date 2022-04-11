@@ -18,9 +18,6 @@ const randomColors = [
   "#277f05",
 ];
 class BarPlot extends Component {
-  constructor() {
-    super();
-  }
   range = (start, end) => {
     /* generate a range : [start, start+1, ..., end-1, end] */
     var len = end - start + 1;
@@ -43,7 +40,6 @@ class BarPlot extends Component {
   };
 
   BarPlotFromData = () => {
-    var values = [];
     var colors = [];
     var data_new = [];
 
