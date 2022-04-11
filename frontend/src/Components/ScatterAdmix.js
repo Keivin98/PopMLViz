@@ -112,29 +112,31 @@ class ScatterAdmix extends Component {
       //   console.log(this.state.PCAdata);
       for (var i = 0; i < this.props.PCAdata.length; i++) {
         let rowCol = this.state.clusterColors[i];
-        if (outliers && outlierData[i]) {
-          if (DIM === 0) {
-            x_clusters_outliers[rowCol].push(i);
-            y_clusters_outliers[rowCol].push(this.state.data[i][x]);
-          } else if (DIM === 1) {
-            x_clusters_outliers[rowCol].push(this.state.data[i][x]);
-            y_clusters_outliers[rowCol].push(this.state.data[i][y]);
+        if (rowCol !== undefined) {
+          if (outliers && outlierData[i]) {
+            if (DIM === 0) {
+              x_clusters_outliers[rowCol].push(i);
+              y_clusters_outliers[rowCol].push(this.state.data[i][x]);
+            } else if (DIM === 1) {
+              x_clusters_outliers[rowCol].push(this.state.data[i][x]);
+              y_clusters_outliers[rowCol].push(this.state.data[i][y]);
+            } else {
+              x_clusters_outliers[rowCol].push(this.state.data[i][x]);
+              y_clusters_outliers[rowCol].push(this.state.data[i][y]);
+              z_clusters_outliers[rowCol].push(this.state.data[i][z]);
+            }
           } else {
-            x_clusters_outliers[rowCol].push(this.state.data[i][x]);
-            y_clusters_outliers[rowCol].push(this.state.data[i][y]);
-            z_clusters_outliers[rowCol].push(this.state.data[i][z]);
-          }
-        } else {
-          if (DIM === 0) {
-            x_clusters[rowCol].push(i);
-            y_clusters[rowCol].push(this.props.PCAdata[i][x]);
-          } else if (DIM === 1) {
-            x_clusters[rowCol].push(this.props.PCAdata[i][x]);
-            y_clusters[rowCol].push(this.props.PCAdata[i][y]);
-          } else {
-            x_clusters[rowCol].push(this.props.PCAdata[i][x]);
-            y_clusters[rowCol].push(this.props.PCAdata[i][y]);
-            z_clusters[rowCol].push(this.props.PCAdata[i][z]);
+            if (DIM === 0) {
+              x_clusters[rowCol].push(i);
+              y_clusters[rowCol].push(this.props.PCAdata[i][x]);
+            } else if (DIM === 1) {
+              x_clusters[rowCol].push(this.props.PCAdata[i][x]);
+              y_clusters[rowCol].push(this.props.PCAdata[i][y]);
+            } else {
+              x_clusters[rowCol].push(this.props.PCAdata[i][x]);
+              y_clusters[rowCol].push(this.props.PCAdata[i][y]);
+              z_clusters[rowCol].push(this.props.PCAdata[i][z]);
+            }
           }
         }
       }

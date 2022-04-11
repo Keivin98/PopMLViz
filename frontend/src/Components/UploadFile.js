@@ -905,7 +905,7 @@ class App extends Component {
     const dataStringLines = dataString.split(/\r\n|\n/);
     var selectedUploadOption = this.state.selectedUploadOption;
     var headers = [];
-    if (selectedUploadOption === "admixture") {
+    if (selectedUploadOption === "admixture" || admix === 2) {
       headers = [...Array(dataStringLines[0].split(" ").length)].map(
         (x, index) => {
           return "v" + (index + 1);
@@ -918,7 +918,7 @@ class App extends Component {
     const list = [];
     for (let i = 1; i < dataStringLines.length; i++) {
       var row = [];
-      if (selectedUploadOption === "admixture") {
+      if (selectedUploadOption === "admixture" || admix === 2) {
         row = dataStringLines[i].split(" ");
       } else {
         row = dataStringLines[i].split(/,(?![^"]*"(?:(?:[^"]*"){2})*[^"]*$)/);
@@ -1592,7 +1592,6 @@ class App extends Component {
                     paddingBottom: "20px",
                   }}
                 >
-                  <label>Upload necessary files for Admixture</label>
                   <div style={styles.littleUpload}>
                     <label style={{ marginRight: "3%" }}>PC-AiR</label>
                     <input
@@ -1605,7 +1604,7 @@ class App extends Component {
                     <label style={{ marginRight: "4%" }}>Admix</label>
                     <input
                       type="file"
-                      accept=".csv,.xlsx,.xls"
+                      accept=".Q"
                       onChange={this.handleAdmixFileUpload2}
                     />
                   </div>
