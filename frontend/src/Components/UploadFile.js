@@ -918,7 +918,7 @@ class App extends Component {
     for (let i = 1; i < dataStringLines.length; i++) {
       var row = [];
       if (selectedUploadOption === "admixture" || admix === 2) {
-        row = dataStringLines[i].split(" ");
+        row = dataStringLines[i - 1].split(" ");
       } else {
         row = dataStringLines[i].split(/,(?![^"]*"(?:(?:[^"]*"){2})*[^"]*$)/);
       }

@@ -75,7 +75,7 @@ class ScatterAdmix extends Component {
     let num_clusters =
       this.props.AdmixData == null
         ? 0
-        : Object.values(this.props.AdmixData[0]).length + 1;
+        : Object.values(this.props.AdmixData[0]).length;
     var x_clusters = [];
     var y_clusters = [];
     var layout = {};
