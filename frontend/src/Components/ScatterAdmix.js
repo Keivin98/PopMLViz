@@ -18,7 +18,7 @@ const randomColors = [
   "#277f05",
 ];
 
-var num_clusters = 5;
+var num_clusters = 8;
 
 class ScatterAdmix extends Component {
   constructor() {
@@ -72,6 +72,10 @@ class ScatterAdmix extends Component {
     }
   }
   scatterWithClusters(DIM, x, y, z, outliers, outlierData) {
+    let num_clusters =
+      this.props.AdmixData == null
+        ? 0
+        : Object.values(this.props.AdmixData[0]).length + 1;
     var x_clusters = [];
     var y_clusters = [];
     var layout = {};
