@@ -20,7 +20,6 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
 import Loader from "react-loader-spinner";
-import Slider from "@material-ui/core/Slider";
 
 import "react-tabs/style/react-tabs.css";
 import AdmixOptions from "./AdmixOptions";

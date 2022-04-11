@@ -116,14 +116,14 @@ class ScatterAdmix extends Component {
           if (outliers && outlierData[i]) {
             if (DIM === 0) {
               x_clusters_outliers[rowCol].push(i);
-              y_clusters_outliers[rowCol].push(this.state.data[i][x]);
+              y_clusters_outliers[rowCol].push(this.props.PCAdata[i][x]);
             } else if (DIM === 1) {
-              x_clusters_outliers[rowCol].push(this.state.data[i][x]);
-              y_clusters_outliers[rowCol].push(this.state.data[i][y]);
+              x_clusters_outliers[rowCol].push(this.props.PCAdata[i][x]);
+              y_clusters_outliers[rowCol].push(this.props.PCAdata[i][y]);
             } else {
-              x_clusters_outliers[rowCol].push(this.state.data[i][x]);
-              y_clusters_outliers[rowCol].push(this.state.data[i][y]);
-              z_clusters_outliers[rowCol].push(this.state.data[i][z]);
+              x_clusters_outliers[rowCol].push(this.props.PCAdata[i][x]);
+              y_clusters_outliers[rowCol].push(this.props.PCAdata[i][y]);
+              z_clusters_outliers[rowCol].push(this.props.PCAdata[i][z]);
             }
           } else {
             if (DIM === 0) {
@@ -143,19 +143,19 @@ class ScatterAdmix extends Component {
       var data_new = [];
       for (var k = 0; k < num_clusters + 1; k += 1) {
         var name = this.state.clusterNames[k];
-        var symbol = k == num_clusters ? "triangle" : "circle";
-        var color = k == num_clusters ? "#bfbfbf" : colors[k];
+        var symbol = k === num_clusters ? "triangle" : "circle";
+        var color = k === num_clusters ? "#bfbfbf" : colors[k];
         if (outliers) {
           if (DIM === 2) {
             data_new.push({
-              name: "Outliers " + name[k],
+              name: "Outliers " + name,
               x: x_clusters_outliers[k],
               y: y_clusters_outliers[k],
               z: z_clusters_outliers[k],
               mode: "markers",
               type: "scatter3d",
               marker: {
-                color: colors[k],
+                color: color,
                 size: 4,
                 symbol: "cross",
                 opacity: 0.5,
@@ -165,18 +165,18 @@ class ScatterAdmix extends Component {
             });
           } else {
             data_new.push({
-              name: "Outliers " + name[k],
+              name: "Outliers " + name,
               x: x_clusters_outliers[k],
               y: y_clusters_outliers[k],
               mode: "markers",
               marker: {
-                color: colors[k],
+                color: color,
                 size: 8,
                 symbol: "cross",
                 opacity: 0.5,
               },
               text: cluster_texts[k],
-              hovertemplate: "<i>(%{x:.4f}, %{y:.4f}, %{z:.4f}) </i>",
+              hovertemplate: "<i>(%{x:.4f}, %{y:.4f}</i>",
             });
           }
         }
@@ -294,7 +294,7 @@ class ScatterAdmix extends Component {
       })
       .reduce((total, curr) => (total = total + curr), 0);
 
-    if (this.props.PCAdata == null || DIMS == 0) {
+    if (this.props.PCAdata == null || DIMS === 0) {
       return <Plot data={[]} style={styles.ScatterContainer} />;
     } else {
       if (this.props.outlierData.length > 0) {
