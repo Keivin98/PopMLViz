@@ -16,6 +16,7 @@ from rpy2.robjects.vectors import StrVector
 from rpy2.robjects.packages import importr
 import rpy2.robjects.packages as rpackages
 from fcmeans import FCM
+# from sklearn.ensemble import IsolationForest
 
 # Create an application instance
 
@@ -57,10 +58,14 @@ def runFuzzy():
 	if not pca_cols:
 		pca_cols = pca_df.columns
 
-	fcm = FCM(n_clusters=num_clusters, random_state=123)
-	pca_df1= (pca_df[pca_cols].to_numpy())
-	fcm.fit(pca_df[pca_cols].to_numpy())
-	fuzzy = fcm.predict(pca_df[pca_cols].to_numpy())
+	fcm = FCM(n_clusters=num_clusters)
+	
+	pca_df = pca_df[pca_cols].astype('float64')
+	pca_df1 = (pca_df[pca_cols].to_numpy())
+	
+	fcm.fit(pca_df1)
+	fuzzy = fcm.predict(pca_df1)
+	
 	return jsonify(list(map(lambda x : int(x), fuzzy)))
 
 @app.route("/cmtsne2d", methods=["POST"], strict_slashes=False)
