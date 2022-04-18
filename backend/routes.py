@@ -15,6 +15,8 @@ import rpy2.robjects as robjects
 from rpy2.robjects.vectors import StrVector
 from rpy2.robjects.packages import importr
 import rpy2.robjects.packages as rpackages
+from fcmeans import FCM
+
 # Create an application instance
 
 app = create_app()
@@ -38,6 +40,28 @@ def runKmeans():
 		pca_cols = pca_df.columns
 	kmeans = KMeans(n_clusters=num_clusters, random_state=123).fit_predict(pca_df[pca_cols])
 	return jsonify(list(map(lambda x : int(x), kmeans)))
+
+@app.route("/runfuzzy", methods=["POST"], strict_slashes=False)
+def runFuzzy():
+	request_df = request.get_json()['df']
+	
+	num_clusters = request.get_json()['num_clusters']
+	if num_clusters < 2:
+		num_clusters = 2
+	pca_df = pd.json_normalize(request_df)
+	try:
+		pca_cols = [x for x in pca_df.columns if 'PC' in x]
+	except:
+		pca_cols = pca_df.columns
+	
+	if not pca_cols:
+		pca_cols = pca_df.columns
+
+	fcm = FCM(n_clusters=num_clusters, random_state=123)
+	pca_df1= (pca_df[pca_cols].to_numpy())
+	fcm.fit(pca_df[pca_cols].to_numpy())
+	fuzzy = fcm.predict(pca_df[pca_cols].to_numpy())
+	return jsonify(list(map(lambda x : int(x), fuzzy)))
 
 @app.route("/cmtsne2d", methods=["POST"], strict_slashes=False)
 def cmtsne2d():
@@ -124,7 +148,7 @@ def detectoutliers():
 	column_range = list(range(column_range_req[0], column_range_req[1] + 1)) # [1,2,3,4,5,6,7,8,9,10]
 
 	combine_type = int(request.get_json()['combineType'])
-	std_freedom = int(request_method[0])
+	std_freedom = int(request_method)
 	df = pd.json_normalize(request_df)
 	newdf = {}
 
