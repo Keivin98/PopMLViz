@@ -1,57 +1,35 @@
-import React, { Component } from "react";
-import { Button } from "@material-ui/core";
+import React, { Component } from 'react';
+import { Button } from '@material-ui/core';
 
 class Incrementor extends Component {
-  state = {
-    num_clusters: 2,
-  };
-  DecreaseItem = () => {
-    if (!(this.state.num_clusters <= 2)) {
-      this.setState({ num_clusters: this.state.num_clusters - 1 }, () => {
-        if (this.props.onChange) {
-          this.props.onChange(this.state);
-        }
-      });
-    }
-  };
-  IncrementItem = () => {
-    this.setState({ num_clusters: this.state.num_clusters + 1 }, () => {
-      if (this.props.onChange) {
-        this.props.onChange(this.state);
-      }
-    });
-  };
-  render() {
-    return (
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          width: "40%",
-          justifyContent: "space-between",
-          marginBottom: "5%",
-          height: "50px",
-          paddingTop: "10px",
-        }}
-      >
-        <div>
-          <label>
-            <h5> Cluster data </h5>
-          </label>
-        </div>
-        <div style={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "space-between",
-          height: "30px",
-        }}>
-          Num clusters: <Button variant="contained" size="small" onClick={this.DecreaseItem}>-</Button>
-          <p>{this.state.num_clusters}</p>
-          <Button variant="contained" size="small" onClick={this.IncrementItem}> + </Button>
-        </div>        
-      </div>
-    );
-  }
+	state = {
+		num_clusters: 2,
+	};
+	handleChange = (event) => {
+		if (Number(event.target.value) >= 2) {
+			this.setState({ num_clusters: Number(event.target.value) });
+		}
+	};
+	render() {
+		return (
+			<div
+				style={{
+					display: 'flex',
+					width: '60%',
+					// justifyContent: 'space-between',
+				}}
+			>
+				Num clusters:{' '}
+				<input
+					type="number"
+					name="clicks"
+					style={{ width: '35%', height: '75%', marginLeft: '5%' }}
+					value={Number(this.state.num_clusters).toString()}
+					onChange={this.handleChange}
+				/>
+			</div>
+		);
+	}
 }
 
 export default Incrementor;
