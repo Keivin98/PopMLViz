@@ -65,7 +65,7 @@ class App extends Component {
 		columns: null,
 		data: null,
 		distributionData: [],
-		pressed: -1,
+		pressed: false,
 		cluster_names: {},
 		DRAlgorithm: '',
 		alphaVal: 40,
@@ -1804,44 +1804,10 @@ class App extends Component {
 								}}
 							>
 								<Switch
-									labelRight={this.state.pressed === true ? 'AND' : 'OR '}
+									labelRight={this.state.pressed === true ? 'OR' : 'AND'}
 									labelLeft={'Mode:'}
 									onChange={this.handleChangeSwitch}
 								/>
-								{/* <Button
-									variant="outlined"
-									onClick={() =>
-										this.state.pressed === 0
-											? this.setState({ pressed: -1 })
-											: this.setState({ pressed: 0 })
-									}
-									style={{
-										color: this.state.pressed === 0 ? '#ebeff7' : '#1891fb',
-										fontWeight: 'bold',
-										backgroundColor:
-											this.state.pressed === 0 ? '#1891fb' : '#ebeff7',
-										marginLeft: '1%',
-									}}
-								>
-									AND
-								</Button>
-								<Button
-									variant="outlined"
-									onClick={() =>
-										this.state.pressed === 1
-											? this.setState({ pressed: -1 })
-											: this.setState({ pressed: 1 })
-									}
-									style={{
-										color: this.state.pressed === 1 ? '#ebeff7' : '#1891fb',
-										fontWeight: 'bold',
-										backgroundColor:
-											this.state.pressed === 1 ? '#1891fb' : '#ebeff7',
-										marginLeft: '10%',
-									}}
-								>
-									OR
-								</Button> */}
 							</div>
 						</div>
 						<OutlierBlock
@@ -1863,15 +1829,21 @@ class App extends Component {
 									// marginTop: '10%',
 									color: '#ebeff7',
 									fontWeight: 'bold',
-									backgroundColor: '#1891fb',
+									backgroundColor:
+										this.state.selectedOutlierMethod == null
+											? 'grey'
+											: '#1891fb',
 									marginTop: '5%',
 								}}
 								disabled={
-									(this.state.pressed !== 0 && this.state.pressed !== 1) ||
+									(this.state.pressed !== false &&
+										this.state.pressed !== true) ||
 									this.state.selectedOutlierMethod == null
 								}
 							>
-								Detect Outliers
+								{this.state.selectedOutlierMethod == null
+									? 'Choose method'
+									: 'Detect Outliers'}
 							</Button>
 						</div>
 					</div>
