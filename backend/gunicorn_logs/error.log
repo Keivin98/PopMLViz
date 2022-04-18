@@ -1,0 +1,1246 @@
+[2022-03-21 19:04:08 +0300] [18040] [DEBUG] Current configuration:
+  config: gunicorn.conf
+  wsgi_app: None
+  bind: ['0.0.0.0:5000']
+  backlog: 2048
+  workers: 1
+  worker_class: sync
+  threads: 1
+  worker_connections: 1000
+  max_requests: 0
+  max_requests_jitter: 0
+  timeout: 30
+  graceful_timeout: 30
+  keepalive: 2
+  limit_request_line: 4094
+  limit_request_fields: 100
+  limit_request_field_size: 8190
+  reload: False
+  reload_engine: auto
+  reload_extra_files: []
+  spew: False
+  check_config: False
+  print_config: False
+  preload_app: False
+  sendfile: None
+  reuse_port: False
+  chdir: /home/local/QCRI/kisufaj/VisualizePlots/backend
+  daemon: False
+  raw_env: []
+  pidfile: None
+  worker_tmp_dir: None
+  user: 1980764994
+  group: 1980760577
+  umask: 0
+  initgroups: False
+  tmp_upload_dir: None
+  secure_scheme_headers: {'X-FORWARDED-PROTOCOL': 'ssl', 'X-FORWARDED-PROTO': 'https', 'X-FORWARDED-SSL': 'on'}
+  forwarded_allow_ips: ['127.0.0.1']
+  accesslog: /home/local/QCRI/kisufaj/VisualizePlots/backend/gunicorn_logs/access.log
+  disable_redirect_access_to_syslog: False
+  access_log_format: %(h)s %(l)s %(u)s %(t)s "%(r)s" %(s)s %(b)s "%(f)s" "%(a)s"
+  errorlog: /home/local/QCRI/kisufaj/VisualizePlots/backend/gunicorn_logs/error.log
+  loglevel: debug
+  capture_output: False
+  logger_class: gunicorn.glogging.Logger
+  logconfig: None
+  logconfig_dict: {}
+  syslog_addr: udp://localhost:514
+  syslog: False
+  syslog_prefix: None
+  syslog_facility: user
+  enable_stdio_inheritance: False
+  statsd_host: None
+  dogstatsd_tags: 
+  statsd_prefix: 
+  proc_name: None
+  default_proc_name: routes:app
+  pythonpath: None
+  paste: None
+  on_starting: <function OnStarting.on_starting at 0x7f68a59a0430>
+  on_reload: <function OnReload.on_reload at 0x7f68a59a0550>
+  when_ready: <function WhenReady.when_ready at 0x7f68a59a0670>
+  pre_fork: <function Prefork.pre_fork at 0x7f68a59a0790>
+  post_fork: <function Postfork.post_fork at 0x7f68a59a08b0>
+  post_worker_init: <function PostWorkerInit.post_worker_init at 0x7f68a59a09d0>
+  worker_int: <function WorkerInt.worker_int at 0x7f68a59a0af0>
+  worker_abort: <function WorkerAbort.worker_abort at 0x7f68a59a0c10>
+  pre_exec: <function PreExec.pre_exec at 0x7f68a59a0d30>
+  pre_request: <function PreRequest.pre_request at 0x7f68a59a0e50>
+  post_request: <function PostRequest.post_request at 0x7f68a59a0ee0>
+  child_exit: <function ChildExit.child_exit at 0x7f68a59b8040>
+  worker_exit: <function WorkerExit.worker_exit at 0x7f68a59b8160>
+  nworkers_changed: <function NumWorkersChanged.nworkers_changed at 0x7f68a59b8280>
+  on_exit: <function OnExit.on_exit at 0x7f68a59b83a0>
+  proxy_protocol: False
+  proxy_allow_ips: ['127.0.0.1']
+  keyfile: None
+  certfile: None
+  ssl_version: 2
+  cert_reqs: 0
+  ca_certs: None
+  suppress_ragged_eofs: True
+  do_handshake_on_connect: False
+  ciphers: None
+  raw_paste_global_conf: []
+  strip_header_spaces: False
+[2022-03-21 19:04:08 +0300] [18040] [INFO] Starting gunicorn 20.1.0
+[2022-03-21 19:04:08 +0300] [18040] [DEBUG] Arbiter booted
+[2022-03-21 19:04:08 +0300] [18040] [INFO] Listening at: http://0.0.0.0:5000 (18040)
+[2022-03-21 19:04:08 +0300] [18040] [INFO] Using worker: sync
+[2022-03-21 19:04:08 +0300] [18041] [INFO] Booting worker with pid: 18041
+[2022-03-21 19:04:08 +0300] [18040] [DEBUG] 1 workers
+[2022-03-21 19:04:11 +0300] [18040] [INFO] Handling signal: int
+[2022-03-21 19:04:11 +0300] [18041] [INFO] Worker exiting (pid: 18041)
+[2022-03-21 19:04:11 +0300] [18040] [INFO] Shutting down: Master
+[2022-03-21 19:04:16 +0300] [18060] [DEBUG] Current configuration:
+  config: gunicorn.conf
+  wsgi_app: None
+  bind: ['0.0.0.0:5000']
+  backlog: 2048
+  workers: 1
+  worker_class: sync
+  threads: 1
+  worker_connections: 1000
+  max_requests: 0
+  max_requests_jitter: 0
+  timeout: 30
+  graceful_timeout: 30
+  keepalive: 2
+  limit_request_line: 4094
+  limit_request_fields: 100
+  limit_request_field_size: 8190
+  reload: False
+  reload_engine: auto
+  reload_extra_files: []
+  spew: False
+  check_config: False
+  print_config: False
+  preload_app: False
+  sendfile: None
+  reuse_port: False
+  chdir: /home/local/QCRI/kisufaj/VisualizePlots/backend
+  daemon: True
+  raw_env: []
+  pidfile: None
+  worker_tmp_dir: None
+  user: 1980764994
+  group: 1980760577
+  umask: 0
+  initgroups: False
+  tmp_upload_dir: None
+  secure_scheme_headers: {'X-FORWARDED-PROTOCOL': 'ssl', 'X-FORWARDED-PROTO': 'https', 'X-FORWARDED-SSL': 'on'}
+  forwarded_allow_ips: ['127.0.0.1']
+  accesslog: /home/local/QCRI/kisufaj/VisualizePlots/backend/gunicorn_logs/access.log
+  disable_redirect_access_to_syslog: False
+  access_log_format: %(h)s %(l)s %(u)s %(t)s "%(r)s" %(s)s %(b)s "%(f)s" "%(a)s"
+  errorlog: /home/local/QCRI/kisufaj/VisualizePlots/backend/gunicorn_logs/error.log
+  loglevel: debug
+  capture_output: False
+  logger_class: gunicorn.glogging.Logger
+  logconfig: None
+  logconfig_dict: {}
+  syslog_addr: udp://localhost:514
+  syslog: False
+  syslog_prefix: None
+  syslog_facility: user
+  enable_stdio_inheritance: False
+  statsd_host: None
+  dogstatsd_tags: 
+  statsd_prefix: 
+  proc_name: None
+  default_proc_name: routes:app
+  pythonpath: None
+  paste: None
+  on_starting: <function OnStarting.on_starting at 0x7fc8eb080430>
+  on_reload: <function OnReload.on_reload at 0x7fc8eb080550>
+  when_ready: <function WhenReady.when_ready at 0x7fc8eb080670>
+  pre_fork: <function Prefork.pre_fork at 0x7fc8eb080790>
+  post_fork: <function Postfork.post_fork at 0x7fc8eb0808b0>
+  post_worker_init: <function PostWorkerInit.post_worker_init at 0x7fc8eb0809d0>
+  worker_int: <function WorkerInt.worker_int at 0x7fc8eb080af0>
+  worker_abort: <function WorkerAbort.worker_abort at 0x7fc8eb080c10>
+  pre_exec: <function PreExec.pre_exec at 0x7fc8eb080d30>
+  pre_request: <function PreRequest.pre_request at 0x7fc8eb080e50>
+  post_request: <function PostRequest.post_request at 0x7fc8eb080ee0>
+  child_exit: <function ChildExit.child_exit at 0x7fc8eb098040>
+  worker_exit: <function WorkerExit.worker_exit at 0x7fc8eb098160>
+  nworkers_changed: <function NumWorkersChanged.nworkers_changed at 0x7fc8eb098280>
+  on_exit: <function OnExit.on_exit at 0x7fc8eb0983a0>
+  proxy_protocol: False
+  proxy_allow_ips: ['127.0.0.1']
+  keyfile: None
+  certfile: None
+  ssl_version: 2
+  cert_reqs: 0
+  ca_certs: None
+  suppress_ragged_eofs: True
+  do_handshake_on_connect: False
+  ciphers: None
+  raw_paste_global_conf: []
+  strip_header_spaces: False
+[2022-03-21 19:04:16 +0300] [18060] [INFO] Starting gunicorn 20.1.0
+[2022-03-21 19:04:16 +0300] [18060] [DEBUG] Arbiter booted
+[2022-03-21 19:04:16 +0300] [18060] [INFO] Listening at: http://0.0.0.0:5000 (18060)
+[2022-03-21 19:04:16 +0300] [18060] [INFO] Using worker: sync
+[2022-03-21 19:04:16 +0300] [18061] [INFO] Booting worker with pid: 18061
+[2022-03-21 19:04:16 +0300] [18060] [DEBUG] 1 workers
+[2022-03-21 19:06:36 +0300] [18126] [DEBUG] Current configuration:
+  config: gunicorn.conf
+  wsgi_app: None
+  bind: ['0.0.0.0:5000']
+  backlog: 2048
+  workers: 1
+  worker_class: sync
+  threads: 1
+  worker_connections: 1000
+  max_requests: 0
+  max_requests_jitter: 0
+  timeout: 30
+  graceful_timeout: 30
+  keepalive: 2
+  limit_request_line: 4094
+  limit_request_fields: 100
+  limit_request_field_size: 8190
+  reload: False
+  reload_engine: auto
+  reload_extra_files: []
+  spew: False
+  check_config: False
+  print_config: False
+  preload_app: False
+  sendfile: None
+  reuse_port: False
+  chdir: /home/local/QCRI/kisufaj/VisualizePlots/backend
+  daemon: True
+  raw_env: []
+  pidfile: None
+  worker_tmp_dir: None
+  user: 1980764994
+  group: 1980760577
+  umask: 0
+  initgroups: False
+  tmp_upload_dir: None
+  secure_scheme_headers: {'X-FORWARDED-PROTOCOL': 'ssl', 'X-FORWARDED-PROTO': 'https', 'X-FORWARDED-SSL': 'on'}
+  forwarded_allow_ips: ['127.0.0.1']
+  accesslog: /home/local/QCRI/kisufaj/VisualizePlots/backend/gunicorn_logs/access.log
+  disable_redirect_access_to_syslog: False
+  access_log_format: %(h)s %(l)s %(u)s %(t)s "%(r)s" %(s)s %(b)s "%(f)s" "%(a)s"
+  errorlog: /home/local/QCRI/kisufaj/VisualizePlots/backend/gunicorn_logs/error.log
+  loglevel: debug
+  capture_output: False
+  logger_class: gunicorn.glogging.Logger
+  logconfig: None
+  logconfig_dict: {}
+  syslog_addr: udp://localhost:514
+  syslog: False
+  syslog_prefix: None
+  syslog_facility: user
+  enable_stdio_inheritance: False
+  statsd_host: None
+  dogstatsd_tags: 
+  statsd_prefix: 
+  proc_name: None
+  default_proc_name: routes:app
+  pythonpath: None
+  paste: None
+  on_starting: <function OnStarting.on_starting at 0x7fb44a95e430>
+  on_reload: <function OnReload.on_reload at 0x7fb44a95e550>
+  when_ready: <function WhenReady.when_ready at 0x7fb44a95e670>
+  pre_fork: <function Prefork.pre_fork at 0x7fb44a95e790>
+  post_fork: <function Postfork.post_fork at 0x7fb44a95e8b0>
+  post_worker_init: <function PostWorkerInit.post_worker_init at 0x7fb44a95e9d0>
+  worker_int: <function WorkerInt.worker_int at 0x7fb44a95eaf0>
+  worker_abort: <function WorkerAbort.worker_abort at 0x7fb44a95ec10>
+  pre_exec: <function PreExec.pre_exec at 0x7fb44a95ed30>
+  pre_request: <function PreRequest.pre_request at 0x7fb44a95ee50>
+  post_request: <function PostRequest.post_request at 0x7fb44a95eee0>
+  child_exit: <function ChildExit.child_exit at 0x7fb44a976040>
+  worker_exit: <function WorkerExit.worker_exit at 0x7fb44a976160>
+  nworkers_changed: <function NumWorkersChanged.nworkers_changed at 0x7fb44a976280>
+  on_exit: <function OnExit.on_exit at 0x7fb44a9763a0>
+  proxy_protocol: False
+  proxy_allow_ips: ['127.0.0.1']
+  keyfile: None
+  certfile: None
+  ssl_version: 2
+  cert_reqs: 0
+  ca_certs: None
+  suppress_ragged_eofs: True
+  do_handshake_on_connect: False
+  ciphers: None
+  raw_paste_global_conf: []
+  strip_header_spaces: False
+[2022-03-21 19:06:36 +0300] [18126] [INFO] Starting gunicorn 20.1.0
+[2022-03-21 19:06:36 +0300] [18126] [DEBUG] Arbiter booted
+[2022-03-21 19:06:36 +0300] [18126] [INFO] Listening at: http://0.0.0.0:5000 (18126)
+[2022-03-21 19:06:36 +0300] [18126] [INFO] Using worker: sync
+[2022-03-21 19:06:36 +0300] [18127] [INFO] Booting worker with pid: 18127
+[2022-03-21 19:06:36 +0300] [18126] [DEBUG] 1 workers
+[2022-03-21 19:06:39 +0300] [18127] [DEBUG] GET /
+[2022-03-21 19:06:40 +0300] [18127] [DEBUG] GET /favicon.ico
+[2022-03-21 19:07:02 +0300] [18127] [DEBUG] OPTIONS /runPCAIR
+[2022-03-21 19:07:03 +0300] [18127] [DEBUG] POST /runPCAIR
+[2022-03-21 19:07:33 +0300] [18126] [CRITICAL] WORKER TIMEOUT (pid:18127)
+[2022-03-21 19:07:34 +0300] [18126] [WARNING] Worker with pid 18127 was terminated due to signal 9
+[2022-03-21 19:07:34 +0300] [18154] [INFO] Booting worker with pid: 18154
+[2022-03-21 19:10:02 +0300] [18209] [DEBUG] Current configuration:
+  config: gunicorn.conf
+  wsgi_app: None
+  bind: ['0.0.0.0:5000']
+  backlog: 2048
+  workers: 1
+  worker_class: sync
+  threads: 1
+  worker_connections: 1000
+  max_requests: 0
+  max_requests_jitter: 0
+  timeout: 30
+  graceful_timeout: 30
+  keepalive: 2
+  limit_request_line: 4094
+  limit_request_fields: 100
+  limit_request_field_size: 8190
+  reload: False
+  reload_engine: auto
+  reload_extra_files: []
+  spew: False
+  check_config: False
+  print_config: False
+  preload_app: False
+  sendfile: None
+  reuse_port: False
+  chdir: /home/local/QCRI/kisufaj/VisualizePlots/backend
+  daemon: True
+  raw_env: []
+  pidfile: None
+  worker_tmp_dir: None
+  user: 1980764994
+  group: 1980760577
+  umask: 0
+  initgroups: False
+  tmp_upload_dir: None
+  secure_scheme_headers: {'X-FORWARDED-PROTOCOL': 'ssl', 'X-FORWARDED-PROTO': 'https', 'X-FORWARDED-SSL': 'on'}
+  forwarded_allow_ips: ['127.0.0.1']
+  accesslog: /home/local/QCRI/kisufaj/VisualizePlots/backend/gunicorn_logs/access.log
+  disable_redirect_access_to_syslog: False
+  access_log_format: %(h)s %(l)s %(u)s %(t)s "%(r)s" %(s)s %(b)s "%(f)s" "%(a)s"
+  errorlog: /home/local/QCRI/kisufaj/VisualizePlots/backend/gunicorn_logs/error.log
+  loglevel: debug
+  capture_output: False
+  logger_class: gunicorn.glogging.Logger
+  logconfig: None
+  logconfig_dict: {}
+  syslog_addr: udp://localhost:514
+  syslog: False
+  syslog_prefix: None
+  syslog_facility: user
+  enable_stdio_inheritance: False
+  statsd_host: None
+  dogstatsd_tags: 
+  statsd_prefix: 
+  proc_name: None
+  default_proc_name: routes:app
+  pythonpath: None
+  paste: None
+  on_starting: <function OnStarting.on_starting at 0x7faacd441430>
+  on_reload: <function OnReload.on_reload at 0x7faacd441550>
+  when_ready: <function WhenReady.when_ready at 0x7faacd441670>
+  pre_fork: <function Prefork.pre_fork at 0x7faacd441790>
+  post_fork: <function Postfork.post_fork at 0x7faacd4418b0>
+  post_worker_init: <function PostWorkerInit.post_worker_init at 0x7faacd4419d0>
+  worker_int: <function WorkerInt.worker_int at 0x7faacd441af0>
+  worker_abort: <function WorkerAbort.worker_abort at 0x7faacd441c10>
+  pre_exec: <function PreExec.pre_exec at 0x7faacd441d30>
+  pre_request: <function PreRequest.pre_request at 0x7faacd441e50>
+  post_request: <function PostRequest.post_request at 0x7faacd441ee0>
+  child_exit: <function ChildExit.child_exit at 0x7faacd459040>
+  worker_exit: <function WorkerExit.worker_exit at 0x7faacd459160>
+  nworkers_changed: <function NumWorkersChanged.nworkers_changed at 0x7faacd459280>
+  on_exit: <function OnExit.on_exit at 0x7faacd4593a0>
+  proxy_protocol: False
+  proxy_allow_ips: ['127.0.0.1']
+  keyfile: None
+  certfile: None
+  ssl_version: 2
+  cert_reqs: 0
+  ca_certs: None
+  suppress_ragged_eofs: True
+  do_handshake_on_connect: False
+  ciphers: None
+  raw_paste_global_conf: []
+  strip_header_spaces: False
+[2022-03-21 19:10:02 +0300] [18209] [INFO] Starting gunicorn 20.1.0
+[2022-03-21 19:10:02 +0300] [18209] [ERROR] Connection in use: ('0.0.0.0', 5000)
+[2022-03-21 19:10:02 +0300] [18209] [DEBUG] connection to ('0.0.0.0', 5000) failed: [Errno 98] Address already in use
+[2022-03-21 19:10:02 +0300] [18209] [ERROR] Retrying in 1 second.
+[2022-03-21 19:10:03 +0300] [18209] [ERROR] Connection in use: ('0.0.0.0', 5000)
+[2022-03-21 19:10:03 +0300] [18209] [DEBUG] connection to ('0.0.0.0', 5000) failed: [Errno 98] Address already in use
+[2022-03-21 19:10:03 +0300] [18209] [ERROR] Retrying in 1 second.
+[2022-03-21 19:10:04 +0300] [18209] [ERROR] Connection in use: ('0.0.0.0', 5000)
+[2022-03-21 19:10:04 +0300] [18209] [DEBUG] connection to ('0.0.0.0', 5000) failed: [Errno 98] Address already in use
+[2022-03-21 19:10:04 +0300] [18209] [ERROR] Retrying in 1 second.
+[2022-03-21 19:10:05 +0300] [18209] [ERROR] Connection in use: ('0.0.0.0', 5000)
+[2022-03-21 19:10:05 +0300] [18209] [DEBUG] connection to ('0.0.0.0', 5000) failed: [Errno 98] Address already in use
+[2022-03-21 19:10:05 +0300] [18209] [ERROR] Retrying in 1 second.
+[2022-03-21 19:10:06 +0300] [18209] [ERROR] Connection in use: ('0.0.0.0', 5000)
+[2022-03-21 19:10:06 +0300] [18209] [DEBUG] connection to ('0.0.0.0', 5000) failed: [Errno 98] Address already in use
+[2022-03-21 19:10:06 +0300] [18209] [ERROR] Retrying in 1 second.
+[2022-03-21 19:10:07 +0300] [18209] [ERROR] Can't connect to ('0.0.0.0', 5000)
+[2022-03-21 19:10:39 +0300] [18217] [DEBUG] Current configuration:
+  config: gunicorn.conf
+  wsgi_app: None
+  bind: ['0.0.0.0:5000']
+  backlog: 2048
+  workers: 1
+  worker_class: sync
+  threads: 1
+  worker_connections: 1000
+  max_requests: 0
+  max_requests_jitter: 0
+  timeout: 30
+  graceful_timeout: 30
+  keepalive: 2
+  limit_request_line: 4094
+  limit_request_fields: 100
+  limit_request_field_size: 8190
+  reload: False
+  reload_engine: auto
+  reload_extra_files: []
+  spew: False
+  check_config: False
+  print_config: False
+  preload_app: False
+  sendfile: None
+  reuse_port: False
+  chdir: /home/local/QCRI/kisufaj/VisualizePlots/backend
+  daemon: True
+  raw_env: []
+  pidfile: None
+  worker_tmp_dir: None
+  user: 1980764994
+  group: 1980760577
+  umask: 0
+  initgroups: False
+  tmp_upload_dir: None
+  secure_scheme_headers: {'X-FORWARDED-PROTOCOL': 'ssl', 'X-FORWARDED-PROTO': 'https', 'X-FORWARDED-SSL': 'on'}
+  forwarded_allow_ips: ['127.0.0.1']
+  accesslog: /home/local/QCRI/kisufaj/VisualizePlots/backend/gunicorn_logs/access.log
+  disable_redirect_access_to_syslog: False
+  access_log_format: %(h)s %(l)s %(u)s %(t)s "%(r)s" %(s)s %(b)s "%(f)s" "%(a)s"
+  errorlog: /home/local/QCRI/kisufaj/VisualizePlots/backend/gunicorn_logs/error.log
+  loglevel: debug
+  capture_output: False
+  logger_class: gunicorn.glogging.Logger
+  logconfig: None
+  logconfig_dict: {}
+  syslog_addr: udp://localhost:514
+  syslog: False
+  syslog_prefix: None
+  syslog_facility: user
+  enable_stdio_inheritance: False
+  statsd_host: None
+  dogstatsd_tags: 
+  statsd_prefix: 
+  proc_name: None
+  default_proc_name: routes:app
+  pythonpath: None
+  paste: None
+  on_starting: <function OnStarting.on_starting at 0x7fd875d25430>
+  on_reload: <function OnReload.on_reload at 0x7fd875d25550>
+  when_ready: <function WhenReady.when_ready at 0x7fd875d25670>
+  pre_fork: <function Prefork.pre_fork at 0x7fd875d25790>
+  post_fork: <function Postfork.post_fork at 0x7fd875d258b0>
+  post_worker_init: <function PostWorkerInit.post_worker_init at 0x7fd875d259d0>
+  worker_int: <function WorkerInt.worker_int at 0x7fd875d25af0>
+  worker_abort: <function WorkerAbort.worker_abort at 0x7fd875d25c10>
+  pre_exec: <function PreExec.pre_exec at 0x7fd875d25d30>
+  pre_request: <function PreRequest.pre_request at 0x7fd875d25e50>
+  post_request: <function PostRequest.post_request at 0x7fd875d25ee0>
+  child_exit: <function ChildExit.child_exit at 0x7fd875d3d040>
+  worker_exit: <function WorkerExit.worker_exit at 0x7fd875d3d160>
+  nworkers_changed: <function NumWorkersChanged.nworkers_changed at 0x7fd875d3d280>
+  on_exit: <function OnExit.on_exit at 0x7fd875d3d3a0>
+  proxy_protocol: False
+  proxy_allow_ips: ['127.0.0.1']
+  keyfile: None
+  certfile: None
+  ssl_version: 2
+  cert_reqs: 0
+  ca_certs: None
+  suppress_ragged_eofs: True
+  do_handshake_on_connect: False
+  ciphers: None
+  raw_paste_global_conf: []
+  strip_header_spaces: False
+[2022-03-21 19:10:39 +0300] [18217] [INFO] Starting gunicorn 20.1.0
+[2022-03-21 19:10:39 +0300] [18217] [DEBUG] Arbiter booted
+[2022-03-21 19:10:39 +0300] [18217] [INFO] Listening at: http://0.0.0.0:5000 (18217)
+[2022-03-21 19:10:39 +0300] [18217] [INFO] Using worker: sync
+[2022-03-21 19:10:39 +0300] [18218] [INFO] Booting worker with pid: 18218
+[2022-03-21 19:10:39 +0300] [18217] [DEBUG] 1 workers
+[2022-03-21 19:10:40 +0300] [18218] [DEBUG] GET /
+[2022-03-21 19:11:05 +0300] [18218] [DEBUG] OPTIONS /runPCAIR
+[2022-03-21 19:11:05 +0300] [18218] [DEBUG] POST /runPCAIR
+[2022-03-21 19:11:35 +0300] [18217] [CRITICAL] WORKER TIMEOUT (pid:18218)
+[2022-03-21 19:11:36 +0300] [18217] [WARNING] Worker with pid 18218 was terminated due to signal 9
+[2022-03-21 19:11:36 +0300] [18239] [INFO] Booting worker with pid: 18239
+[2022-03-21 19:12:07 +0300] [18239] [INFO] Parent changed, shutting down: <Worker 18239>
+[2022-03-21 19:12:07 +0300] [18239] [INFO] Worker exiting (pid: 18239)
+[2022-03-21 19:12:43 +0300] [18264] [DEBUG] Current configuration:
+  config: gunicorn.conf
+  wsgi_app: None
+  bind: ['0.0.0.0:5000']
+  backlog: 2048
+  workers: 3
+  worker_class: sync
+  threads: 1
+  worker_connections: 1000
+  max_requests: 0
+  max_requests_jitter: 0
+  timeout: 180
+  graceful_timeout: 30
+  keepalive: 2
+  limit_request_line: 4094
+  limit_request_fields: 100
+  limit_request_field_size: 8190
+  reload: False
+  reload_engine: auto
+  reload_extra_files: []
+  spew: False
+  check_config: False
+  print_config: False
+  preload_app: False
+  sendfile: None
+  reuse_port: False
+  chdir: /home/local/QCRI/kisufaj/VisualizePlots/backend
+  daemon: True
+  raw_env: []
+  pidfile: None
+  worker_tmp_dir: None
+  user: 1980764994
+  group: 1980760577
+  umask: 0
+  initgroups: False
+  tmp_upload_dir: None
+  secure_scheme_headers: {'X-FORWARDED-PROTOCOL': 'ssl', 'X-FORWARDED-PROTO': 'https', 'X-FORWARDED-SSL': 'on'}
+  forwarded_allow_ips: ['127.0.0.1']
+  accesslog: /home/local/QCRI/kisufaj/VisualizePlots/backend/gunicorn_logs/access.log
+  disable_redirect_access_to_syslog: False
+  access_log_format: %(h)s %(l)s %(u)s %(t)s "%(r)s" %(s)s %(b)s "%(f)s" "%(a)s"
+  errorlog: /home/local/QCRI/kisufaj/VisualizePlots/backend/gunicorn_logs/error.log
+  loglevel: debug
+  capture_output: False
+  logger_class: gunicorn.glogging.Logger
+  logconfig: None
+  logconfig_dict: {}
+  syslog_addr: udp://localhost:514
+  syslog: False
+  syslog_prefix: None
+  syslog_facility: user
+  enable_stdio_inheritance: False
+  statsd_host: None
+  dogstatsd_tags: 
+  statsd_prefix: 
+  proc_name: None
+  default_proc_name: routes:app
+  pythonpath: None
+  paste: None
+  on_starting: <function OnStarting.on_starting at 0x7f8519822430>
+  on_reload: <function OnReload.on_reload at 0x7f8519822550>
+  when_ready: <function WhenReady.when_ready at 0x7f8519822670>
+  pre_fork: <function Prefork.pre_fork at 0x7f8519822790>
+  post_fork: <function Postfork.post_fork at 0x7f85198228b0>
+  post_worker_init: <function PostWorkerInit.post_worker_init at 0x7f85198229d0>
+  worker_int: <function WorkerInt.worker_int at 0x7f8519822af0>
+  worker_abort: <function WorkerAbort.worker_abort at 0x7f8519822c10>
+  pre_exec: <function PreExec.pre_exec at 0x7f8519822d30>
+  pre_request: <function PreRequest.pre_request at 0x7f8519822e50>
+  post_request: <function PostRequest.post_request at 0x7f8519822ee0>
+  child_exit: <function ChildExit.child_exit at 0x7f851983a040>
+  worker_exit: <function WorkerExit.worker_exit at 0x7f851983a160>
+  nworkers_changed: <function NumWorkersChanged.nworkers_changed at 0x7f851983a280>
+  on_exit: <function OnExit.on_exit at 0x7f851983a3a0>
+  proxy_protocol: False
+  proxy_allow_ips: ['127.0.0.1']
+  keyfile: None
+  certfile: None
+  ssl_version: 2
+  cert_reqs: 0
+  ca_certs: None
+  suppress_ragged_eofs: True
+  do_handshake_on_connect: False
+  ciphers: None
+  raw_paste_global_conf: []
+  strip_header_spaces: False
+[2022-03-21 19:12:43 +0300] [18264] [INFO] Starting gunicorn 20.1.0
+[2022-03-21 19:12:43 +0300] [18264] [DEBUG] Arbiter booted
+[2022-03-21 19:12:43 +0300] [18264] [INFO] Listening at: http://0.0.0.0:5000 (18264)
+[2022-03-21 19:12:43 +0300] [18264] [INFO] Using worker: sync
+[2022-03-21 19:12:43 +0300] [18265] [INFO] Booting worker with pid: 18265
+[2022-03-21 19:12:43 +0300] [18266] [INFO] Booting worker with pid: 18266
+[2022-03-21 19:12:43 +0300] [18271] [INFO] Booting worker with pid: 18271
+[2022-03-21 19:12:43 +0300] [18264] [DEBUG] 3 workers
+[2022-03-21 19:13:00 +0300] [18271] [DEBUG] OPTIONS /runPCAIR
+[2022-03-21 19:13:00 +0300] [18271] [DEBUG] POST /runPCAIR
+[2022-03-21 19:16:13 +0300] [18265] [DEBUG] POST /uploadPCAIR
+[2022-03-21 19:16:20 +0300] [18266] [DEBUG] POST /uploadPCAIR
+[2022-03-21 19:16:23 +0300] [18266] [DEBUG] POST /uploadPCAIR
+[2022-03-21 19:16:27 +0300] [18271] [DEBUG] POST /uploadPCAIR
+[2022-03-21 19:16:34 +0300] [18266] [DEBUG] OPTIONS /runPCAIR
+[2022-03-21 19:16:34 +0300] [18265] [DEBUG] POST /runPCAIR
+[2022-03-21 19:17:28 +0300] [18265] [DEBUG] OPTIONS /runkmeans
+[2022-03-21 19:17:28 +0300] [18265] [DEBUG] POST /runkmeans
+[2022-03-21 19:17:36 +0300] [18271] [DEBUG] OPTIONS /detectoutliers
+[2022-03-21 19:17:36 +0300] [18265] [DEBUG] POST /detectoutliers
+[2022-03-21 19:17:40 +0300] [18271] [DEBUG] POST /detectoutliers
+[2022-03-21 19:17:49 +0300] [18266] [DEBUG] OPTIONS /detectoutliers
+[2022-03-21 19:17:49 +0300] [18266] [DEBUG] POST /detectoutliers
+[2022-03-21 19:17:54 +0300] [18266] [DEBUG] OPTIONS /detectoutliers
+[2022-03-21 19:17:54 +0300] [18266] [DEBUG] POST /detectoutliers
+[2022-03-21 19:18:00 +0300] [18265] [DEBUG] OPTIONS /detectoutliers
+[2022-03-21 19:18:00 +0300] [18265] [DEBUG] POST /detectoutliers
+[2022-03-21 20:18:17 +0300] [18265] [DEBUG] POST /uploadPCAIR
+[2022-03-21 20:18:24 +0300] [18266] [DEBUG] POST /uploadPCAIR
+[2022-03-21 20:18:29 +0300] [18271] [DEBUG] POST /uploadPCAIR
+[2022-03-21 20:18:40 +0300] [18266] [DEBUG] POST /uploadPCAIR
+[2022-03-21 20:19:21 +0300] [18265] [DEBUG] OPTIONS /runPCAIR
+[2022-03-21 20:19:21 +0300] [18265] [DEBUG] POST /runPCAIR
+[2022-03-21 20:19:21,609] ERROR in app: Exception on /runPCAIR [POST]
+Traceback (most recent call last):
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask/app.py", line 2070, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask/app.py", line 1515, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask_cors/extension.py", line 165, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask/app.py", line 1513, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask/app.py", line 1499, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**req.view_args)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/routes.py", line 104, in runPCAIR
+    robjects.r.source("./PCA_AIR.r", encoding="utf-8")
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/rpy2/robjects/functions.py", line 198, in __call__
+    return (super(SignatureTranslatedFunction, self)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/rpy2/robjects/functions.py", line 125, in __call__
+    res = super(Function, self).__call__(*new_args, **new_kwargs)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/rpy2/rinterface_lib/conversion.py", line 45, in _
+    cdata = function(*args, **kwargs)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/rpy2/rinterface.py", line 680, in __call__
+    raise embedded.RRuntimeError(_rinterface._geterrmessage())
+rpy2.rinterface_lib.embedded.RRuntimeError: Error in createfn.gds(out.gdsfn) : 
+  The file '/home/local/QCRI/kisufaj/VisualizePlots/backend/data/test_docs/CHR22_SUBSET_1KG.gds' has been created or opened.
+
+[2022-03-21 20:21:41 +0300] [18264] [CRITICAL] WORKER TIMEOUT (pid:18266)
+[2022-03-21 20:21:42 +0300] [18264] [WARNING] Worker with pid 18266 was terminated due to signal 9
+[2022-03-21 20:21:42 +0300] [18685] [INFO] Booting worker with pid: 18685
+[2022-03-21 20:34:08 +0300] [18685] [DEBUG] POST /uploadPCAIR
+[2022-03-21 20:34:27 +0300] [18271] [DEBUG] POST /uploadPCAIR
+[2022-03-21 20:34:31 +0300] [18265] [DEBUG] POST /uploadPCAIR
+[2022-03-21 20:34:41 +0300] [18271] [DEBUG] POST /uploadPCAIR
+[2022-03-21 20:35:51 +0300] [18265] [DEBUG] OPTIONS /runPCAIR
+[2022-03-21 20:35:51 +0300] [18685] [DEBUG] POST /runPCAIR
+[2022-03-21 20:38:12 +0300] [18271] [DEBUG] OPTIONS /runPCAIR
+[2022-03-21 20:38:12 +0300] [18265] [DEBUG] POST /runPCAIR
+[2022-03-21 20:41:05 +0300] [18685] [DEBUG] OPTIONS /runkmeans
+[2022-03-21 20:41:05 +0300] [18265] [DEBUG] POST /runkmeans
+[2022-03-22 09:53:40 +0300] [18685] [DEBUG] POST /uploadPCAIR
+[2022-03-22 09:53:48 +0300] [18271] [DEBUG] POST /uploadPCAIR
+[2022-03-22 09:53:52 +0300] [18271] [DEBUG] POST /uploadPCAIR
+[2022-03-22 09:53:56 +0300] [18271] [DEBUG] POST /uploadPCAIR
+[2022-03-22 09:54:05 +0300] [18271] [DEBUG] OPTIONS /runPCAIR
+[2022-03-22 09:54:05 +0300] [18271] [DEBUG] POST /runPCAIR
+[2022-04-03 20:39:38 +0300] [18237] [DEBUG] Current configuration:
+  config: gunicorn.conf
+  wsgi_app: None
+  bind: ['0.0.0.0:5000']
+  backlog: 2048
+  workers: 8
+  worker_class: sync
+  threads: 1
+  worker_connections: 1000
+  max_requests: 0
+  max_requests_jitter: 0
+  timeout: 600
+  graceful_timeout: 30
+  keepalive: 2
+  limit_request_line: 4094
+  limit_request_fields: 100
+  limit_request_field_size: 8190
+  reload: False
+  reload_engine: auto
+  reload_extra_files: []
+  spew: False
+  check_config: False
+  print_config: False
+  preload_app: False
+  sendfile: None
+  reuse_port: False
+  chdir: /home/local/QCRI/kisufaj/VisualizePlots/backend
+  daemon: False
+  raw_env: []
+  pidfile: None
+  worker_tmp_dir: None
+  user: 1980764994
+  group: 1980760577
+  umask: 0
+  initgroups: False
+  tmp_upload_dir: None
+  secure_scheme_headers: {'X-FORWARDED-PROTOCOL': 'ssl', 'X-FORWARDED-PROTO': 'https', 'X-FORWARDED-SSL': 'on'}
+  forwarded_allow_ips: ['127.0.0.1']
+  accesslog: /home/local/QCRI/kisufaj/VisualizePlots/backend/gunicorn_logs/access.log
+  disable_redirect_access_to_syslog: False
+  access_log_format: %(h)s %(l)s %(u)s %(t)s "%(r)s" %(s)s %(b)s "%(f)s" "%(a)s"
+  errorlog: /home/local/QCRI/kisufaj/VisualizePlots/backend/gunicorn_logs/error.log
+  loglevel: debug
+  capture_output: False
+  logger_class: gunicorn.glogging.Logger
+  logconfig: None
+  logconfig_dict: {}
+  syslog_addr: udp://localhost:514
+  syslog: False
+  syslog_prefix: None
+  syslog_facility: user
+  enable_stdio_inheritance: False
+  statsd_host: None
+  dogstatsd_tags: 
+  statsd_prefix: 
+  proc_name: None
+  default_proc_name: routes:app
+  pythonpath: None
+  paste: None
+  on_starting: <function OnStarting.on_starting at 0x7f4ac83fa4c0>
+  on_reload: <function OnReload.on_reload at 0x7f4ac83fa5e0>
+  when_ready: <function WhenReady.when_ready at 0x7f4ac83fa700>
+  pre_fork: <function Prefork.pre_fork at 0x7f4ac83fa820>
+  post_fork: <function Postfork.post_fork at 0x7f4ac83fa940>
+  post_worker_init: <function PostWorkerInit.post_worker_init at 0x7f4ac83faa60>
+  worker_int: <function WorkerInt.worker_int at 0x7f4ac83fab80>
+  worker_abort: <function WorkerAbort.worker_abort at 0x7f4ac83faca0>
+  pre_exec: <function PreExec.pre_exec at 0x7f4ac83fadc0>
+  pre_request: <function PreRequest.pre_request at 0x7f4ac83faee0>
+  post_request: <function PostRequest.post_request at 0x7f4ac83faf70>
+  child_exit: <function ChildExit.child_exit at 0x7f4ac84120d0>
+  worker_exit: <function WorkerExit.worker_exit at 0x7f4ac84121f0>
+  nworkers_changed: <function NumWorkersChanged.nworkers_changed at 0x7f4ac8412310>
+  on_exit: <function OnExit.on_exit at 0x7f4ac8412430>
+  proxy_protocol: False
+  proxy_allow_ips: ['127.0.0.1']
+  keyfile: None
+  certfile: None
+  ssl_version: 2
+  cert_reqs: 0
+  ca_certs: None
+  suppress_ragged_eofs: True
+  do_handshake_on_connect: False
+  ciphers: None
+  raw_paste_global_conf: []
+  strip_header_spaces: False
+[2022-04-03 20:39:38 +0300] [18237] [INFO] Starting gunicorn 20.1.0
+[2022-04-03 20:39:38 +0300] [18237] [DEBUG] Arbiter booted
+[2022-04-03 20:39:38 +0300] [18237] [INFO] Listening at: http://0.0.0.0:5000 (18237)
+[2022-04-03 20:39:38 +0300] [18237] [INFO] Using worker: sync
+[2022-04-03 20:39:38 +0300] [18238] [INFO] Booting worker with pid: 18238
+[2022-04-03 20:39:38 +0300] [18239] [INFO] Booting worker with pid: 18239
+[2022-04-03 20:39:39 +0300] [18243] [INFO] Booting worker with pid: 18243
+[2022-04-03 20:39:39 +0300] [18247] [INFO] Booting worker with pid: 18247
+[2022-04-03 20:39:39 +0300] [18248] [INFO] Booting worker with pid: 18248
+[2022-04-03 20:39:39 +0300] [18249] [INFO] Booting worker with pid: 18249
+[2022-04-03 20:39:39 +0300] [18237] [DEBUG] 8 workers
+[2022-04-03 20:39:39 +0300] [18250] [INFO] Booting worker with pid: 18250
+[2022-04-03 20:39:39 +0300] [18251] [INFO] Booting worker with pid: 18251
+[2022-04-03 20:39:54 +0300] [18251] [DEBUG] POST /uploadCM
+[2022-04-03 20:43:26 +0300] [18250] [DEBUG] POST /uploadCM
+[2022-04-03 20:43:27 +0300] [18251] [DEBUG] Ignoring EPIPE
+[2022-04-03 20:45:27 +0300] [18247] [DEBUG] OPTIONS /runkmeans
+[2022-04-03 20:45:27 +0300] [18238] [DEBUG] POST /runkmeans
+[2022-04-03 20:47:12 +0300] [18238] [DEBUG] POST /uploadCM
+[2022-04-03 20:47:23 +0300] [18238] [INFO] Worker exiting (pid: 18238)
+[2022-04-03 20:47:23 +0300] [18251] [INFO] Worker exiting (pid: 18251)
+[2022-04-03 20:47:23 +0300] [18238] [INFO] Shutting down: Master
+[2022-04-03 20:47:23 +0300] [18249] [INFO] Worker exiting (pid: 18249)
+[2022-04-03 20:47:23 +0300] [18248] [INFO] Worker exiting (pid: 18248)
+[2022-04-03 20:47:23 +0300] [18247] [INFO] Worker exiting (pid: 18247)
+[2022-04-03 20:47:23 +0300] [18243] [INFO] Worker exiting (pid: 18243)
+[2022-04-03 20:47:23 +0300] [18237] [INFO] Handling signal: int
+[2022-04-03 20:47:24 +0300] [18239] [INFO] Worker exiting (pid: 18239)
+[2022-04-03 20:47:24 +0300] [18237] [INFO] Shutting down: Master
+[2022-04-03 20:47:26 +0300] [18623] [DEBUG] Current configuration:
+  config: gunicorn.conf
+  wsgi_app: None
+  bind: ['0.0.0.0:5000']
+  backlog: 2048
+  workers: 8
+  worker_class: sync
+  threads: 1
+  worker_connections: 1000
+  max_requests: 0
+  max_requests_jitter: 0
+  timeout: 600
+  graceful_timeout: 30
+  keepalive: 2
+  limit_request_line: 4094
+  limit_request_fields: 100
+  limit_request_field_size: 8190
+  reload: False
+  reload_engine: auto
+  reload_extra_files: []
+  spew: False
+  check_config: False
+  print_config: False
+  preload_app: False
+  sendfile: None
+  reuse_port: False
+  chdir: /home/local/QCRI/kisufaj/VisualizePlots/backend
+  daemon: False
+  raw_env: []
+  pidfile: None
+  worker_tmp_dir: None
+  user: 1980764994
+  group: 1980760577
+  umask: 0
+  initgroups: False
+  tmp_upload_dir: None
+  secure_scheme_headers: {'X-FORWARDED-PROTOCOL': 'ssl', 'X-FORWARDED-PROTO': 'https', 'X-FORWARDED-SSL': 'on'}
+  forwarded_allow_ips: ['127.0.0.1']
+  accesslog: /home/local/QCRI/kisufaj/VisualizePlots/backend/gunicorn_logs/access.log
+  disable_redirect_access_to_syslog: False
+  access_log_format: %(h)s %(l)s %(u)s %(t)s "%(r)s" %(s)s %(b)s "%(f)s" "%(a)s"
+  errorlog: /home/local/QCRI/kisufaj/VisualizePlots/backend/gunicorn_logs/error.log
+  loglevel: debug
+  capture_output: False
+  logger_class: gunicorn.glogging.Logger
+  logconfig: None
+  logconfig_dict: {}
+  syslog_addr: udp://localhost:514
+  syslog: False
+  syslog_prefix: None
+  syslog_facility: user
+  enable_stdio_inheritance: False
+  statsd_host: None
+  dogstatsd_tags: 
+  statsd_prefix: 
+  proc_name: None
+  default_proc_name: routes:app
+  pythonpath: None
+  paste: None
+  on_starting: <function OnStarting.on_starting at 0x7f657ba624c0>
+  on_reload: <function OnReload.on_reload at 0x7f657ba625e0>
+  when_ready: <function WhenReady.when_ready at 0x7f657ba62700>
+  pre_fork: <function Prefork.pre_fork at 0x7f657ba62820>
+  post_fork: <function Postfork.post_fork at 0x7f657ba62940>
+  post_worker_init: <function PostWorkerInit.post_worker_init at 0x7f657ba62a60>
+  worker_int: <function WorkerInt.worker_int at 0x7f657ba62b80>
+  worker_abort: <function WorkerAbort.worker_abort at 0x7f657ba62ca0>
+  pre_exec: <function PreExec.pre_exec at 0x7f657ba62dc0>
+  pre_request: <function PreRequest.pre_request at 0x7f657ba62ee0>
+  post_request: <function PostRequest.post_request at 0x7f657ba62f70>
+  child_exit: <function ChildExit.child_exit at 0x7f657ba7a0d0>
+  worker_exit: <function WorkerExit.worker_exit at 0x7f657ba7a1f0>
+  nworkers_changed: <function NumWorkersChanged.nworkers_changed at 0x7f657ba7a310>
+  on_exit: <function OnExit.on_exit at 0x7f657ba7a430>
+  proxy_protocol: False
+  proxy_allow_ips: ['127.0.0.1']
+  keyfile: None
+  certfile: None
+  ssl_version: 2
+  cert_reqs: 0
+  ca_certs: None
+  suppress_ragged_eofs: True
+  do_handshake_on_connect: False
+  ciphers: None
+  raw_paste_global_conf: []
+  strip_header_spaces: False
+[2022-04-03 20:47:26 +0300] [18623] [INFO] Starting gunicorn 20.1.0
+[2022-04-03 20:47:26 +0300] [18623] [DEBUG] Arbiter booted
+[2022-04-03 20:47:26 +0300] [18623] [INFO] Listening at: http://0.0.0.0:5000 (18623)
+[2022-04-03 20:47:26 +0300] [18623] [INFO] Using worker: sync
+[2022-04-03 20:47:26 +0300] [18629] [INFO] Booting worker with pid: 18629
+[2022-04-03 20:47:26 +0300] [18634] [INFO] Booting worker with pid: 18634
+[2022-04-03 20:47:26 +0300] [18638] [INFO] Booting worker with pid: 18638
+[2022-04-03 20:47:26 +0300] [18639] [INFO] Booting worker with pid: 18639
+[2022-04-03 20:47:26 +0300] [18640] [INFO] Booting worker with pid: 18640
+[2022-04-03 20:47:26 +0300] [18644] [INFO] Booting worker with pid: 18644
+[2022-04-03 20:47:26 +0300] [18645] [INFO] Booting worker with pid: 18645
+[2022-04-03 20:47:26 +0300] [18623] [DEBUG] 8 workers
+[2022-04-03 20:47:26 +0300] [18646] [INFO] Booting worker with pid: 18646
+[2022-04-03 20:48:13 +0300] [18640] [INFO] Worker exiting (pid: 18640)
+[2022-04-03 20:48:13 +0300] [18645] [INFO] Worker exiting (pid: 18645)
+[2022-04-03 20:48:13 +0300] [18646] [INFO] Worker exiting (pid: 18646)
+[2022-04-03 20:48:13 +0300] [18634] [INFO] Worker exiting (pid: 18634)
+[2022-04-03 20:48:13 +0300] [18623] [INFO] Handling signal: int
+[2022-04-03 20:48:13 +0300] [18623] [INFO] Shutting down: Master
+[2022-04-03 20:48:14 +0300] [18811] [DEBUG] Current configuration:
+  config: gunicorn.conf
+  wsgi_app: None
+  bind: ['0.0.0.0:5000']
+  backlog: 2048
+  workers: 8
+  worker_class: sync
+  threads: 1
+  worker_connections: 1000
+  max_requests: 0
+  max_requests_jitter: 0
+  timeout: 600
+  graceful_timeout: 30
+  keepalive: 2
+  limit_request_line: 4094
+  limit_request_fields: 100
+  limit_request_field_size: 8190
+  reload: False
+  reload_engine: auto
+  reload_extra_files: []
+  spew: False
+  check_config: False
+  print_config: False
+  preload_app: False
+  sendfile: None
+  reuse_port: False
+  chdir: /home/local/QCRI/kisufaj/VisualizePlots/backend
+  daemon: False
+  raw_env: []
+  pidfile: None
+  worker_tmp_dir: None
+  user: 1980764994
+  group: 1980760577
+  umask: 0
+  initgroups: False
+  tmp_upload_dir: None
+  secure_scheme_headers: {'X-FORWARDED-PROTOCOL': 'ssl', 'X-FORWARDED-PROTO': 'https', 'X-FORWARDED-SSL': 'on'}
+  forwarded_allow_ips: ['127.0.0.1']
+  accesslog: /home/local/QCRI/kisufaj/VisualizePlots/backend/gunicorn_logs/access.log
+  disable_redirect_access_to_syslog: False
+  access_log_format: %(h)s %(l)s %(u)s %(t)s "%(r)s" %(s)s %(b)s "%(f)s" "%(a)s"
+  errorlog: /home/local/QCRI/kisufaj/VisualizePlots/backend/gunicorn_logs/error.log
+  loglevel: debug
+  capture_output: False
+  logger_class: gunicorn.glogging.Logger
+  logconfig: None
+  logconfig_dict: {}
+  syslog_addr: udp://localhost:514
+  syslog: False
+  syslog_prefix: None
+  syslog_facility: user
+  enable_stdio_inheritance: False
+  statsd_host: None
+  dogstatsd_tags: 
+  statsd_prefix: 
+  proc_name: None
+  default_proc_name: routes:app
+  pythonpath: None
+  paste: None
+  on_starting: <function OnStarting.on_starting at 0x7f41117a24c0>
+  on_reload: <function OnReload.on_reload at 0x7f41117a25e0>
+  when_ready: <function WhenReady.when_ready at 0x7f41117a2700>
+  pre_fork: <function Prefork.pre_fork at 0x7f41117a2820>
+  post_fork: <function Postfork.post_fork at 0x7f41117a2940>
+  post_worker_init: <function PostWorkerInit.post_worker_init at 0x7f41117a2a60>
+  worker_int: <function WorkerInt.worker_int at 0x7f41117a2b80>
+  worker_abort: <function WorkerAbort.worker_abort at 0x7f41117a2ca0>
+  pre_exec: <function PreExec.pre_exec at 0x7f41117a2dc0>
+  pre_request: <function PreRequest.pre_request at 0x7f41117a2ee0>
+  post_request: <function PostRequest.post_request at 0x7f41117a2f70>
+  child_exit: <function ChildExit.child_exit at 0x7f41117ba0d0>
+  worker_exit: <function WorkerExit.worker_exit at 0x7f41117ba1f0>
+  nworkers_changed: <function NumWorkersChanged.nworkers_changed at 0x7f41117ba310>
+  on_exit: <function OnExit.on_exit at 0x7f41117ba430>
+  proxy_protocol: False
+  proxy_allow_ips: ['127.0.0.1']
+  keyfile: None
+  certfile: None
+  ssl_version: 2
+  cert_reqs: 0
+  ca_certs: None
+  suppress_ragged_eofs: True
+  do_handshake_on_connect: False
+  ciphers: None
+  raw_paste_global_conf: []
+  strip_header_spaces: False
+[2022-04-03 20:48:14 +0300] [18811] [INFO] Starting gunicorn 20.1.0
+[2022-04-03 20:48:14 +0300] [18811] [DEBUG] Arbiter booted
+[2022-04-03 20:48:14 +0300] [18811] [INFO] Listening at: http://0.0.0.0:5000 (18811)
+[2022-04-03 20:48:14 +0300] [18811] [INFO] Using worker: sync
+[2022-04-03 20:48:14 +0300] [18812] [INFO] Booting worker with pid: 18812
+[2022-04-03 20:48:15 +0300] [18817] [INFO] Booting worker with pid: 18817
+[2022-04-03 20:48:15 +0300] [18821] [INFO] Booting worker with pid: 18821
+[2022-04-03 20:48:15 +0300] [18823] [INFO] Booting worker with pid: 18823
+[2022-04-03 20:48:15 +0300] [18822] [INFO] Booting worker with pid: 18822
+[2022-04-03 20:48:15 +0300] [18832] [INFO] Booting worker with pid: 18832
+[2022-04-03 20:48:15 +0300] [18833] [INFO] Booting worker with pid: 18833
+[2022-04-03 20:48:15 +0300] [18834] [INFO] Booting worker with pid: 18834
+[2022-04-03 20:48:15 +0300] [18811] [DEBUG] 8 workers
+[2022-04-03 20:48:28 +0300] [18821] [DEBUG] POST /uploadCM
+[2022-04-03 20:48:28,333] ERROR in app: Exception on /uploadCM [POST]
+Traceback (most recent call last):
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask/app.py", line 2070, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask/app.py", line 1515, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask_cors/extension.py", line 165, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask/app.py", line 1513, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask/app.py", line 1499, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**req.view_args)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/routes.py", line 85, in uploadCM
+    principalComponents_new.columns = ['ID'] + ['PC' + (str(i + 1)) for i in range(components)]
+AttributeError: 'numpy.ndarray' object has no attribute 'columns'
+[2022-04-03 20:49:26 +0300] [18821] [INFO] Worker exiting (pid: 18821)
+[2022-04-03 20:49:26 +0300] [18832] [INFO] Worker exiting (pid: 18832)
+[2022-04-03 20:49:26 +0300] [18834] [INFO] Worker exiting (pid: 18834)
+[2022-04-03 20:49:26 +0300] [18822] [INFO] Worker exiting (pid: 18822)
+[2022-04-03 20:49:26 +0300] [18811] [INFO] Handling signal: int
+[2022-04-03 20:49:27 +0300] [18811] [INFO] Shutting down: Master
+[2022-04-03 20:49:56 +0300] [19046] [DEBUG] Current configuration:
+  config: gunicorn.conf
+  wsgi_app: None
+  bind: ['0.0.0.0:5000']
+  backlog: 2048
+  workers: 8
+  worker_class: sync
+  threads: 1
+  worker_connections: 1000
+  max_requests: 0
+  max_requests_jitter: 0
+  timeout: 600
+  graceful_timeout: 30
+  keepalive: 2
+  limit_request_line: 4094
+  limit_request_fields: 100
+  limit_request_field_size: 8190
+  reload: False
+  reload_engine: auto
+  reload_extra_files: []
+  spew: False
+  check_config: False
+  print_config: False
+  preload_app: False
+  sendfile: None
+  reuse_port: False
+  chdir: /home/local/QCRI/kisufaj/VisualizePlots/backend
+  daemon: False
+  raw_env: []
+  pidfile: None
+  worker_tmp_dir: None
+  user: 1980764994
+  group: 1980760577
+  umask: 0
+  initgroups: False
+  tmp_upload_dir: None
+  secure_scheme_headers: {'X-FORWARDED-PROTOCOL': 'ssl', 'X-FORWARDED-PROTO': 'https', 'X-FORWARDED-SSL': 'on'}
+  forwarded_allow_ips: ['127.0.0.1']
+  accesslog: /home/local/QCRI/kisufaj/VisualizePlots/backend/gunicorn_logs/access.log
+  disable_redirect_access_to_syslog: False
+  access_log_format: %(h)s %(l)s %(u)s %(t)s "%(r)s" %(s)s %(b)s "%(f)s" "%(a)s"
+  errorlog: /home/local/QCRI/kisufaj/VisualizePlots/backend/gunicorn_logs/error.log
+  loglevel: debug
+  capture_output: False
+  logger_class: gunicorn.glogging.Logger
+  logconfig: None
+  logconfig_dict: {}
+  syslog_addr: udp://localhost:514
+  syslog: False
+  syslog_prefix: None
+  syslog_facility: user
+  enable_stdio_inheritance: False
+  statsd_host: None
+  dogstatsd_tags: 
+  statsd_prefix: 
+  proc_name: None
+  default_proc_name: routes:app
+  pythonpath: None
+  paste: None
+  on_starting: <function OnStarting.on_starting at 0x7f75f96e54c0>
+  on_reload: <function OnReload.on_reload at 0x7f75f96e55e0>
+  when_ready: <function WhenReady.when_ready at 0x7f75f96e5700>
+  pre_fork: <function Prefork.pre_fork at 0x7f75f96e5820>
+  post_fork: <function Postfork.post_fork at 0x7f75f96e5940>
+  post_worker_init: <function PostWorkerInit.post_worker_init at 0x7f75f96e5a60>
+  worker_int: <function WorkerInt.worker_int at 0x7f75f96e5b80>
+  worker_abort: <function WorkerAbort.worker_abort at 0x7f75f96e5ca0>
+  pre_exec: <function PreExec.pre_exec at 0x7f75f96e5dc0>
+  pre_request: <function PreRequest.pre_request at 0x7f75f96e5ee0>
+  post_request: <function PostRequest.post_request at 0x7f75f96e5f70>
+  child_exit: <function ChildExit.child_exit at 0x7f75f96fd0d0>
+  worker_exit: <function WorkerExit.worker_exit at 0x7f75f96fd1f0>
+  nworkers_changed: <function NumWorkersChanged.nworkers_changed at 0x7f75f96fd310>
+  on_exit: <function OnExit.on_exit at 0x7f75f96fd430>
+  proxy_protocol: False
+  proxy_allow_ips: ['127.0.0.1']
+  keyfile: None
+  certfile: None
+  ssl_version: 2
+  cert_reqs: 0
+  ca_certs: None
+  suppress_ragged_eofs: True
+  do_handshake_on_connect: False
+  ciphers: None
+  raw_paste_global_conf: []
+  strip_header_spaces: False
+[2022-04-03 20:49:56 +0300] [19046] [INFO] Starting gunicorn 20.1.0
+[2022-04-03 20:49:56 +0300] [19046] [DEBUG] Arbiter booted
+[2022-04-03 20:49:56 +0300] [19046] [INFO] Listening at: http://0.0.0.0:5000 (19046)
+[2022-04-03 20:49:56 +0300] [19046] [INFO] Using worker: sync
+[2022-04-03 20:49:56 +0300] [19047] [INFO] Booting worker with pid: 19047
+[2022-04-03 20:49:56 +0300] [19052] [INFO] Booting worker with pid: 19052
+[2022-04-03 20:49:56 +0300] [19053] [INFO] Booting worker with pid: 19053
+[2022-04-03 20:49:56 +0300] [19054] [INFO] Booting worker with pid: 19054
+[2022-04-03 20:49:56 +0300] [19064] [INFO] Booting worker with pid: 19064
+[2022-04-03 20:49:56 +0300] [19065] [INFO] Booting worker with pid: 19065
+[2022-04-03 20:49:56 +0300] [19066] [INFO] Booting worker with pid: 19066
+[2022-04-03 20:49:56 +0300] [19067] [INFO] Booting worker with pid: 19067
+[2022-04-03 20:49:56 +0300] [19046] [DEBUG] 8 workers
+[2022-04-03 20:50:08 +0300] [19066] [DEBUG] POST /uploadCM
+[2022-04-03 20:50:08,520] ERROR in app: Exception on /uploadCM [POST]
+Traceback (most recent call last):
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask/app.py", line 2070, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask/app.py", line 1515, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask_cors/extension.py", line 165, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask/app.py", line 1513, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask/app.py", line 1499, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**req.view_args)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/routes.py", line 87, in uploadCM
+    response_df.columns = ['ID'] + ['PC' + (str(i + 1)) for i in range(components)]
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/pandas/core/generic.py", line 5500, in __setattr__
+    return object.__setattr__(self, name, value)
+  File "pandas/_libs/properties.pyx", line 70, in pandas._libs.properties.AxisProperty.__set__
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/pandas/core/generic.py", line 766, in _set_axis
+    self._mgr.set_axis(axis, labels)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/pandas/core/internals/managers.py", line 216, in set_axis
+    self._validate_set_axis(axis, new_labels)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/pandas/core/internals/base.py", line 57, in _validate_set_axis
+    raise ValueError(
+ValueError: Length mismatch: Expected axis has 9 elements, new values have 10 elements
+[2022-04-03 20:50:36 +0300] [19066] [INFO] Worker exiting (pid: 19066)
+[2022-04-03 20:50:36 +0300] [19067] [INFO] Worker exiting (pid: 19067)
+[2022-04-03 20:50:36 +0300] [19065] [INFO] Worker exiting (pid: 19065)
+[2022-04-03 20:50:36 +0300] [19064] [INFO] Worker exiting (pid: 19064)
+[2022-04-03 20:50:36 +0300] [19053] [INFO] Worker exiting (pid: 19053)
+[2022-04-03 20:50:36 +0300] [19046] [INFO] Handling signal: int
+[2022-04-03 20:50:36 +0300] [19052] [INFO] Worker exiting (pid: 19052)
+[2022-04-03 20:50:37 +0300] [19046] [INFO] Shutting down: Master
+[2022-04-03 20:50:38 +0300] [19236] [DEBUG] Current configuration:
+  config: gunicorn.conf
+  wsgi_app: None
+  bind: ['0.0.0.0:5000']
+  backlog: 2048
+  workers: 8
+  worker_class: sync
+  threads: 1
+  worker_connections: 1000
+  max_requests: 0
+  max_requests_jitter: 0
+  timeout: 600
+  graceful_timeout: 30
+  keepalive: 2
+  limit_request_line: 4094
+  limit_request_fields: 100
+  limit_request_field_size: 8190
+  reload: False
+  reload_engine: auto
+  reload_extra_files: []
+  spew: False
+  check_config: False
+  print_config: False
+  preload_app: False
+  sendfile: None
+  reuse_port: False
+  chdir: /home/local/QCRI/kisufaj/VisualizePlots/backend
+  daemon: False
+  raw_env: []
+  pidfile: None
+  worker_tmp_dir: None
+  user: 1980764994
+  group: 1980760577
+  umask: 0
+  initgroups: False
+  tmp_upload_dir: None
+  secure_scheme_headers: {'X-FORWARDED-PROTOCOL': 'ssl', 'X-FORWARDED-PROTO': 'https', 'X-FORWARDED-SSL': 'on'}
+  forwarded_allow_ips: ['127.0.0.1']
+  accesslog: /home/local/QCRI/kisufaj/VisualizePlots/backend/gunicorn_logs/access.log
+  disable_redirect_access_to_syslog: False
+  access_log_format: %(h)s %(l)s %(u)s %(t)s "%(r)s" %(s)s %(b)s "%(f)s" "%(a)s"
+  errorlog: /home/local/QCRI/kisufaj/VisualizePlots/backend/gunicorn_logs/error.log
+  loglevel: debug
+  capture_output: False
+  logger_class: gunicorn.glogging.Logger
+  logconfig: None
+  logconfig_dict: {}
+  syslog_addr: udp://localhost:514
+  syslog: False
+  syslog_prefix: None
+  syslog_facility: user
+  enable_stdio_inheritance: False
+  statsd_host: None
+  dogstatsd_tags: 
+  statsd_prefix: 
+  proc_name: None
+  default_proc_name: routes:app
+  pythonpath: None
+  paste: None
+  on_starting: <function OnStarting.on_starting at 0x7fcdfb22f4c0>
+  on_reload: <function OnReload.on_reload at 0x7fcdfb22f5e0>
+  when_ready: <function WhenReady.when_ready at 0x7fcdfb22f700>
+  pre_fork: <function Prefork.pre_fork at 0x7fcdfb22f820>
+  post_fork: <function Postfork.post_fork at 0x7fcdfb22f940>
+  post_worker_init: <function PostWorkerInit.post_worker_init at 0x7fcdfb22fa60>
+  worker_int: <function WorkerInt.worker_int at 0x7fcdfb22fb80>
+  worker_abort: <function WorkerAbort.worker_abort at 0x7fcdfb22fca0>
+  pre_exec: <function PreExec.pre_exec at 0x7fcdfb22fdc0>
+  pre_request: <function PreRequest.pre_request at 0x7fcdfb22fee0>
+  post_request: <function PostRequest.post_request at 0x7fcdfb22ff70>
+  child_exit: <function ChildExit.child_exit at 0x7fcdfb2470d0>
+  worker_exit: <function WorkerExit.worker_exit at 0x7fcdfb2471f0>
+  nworkers_changed: <function NumWorkersChanged.nworkers_changed at 0x7fcdfb247310>
+  on_exit: <function OnExit.on_exit at 0x7fcdfb247430>
+  proxy_protocol: False
+  proxy_allow_ips: ['127.0.0.1']
+  keyfile: None
+  certfile: None
+  ssl_version: 2
+  cert_reqs: 0
+  ca_certs: None
+  suppress_ragged_eofs: True
+  do_handshake_on_connect: False
+  ciphers: None
+  raw_paste_global_conf: []
+  strip_header_spaces: False
+[2022-04-03 20:50:38 +0300] [19236] [INFO] Starting gunicorn 20.1.0
+[2022-04-03 20:50:38 +0300] [19236] [DEBUG] Arbiter booted
+[2022-04-03 20:50:38 +0300] [19236] [INFO] Listening at: http://0.0.0.0:5000 (19236)
+[2022-04-03 20:50:38 +0300] [19236] [INFO] Using worker: sync
+[2022-04-03 20:50:38 +0300] [19242] [INFO] Booting worker with pid: 19242
+[2022-04-03 20:50:38 +0300] [19247] [INFO] Booting worker with pid: 19247
+[2022-04-03 20:50:38 +0300] [19248] [INFO] Booting worker with pid: 19248
+[2022-04-03 20:50:38 +0300] [19252] [INFO] Booting worker with pid: 19252
+[2022-04-03 20:50:38 +0300] [19253] [INFO] Booting worker with pid: 19253
+[2022-04-03 20:50:38 +0300] [19257] [INFO] Booting worker with pid: 19257
+[2022-04-03 20:50:38 +0300] [19265] [INFO] Booting worker with pid: 19265
+[2022-04-03 20:50:38 +0300] [19264] [INFO] Booting worker with pid: 19264
+[2022-04-03 20:50:38 +0300] [19236] [DEBUG] 8 workers
+[2022-04-03 20:50:48 +0300] [19264] [DEBUG] POST /uploadCM
+[2022-04-03 20:51:00 +0300] [19264] [DEBUG] OPTIONS /runkmeans
+[2022-04-03 20:51:00 +0300] [19248] [DEBUG] POST /runkmeans
+[2022-04-03 20:51:27 +0300] [19248] [DEBUG] POST /uploadCM
+[2022-04-03 20:54:16 +0300] [19248] [DEBUG] OPTIONS /runkmeans
+[2022-04-03 20:54:16 +0300] [19257] [DEBUG] POST /runkmeans
+[2022-04-03 20:54:32 +0300] [19248] [DEBUG] OPTIONS /cmtsne2d
+[2022-04-03 20:54:33 +0300] [19257] [DEBUG] POST /cmtsne2d
+[2022-04-03 20:55:09 +0300] [19247] [DEBUG] OPTIONS /runkmeans
+[2022-04-03 20:55:10 +0300] [19247] [DEBUG] POST /runkmeans
+[2022-04-03 20:55:16 +0300] [19242] [DEBUG] OPTIONS /runkmeans
+[2022-04-03 20:55:16 +0300] [19265] [DEBUG] POST /runkmeans
+[2022-04-03 20:56:56 +0300] [19265] [DEBUG] worker: SIGWINCH ignored.
+[2022-04-03 20:56:56 +0300] [19264] [DEBUG] worker: SIGWINCH ignored.
+[2022-04-03 20:56:56 +0300] [19236] [INFO] Handling signal: winch
+[2022-04-03 20:56:56 +0300] [19236] [DEBUG] SIGWINCH ignored. Not daemonized
+[2022-04-03 20:56:56 +0300] [19253] [DEBUG] worker: SIGWINCH ignored.
+[2022-04-03 20:56:56 +0300] [19257] [DEBUG] worker: SIGWINCH ignored.
+[2022-04-03 20:56:56 +0300] [19242] [DEBUG] worker: SIGWINCH ignored.
+[2022-04-03 20:56:56 +0300] [19247] [DEBUG] worker: SIGWINCH ignored.
+[2022-04-03 20:56:56 +0300] [19252] [DEBUG] worker: SIGWINCH ignored.
+[2022-04-03 20:56:56 +0300] [19248] [DEBUG] worker: SIGWINCH ignored.

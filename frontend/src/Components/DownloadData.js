@@ -26,29 +26,19 @@ class DownloadData extends Component {
             type="checkbox"
             checked={this.state.outlierCheck}
             readOnly={true}
-            disabled={this.state.OutlierData === null}
+            disabled={this.props.OutlierData.length === 0}
             onClick={() =>
               {this.setState({ outlierCheck: !this.state.outlierCheck })
               var newData = [];
                 // console.log(this.props.OutlierData);
                 for (var i = 0; i < this.state.data.length; i++) {
-                  var row = this.state.data[i];
-                  var outlierInp = !this.state.pressed;
-                  for (
-                    var j = this.props.columnRange[0];
-                    j <= this.props.columnRange[1];
-                    j++
-                  ) {
-                    if (this.state.pressed === 0) {
-                      outlierInp =
-                        outlierInp &&
-                        this.props.OutlierData[i]["PC" + j.toString()];
-                    } else {
-                      outlierInp =
-                        outlierInp ||
-                        this.props.OutlierData[i]["PC" + j.toString()];
-                    }
+                  var row = this.state.downloadableData.length > 0 ? this.state.downloadableData[i] : this.state.data[i];
+                  // row = this.state.outlierCheck ? row : this.state.data[i];
+                  if (!this.state.clusterCheck) {
+                    row = Object.fromEntries(Object.entries(row).filter(([key]) => key !== 'cluster'));
+
                   }
+                  var outlierInp = this.props.OutlierData[i];
                   row = {
                     ...row,
                     outlier: outlierInp,
@@ -75,10 +65,13 @@ class DownloadData extends Component {
               } else {
                 var newData = [];
                 for (var i = 0; i < this.state.data.length; i++) {
-                  var row = this.state.data[i];
+                  var row = this.state.downloadableData.length > 0 ? this.state.downloadableData[i] : this.state.data[i];
+                  if (!this.state.outlierCheck) {
+                    row = Object.fromEntries(Object.entries(row).filter(([key]) => key !== 'outlier'));
+                  }                  
                   row = {
                     ...row,
-                    cluster: this.props.clusterNames[this.state.clusterColors[i]],
+                    cluster: this.props.clusterNames[this.props.clusterColors[i]],
                   };
                   newData = [...newData, row];
                 }
@@ -88,14 +81,14 @@ class DownloadData extends Component {
                 });
               }
             }}
-            disabled={this.state.clusterColors.length === 0}
+            disabled={this.props.clusterColors.length === 0}
           />
           {"\t"} Include Clustering Info
         </label>
         <Button variant="outlined">
           <CSVLink
             data={
-              this.state.downloadableData === null
+              this.state.downloadableData.length === 0
                 ? this.state.data
                 : this.state.downloadableData
             }
@@ -103,6 +96,7 @@ class DownloadData extends Component {
               this.setState({
                 clusterCheck: false,
                 outlierCheck: false,
+                // downloadableData: []
               });
             }}
           >
@@ -127,9 +121,9 @@ const styles = {
     display: "flex",
     flexDirection: "column",
     position: "fixed",
-    bottom: "15%",
-    right: "7%",
-    width: "10%",
+    bottom: "6%",
+    right: "4%",
+    width: "15%",
     padding: '20px',
     border: `3px solid`,
     borderRadius: 10
