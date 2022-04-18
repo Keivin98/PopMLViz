@@ -7,8 +7,13 @@ class Incrementor extends Component {
 	};
 	handleChange = (event) => {
 		if (Number(event.target.value) >= 2) {
-			this.setState({ num_clusters: Number(event.target.value) });
+			this.setState({ num_clusters: Number(event.target.value) }, () => {
+				if (this.props.onChange) {
+					this.props.onChange(this.state);
+				}
+			});
 		}
+		console.log(Number(event.target.value));
 	};
 	render() {
 		return (
@@ -19,11 +24,11 @@ class Incrementor extends Component {
 					// justifyContent: 'space-between',
 				}}
 			>
-				Num clusters:{' '}
+				Clusters:{' '}
 				<input
 					type="number"
 					name="clicks"
-					style={{ width: '35%', height: '75%', marginLeft: '5%' }}
+					style={{ width: '30%', height: '75%', marginLeft: '5%' }}
 					value={Number(this.state.num_clusters).toString()}
 					onChange={this.handleChange}
 				/>

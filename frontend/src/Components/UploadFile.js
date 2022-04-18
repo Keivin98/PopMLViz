@@ -53,7 +53,8 @@ const randomShapes = [
 ];
 Chart.register(...registerables);
 var num_clusters = 2;
-
+var fuzzy_num_clusters = 2;
+var kmeans_num_clusters = 2;
 class App extends Component {
 	state = {
 		// Initially, no file is selected
@@ -177,7 +178,7 @@ class App extends Component {
 		if (this.state.selectedFile) {
 			return (
 				<div>
-					<h2 style={{ fontSize: '0.8vw' }}>File Details:</h2>
+					<h2 style={{}}>File Details:</h2>
 					<p>
 						File Name:{' '}
 						{this.state.selectedFile.name.substr(
@@ -1102,7 +1103,7 @@ class App extends Component {
 	};
 
 	runKmeans = () => {
-		// console.log(num_clusters);
+		// console.log('kmeans', num_clusters);
 		const formData = {
 			df: this.state.data,
 			num_clusters: num_clusters,
@@ -1486,13 +1487,17 @@ class App extends Component {
 		}
 	};
 	IncrementKmeansHandler = (data) => {
-		// console.log(data);
-		num_clusters = data.num_clusters;
+		console.log('handler', data);
+		kmeans_num_clusters = data.num_clusters;
+		fuzzy_num_clusters = 2;
+		num_clusters = Math.max(fuzzy_num_clusters, kmeans_num_clusters);
 	};
 
 	IncrementFuzzyHandler = (data) => {
 		// console.log(data);
-		num_clusters = data.num_clusters;
+		fuzzy_num_clusters = data.num_clusters;
+		kmeans_num_clusters = 2;
+		num_clusters = Math.max(fuzzy_num_clusters, kmeans_num_clusters);
 	};
 	handleOutlierColumnChange = (data) => {
 		// console.log(data);
@@ -1841,9 +1846,7 @@ class App extends Component {
 									this.state.selectedOutlierMethod == null
 								}
 							>
-								{this.state.selectedOutlierMethod == null
-									? 'Choose method'
-									: 'Detect Outliers'}
+								Detect Outliers
 							</Button>
 						</div>
 					</div>
@@ -1909,7 +1912,7 @@ class App extends Component {
 							</FormControl>
 							<div style={styles.dropDown}>
 								<label style={{ width: '25%', marginLeft: '12%' }}>
-									<h6 style={{ fontSize: '0.8vw' }}> X-axis </h6>
+									<h6 style={{}}> X-axis </h6>
 								</label>
 								<div style={{ width: '75%' }}>
 									<Select
@@ -1922,7 +1925,7 @@ class App extends Component {
 
 							<div style={styles.dropDown}>
 								<label style={{ width: '25%', marginLeft: '12%' }}>
-									<h6 style={{ fontSize: '0.8vw' }}> Y-axis </h6>
+									<h6 style={{}}> Y-axis </h6>
 								</label>
 								<div style={{ width: '75%' }}>
 									<Select
@@ -1938,7 +1941,7 @@ class App extends Component {
 							</div>
 							<div style={styles.dropDown}>
 								<label style={{ width: '25%', marginLeft: '12%' }}>
-									<h6 style={{ fontSize: '0.8vw' }}> Z-axis </h6>
+									<h6 style={{}}> Z-axis </h6>
 								</label>
 								<div style={{ width: '75%' }}>
 									<Select
@@ -1970,7 +1973,6 @@ class App extends Component {
 														<label style={{ marginLeft: '1%' }}>
 															<h6
 																style={{
-																	fontSize: '0.8vw',
 																	width: '100%',
 																	marginTop: '3%',
 																	marginLeft: '1%',
@@ -2027,10 +2029,7 @@ class App extends Component {
 											>
 												<label>
 													{' '}
-													<h5 style={{ fontSize: '0.8vw' }}>
-														{' '}
-														Describing Columns{' '}
-													</h5>
+													<h5 style={{}}> Describing Columns </h5>
 												</label>
 												<Select
 													name="filters"

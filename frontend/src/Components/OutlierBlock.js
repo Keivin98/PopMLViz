@@ -24,7 +24,7 @@ class OutlierBlock extends Component {
 					flexDirection: 'column',
 					width: '100%',
 					justifyContent: 'space-between',
-					marginBottom: '5%',
+					marginBottom: '10%',
 					height: '50px',
 					paddingTop: '10px',
 				}}
@@ -43,7 +43,7 @@ class OutlierBlock extends Component {
 						min={1}
 						max={20}
 						marks
-						color="primary"
+						style={{ color: '#1891fb' }}
 					/>
 					<Button
 						onClick={this.handleApplyClick}
@@ -51,7 +51,7 @@ class OutlierBlock extends Component {
 						variant="outlined"
 						style={{
 							fontWeight: 'bold',
-							marginLeft: '10px',
+							marginLeft: '10%',
 							backgroundColor: '#ebeff7',
 							color: '#1891fb',
 						}}
