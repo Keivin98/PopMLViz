@@ -16,7 +16,7 @@ from rpy2.robjects.vectors import StrVector
 from rpy2.robjects.packages import importr
 import rpy2.robjects.packages as rpackages
 from fcmeans import FCM
-# from sklearn.ensemble import IsolationForest
+from sklearn.ensemble import IsolationForest
 
 # Create an application instance
 
@@ -142,7 +142,6 @@ def runPCAIR():
 	return pd.read_csv('./data/test_docs/ALL_PCS1.csv').to_csv()
 
 
-
 @app.route("/detectoutliers", methods=["POST"], strict_slashes=False)
 def detectoutliers():
 	print('detecting outliers')
@@ -154,14 +153,35 @@ def detectoutliers():
 
 	combine_type = int(request.get_json()['combineType'])
 	std_freedom = int(request_method)
+	print(std_freedom)
+	
 	df = pd.json_normalize(request_df)
 	newdf = {}
 
 	def choose_columns(x):
 		return ('PC%d' % (x))
 
-	columns_of_interest = list(map(choose_columns, column_range))
+	
+	def binary(x):
+		if x == 1:
+			return 1
+		return 0
 
+	def outliers(x):
+		if x == 1:
+			return 0
+		return 1
+	columns_of_interest = list(map(choose_columns, column_range))
+	if std_freedom > 3:
+		# pc_columns = [col for col in df.columns if 'PC' in col]
+
+		clf = IsolationForest(contamination=0.1, random_state=123).fit_predict(df[columns_of_interest])
+		clf_binary = {0: list(map(outliers, clf))}
+		clf_df = pd.DataFrame(clf_binary)
+		print(clf_df.to_csv()[:100])
+		return clf_df.to_csv()
+	
+	
 	for col in columns_of_interest:
 		# print(col)
 		if col in (df.columns):
@@ -175,17 +195,15 @@ def detectoutliers():
 			newdf[col] = outliers
 
 	outliers_result = pd.DataFrame(newdf)
+	
 	if combine_type == 0:
 		apply_combineType = outliers_result.aggregate(lambda x : all(x), axis=1)
 	else:
 		apply_combineType = outliers_result.aggregate(lambda x : any(x), axis=1)
 	
-	def binary(x):
-		if x :
-			return 1
-		return 0
-	change_to_binary = apply_combineType.apply(binary)
 	
+	change_to_binary = apply_combineType.apply(binary)
+	print(change_to_binary.to_csv()[:100])
 	return change_to_binary.to_csv()
 
 @app.route("/")
