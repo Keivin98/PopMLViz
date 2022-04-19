@@ -946,6 +946,7 @@ class App extends Component {
 			name: c,
 			selector: c,
 		}));
+		console.table(list);
 		if (outliers === true) {
 			this.setOutlierData(list);
 		} else {
