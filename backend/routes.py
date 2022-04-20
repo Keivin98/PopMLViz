@@ -145,6 +145,19 @@ def runPCAIR():
 @app.route("/detectoutliers", methods=["POST"], strict_slashes=False)
 def detectoutliers():
 	print('detecting outliers')
+	def choose_columns(x):
+		return ('PC%d' % (x))
+
+	def binary(x):
+		if x == 1:
+			return 1
+		return 0
+
+	def outliers(x):
+		if x == 1:
+			return 0
+		return 1
+		
 	request_df = request.get_json()['df']
 	
 	request_method = request.get_json()['method']
@@ -158,27 +171,16 @@ def detectoutliers():
 	df = pd.json_normalize(request_df)
 	newdf = {}
 
-	def choose_columns(x):
-		return ('PC%d' % (x))
-
 	
-	def binary(x):
-		if x == 1:
-			return 1
-		return 0
-
-	def outliers(x):
-		if x == 1:
-			return 0
-		return 1
+	
 	columns_of_interest = list(map(choose_columns, column_range))
+	
 	if std_freedom > 3:
 		# pc_columns = [col for col in df.columns if 'PC' in col]
 
 		clf = IsolationForest(contamination=0.1, random_state=123).fit_predict(df[columns_of_interest])
 		clf_binary = {0: list(map(outliers, clf))}
 		clf_df = pd.DataFrame(clf_binary)
-		print(clf_df.to_csv()[:100])
 		return clf_df.to_csv()
 	
 	
@@ -203,7 +205,6 @@ def detectoutliers():
 	
 	
 	change_to_binary = apply_combineType.apply(binary)
-	print(change_to_binary.to_csv()[:100])
 	return change_to_binary.to_csv()
 
 @app.route("/")

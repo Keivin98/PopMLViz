@@ -5,10 +5,12 @@ import * as XLSX from 'xlsx';
 import Select from 'react-select';
 import ScatterPlot from './ScatterPlot';
 import BarPlot from './BarPlot';
+import UploadAndVisualizeTab from './UploadAndVisualizeTab';
+import DimensionalityReductionTab from './DimensionalityReductionTab';
 import ScatterAdmix from './ScatterAdmix';
-import Incrementor from './Incrementor';
 import DownloadData from './DownloadData';
-import OutlierBlock from './OutlierBlock';
+import ClusteringAlgorithmsTab from './ClusteringAlgorithmsTab';
+import OutlierDetectionTab from './OutlierDetectionTab';
 import PCAir from './PCAir';
 import ProgressBarTime from './ProgressBarTime';
 import { Button } from '@material-ui/core';
@@ -20,8 +22,6 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import Loader from 'react-loader-spinner';
-import Switch from './Switch';
-
 import 'react-tabs/style/react-tabs.css';
 import AdmixOptions from './AdmixOptions';
 
@@ -53,8 +53,6 @@ const randomShapes = [
 ];
 Chart.register(...registerables);
 var num_clusters = 2;
-var fuzzy_num_clusters = 2;
-var kmeans_num_clusters = 2;
 class App extends Component {
 	state = {
 		// Initially, no file is selected
@@ -68,44 +66,7 @@ class App extends Component {
 		distributionData: [],
 		pressed: false,
 		cluster_names: {},
-		DRAlgorithm: '',
 		alphaVal: 40,
-		DRActions: [
-			{
-				label: 'PCA',
-				value: 'PCA',
-			},
-			// {
-			//   label: "t-SNE 2D",
-			//   value: "tsne1",
-			// },
-			// {
-			//   label: "t-SNE 3D",
-			//   value: "tsne2",
-			// },
-		],
-		selectOutlierActions: [
-			{
-				label: 'None',
-				value: 0,
-			},
-			{
-				label: '1 SD',
-				value: 1,
-			},
-			{
-				label: '2 SD',
-				value: 2,
-			},
-			{
-				label: '3 SD',
-				value: 3,
-			},
-			{
-				label: 'Isolation Forest',
-				value: 4,
-			},
-		],
 		allActions: [],
 		selectActions: [],
 		selectedColumns: [null, null, null],
@@ -117,7 +78,7 @@ class App extends Component {
 		multiValue: [],
 		describingValues: [],
 		selectedDescribingColumn: { value: 'None', label: 'None' },
-		selectedOutlierMethod: null,
+		selectedClusterMethod: null,
 		OutlierData: [],
 		showOutputOptions: false,
 		selectedColorShape: 0,
@@ -138,9 +99,7 @@ class App extends Component {
 			}),
 		});
 	};
-	handleOutlierChange = (option) => {
-		this.setState({ selectedOutlierMethod: option.value });
-	};
+
 	setColumns = (columns) => {
 		let act = [];
 		for (var i = 0; i < columns.length; i++) {
@@ -946,7 +905,7 @@ class App extends Component {
 			name: c,
 			selector: c,
 		}));
-		console.table(list);
+		// console.table(list);
 		if (outliers === true) {
 			this.setOutlierData(list);
 		} else {
@@ -1102,7 +1061,18 @@ class App extends Component {
 				this.processData(response.data, false);
 			});
 	};
+	runCluster = (s) => {
+		num_clusters = s.num_clusters;
+		if (s.selectedClusterMethod === 0) {
+			this.runKmeans();
+		} else {
+			this.runFuzzy();
+		}
+	};
 
+	runOutliers = (s) => {
+		this.detectOutliers(s.selectedOutlierMethod, s.columnRange, s.pressed);
+	};
 	runKmeans = () => {
 		// console.log('kmeans', num_clusters);
 		const formData = {
@@ -1233,15 +1203,15 @@ class App extends Component {
 			});
 	};
 
-	detectOutliers = () => {
-		if (this.state.selectedOutlierMethod === 0) {
+	detectOutliers = (selectedOutlierMethod, columnRange, pressed) => {
+		if (selectedOutlierMethod === 0) {
 			this.setOutlierData([]);
 		} else {
 			const formData = {
 				df: this.state.data,
-				method: this.state.selectedOutlierMethod,
-				columnRange: this.state.columnRange,
-				combineType: this.state.pressed,
+				method: selectedOutlierMethod,
+				columnRange: columnRange,
+				combineType: pressed,
 			};
 			this.setState({ isLoading: true, ProgressBarType: 'Loader' });
 			axios
@@ -1276,10 +1246,6 @@ class App extends Component {
 		});
 	};
 
-	handleDRAChange = (value) => {
-		this.setState({ DRAlgorithm: value.label });
-	};
-
 	showScatterPlot = () => {
 		const x = this.state.selectedColumns[0];
 		const y = this.state.selectedColumns[1];
@@ -1291,7 +1257,11 @@ class App extends Component {
 		const THREE_DIM = 2;
 
 		if (this.state.selectedUploadOption === 'admixture') {
-			return <BarPlot data={this.state.data} />;
+			if (this.state.admix !== undefined) {
+				return <BarPlot data={this.state.admix} />;
+			} else {
+				return <BarPlot data={[]} />;
+			}
 		}
 		if (
 			this.state.selectedUploadOption === 'pcairandadmixture' &&
@@ -1487,22 +1457,12 @@ class App extends Component {
 			}
 		}
 	};
-	IncrementKmeansHandler = (data) => {
-		console.log('handler', data);
-		kmeans_num_clusters = data.num_clusters;
-		fuzzy_num_clusters = 2;
-		num_clusters = Math.max(fuzzy_num_clusters, kmeans_num_clusters);
+	UploadTabChange = (data) => {
+		this.setState({ selectedUploadOption: data.selectedUploadOption });
 	};
 
-	IncrementFuzzyHandler = (data) => {
-		// console.log(data);
-		fuzzy_num_clusters = data.num_clusters;
-		kmeans_num_clusters = 2;
-		num_clusters = Math.max(fuzzy_num_clusters, kmeans_num_clusters);
-	};
-	handleOutlierColumnChange = (data) => {
-		// console.log(data);
-		this.setState({ columnRange: data.columnRange });
+	IncrementHandler = (data) => {
+		num_clusters = data.num_clusters;
 	};
 
 	handleTabOutputCallback = (cluster_names) => {
@@ -1513,10 +1473,7 @@ class App extends Component {
 		console.log(alphaVal);
 		this.setState({ alphaVal: alphaVal });
 	};
-	handleChangeSwitch = (e) => {
-		const pressed = e.target.checked;
-		this.setState({ pressed });
-	};
+
 	onPressReset = () => {
 		this.setState({
 			OutlierData: [],
@@ -1530,49 +1487,23 @@ class App extends Component {
 		return (
 			<div style={styles.splitScreen}>
 				<div style={styles.leftPane}>
-					<h5>Upload and Visualize</h5>
 					<form style={{ marginTop: '1%' }}>
-						<div className="radio">
-							<input
-								type="radio"
-								value="PCA"
-								checked={this.state.selectedUploadOption === 'PCA'}
-								onChange={this.onUploadValueChange}
-							/>
-							<label style={{ paddingLeft: '10px' }}> PCA</label>
-						</div>
+						<UploadAndVisualizeTab onChange={this.UploadTabChange} />
 
-						<div className="radio">
-							<input
-								type="radio"
-								value="admixture"
-								checked={this.state.selectedUploadOption === 'admixture'}
-								onChange={this.onUploadValueChange}
-							/>
-							<label style={{ paddingLeft: '10px' }}> Admixture</label>
-						</div>
-
-						<div className="radio">
-							<input
-								type="radio"
-								value="pcairandadmixture"
-								checked={
-									this.state.selectedUploadOption === 'pcairandadmixture'
-								}
-								onChange={this.onUploadValueChange}
-							/>
-							<label style={{ paddingLeft: '10px' }}>
-								{' '}
-								PC-AiR and Admixture
-							</label>
-						</div>
-						{(this.state.selectedUploadOption === 'PCA' ||
-							this.state.selectedUploadOption === 'admixture') && (
+						{this.state.selectedUploadOption === 'PCA' && (
 							<input
 								type="file"
-								accept=".csv,.xlsx,.xls,.Q"
+								accept=".csv,.xlsx,.xls"
 								disabled={this.state.selectedUploadOption === null}
 								onChange={this.handleFileUpload}
+							/>
+						)}
+						{this.state.selectedUploadOption === 'admixture' && (
+							<input
+								type="file"
+								accept=".Q"
+								disabled={this.state.selectedUploadOption === null}
+								onChange={this.handleAdmixFileUpload2}
 							/>
 						)}
 						{this.state.selectedUploadOption === 'pcairandadmixture' && (
@@ -1610,107 +1541,7 @@ class App extends Component {
 								)}
 							</div>
 						)}
-						<hr
-							style={{
-								backgroundColor: 'white',
-								height: 3,
-								opacity: 1,
-							}}
-						/>
-						<h5 style={{ marginTop: '4%' }}>Dimensionality Reduction</h5>
-
-						<div className="radio">
-							<input
-								type="radio"
-								value="Correlation Matrix"
-								checked={
-									this.state.selectedUploadOption === 'Correlation Matrix'
-								}
-								onChange={this.onUploadValueChange}
-							/>
-							<label style={{ paddingLeft: '10px' }}>PCA</label>
-						</div>
-						<div className="radio">
-							<input
-								type="radio"
-								value="PC-AiR"
-								checked={this.state.selectedUploadOption === 'PC-AiR'}
-								onChange={this.onUploadValueChange}
-							/>
-							<label style={{ paddingLeft: '10px' }}> PC-AiR</label>
-						</div>
-						<div>
-							<input
-								type="radio"
-								value="t-SNE 2D"
-								checked={this.state.selectedUploadOption === 't-SNE 2D'}
-								onChange={this.onUploadValueChange}
-							/>
-							<label style={{ paddingLeft: '10px' }}> t-SNE 2D</label>
-						</div>
-						<div>
-							<input
-								type="radio"
-								value="t-SNE 3D"
-								checked={this.state.selectedUploadOption === 't-SNE 3D'}
-								onChange={this.onUploadValueChange}
-							/>
-							<label style={{ paddingLeft: '10px' }}> t-SNE 3D</label>
-						</div>
-
-						<div>
-							{(this.state.selectedUploadOption === 'Correlation Matrix' ||
-								this.state.selectedUploadOption === 't-SNE 2D' ||
-								this.state.selectedUploadOption === 't-SNE 3D') && (
-								<div
-									style={{
-										width: '300px',
-										paddingTop: '20px',
-										paddingBottom: '20px',
-									}}
-								>
-									{/* <label>Dimensionality Reduction</label>
-									<Select
-										name="DRA"
-										placeholder="Algorithm"
-										options={this.state.DRActions}
-										onChange={this.handleDRAChange}
-									/> */}
-									<label style={{ fontStyle: 'italic' }}>
-										expected: Correlation Matrix.
-									</label>
-								</div>
-							)}
-
-							{this.state.selectedUploadOption === 'PC-AiR' && (
-								<div>
-									<PCAir />
-									<Button
-										variant="outlined"
-										style={{
-											color: '#1891fb',
-											fontWeight: 'bold',
-											height: '2%',
-											backgroundColor: '#ebeff7',
-										}}
-										onClick={this.runPCAir}
-									>
-										Run PC-AiR
-									</Button>
-								</div>
-							)}
-						</div>
-						{(this.state.selectedUploadOption === 'Correlation Matrix' ||
-							this.state.selectedUploadOption === '') && (
-							<input
-								type="file"
-								accept=".csv,.xlsx,.xls,.Q"
-								disabled={this.state.selectedUploadOption === null}
-								onChange={this.handleFileUpload}
-							/>
-						)}
 					</form>
-
 					<hr
 						style={{
 							backgroundColor: 'white',
@@ -1718,139 +1549,36 @@ class App extends Component {
 							opacity: 1,
 						}}
 					/>
-					<h5>Clustering </h5>
-					<h6 style={{ marginTop: '2px', marginLeft: '2%' }}> K-means </h6>
-					<div
-						style={{
-							display: 'flex',
-							flexDirection: 'row',
-							justifyContent: 'space-around',
-						}}
-					>
-						<Incrementor onChange={this.IncrementKmeansHandler} />
-						<Button
-							variant="outlined"
-							style={{
-								color: '#1891fb',
-								fontWeight: 'bold',
-								height: '2%',
-								backgroundColor: '#ebeff7',
-							}}
-							onClick={this.runKmeans}
-						>
-							Run
-						</Button>
-					</div>
-					<h6 style={{ marginTop: '2px', marginLeft: '2%' }}>Fuzzy c-means </h6>
-					<div
-						style={{
-							display: 'flex',
-							flexDirection: 'row',
-							justifyContent: 'space-around',
-						}}
-					>
-						<Incrementor onChange={this.IncrementFuzzyHandler} />
-						<Button
-							variant="outlined"
-							style={{
-								color: '#1891fb',
-								fontWeight: 'bold',
-								height: '2%',
-								backgroundColor: '#ebeff7',
-							}}
-							onClick={this.runFuzzy}
-						>
-							Run
-						</Button>
-					</div>
-					<hr
-						style={{
-							backgroundColor: 'white',
-							height: 3,
-							opacity: 1,
-						}}
-					/>
-					<div>
-						<h5>Outlier Detection</h5>
-						<div
-							style={{
-								width: '100%',
-								display: 'flex',
-								flexDirection: 'row',
-								// justifyContent: 'space-around',
-							}}
-						>
-							<div
-								style={{
-									width: '60%',
-								}}
-							>
-								<Select
-									options={this.state.selectOutlierActions}
-									defaultValue={
-										this.state.selectOutlierActions.filter((x) => {
-											return x.value === this.state.selectedOutlierMethod;
-										})[0]
-									}
-									styles={{
-										option: (provided, state) => ({
-											...provided,
-											color: 'black',
-										}),
-									}}
-									onChange={this.handleOutlierChange}
-								/>
-							</div>
-							<div
-								style={{
-									display: 'flex',
-									flexDirection: 'row',
-									width: '20%',
-									color: 'white',
-								}}
-							>
-								<Switch
-									labelRight={this.state.pressed === true ? 'OR' : 'AND'}
-									labelLeft={'Mode:'}
-									onChange={this.handleChangeSwitch}
-								/>
-							</div>
-						</div>
-						<OutlierBlock
-							columnRange={this.state.columnRange}
-							onChange={this.handleOutlierColumnChange}
+					<DimensionalityReductionTab onChange={this.UploadTabChange} />
+					{(this.state.selectedUploadOption === 'Correlation Matrix' ||
+						this.state.selectedUploadOption === 't-SNE 2D' ||
+						this.state.selectedUploadOption === 't-SNE 3D') && (
+						<input
+							type="file"
+							accept=".csv,.xlsx,.xls,.Q"
+							disabled={this.state.selectedUploadOption === null}
+							onChange={this.handleFileUpload}
 						/>
+					)}
+					<hr
+						style={{
+							backgroundColor: 'white',
+							height: 3,
+							opacity: 1,
+						}}
+					/>
+					<ClusteringAlgorithmsTab onChange={this.runCluster} />
 
-						<div
-							style={{
-								display: 'flex',
-								flexDirection: 'row',
-								justifyContent: 'space-around',
-							}}
-						>
-							<Button
-								variant="outlined"
-								onClick={this.detectOutliers}
-								style={{
-									// marginTop: '10%',
-									color: '#ebeff7',
-									fontWeight: 'bold',
-									backgroundColor:
-										this.state.selectedOutlierMethod == null
-											? 'grey'
-											: '#1891fb',
-									marginTop: '5%',
-								}}
-								disabled={
-									(this.state.pressed !== false &&
-										this.state.pressed !== true) ||
-									this.state.selectedOutlierMethod == null
-								}
-							>
-								Detect Outliers
-							</Button>
-						</div>
-					</div>
+					<hr
+						style={{
+							backgroundColor: 'white',
+							height: 3,
+							opacity: 1,
+						}}
+					/>
+
+					<OutlierDetectionTab onChange={this.runOutliers} />
+
 					<div style={{ marginTop: '20%' }}>
 						<Button
 							variant="outlined"
@@ -2049,7 +1777,6 @@ class App extends Component {
 													data={this.state.data}
 													clusterColors={this.state.clusterColors}
 													OutlierData={this.state.OutlierData}
-													columnRange={this.state.columnRange}
 													clusterNames={this.state.cluster_names}
 												/>
 											)}
@@ -2067,18 +1794,29 @@ class App extends Component {
 								)}
 							{this.state.selectedUploadOption === 'pcairandadmixture' && (
 								<div>
-									<div
-										style={{
-											width: '90%',
-											// marginTop: '3%',
-											marginLeft: '3%',
-										}}
-									>
-										<AdmixOptions
-											columnRange={40}
-											parentCallback={this.handleAdmixOptionsCallback}
-										/>
-									</div>
+									<TabPanel>
+										<div
+											style={{
+												width: '90%',
+												// marginTop: '3%',
+												marginLeft: '3%',
+											}}
+										>
+											<AdmixOptions
+												columnRange={40}
+												parentCallback={this.handleAdmixOptionsCallback}
+											/>
+										</div>
+										{this.state.data !== null && (
+											<DownloadData
+												data={this.state.data}
+												clusterColors={this.state.clusterColors}
+												OutlierData={this.state.OutlierData}
+												columnRange={this.state.columnRange}
+												clusterNames={this.state.cluster_names}
+											/>
+										)}
+									</TabPanel>
 									<TabPanel style={styles.outputSettings}>
 										{this.state.showOutputOptions && (
 											<TabOutputOptions
@@ -2103,7 +1841,7 @@ const styles = {
 		flexDirection: 'column',
 	},
 	leftPane: {
-		height: '150%',
+		height: '130%',
 		position: 'absolute',
 		// z_index: 1,
 		top: 0,
@@ -2111,12 +1849,9 @@ const styles = {
 		padding_top: '20px',
 		left: 0,
 		width: '20%',
-		marginTop: '3.33%',
+		marginTop: '3%',
 		color: 'white',
-		paddingTop: '3%',
-		paddingRight: '2%',
-		paddingLeft: '2%',
-		// padding: '1%',
+		padding: '2%',
 		backgroundColor: '#3b3f4e',
 		// borderRadius: 10,
 	},

@@ -43,7 +43,7 @@ class BarPlot extends Component {
 		var colors = [];
 		var data_new = [];
 
-		if (this.props.data !== [] && this.props.data != null) {
+		if (this.props.data.length > 0 && this.props.data != null) {
 			const num_clusters = Object.keys(this.props.data[0]).length;
 
 			for (let j = 0; j < num_clusters; j += 1) {
