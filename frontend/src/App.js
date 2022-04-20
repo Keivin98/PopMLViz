@@ -8,17 +8,17 @@ function App() {
 			<Navbar
 				style={{
 					position: 'fixed',
-					height: '7%',
+					height: '6%',
 					width: '100%',
-					paddingLeft: '8%',
+					paddingLeft: '45%',
 					backgroundColor: '#3b3f4e',
 				}}
 			>
 				<Navbar.Brand style={{ color: 'white' }}>
-					Data Visualization Tool
+					GeneMLViz
 					<img
 						src="./logo.jpeg"
-						style={{ width: '5%', position: 'fixed', left: '2%', top: '2%' }}
+						style={{ width: '6%', position: 'fixed', left: '7%', top: '1%' }}
 					/>
 				</Navbar.Brand>
 			</Navbar>

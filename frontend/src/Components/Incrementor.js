@@ -20,7 +20,9 @@ class Incrementor extends Component {
 			<div
 				style={{
 					display: 'flex',
-					width: '60%',
+					marginLeft: '15%',
+					marginTop: '5%',
+					// width: '60%',
 					// justifyContent: 'space-between',
 				}}
 			>
@@ -28,7 +30,7 @@ class Incrementor extends Component {
 				<input
 					type="number"
 					name="clicks"
-					style={{ width: '30%', height: '75%', marginLeft: '5%' }}
+					style={{ width: '100%', height: '75%', marginLeft: '5%' }}
 					value={Number(this.state.num_clusters).toString()}
 					onChange={this.handleChange}
 				/>
