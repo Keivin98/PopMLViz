@@ -11,7 +11,9 @@ from sklearn.cluster import KMeans
 from sklearn.manifold import TSNE
 import os
 import subprocess
+import string
 import rpy2.robjects as robjects
+import random
 from rpy2.robjects.vectors import StrVector
 from rpy2.robjects.packages import importr
 import rpy2.robjects.packages as rpackages
@@ -115,31 +117,64 @@ def uploadCM():
 	response_df = pd.DataFrame(principalComponents_new)
 	response_df.columns = ['ID'] + ['PC' + (str(i + 1)) for i in range(components-1)]
 	return response_df.to_csv()
-	
+
+def random_string(length):
+    pool = string.ascii_letters + string.digits
+    return ''.join(random.choice(pool) for i in range(length))
+
 @app.route('/uploadPCAIR', methods=['POST'])
 def uploadPCAIR():
 	target=os.path.join(UPLOAD_FOLDER,'test_docs')
 	if not os.path.isdir(target):
 		os.mkdir(target)
-	# logger.info("welcome to upload`")
 	file = request.files['file'] 
-	# filename = secure_filename(file.filename)
-	destination="/".join([target, file.filename])
-	file.save(destination)
-	# session['uploadFilePath']=destination
-	response="Whatever you wish too return"
-	return response
+	filename = random_string(12)
+	extension = '.' + file.filename.split('.')[-1]
+	destination ="/".join([target, filename])
+	file.save(destination + extension)
+	
+	return {'filename': filename}
+
 
 @app.route('/runPCAIR', methods=['POST'])
 def runPCAIR():
-	#BiocManager = importr('BiocManager')
-	#packnames = ('GENESIS', 'SNPRelate', 'GWASTools')
-	#names_to_install = [x for x in packnames if not rpackages.isinstalled(x)]
-	#if len(names_to_install) > 0:
-	#	BiocManager.install(StrVector(names_to_install))
-	robjects.r.source("./PCA_AIR.r", encoding="utf-8")
+	# robjects.r.source("./PCA_AIR.r ", encoding="utf-8")
+	bed_name = request.get_json()['bedName']
+	bim_name = request.get_json()['bimName']
+	fam_name = request.get_json()['famName']
+	kinship_name = request.get_json()['kinshipName']
+	gds_name = random_string(12)
+	result_name = random_string(12)
+	robjects.r('''
+		library(GENESIS)
+		library(SNPRelate)
+		library(GWASTools)
+
+		#setwd('/Users/keivinisufaj/Documents/bio-project/Connecting-React-Frontend-to-a-Flask-Backend/backend/data/test_docs')
+		showfile.gds(closeall=TRUE)
+		snpgdsBED2GDS(bed.fn = "./data/test_docs/%s.bed", bim.fn = "./data/test_docs/%s.bim", fam.fn ="./data/test_docs/%s.fam", out.gdsfn = "./data/test_docs/%s.gds")
+
+		geno <- GdsGenotypeReader(filename = "./data/test_docs/%s.gds")
+		genoData <- GenotypeData(geno)
+
+		kinship <- read.table("./data/test_docs/%s.txt", header = FALSE)
+		IDs <- read.table("./data/test_docs/%s.fam", header = FALSE)
+
+		IDs_col <- IDs[,1]
+
+		colnames(kinship) <- IDs_col
+		rownames(kinship) <- IDs_col
+
+		pcair_result       <- pcair(gdsobj = genoData, kinobj = as.matrix(kinship), divobj = as.matrix(kinship), div.thresh= -2^(-9/2),kin.thresh=2^(-9/2), num.cores = 32) ## PC-air
+
+		pc_vectors <- as.data.frame(pcair_result$vectors[,c(1:20)])
+		pc_vectors$IID <- as.character(IDs$V1) 
+
+		colnames(pc_vectors)[1:20] = paste("PC",1:20,sep="")
+		write.csv(pc_vectors, "./data/test_docs/%s.csv",row.names=F,col.names=TRUE)
+		''' % (bed_name, bim_name, fam_name, gds_name, gds_name,  kinship_name, fam_name, result_name))
 	
-	return pd.read_csv('./data/test_docs/ALL_PCS1.csv').to_csv()
+	return pd.read_csv('./data/test_docs/%s.csv' % (result_name)).to_csv()
 
 
 @app.route("/detectoutliers", methods=["POST"], strict_slashes=False)

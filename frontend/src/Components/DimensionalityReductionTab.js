@@ -5,12 +5,15 @@ import Button from 'react-bootstrap/Button';
 import { AiFillCaretDown } from 'react-icons/ai';
 import PCAir from './PCAir';
 import { VscTypeHierarchy } from 'react-icons/vsc';
-
+import axios from 'axios';
 class UploadAndVisualizeTab extends Component {
 	state = {
 		selectedUploadOption: null,
 		selectedFile: null,
 		open: false,
+		isLoading: false,
+		ProgressBarType: 'ProgressBar',
+		ProgressBarTimeInterval: 40,
 	};
 	setOpen = (open) => {
 		this.setState({ open: open });
@@ -26,6 +29,47 @@ class UploadAndVisualizeTab extends Component {
 				}
 			}
 		);
+	};
+
+	runPCAir = () => {
+		this.setState(
+			{
+				isLoading: true,
+				ProgressBarType: 'ProgressBar',
+				ProgressBarTimeInterval: 40,
+			},
+			() => {
+				this.props.onChange(this.state);
+			}
+		);
+		const formData = {
+			bedName: this.state.bedName,
+			bimName: this.state.bimName,
+			famName: this.state.famName,
+			kinshipName: this.state.kinshipName,
+		};
+
+		axios
+			.post(`http://${process.env.REACT_APP_DOMAIN}:5000/runPCAIR`, formData, {
+				headers: {
+					'Content-Type': 'application/json',
+				},
+			})
+			.then((r) => {
+				this.setState({
+					isLoading: false,
+				});
+				this.props.onChange(this.state);
+				this.props.processData(r.data, false);
+			});
+	};
+	PCAirChange = (st) => {
+		this.setState({
+			bedName: st.bedName,
+			bimName: st.bimName,
+			famName: st.famName,
+			kinshipName: st.kinshipName,
+		});
 	};
 	render() {
 		return (
@@ -130,7 +174,7 @@ class UploadAndVisualizeTab extends Component {
 
 							{this.state.selectedUploadOption === 'PC-AiR' && (
 								<div>
-									<PCAir />
+									<PCAir onChange={this.PCAirChange} />
 									<Button
 										variant="outlined"
 										style={{
@@ -139,7 +183,9 @@ class UploadAndVisualizeTab extends Component {
 											height: '2%',
 											backgroundColor: '#ebeff7',
 										}}
-										onClick={this.props.runPCAir}
+										onClick={() => {
+											this.runPCAir();
+										}}
 									>
 										Run PC-AiR
 									</Button>
@@ -154,6 +200,10 @@ class UploadAndVisualizeTab extends Component {
 }
 UploadAndVisualizeTab.propTypes = {
 	runPCAir: PropTypes.func,
+	bedName: PropTypes.string,
+	bimName: PropTypes.string,
+	famName: PropTypes.string,
+	kinshipName: PropTypes.string,
 };
 
 export default UploadAndVisualizeTab;
