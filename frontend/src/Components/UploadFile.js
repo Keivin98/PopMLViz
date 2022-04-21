@@ -1183,25 +1183,25 @@ class App extends Component {
 				this.processData(r.data, false);
 			});
 	};
-	runPCAir = () => {
-		this.setState({
-			isLoading: true,
-			ProgressBarType: 'ProgressBar',
-			ProgressBarTimeInterval: 40,
-		});
-		axios
-			.post(`http://${process.env.REACT_APP_DOMAIN}:5000/runPCAIR`, {
-				headers: {
-					'Content-Type': 'application/json',
-				},
-			})
-			.then((r) => {
-				this.setState({
-					isLoading: false,
-				});
-				this.processData(r.data, false);
-			});
-	};
+	// runPCAir = () => {
+	// 	this.setState({
+	// 		isLoading: true,
+	// 		ProgressBarType: 'ProgressBar',
+	// 		ProgressBarTimeInterval: 40,
+	// 	});
+	// 	axios
+	// 		.post(`http://${process.env.REACT_APP_DOMAIN}:5000/runPCAIR`, {
+	// 			headers: {
+	// 				'Content-Type': 'application/json',
+	// 			},
+	// 		})
+	// 		.then((r) => {
+	// 			this.setState({
+	// 				isLoading: false,
+	// 			});
+	// 			this.processData(r.data, false);
+	// 		});
+	// };
 
 	detectOutliers = (selectedOutlierMethod, columnRange, pressed) => {
 		if (selectedOutlierMethod === 0) {
@@ -1457,11 +1457,18 @@ class App extends Component {
 			}
 		}
 	};
+	DRTabChange = (data) => {
+		this.setState({
+			selectedUploadOption: data.selectedUploadOption,
+			isLoading: data.isLoading,
+			ProgressBarType: data.ProgressBarType,
+			ProgressBarTimeInterval: data.ProgressBarTimeInterval,
+		});
+	};
 	UploadTabChange = (data) => {
-		this.setState({ selectedUploadOption: data.selectedUploadOption });
-		// if (data.selectedUploadOption == 'PC-AiR') {
-		// 	this.runPCAir();
-		// }
+		this.setState({
+			selectedUploadOption: data.selectedUploadOption,
+		});
 	};
 
 	IncrementHandler = (data) => {
@@ -1553,8 +1560,8 @@ class App extends Component {
 						}}
 					/>
 					<DimensionalityReductionTab
-						onChange={this.UploadTabChange}
-						runPCAir={this.runPCAir}
+						onChange={this.DRTabChange}
+						processData={this.processData}
 					/>
 					{(this.state.selectedUploadOption === 'Correlation Matrix' ||
 						this.state.selectedUploadOption === 't-SNE 2D' ||
