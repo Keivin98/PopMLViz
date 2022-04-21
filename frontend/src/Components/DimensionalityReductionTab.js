@@ -139,7 +139,7 @@ class UploadAndVisualizeTab extends Component {
 											height: '2%',
 											backgroundColor: '#ebeff7',
 										}}
-										onClick={this.runPCAir}
+										onClick={this.props.runPCAir}
 									>
 										Run PC-AiR
 									</Button>
@@ -152,6 +152,8 @@ class UploadAndVisualizeTab extends Component {
 		);
 	}
 }
+UploadAndVisualizeTab.propTypes = {
+	runPCAir: PropTypes.func,
+};
 
-const styles = {};
 export default UploadAndVisualizeTab;

@@ -1459,6 +1459,9 @@ class App extends Component {
 	};
 	UploadTabChange = (data) => {
 		this.setState({ selectedUploadOption: data.selectedUploadOption });
+		// if (data.selectedUploadOption == 'PC-AiR') {
+		// 	this.runPCAir();
+		// }
 	};
 
 	IncrementHandler = (data) => {
@@ -1549,7 +1552,10 @@ class App extends Component {
 							opacity: 1,
 						}}
 					/>
-					<DimensionalityReductionTab onChange={this.UploadTabChange} />
+					<DimensionalityReductionTab
+						onChange={this.UploadTabChange}
+						runPCAir={this.runPCAir}
+					/>
 					{(this.state.selectedUploadOption === 'Correlation Matrix' ||
 						this.state.selectedUploadOption === 't-SNE 2D' ||
 						this.state.selectedUploadOption === 't-SNE 3D') && (
@@ -1587,6 +1593,7 @@ class App extends Component {
 								fontWeight: 'bold',
 								fontStyle: 'italic',
 								backgroundColor: '#ebeff7',
+								marginLeft: '32%',
 							}}
 							onClick={this.onPressReset}
 						>
