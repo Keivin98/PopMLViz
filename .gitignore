@@ -1,4 +1,3 @@
-/backend/venv
 /frontend/node_modules
 /frontend/public/datasets
 /add_random_values_to_ds.py
@@ -7,3 +6,6 @@
 /backend/data/
 /backend/gunicorn_logs/
 /backend/logs/
+/backend/__pycache__/
+/backend/node_modules/
+/backend/venv
