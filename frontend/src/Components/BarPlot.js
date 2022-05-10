@@ -18,6 +18,9 @@ const randomColors = [
   "#277f05",
 ];
 class BarPlot extends Component {
+  state = {
+    numClusters: 2,
+  };
   range = (start, end) => {
     /* generate a range : [start, start+1, ..., end-1, end] */
     var len = end - start + 1;
@@ -38,15 +41,14 @@ class BarPlot extends Component {
       return parsedRow.indexOf(rowDescending[0]);
     }
   };
-
   BarPlotFromData = () => {
     var colors = [];
     var data_new = [];
 
     if (this.props.data.length > 0 && this.props.data != null) {
-      const num_clusters = Object.keys(this.props.data[0]).length;
+      const numClusters = Object.keys(this.props.data[0]).length;
 
-      for (let j = 0; j < num_clusters; j += 1) {
+      for (let j = 0; j < numClusters; j += 1) {
         colors.push(randomColors[j]);
       }
 
@@ -54,14 +56,26 @@ class BarPlot extends Component {
         return this.assignClusterToRow(a) > this.assignClusterToRow(b) ? 1 : -1;
       });
 
-      for (let n = 1; n < num_clusters + 1; n += 1) {
+      for (let n = 1; n < numClusters + 1; n += 1) {
+        var name = !(n - 1 in this.props.clusterNames)
+          ? n - 1 == numClusters
+            ? "Undefined Cluster"
+            : "Cluster " + (n - 1)
+          : this.props.clusterNames[n - 1];
         let y_values = sortedValues.map((x) => x["v" + n]);
 
         data_new.push({
           type: "bar",
-          name: n,
+          name: name,
           x: this.range(0, y_values.length),
           y: y_values,
+        });
+      }
+      if (this.state.numClusters !== numClusters) {
+        this.setState({ numClusters: numClusters }, () => {
+          if (this.props.onChange) {
+            this.props.onChange(this.state);
+          }
         });
       }
     }
@@ -83,6 +97,7 @@ class BarPlot extends Component {
 BarPlot.propTypes = {
   data: PropTypes.array,
   alphaVal: PropTypes.number,
+  clusterNames: PropTypes.array,
 };
 
 const styles = {

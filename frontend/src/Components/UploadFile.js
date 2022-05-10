@@ -1259,7 +1259,12 @@ class App extends Component {
     if (this.state.selectedUploadOption === "admixture") {
       if (this.state.admix !== undefined) {
         return (
-          <BarPlot data={this.state.admix} alphaVal={this.state.alphaVal} />
+          <BarPlot
+            data={this.state.admix}
+            alphaVal={this.state.alphaVal}
+            clusterNames={this.state.cluster_names}
+            onChange={this.clusterNumberChange}
+          />
         );
       } else {
         return <BarPlot data={[]} />;
