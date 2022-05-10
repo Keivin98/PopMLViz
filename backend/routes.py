@@ -149,8 +149,6 @@ def runPCAIR():
 		library(GENESIS)
 		library(SNPRelate)
 		library(GWASTools)
-
-		#setwd('/Users/keivinisufaj/Documents/bio-project/Connecting-React-Frontend-to-a-Flask-Backend/backend/data/test_docs')
 		showfile.gds(closeall=TRUE)
 		snpgdsBED2GDS(bed.fn = "./data/test_docs/%s.bed", bim.fn = "./data/test_docs/%s.bim", fam.fn ="./data/test_docs/%s.fam", out.gdsfn = "./data/test_docs/%s.gds")
 

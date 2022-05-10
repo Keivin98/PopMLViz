@@ -1268,7 +1268,6 @@ class App extends Component {
 			this.state.data != null &&
 			this.state.admix.length > 0
 		) {
-			// console.log("entered here");
 			return (
 				<ScatterAdmix
 					PCAdata={this.state.data}
@@ -1891,7 +1890,7 @@ const styles = {
 	dimensions: {
 		position: 'fixed',
 		z_index: 1,
-		top: '12%',
+		top: '11%',
 		overflow_x: 'hidden',
 		left: 0,
 		marginLeft: '26%',
@@ -1899,7 +1898,7 @@ const styles = {
 		display: 'flex',
 		flexDirection: 'row',
 		padding: '10px',
-		backgroundColor: '#ebeff7',
+		backgroundColor: '#f5f6f7',
 		borderRadius: 10,
 	},
 	outputSettings: {
@@ -1911,7 +1910,6 @@ const styles = {
 	dropDown: {
 		width: '23%',
 		marginLeft: '2%',
-		marginTop: '2%',
 	},
 	describingColumnDropDown: {
 		width: '90%',
@@ -1927,7 +1925,7 @@ const styles = {
 		width: '20%',
 		padding: '10px',
 		marginTop: '6.5%',
-		backgroundColor: '#ebeff7',
+		backgroundColor: '#f5f6f7',
 		borderRadius: 10,
 	},
 	littleUpload: {
