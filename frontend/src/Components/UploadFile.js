@@ -66,7 +66,7 @@ class App extends Component {
     distributionData: [],
     pressed: false,
     cluster_names: {},
-    alphaVal: 40,
+    alphaVal: 20,
     allActions: [],
     selectActions: [],
     selectedColumns: [null, null, null],
@@ -1258,7 +1258,9 @@ class App extends Component {
 
     if (this.state.selectedUploadOption === "admixture") {
       if (this.state.admix !== undefined) {
-        return <BarPlot data={this.state.admix} />;
+        return (
+          <BarPlot data={this.state.admix} alphaVal={this.state.alphaVal} />
+        );
       } else {
         return <BarPlot data={[]} />;
       }
@@ -1471,7 +1473,10 @@ class App extends Component {
     num_clusters = data.numClusters;
   };
   UploadTabChange = (data) => {
-    if (data.selectedUploadOption === "pcairandadmixture") {
+    if (
+      data.selectedUploadOption === "pcairandadmixture" ||
+      data.selectedUploadOption === "admixture"
+    ) {
       this.setState({
         selectedUploadOption: data.selectedUploadOption,
         showOutputOptions: true,
@@ -1491,7 +1496,6 @@ class App extends Component {
     this.setState({ cluster_names: cluster_names });
   };
   handleAdmixOptionsCallback = (alphaVal) => {
-    console.log(alphaVal);
     this.setState({ alphaVal: alphaVal });
   };
 
@@ -1817,18 +1821,24 @@ class App extends Component {
                     </TabPanel>{" "}
                   </div>
                 )}
-              {this.state.selectedUploadOption === "pcairandadmixture" && (
+              {(this.state.selectedUploadOption === "pcairandadmixture" ||
+                this.state.selectedUploadOption === "admixture") && (
                 <div>
                   <TabPanel>
                     <div
                       style={{
                         width: "90%",
-                        // marginTop: '3%',
                         marginLeft: "3%",
                       }}
                     >
                       <AdmixOptions
-                        columnRange={40}
+                        initialVal={20}
+                        name={
+                          this.state.selectedUploadOption ===
+                          "pcairandadmixture"
+                            ? "Alpha"
+                            : "Certainty"
+                        }
                         parentCallback={this.handleAdmixOptionsCallback}
                       />
                     </div>
