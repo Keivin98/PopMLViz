@@ -282,7 +282,7 @@ class ScatterAdmix extends Component {
     let clusterColors = this.props.AdmixData.map((row) => {
       return this.assignClusterToRow(row);
     });
-    console.log(this.props.clusterNames);
+    // console.log(this.props.clusterNames);
     let clusterNames =
       Object.values(this.props.clusterNames).length > 0
         ? this.props.clusterNames
