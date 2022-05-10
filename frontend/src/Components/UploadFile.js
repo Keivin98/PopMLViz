@@ -1183,25 +1183,6 @@ class App extends Component {
         this.processData(r.data, false);
       });
   };
-  // runPCAir = () => {
-  // 	this.setState({
-  // 		isLoading: true,
-  // 		ProgressBarType: 'ProgressBar',
-  // 		ProgressBarTimeInterval: 40,
-  // 	});
-  // 	axios
-  // 		.post(`http://${process.env.REACT_APP_DOMAIN}:5000/runPCAIR`, {
-  // 			headers: {
-  // 				'Content-Type': 'application/json',
-  // 			},
-  // 		})
-  // 		.then((r) => {
-  // 			this.setState({
-  // 				isLoading: false,
-  // 			});
-  // 			this.processData(r.data, false);
-  // 		});
-  // };
 
   detectOutliers = (selectedOutlierMethod, columnRange, pressed) => {
     if (selectedOutlierMethod === 0) {
