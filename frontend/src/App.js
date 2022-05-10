@@ -15,7 +15,7 @@ function App() {
 				}}
 			>
 				<Navbar.Brand style={{ color: 'white' }}>
-					GeneMLViz
+					PopMLViz
 					<img
 						src="./logo.jpeg"
 						style={{ width: '6%', position: 'fixed', left: '7%', top: '1%' }}
