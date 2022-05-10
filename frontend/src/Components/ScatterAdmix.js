@@ -73,7 +73,6 @@ class ScatterAdmix extends Component {
     ) {
       this.setState({ clusterNames: this.props.clusterNames });
     }
-    console.log(this.props.clusterNames);
   }
   scatterWithClusters(DIM, x, y, z, outliers, outlierData) {
     let num_clusters =
