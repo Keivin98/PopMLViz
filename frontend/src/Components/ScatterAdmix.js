@@ -43,9 +43,6 @@ class ScatterAdmix extends Component {
       return parseFloat(a);
     });
     const rowDescending = [...parsedRow].sort((a, b) => b - a);
-    // if (rowDescending[0] - rowDescending[1] < 0.2) {
-    //   return parsedRow.length;
-    // }
     if (rowDescending[0] < this.props.alphaVal / 100.0) {
       return parsedRow.length;
     } else {
@@ -116,7 +113,6 @@ class ScatterAdmix extends Component {
     }
 
     if (this.props.PCAdata != null) {
-      //   console.log(this.state.PCAdata);
       for (var i = 0; i < this.props.PCAdata.length; i++) {
         let rowCol = this.state.clusterColors[i];
         if (rowCol !== undefined) {
@@ -282,7 +278,6 @@ class ScatterAdmix extends Component {
     let clusterColors = this.props.AdmixData.map((row) => {
       return this.assignClusterToRow(row);
     });
-    // console.log(this.props.clusterNames);
     let clusterNames =
       Object.values(this.props.clusterNames).length > 0
         ? this.props.clusterNames
