@@ -11,7 +11,6 @@ import ScatterAdmix from "./ScatterAdmix";
 import DownloadData from "./DownloadData";
 import ClusteringAlgorithmsTab from "./ClusteringAlgorithmsTab";
 import OutlierDetectionTab from "./OutlierDetectionTab";
-import PCAir from "./PCAir";
 import ProgressBarTime from "./ProgressBarTime";
 import { Button } from "@material-ui/core";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
@@ -55,7 +54,6 @@ Chart.register(...registerables);
 var num_clusters = 2;
 class App extends Component {
   state = {
-    // Initially, no file is selected
     ProgressBarType: "Loader",
     ProgressBarTimeInterval: 5,
     columnRange: [1, 10],
@@ -626,7 +624,6 @@ class App extends Component {
         var categoryID = uniqueTags.indexOf(categoricalData[i]);
         if (DIM === 0) {
           if (distributionData[i]) {
-            // console.log()
             data_new[2 * categoryID + 1].x.push(i);
             data_new[2 * categoryID + 1].y.push(this.state.data[i][x]);
           } else {
@@ -736,7 +733,6 @@ class App extends Component {
       "<i>(%{x:.4f}, %{y:.4f}) </i>" + "<br><b>Mapping ID</b>:%{text}</b></br>";
 
     if (this.state.data != null && x != null && y != null) {
-      // console.log(x, y);
       for (var i = 0; i < this.state.data.length; i++) {
         x1.push(this.state.data[i][x]);
         y1.push(this.state.data[i][y]);
@@ -748,7 +744,6 @@ class App extends Component {
           cluster_texts.push(this.state.data[i]["MappingID2"]);
         }
       }
-      // console.log(cluster_texts);
       var data_new = [
         {
           name: "Data",
@@ -783,7 +778,6 @@ class App extends Component {
       "<i>(%{x:.4f}, %{y:.4f} %{z}, %{z:.4f}) </i>" +
       "<br><b>Mapping ID</b>:%{text}</b></br>";
     if (this.state.data != null && x != null && y != null && z != null) {
-      // console.log(x, y);
       for (var i = 0; i < this.state.data.length; i++) {
         x1.push(this.state.data[i][x]);
         y1.push(this.state.data[i][y]);
@@ -853,8 +847,6 @@ class App extends Component {
         title: "3D plot of " + x + ", " + y + " and " + z,
       };
     }
-
-    // console.log("before scatter");
     return <ScatterPlot data={data_new} layout={layout} />;
   };
 
@@ -871,7 +863,6 @@ class App extends Component {
     } else {
       headers = dataStringLines[0].split(/,(?![^"]*"(?:(?:[^"]*"){2})*[^"]*$)/);
     }
-    // console.log('here', dataStringLines[0]);
     const list = [];
     for (let i = 1; i < dataStringLines.length; i++) {
       var row = [];
@@ -985,7 +976,6 @@ class App extends Component {
     });
   };
   handleSelectZChange = (value) => {
-    // console.log("Z change : ", value);
     this.setState({
       selectedColumns: [
         this.state.selectedColumns[0],
@@ -1056,7 +1046,6 @@ class App extends Component {
         },
       })
       .then((response) => {
-        // console.log(response)
         this.setState({ isLoading: false, selectedUploadOption: "PCA" });
         this.processData(response.data, false);
       });
@@ -1074,7 +1063,6 @@ class App extends Component {
     this.detectOutliers(s.selectedOutlierMethod, s.columnRange, s.pressed);
   };
   runKmeans = () => {
-    // console.log('kmeans', num_clusters);
     const formData = {
       df: this.state.data,
       num_clusters: num_clusters,
@@ -1105,7 +1093,6 @@ class App extends Component {
   };
 
   runFuzzy = () => {
-    // console.log(num_clusters);
     const formData = {
       df: this.state.data,
       num_clusters: num_clusters,
@@ -1864,7 +1851,6 @@ const styles = {
   leftPane: {
     height: "130%",
     position: "absolute",
-    // z_index: 1,
     top: 0,
     overflow_x: "hidden",
     padding_top: "20px",
@@ -1874,7 +1860,6 @@ const styles = {
     color: "white",
     padding: "2%",
     backgroundColor: "#3b3f4e",
-    // borderRadius: 10,
   },
   rightPane: {
     height: "90%",

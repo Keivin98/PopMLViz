@@ -113,7 +113,6 @@ def uploadCM():
 	pca_new = PCA(n_components = components)
 
 	principalComponents_new = pca_new.fit_transform(cm_df)
-	# principalComponents_new.columns = ['ID'] + ['PC' + (str(i + 1)) for i in range(components)]
 	response_df = pd.DataFrame(principalComponents_new)
 	response_df.columns = ['ID'] + ['PC' + (str(i + 1)) for i in range(components-1)]
 	return response_df.to_csv()
