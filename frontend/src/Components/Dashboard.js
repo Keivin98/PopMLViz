@@ -51,9 +51,9 @@ const randomShapes = [
   "bowtie",
 ];
 Chart.register(...registerables);
-var num_clusters = 2;
 class App extends Component {
   state = {
+    num_clusters: 2,
     ProgressBarType: "Loader",
     ProgressBarTimeInterval: 5,
     columnRange: [1, 10],
@@ -368,7 +368,7 @@ class App extends Component {
         var z_clusters_outliers = [];
       }
     }
-    for (var num_cl = 0; num_cl < num_clusters; num_cl++) {
+    for (var num_cl = 0; num_cl < this.state.num_clusters; num_cl++) {
       x_clusters.push([]);
       y_clusters.push([]);
       if (DIM === 2) {
@@ -386,7 +386,7 @@ class App extends Component {
 
     var colors = [];
 
-    for (let j = 0; j < num_clusters; j += 1) {
+    for (let j = 0; j < this.state.num_clusters; j += 1) {
       colors.push(randomColors[j]);
     }
 
@@ -420,7 +420,7 @@ class App extends Component {
         }
       }
       var data_new = [];
-      for (var k = 0; k < num_clusters; k += 1) {
+      for (var k = 0; k < this.state.num_clusters; k += 1) {
         if (outliers) {
           if (DIM === 2) {
             data_new.push({
@@ -894,7 +894,6 @@ class App extends Component {
       name: c,
       selector: c,
     }));
-    // console.table(list);
     if (outliers === true) {
       this.setOutlierData(list);
     } else {
@@ -1049,18 +1048,17 @@ class App extends Component {
       });
   };
   runCluster = (s) => {
-    num_clusters = s.num_clusters;
     if (s.selectedClusterMethod === 0) {
-      this.runKmeans();
+      this.runKmeans(s.num_clusters);
     } else {
-      this.runFuzzy();
+      this.runFuzzy(s.num_clusters);
     }
   };
 
   runOutliers = (s) => {
     this.detectOutliers(s.selectedOutlierMethod, s.columnRange, s.pressed);
   };
-  runKmeans = () => {
+  runKmeans = (num_clusters) => {
     const formData = {
       df: this.state.data,
       num_clusters: num_clusters,
@@ -1086,11 +1084,12 @@ class App extends Component {
           showOutputOptions: true,
           distributionData: [],
           selectedDescribingColumn: { value: "None", label: "None" },
+          num_clusters: num_clusters,
         });
       });
   };
 
-  runFuzzy = () => {
+  runFuzzy = (num_clusters) => {
     const formData = {
       df: this.state.data,
       num_clusters: num_clusters,
@@ -1116,6 +1115,7 @@ class App extends Component {
           showOutputOptions: true,
           distributionData: [],
           selectedDescribingColumn: { value: "None", label: "None" },
+          num_clusters: num_clusters,
         });
       });
   };
@@ -1441,8 +1441,9 @@ class App extends Component {
   };
 
   clusterNumberChange = (data) => {
-    num_clusters = data.numClusters;
+    this.setState({ num_clusters: data.numClusters });
   };
+
   UploadTabChange = (data) => {
     if (
       data.selectedUploadOption === "pcairandadmixture" ||
@@ -1457,10 +1458,6 @@ class App extends Component {
         selectedUploadOption: data.selectedUploadOption,
       });
     }
-  };
-
-  IncrementHandler = (data) => {
-    num_clusters = data.num_clusters;
   };
 
   handleTabOutputCallback = (cluster_names) => {
@@ -1785,7 +1782,7 @@ class App extends Component {
                       {" "}
                       {this.state.showOutputOptions && (
                         <TabOutputOptions
-                          uniqueClusters={num_clusters}
+                          uniqueClusters={this.state.num_clusters}
                           parentCallback={this.handleTabOutputCallback}
                         />
                       )}
@@ -1826,7 +1823,7 @@ class App extends Component {
                   <TabPanel style={styles.outputSettings}>
                     {this.state.showOutputOptions && (
                       <TabOutputOptions
-                        uniqueClusters={num_clusters}
+                        uniqueClusters={this.state.num_clusters}
                         parentCallback={this.handleTabOutputCallback}
                       />
                     )}

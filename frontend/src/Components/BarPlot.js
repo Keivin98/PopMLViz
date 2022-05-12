@@ -41,7 +41,15 @@ class BarPlot extends Component {
       return parsedRow.indexOf(rowDescending[0]);
     }
   };
-  BarPlotFromData = () => {
+  componentDidMount = () => {
+    this.BarPlot();
+  };
+  componentDidUpdate(prevProps) {
+    if (prevProps.data !== this.props.data) {
+      this.BarPlot();
+    }
+  }
+  BarPlot = () => {
     var colors = [];
     var data_new = [];
 
@@ -72,25 +80,25 @@ class BarPlot extends Component {
         });
       }
       if (this.state.numClusters !== numClusters) {
-        this.setState({ numClusters: numClusters }, () => {
+        this.setState({ numClusters: numClusters, data_new: data_new }, () => {
           if (this.props.onChange) {
             this.props.onChange(this.state);
           }
         });
       }
+      this.setState({ data_new: data_new });
     }
-
-    return (
-      <Plot
-        data={data_new}
-        layout={{ title: "ADMIXTURE", barmode: "stack" }}
-        style={styles.barContainer}
-      />
-    );
   };
-
   render() {
-    return <div>{this.BarPlotFromData()}</div>;
+    return (
+      <div>
+        <Plot
+          data={this.state.data_new}
+          layout={{ title: "ADMIXTURE", barmode: "stack" }}
+          style={styles.barContainer}
+        />
+      </div>
+    );
   }
 }
 
