@@ -129,8 +129,6 @@ class App extends Component {
     // console.log(event.target.files[0]);
   };
 
-  // File content to be displayed after
-  // file upload is complete
   correlationMatrixUpload = () => {
     if (this.state.selectedFile) {
       return (
