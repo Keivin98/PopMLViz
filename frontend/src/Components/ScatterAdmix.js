@@ -58,10 +58,10 @@ class ScatterAdmix extends Component {
     }
   }
   componentDidUpdate(prevProps) {
-    if (prevProps.alphaVal !== this.props.alphaVal) {
-      this.splitPCAandADMIX();
-    }
-    if (prevProps.outlierData !== this.props.outlierData) {
+    if (
+      prevProps.alphaVal !== this.props.alphaVal ||
+      prevProps.outlierData !== this.props.outlierData
+    ) {
       this.splitPCAandADMIX();
     }
     if (
@@ -76,6 +76,7 @@ class ScatterAdmix extends Component {
       this.props.AdmixData == null
         ? 0
         : Object.values(this.props.AdmixData[0]).length;
+    console.log(num_clusters);
     var x_clusters = [];
     var y_clusters = [];
     var layout = {};
