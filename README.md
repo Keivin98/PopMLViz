@@ -12,8 +12,8 @@ Open a terminal and run :
 
 ```
 cd backend/
-source /env/bin/activate
-pip install -r requirements.txt
+source flaskenv/bin/activate
+pip install -r flask_req.txt
 ./run
 ```
 
@@ -21,7 +21,7 @@ Open another terminal and on the /frontend/ folder run:
 
 ```
 cd frontend/
-echo "REACT_APP_DOMAIN=localhost" > .env
+echo "REACT_APP_DOMAIN=localhost" > .flaskenv
 npm install
 npm start
 ```

@@ -10,3 +10,5 @@
 /backend/node_modules/
 /backend/venv
 /data/
+node_modules
+backend/env
