@@ -917,7 +917,7 @@ class App extends Component {
     if (this.state.selectedUploadOption === "Correlation Matrix") {
       this.UploadCMDataset(e);
     } else {
-      this.setState({ selectedFile: e.target.files[0] });
+      this.setState({ selectedFile: e.target.files[0], isLoading: false });
       const file = e.target.files[0];
       const reader = new FileReader();
       reader.onload = (evt) => {
