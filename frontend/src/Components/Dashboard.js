@@ -64,7 +64,7 @@ class App extends Component {
     distributionData: [],
     pressed: false,
     cluster_names: {},
-    alphaVal: 20,
+    alphaVal: 40,
     allActions: [],
     selectActions: [],
     selectedColumns: [null, null, null],
@@ -1189,6 +1189,54 @@ class App extends Component {
       });
   };
 
+  sampleAdmixDataset = () => {
+    this.setState({
+      isLoading: true,
+      ProgressBarType: "Loader",
+    });
+    axios
+      .get(`http://${process.env.REACT_APP_DOMAIN}:5000/sampleAdmix`, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+      .then((r) => {
+        this.setState({
+          isLoading: false,
+          distributionData: [],
+          selectedDescribingColumn: { value: "None", label: "None" },
+        });
+        console.log(r.data);
+        this.processData(r.data, false, 2);
+      });
+  };
+
+  samplePCAAdmixDataset = () => {
+    this.setState({
+      isLoading: true,
+      ProgressBarType: "Loader",
+    });
+    axios
+      .get(
+        `http://${process.env.REACT_APP_DOMAIN}:5000/samplePCAAdmixDataset`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
+      .then((r) => {
+        this.setState({
+          isLoading: false,
+          distributionData: [],
+          selectedDescribingColumn: { value: "None", label: "None" },
+        });
+        console.log(r.data.admix);
+        this.processData(r.data.pca, false, 1);
+        this.processData(r.data.admix, false, 2);
+      });
+  };
+
   detectOutliers = (selectedOutlierMethod, columnRange, pressed) => {
     if (selectedOutlierMethod === 0) {
       this.setOutlierData([]);
@@ -1499,7 +1547,7 @@ class App extends Component {
   render() {
     return (
       <div style={styles.splitScreen}>
-        <div style={styles.leftPane}>
+        <div class="leftpane" style={styles.leftPane}>
           <form style={{ marginTop: "1%" }}>
             <UploadAndVisualizeTab onChange={this.UploadTabChange} />
 
@@ -1554,7 +1602,7 @@ class App extends Component {
                 }}
               >
                 <div style={styles.littleUpload}>
-                  <label style={{ marginRight: "3%" }}>PC-AiR</label>
+                  <label style={{ marginRight: "3%" }}>PCA</label>
                   <input
                     type="file"
                     accept=".csv,.xlsx,.xls"
@@ -1858,12 +1906,7 @@ class App extends Component {
                       }}
                     >
                       <AdmixOptions
-                        initialVal={
-                          this.state.selectedUploadOption ===
-                          "pcairandadmixture"
-                            ? 40
-                            : 20
-                        }
+                        initialVal={40}
                         name={
                           this.state.selectedUploadOption ===
                           "pcairandadmixture"

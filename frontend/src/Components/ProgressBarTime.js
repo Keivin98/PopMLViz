@@ -7,9 +7,9 @@ var texts = [
   "Please wait for the files to load ",
   "Files Uploaded ",
   "Computation Started ",
-  "Computation in progress ",
+  "Computation in progress. Please do no not click anywhere else ",
   "Preparing your results ",
-  "Won't take much longer",
+  "Won't take much longer ",
   "Won't take much longer ",
   "Won't take much longer ",
   "Results are on the way ",
@@ -28,15 +28,12 @@ class ProgressBarTime extends Component {
     dots: "..",
   };
   increaseDots = () => {
-    if (this.props.isLoading) {
-      if (this.state.dots.length == 1) {
-        this.setState({ dots: ".." });
-      } else if (this.state.dots.length == 2) {
-        this.setState({ dots: "..." });
-      } else {
-        this.setState({ dots: "." });
-      }
-      console.log(this.state.dots);
+    if (this.state.dots.length == 1) {
+      this.setState({ dots: ".." });
+    } else if (this.state.dots.length == 2) {
+      this.setState({ dots: "..." });
+    } else {
+      this.setState({ dots: "." });
     }
   };
   componentDidMount() {
@@ -52,12 +49,8 @@ class ProgressBarTime extends Component {
           position: this.state.position + 1,
           completed: 99,
         });
-        if (!this.props.isLoading) {
-          clearInterval(interval);
-        }
       } else {
         let position = 0;
-
         if (this.state.completed < 25) {
           position = 0;
         } else if (this.state.completed < 30) {
@@ -75,16 +68,21 @@ class ProgressBarTime extends Component {
         this.setState({
           text: texts[position] + this.state.dots,
           completed: newCompleted < 99 ? newCompleted : 99.5,
+          interval: interval,
         });
       }
     }, 1000 + 1000 * this.state.position);
-    this.setState({ interval: interval });
+
     console.log(interval);
   }
-
+  componentDidUpdate(prevProps) {
+    if (!this.props.isLoading || !prevProps.isLoading) {
+      clearInterval(this.state.interval);
+    }
+  }
   render() {
     return (
-      <div style={styles.ProgressBar}>
+      <div key={this.props.isLoading} style={styles.ProgressBar}>
         {this.props.type === "Loader" && (
           <Loader
             type="TailSpin"
@@ -114,7 +112,7 @@ class ProgressBarTime extends Component {
 ProgressBarTime.propTypes = {
   totalTime: PropTypes.number,
   type: PropTypes.string,
-  loaded: PropTypes.bool,
+  isLoading: PropTypes.bool,
 };
 
 const styles = {
