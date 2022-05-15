@@ -10,6 +10,7 @@ class AdmixOptions extends Component {
   };
 
   rangeSelector = (event, newValue) => {
+    console.log(newValue);
     this.setState({ initialVal: newValue });
   };
 
@@ -56,6 +57,9 @@ class AdmixOptions extends Component {
           </Button>
         </div>
         Chosen {this.props.name}: {this.state.initialVal} %
+        <label style={{ marginTop: "10%", fontStyle: "italic" }}>
+          {this.props.description}{" "}
+        </label>
       </div>
     );
   }
@@ -63,5 +67,6 @@ class AdmixOptions extends Component {
 AdmixOptions.propTypes = {
   initialVal: PropTypes.number,
   name: PropTypes.string,
+  description: PropTypes.string,
 };
 export default AdmixOptions;

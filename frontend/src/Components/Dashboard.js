@@ -1168,6 +1168,26 @@ class App extends Component {
         this.processData(r.data, false);
       });
   };
+  samplePCADataset = () => {
+    this.setState({
+      isLoading: true,
+      ProgressBarType: "Loader",
+    });
+    axios
+      .get(`http://${process.env.REACT_APP_DOMAIN}:5000/samplePCA`, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+      .then((r) => {
+        this.setState({
+          isLoading: false,
+          distributionData: [],
+          selectedDescribingColumn: { value: "None", label: "None" },
+        });
+        this.processData(r.data, false);
+      });
+  };
 
   detectOutliers = (selectedOutlierMethod, columnRange, pressed) => {
     if (selectedOutlierMethod === 0) {
@@ -1484,20 +1504,46 @@ class App extends Component {
             <UploadAndVisualizeTab onChange={this.UploadTabChange} />
 
             {this.state.selectedUploadOption === "PCA" && (
-              <input
-                type="file"
-                accept=".csv,.xlsx,.xls"
-                disabled={this.state.selectedUploadOption === null}
-                onChange={this.handleFileUpload}
-              />
+              <div>
+                <input
+                  type="file"
+                  accept=".csv,.xlsx,.xls"
+                  disabled={this.state.selectedUploadOption === null}
+                  onChange={this.handleFileUpload}
+                />
+                <Button
+                  variant="outlined"
+                  style={{
+                    backgroundColor: "#ebeff7",
+                    marginTop: "2%",
+                  }}
+                  onClick={this.samplePCADataset}
+                >
+                  {" "}
+                  Load Sample Dataset
+                </Button>
+              </div>
             )}
             {this.state.selectedUploadOption === "admixture" && (
-              <input
-                type="file"
-                accept=".Q"
-                disabled={this.state.selectedUploadOption === null}
-                onChange={this.handleAdmixFileUpload2}
-              />
+              <div>
+                <input
+                  type="file"
+                  accept=".Q"
+                  disabled={this.state.selectedUploadOption === null}
+                  onChange={this.handleAdmixFileUpload2}
+                />
+                <Button
+                  variant="outlined"
+                  style={{
+                    backgroundColor: "#ebeff7",
+                    marginTop: "2%",
+                  }}
+                  onClick={this.sampleAdmixDataset}
+                >
+                  {" "}
+                  Load Sample Dataset
+                </Button>
+              </div>
             )}
             {this.state.selectedUploadOption === "pcairandadmixture" && (
               <div
@@ -1523,6 +1569,17 @@ class App extends Component {
                     onChange={this.handleAdmixFileUpload2}
                   />
                 </div>
+                <Button
+                  variant="outlined"
+                  style={{
+                    backgroundColor: "#ebeff7",
+                    marginTop: "2%",
+                  }}
+                  onClick={this.samplePCAAdmixDataset}
+                >
+                  {" "}
+                  Load Sample Dataset
+                </Button>
                 {this.state.loading && (
                   <Loader
                     type="TailSpin"
@@ -1600,6 +1657,7 @@ class App extends Component {
             <ProgressBarTime
               totalTime={this.state.ProgressBarTimeInterval}
               type={this.state.ProgressBarType}
+              isLoading={this.state.isLoading}
             />
           )}
           {!this.state.isLoading && <div>{this.showScatterPlot()}</div>}
@@ -1800,12 +1858,23 @@ class App extends Component {
                       }}
                     >
                       <AdmixOptions
-                        initialVal={20}
+                        initialVal={
+                          this.state.selectedUploadOption ===
+                          "pcairandadmixture"
+                            ? 40
+                            : 20
+                        }
                         name={
                           this.state.selectedUploadOption ===
                           "pcairandadmixture"
                             ? "Alpha"
                             : "Certainty"
+                        }
+                        description={
+                          this.state.selectedUploadOption ===
+                          "pcairandadmixture"
+                            ? "NOTE: If the admixture result for the entity is less than the chosen alpha, the entity will be marked as Undefined!"
+                            : "NOTE: If the difference between the top two admixture results for the entity is less than the chosen certainty, the entity will be marked as Undefined!"
                         }
                         parentCallback={this.handleAdmixOptionsCallback}
                       />
