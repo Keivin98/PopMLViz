@@ -45,7 +45,10 @@ class BarPlot extends Component {
     this.BarPlot();
   };
   componentDidUpdate(prevProps) {
-    if (prevProps.data !== this.props.data) {
+    if (
+      prevProps.data !== this.props.data ||
+      prevProps.alphaVal !== this.props.alphaVal
+    ) {
       this.BarPlot();
     }
   }
@@ -64,6 +67,9 @@ class BarPlot extends Component {
         return this.assignClusterToRow(a) > this.assignClusterToRow(b) ? 1 : -1;
       });
 
+      let positionOfUndefined = sortedValues
+        .map((x) => this.assignClusterToRow(x))
+        .indexOf(numClusters);
       for (let n = 1; n < numClusters + 1; n += 1) {
         var name = !(n - 1 in this.props.clusterNames)
           ? n - 1 == numClusters
@@ -71,12 +77,16 @@ class BarPlot extends Component {
             : "Cluster " + (n - 1)
           : this.props.clusterNames[n - 1];
         let y_values = sortedValues.map((x) => x["v" + n]);
-
         data_new.push({
           type: "bar",
           name: name,
           x: this.range(0, y_values.length),
           y: y_values,
+          marker: {
+            opacity: this.range(0, y_values.length).map((x) =>
+              x < positionOfUndefined ? 1 : 0.2
+            ),
+          },
         });
       }
       if (this.state.numClusters !== numClusters) {

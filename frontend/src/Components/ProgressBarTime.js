@@ -28,14 +28,16 @@ class ProgressBarTime extends Component {
     dots: "..",
   };
   increaseDots = () => {
-    if (this.state.dots.length == 1) {
-      this.setState({ dots: ".." });
-    } else if (this.state.dots.length == 2) {
-      this.setState({ dots: "..." });
-    } else {
-      this.setState({ dots: "." });
+    if (this.props.isLoading) {
+      if (this.state.dots.length == 1) {
+        this.setState({ dots: ".." });
+      } else if (this.state.dots.length == 2) {
+        this.setState({ dots: "..." });
+      } else {
+        this.setState({ dots: "." });
+      }
+      console.log(this.state.dots);
     }
-    console.log(this.state.dots);
   };
   componentDidMount() {
     var interval = setInterval(() => {
@@ -50,7 +52,9 @@ class ProgressBarTime extends Component {
           position: this.state.position + 1,
           completed: 99,
         });
-        // clearInterval(this.state.interval);
+        if (this.props.isLoading) {
+          clearInterval(interval);
+        }
       } else {
         let position = 0;
 
@@ -110,6 +114,7 @@ class ProgressBarTime extends Component {
 ProgressBarTime.propTypes = {
   totalTime: PropTypes.number,
   type: PropTypes.string,
+  loaded: PropTypes.bool,
 };
 
 const styles = {
