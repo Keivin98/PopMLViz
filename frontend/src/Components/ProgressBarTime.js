@@ -52,7 +52,7 @@ class ProgressBarTime extends Component {
           position: this.state.position + 1,
           completed: 99,
         });
-        if (this.props.isLoading) {
+        if (!this.props.isLoading) {
           clearInterval(interval);
         }
       } else {

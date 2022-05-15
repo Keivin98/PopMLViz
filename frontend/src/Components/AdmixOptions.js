@@ -10,7 +10,6 @@ class AdmixOptions extends Component {
   };
 
   rangeSelector = (event, newValue) => {
-    console.log(newValue);
     this.setState({ initialVal: newValue });
   };
 
