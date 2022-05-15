@@ -94,13 +94,13 @@ class ProgressBarTime extends Component {
         )}
         {this.props.type === "ProgressBar" && (
           <div>
-            <h6>{this.state.text}</h6>
+            <h5 style={{ color: "#3287bf" }}>{this.state.text}</h5>
             <ProgressBar
               completed={this.state.completed}
               maxCompleted={100}
-              bgColor="white"
-              labelColor="#3287bf"
-              baseBgColor="#ebeff7"
+              bgColor="#3287bf"
+              labelColor="white"
+              baseBgColor="white"
             />{" "}
           </div>
         )}
