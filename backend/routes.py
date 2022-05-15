@@ -239,6 +239,25 @@ def detectoutliers():
 	change_to_binary = apply_combineType.apply(binary)
 	return change_to_binary.to_csv()
 
+@app.route("/samplePCA", methods=["GET"], strict_slashes=False)
+def samplePCA():
+	pca_sample = pd.read_csv("../datasets/KG_PCS.csv")
+	return pca_sample.to_csv()
+
+@app.route("/sampleAdmix", methods=["GET"], strict_slashes=False)
+def sampleAdmix():
+	admix_sample = pd.read_csv("../datasets/admix_KG.5.Q", sep=' ')
+	return admix_sample.to_csv(index=False, sep=' ')
+
+@app.route("/samplePCAAdmixDataset", methods=["GET"], strict_slashes=False)
+def samplePCAAdmixDataset():
+	pca_sample = pd.read_csv("../datasets/KG_PCS.csv")
+	admix_sample = pd.read_csv("../datasets/admix_KG.5.Q", sep=' ')
+	return {
+		"pca": pca_sample.to_csv(), 
+		"admix" : admix_sample.to_csv(index=False, sep=' ')
+		}
+
 @app.route("/")
 def hello():
 	return "<h1 style='color:blue'>Hello There!</h1>"

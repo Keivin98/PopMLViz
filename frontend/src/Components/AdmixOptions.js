@@ -6,9 +6,12 @@ import PropTypes from "prop-types";
 
 class AdmixOptions extends Component {
   state = {
-    initialVal: this.props.initialVal,
+    initialVal: 0,
   };
 
+  componentDidMount = () => {
+    this.setState({ initialVal: this.props.initialVal });
+  };
   rangeSelector = (event, newValue) => {
     this.setState({ initialVal: newValue });
   };
