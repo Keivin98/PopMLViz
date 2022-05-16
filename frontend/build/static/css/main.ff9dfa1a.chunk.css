@@ -1,2 +1,0 @@
-.App{min-height:100vh}.splitScreen{display:flex;flex-direction:column}.leftPane{left:0;background-color:red;width:10%}.leftPane,.rightPane{height:100%;position:fixed;z-index:1;top:0;overflow-x:hidden;padding-top:20px}.rightPane{right:0;width:"70%"}
-/*# sourceMappingURL=main.ff9dfa1a.chunk.css.map */
