@@ -39,8 +39,8 @@
     "xlsx": "^0.17.4"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "HTTPS=true SSL_CRT_FILE=/etc/nginx/conf.d/certs/2022/wildcard.qcri.org.crt SSL_KEY_FILE=/etc/nginx/conf.d/certs/wildcard.qcri.org.key react-scripts start",
+    "build": "HTTPS=true SSL_CRT_FILE=/etc/nginx/conf.d/certs/2022/wildcard.qcri.org.crt SSL_KEY_FILE=/etc/nginx/conf.d/certs/wildcard.qcri.org.key react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
