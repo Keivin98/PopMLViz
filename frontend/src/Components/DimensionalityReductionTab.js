@@ -50,7 +50,7 @@ class UploadAndVisualizeTab extends Component {
     };
 
     axios
-      .post(`http://${process.env.REACT_APP_DOMAIN}:5000/runPCAIR`, formData, {
+      .post(`https://${process.env.REACT_APP_DOMAIN}:5000/runPCAIR`, formData, {
         headers: {
           "Content-Type": "application/json",
         },

@@ -1037,7 +1037,7 @@ class App extends Component {
     });
 
     axios
-      .post(`http://${process.env.REACT_APP_DOMAIN}:5000/uploadCM`, formData, {
+      .post(`https://${process.env.REACT_APP_DOMAIN}:5000/uploadCM`, formData, {
         headers: {
           "Content-Type": "application/json",
         },
@@ -1067,7 +1067,7 @@ class App extends Component {
     this.setState({ isLoading: true, ProgressBarType: "Loader" });
 
     axios
-      .post(`http://${process.env.REACT_APP_DOMAIN}:5000/runkmeans`, formData, {
+      .post(`https://${process.env.REACT_APP_DOMAIN}:5000/runkmeans`, formData, {
         headers: {
           "Content-Type": "application/json",
         },
@@ -1098,7 +1098,7 @@ class App extends Component {
     this.setState({ isLoading: true, ProgressBarType: "Loader" });
 
     axios
-      .post(`http://${process.env.REACT_APP_DOMAIN}:5000/runfuzzy`, formData, {
+      .post(`https://${process.env.REACT_APP_DOMAIN}:5000/runfuzzy`, formData, {
         headers: {
           "Content-Type": "application/json",
         },
@@ -1130,7 +1130,7 @@ class App extends Component {
       ProgressBarTimeInterval: 70,
     });
     axios
-      .post(`http://${process.env.REACT_APP_DOMAIN}:5000/cmtsne2d`, formData, {
+      .post(`https://${process.env.REACT_APP_DOMAIN}:5000/cmtsne2d`, formData, {
         headers: {
           "Content-Type": "application/json",
         },
@@ -1154,7 +1154,7 @@ class App extends Component {
       ProgressBarTimeInterval: 70,
     });
     axios
-      .post(`http://${process.env.REACT_APP_DOMAIN}:5000/cmtsne3d`, formData, {
+      .post(`https://${process.env.REACT_APP_DOMAIN}:5000/cmtsne3d`, formData, {
         headers: {
           "Content-Type": "application/json",
         },
@@ -1174,7 +1174,7 @@ class App extends Component {
       ProgressBarType: "Loader",
     });
     axios
-      .get(`http://${process.env.REACT_APP_DOMAIN}:5000/samplePCA`, {
+      .get(`https://${process.env.REACT_APP_DOMAIN}:5000/samplePCA`, {
         headers: {
           "Content-Type": "application/json",
         },
@@ -1195,7 +1195,7 @@ class App extends Component {
       ProgressBarType: "Loader",
     });
     axios
-      .get(`http://${process.env.REACT_APP_DOMAIN}:5000/sampleAdmix`, {
+      .get(`https://${process.env.REACT_APP_DOMAIN}:5000/sampleAdmix`, {
         headers: {
           "Content-Type": "application/json",
         },
@@ -1218,7 +1218,7 @@ class App extends Component {
     });
     axios
       .get(
-        `http://${process.env.REACT_APP_DOMAIN}:5000/samplePCAAdmixDataset`,
+        `https://${process.env.REACT_APP_DOMAIN}:5000/samplePCAAdmixDataset`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -1250,7 +1250,7 @@ class App extends Component {
       this.setState({ isLoading: true, ProgressBarType: "Loader" });
       axios
         .post(
-          `http://${process.env.REACT_APP_DOMAIN}:5000/detectoutliers`,
+          `https://${process.env.REACT_APP_DOMAIN}:5000/detectoutliers`,
           formData,
           {
             headers: {
