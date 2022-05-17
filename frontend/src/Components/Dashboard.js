@@ -1040,7 +1040,7 @@ class App extends Component {
       .post(`${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}:5000/uploadCM`, formData, {
         headers: {
           "Content-Type": "application/json",
-          
+          "Access-Control-Allow-Origin": "*",
         },
       })
       .then((response) => {
@@ -1071,6 +1071,7 @@ class App extends Component {
       .post(`${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}:5000/runkmeans`, formData, {
         headers: {
           "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*",
         },
       })
       .then((r) => {
@@ -1102,6 +1103,7 @@ class App extends Component {
       .post(`${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}:5000/runfuzzy`, formData, {
         headers: {
           "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*",
         },
       })
       .then((r) => {
@@ -1134,6 +1136,7 @@ class App extends Component {
       .post(`${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}:5000/cmtsne2d`, formData, {
         headers: {
           "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*",
         },
       })
       .then((r) => {
@@ -1158,6 +1161,7 @@ class App extends Component {
       .post(`${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}:5000/cmtsne3d`, formData, {
         headers: {
           "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*",
         },
       })
       .then((r) => {
@@ -1178,6 +1182,7 @@ class App extends Component {
       .get(`${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}:5000/samplePCA`, {
         headers: {
           "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*",
         },
       })
       .then((r) => {
@@ -1199,6 +1204,7 @@ class App extends Component {
       .get(`${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}:5000/sampleAdmix`, {
         headers: {
           "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*",
         },
       })
       .then((r) => {
@@ -1223,6 +1229,7 @@ class App extends Component {
         {
           headers: {
             "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*",
           },
         }
       )
@@ -1256,6 +1263,7 @@ class App extends Component {
           {
             headers: {
               "Content-Type": "application/json",
+              "Access-Control-Allow-Origin": "*",
             },
           }
         )
