@@ -2595,3 +2595,799 @@ ValueError: Length mismatch: Expected axis has 9 elements, new values have 10 el
 [2022-05-16 15:00:03 +0300] [23601] [DEBUG] POST /detectoutliers
 [2022-05-16 15:00:44 +0300] [23600] [DEBUG] OPTIONS /detectoutliers
 [2022-05-16 15:00:44 +0300] [23589] [DEBUG] POST /detectoutliers
+[2022-05-16 15:09:11 +0300] [23601] [DEBUG] GET /samplePCAAdmixDataset
+[2022-05-16 15:12:41 +0300] [23588] [INFO] Handling signal: int
+[2022-05-16 15:12:41 +0300] [23601] [INFO] Worker exiting (pid: 23601)
+[2022-05-16 15:12:41 +0300] [23588] [INFO] Shutting down: Master
+[2022-05-16 15:12:44 +0300] [24182] [DEBUG] Current configuration:
+  config: gunicorn.conf
+  wsgi_app: None
+  bind: ['0.0.0.0:5000']
+  backlog: 2048
+  workers: 8
+  worker_class: sync
+  threads: 1
+  worker_connections: 1000
+  max_requests: 0
+  max_requests_jitter: 0
+  timeout: 600
+  graceful_timeout: 30
+  keepalive: 2
+  limit_request_line: 4094
+  limit_request_fields: 100
+  limit_request_field_size: 8190
+  reload: False
+  reload_engine: auto
+  reload_extra_files: []
+  spew: False
+  check_config: False
+  print_config: False
+  preload_app: False
+  sendfile: None
+  reuse_port: False
+  chdir: /home/local/QCRI/kisufaj/VisualizePlots/backend
+  daemon: False
+  raw_env: []
+  pidfile: None
+  worker_tmp_dir: None
+  user: 1980764994
+  group: 1980760577
+  umask: 0
+  initgroups: False
+  tmp_upload_dir: None
+  secure_scheme_headers: {'X-FORWARDED-PROTOCOL': 'ssl', 'X-FORWARDED-PROTO': 'https', 'X-FORWARDED-SSL': 'on'}
+  forwarded_allow_ips: ['127.0.0.1']
+  accesslog: /home/local/QCRI/kisufaj/VisualizePlots/backend/gunicorn_logs/access.log
+  disable_redirect_access_to_syslog: False
+  access_log_format: %(h)s %(l)s %(u)s %(t)s "%(r)s" %(s)s %(b)s "%(f)s" "%(a)s"
+  errorlog: /home/local/QCRI/kisufaj/VisualizePlots/backend/gunicorn_logs/error.log
+  loglevel: debug
+  capture_output: False
+  logger_class: gunicorn.glogging.Logger
+  logconfig: None
+  logconfig_dict: {}
+  syslog_addr: udp://localhost:514
+  syslog: False
+  syslog_prefix: None
+  syslog_facility: user
+  enable_stdio_inheritance: False
+  statsd_host: None
+  dogstatsd_tags: 
+  statsd_prefix: 
+  proc_name: None
+  default_proc_name: routes:app
+  pythonpath: None
+  paste: None
+  on_starting: <function OnStarting.on_starting at 0x7f35bdd2b4c0>
+  on_reload: <function OnReload.on_reload at 0x7f35bdd2b5e0>
+  when_ready: <function WhenReady.when_ready at 0x7f35bdd2b700>
+  pre_fork: <function Prefork.pre_fork at 0x7f35bdd2b820>
+  post_fork: <function Postfork.post_fork at 0x7f35bdd2b940>
+  post_worker_init: <function PostWorkerInit.post_worker_init at 0x7f35bdd2ba60>
+  worker_int: <function WorkerInt.worker_int at 0x7f35bdd2bb80>
+  worker_abort: <function WorkerAbort.worker_abort at 0x7f35bdd2bca0>
+  pre_exec: <function PreExec.pre_exec at 0x7f35bdd2bdc0>
+  pre_request: <function PreRequest.pre_request at 0x7f35bdd2bee0>
+  post_request: <function PostRequest.post_request at 0x7f35bdd2bf70>
+  child_exit: <function ChildExit.child_exit at 0x7f35bdd440d0>
+  worker_exit: <function WorkerExit.worker_exit at 0x7f35bdd441f0>
+  nworkers_changed: <function NumWorkersChanged.nworkers_changed at 0x7f35bdd44310>
+  on_exit: <function OnExit.on_exit at 0x7f35bdd44430>
+  proxy_protocol: False
+  proxy_allow_ips: ['127.0.0.1']
+  keyfile: /etc/nginx/conf.d/certs/wildcard.qcri.org.key
+  certfile: /etc/nginx/conf.d/certs/2022/wildcard.qcri.org.crt
+  ssl_version: 2
+  cert_reqs: 0
+  ca_certs: None
+  suppress_ragged_eofs: True
+  do_handshake_on_connect: False
+  ciphers: None
+  raw_paste_global_conf: []
+  strip_header_spaces: False
+[2022-05-16 15:12:44 +0300] [24182] [INFO] Starting gunicorn 20.1.0
+[2022-05-16 15:12:44 +0300] [24182] [DEBUG] Arbiter booted
+[2022-05-16 15:12:44 +0300] [24182] [INFO] Listening at: https://0.0.0.0:5000 (24182)
+[2022-05-16 15:12:44 +0300] [24182] [INFO] Using worker: sync
+[2022-05-16 15:12:44 +0300] [24183] [INFO] Booting worker with pid: 24183
+[2022-05-16 15:12:44 +0300] [24188] [INFO] Booting worker with pid: 24188
+[2022-05-16 15:12:44 +0300] [24189] [INFO] Booting worker with pid: 24189
+[2022-05-16 15:12:44 +0300] [24193] [INFO] Booting worker with pid: 24193
+[2022-05-16 15:12:44 +0300] [24197] [INFO] Booting worker with pid: 24197
+[2022-05-16 15:12:44 +0300] [24198] [INFO] Booting worker with pid: 24198
+[2022-05-16 15:12:44 +0300] [24199] [INFO] Booting worker with pid: 24199
+[2022-05-16 15:12:45 +0300] [24203] [INFO] Booting worker with pid: 24203
+[2022-05-16 15:12:45 +0300] [24182] [DEBUG] 8 workers
+[2022-05-16 15:14:38 +0300] [24193] [DEBUG] Error processing SSL request.
+[2022-05-16 15:14:38 +0300] [24193] [DEBUG] Invalid request from ip=10.161.86.32: [SSL: HTTP_REQUEST] http request (_ssl.c:2627)
+[2022-05-16 15:14:38 +0300] [24193] [DEBUG] Failed to send error message.
+[2022-05-16 15:14:38 +0300] [24188] [DEBUG] Error processing SSL request.
+[2022-05-16 15:14:38 +0300] [24188] [DEBUG] Invalid request from ip=10.161.86.32: [SSL: HTTP_REQUEST] http request (_ssl.c:2627)
+[2022-05-16 15:14:38 +0300] [24188] [DEBUG] Failed to send error message.
+[2022-05-16 15:14:38 +0300] [24183] [DEBUG] Error processing SSL request.
+[2022-05-16 15:14:38 +0300] [24183] [DEBUG] Invalid request from ip=10.161.86.32: [SSL: HTTP_REQUEST] http request (_ssl.c:2627)
+[2022-05-16 15:14:38 +0300] [24183] [DEBUG] Failed to send error message.
+[2022-05-16 15:14:38 +0300] [24199] [DEBUG] Error processing SSL request.
+[2022-05-16 15:14:38 +0300] [24199] [DEBUG] Invalid request from ip=10.161.86.32: [SSL: HTTP_REQUEST] http request (_ssl.c:2627)
+[2022-05-16 15:14:38 +0300] [24199] [DEBUG] Failed to send error message.
+[2022-05-16 15:14:38 +0300] [24199] [DEBUG] Error processing SSL request.
+[2022-05-16 15:14:38 +0300] [24199] [DEBUG] Invalid request from ip=10.161.86.32: [SSL: HTTP_REQUEST] http request (_ssl.c:2627)
+[2022-05-16 15:14:38 +0300] [24199] [DEBUG] Failed to send error message.
+[2022-05-16 15:14:38 +0300] [24199] [DEBUG] Error processing SSL request.
+[2022-05-16 15:14:38 +0300] [24199] [DEBUG] Invalid request from ip=10.161.86.32: [SSL: HTTP_REQUEST] http request (_ssl.c:2627)
+[2022-05-16 15:14:38 +0300] [24199] [DEBUG] Failed to send error message.
+[2022-05-16 15:14:38 +0300] [24203] [DEBUG] Error processing SSL request.
+[2022-05-16 15:14:38 +0300] [24203] [DEBUG] Invalid request from ip=10.161.86.32: [SSL: HTTP_REQUEST] http request (_ssl.c:2627)
+[2022-05-16 15:14:38 +0300] [24203] [DEBUG] Failed to send error message.
+[2022-05-16 15:14:38 +0300] [24183] [DEBUG] Error processing SSL request.
+[2022-05-16 15:14:38 +0300] [24183] [DEBUG] Invalid request from ip=10.161.86.32: [SSL: HTTP_REQUEST] http request (_ssl.c:2627)
+[2022-05-16 15:14:38 +0300] [24183] [DEBUG] Failed to send error message.
+[2022-05-16 15:14:39 +0300] [24183] [DEBUG] Error processing SSL request.
+[2022-05-16 15:14:39 +0300] [24183] [DEBUG] Invalid request from ip=10.161.86.32: [SSL: HTTP_REQUEST] http request (_ssl.c:2627)
+[2022-05-16 15:14:39 +0300] [24183] [DEBUG] Failed to send error message.
+[2022-05-16 15:14:39 +0300] [24183] [DEBUG] Error processing SSL request.
+[2022-05-16 15:14:39 +0300] [24183] [DEBUG] Invalid request from ip=10.161.86.32: [SSL: HTTP_REQUEST] http request (_ssl.c:2627)
+[2022-05-16 15:14:39 +0300] [24183] [DEBUG] Failed to send error message.
+[2022-05-16 15:14:52 +0300] [24198] [DEBUG] Error processing SSL request.
+[2022-05-16 15:14:52 +0300] [24198] [DEBUG] Invalid request from ip=10.161.86.32: [SSL: SSL_HANDSHAKE_FAILURE] ssl handshake failure (_ssl.c:2627)
+[2022-05-16 15:14:52 +0300] [24198] [DEBUG] Failed to send error message.
+[2022-05-16 15:14:52 +0300] [24189] [DEBUG] GET /samplePCA
+[2022-05-16 15:14:55 +0300] [24183] [DEBUG] Error processing SSL request.
+[2022-05-16 15:14:55 +0300] [24183] [DEBUG] Invalid request from ip=10.161.86.32: [SSL: SSLV3_ALERT_BAD_CERTIFICATE] sslv3 alert bad certificate (_ssl.c:2627)
+[2022-05-16 15:14:55 +0300] [24183] [DEBUG] Failed to send error message.
+[2022-05-16 15:17:10 +0300] [24183] [DEBUG] Error processing SSL request.
+[2022-05-16 15:17:10 +0300] [24183] [DEBUG] Invalid request from ip=10.161.86.32: [SSL: SSL_HANDSHAKE_FAILURE] ssl handshake failure (_ssl.c:2627)
+[2022-05-16 15:17:10 +0300] [24183] [DEBUG] Failed to send error message.
+[2022-05-16 15:17:10 +0300] [24183] [DEBUG] OPTIONS /runkmeans
+[2022-05-16 15:17:10 +0300] [24183] [DEBUG] Error processing SSL request.
+[2022-05-16 15:17:10 +0300] [24183] [DEBUG] Invalid request from ip=10.161.86.32: [SSL: SSL_HANDSHAKE_FAILURE] ssl handshake failure (_ssl.c:2627)
+[2022-05-16 15:17:10 +0300] [24183] [DEBUG] Failed to send error message.
+[2022-05-16 15:17:10 +0300] [24183] [DEBUG] POST /runkmeans
+[2022-05-16 15:17:22 +0300] [24198] [DEBUG] Error processing SSL request.
+[2022-05-16 15:17:22 +0300] [24198] [DEBUG] Invalid request from ip=10.161.86.32: [SSL: SSL_HANDSHAKE_FAILURE] ssl handshake failure (_ssl.c:2627)
+[2022-05-16 15:17:22 +0300] [24198] [DEBUG] Failed to send error message.
+[2022-05-16 15:17:22 +0300] [24198] [DEBUG] OPTIONS /runfuzzy
+[2022-05-16 15:17:22 +0300] [24198] [DEBUG] Error processing SSL request.
+[2022-05-16 15:17:22 +0300] [24198] [DEBUG] Invalid request from ip=10.161.86.32: [SSL: SSL_HANDSHAKE_FAILURE] ssl handshake failure (_ssl.c:2627)
+[2022-05-16 15:17:22 +0300] [24198] [DEBUG] Failed to send error message.
+[2022-05-16 15:17:22 +0300] [24198] [DEBUG] POST /runfuzzy
+[2022-05-16 15:20:48 +0300] [24193] [DEBUG] Error processing SSL request.
+[2022-05-16 15:20:48 +0300] [24193] [DEBUG] Invalid request from ip=10.161.86.32: [SSL: SSLV3_ALERT_BAD_CERTIFICATE] sslv3 alert bad certificate (_ssl.c:2627)
+[2022-05-16 15:20:48 +0300] [24193] [DEBUG] Failed to send error message.
+[2022-05-16 15:23:50 +0300] [24203] [DEBUG] Error processing SSL request.
+[2022-05-16 15:23:50 +0300] [24203] [DEBUG] Invalid request from ip=10.161.86.32: [SSL: SSLV3_ALERT_BAD_CERTIFICATE] sslv3 alert bad certificate (_ssl.c:2627)
+[2022-05-16 15:23:50 +0300] [24203] [DEBUG] Failed to send error message.
+[2022-05-16 15:25:17 +0300] [24183] [DEBUG] Error processing SSL request.
+[2022-05-16 15:25:17 +0300] [24183] [DEBUG] Invalid request from ip=10.161.86.32: [SSL: SSLV3_ALERT_BAD_CERTIFICATE] sslv3 alert bad certificate (_ssl.c:2627)
+[2022-05-16 15:25:17 +0300] [24183] [DEBUG] Failed to send error message.
+[2022-05-16 15:40:58 +0300] [24193] [DEBUG] Error processing SSL request.
+[2022-05-16 15:40:58 +0300] [24193] [DEBUG] Invalid request from ip=10.161.86.32: [SSL: SSL_HANDSHAKE_FAILURE] ssl handshake failure (_ssl.c:2627)
+[2022-05-16 15:40:58 +0300] [24193] [DEBUG] Failed to send error message.
+[2022-05-16 15:40:58 +0300] [24197] [DEBUG] GET /samplePCAAdmixDataset
+[2022-05-16 15:42:05 +0300] [24197] [INFO] Worker exiting (pid: 24197)
+[2022-05-16 15:42:05 +0300] [24193] [INFO] Worker exiting (pid: 24193)
+[2022-05-16 15:42:05 +0300] [24203] [INFO] Worker exiting (pid: 24203)
+[2022-05-16 15:42:05 +0300] [24182] [INFO] Handling signal: int
+[2022-05-16 15:42:05 +0300] [24199] [INFO] Worker exiting (pid: 24199)
+[2022-05-16 15:42:05 +0300] [24183] [INFO] Worker exiting (pid: 24183)
+[2022-05-16 15:42:06 +0300] [24182] [INFO] Shutting down: Master
+[2022-05-16 15:42:52 +0300] [24950] [DEBUG] Current configuration:
+  config: gunicorn.conf
+  wsgi_app: None
+  bind: ['0.0.0.0:5000']
+  backlog: 2048
+  workers: 1
+  worker_class: sync
+  threads: 1
+  worker_connections: 1000
+  max_requests: 0
+  max_requests_jitter: 0
+  timeout: 30
+  graceful_timeout: 30
+  keepalive: 2
+  limit_request_line: 4094
+  limit_request_fields: 100
+  limit_request_field_size: 8190
+  reload: False
+  reload_engine: auto
+  reload_extra_files: []
+  spew: False
+  check_config: False
+  print_config: False
+  preload_app: False
+  sendfile: None
+  reuse_port: False
+  chdir: /home/local/QCRI/kisufaj/VisualizePlots/backend
+  daemon: False
+  raw_env: []
+  pidfile: None
+  worker_tmp_dir: None
+  user: 1980764994
+  group: 1980760577
+  umask: 0
+  initgroups: False
+  tmp_upload_dir: None
+  secure_scheme_headers: {'X-FORWARDED-PROTOCOL': 'ssl', 'X-FORWARDED-PROTO': 'https', 'X-FORWARDED-SSL': 'on'}
+  forwarded_allow_ips: ['127.0.0.1']
+  accesslog: /home/local/QCRI/kisufaj/VisualizePlots/backend/gunicorn_logs/access.log
+  disable_redirect_access_to_syslog: False
+  access_log_format: %(h)s %(l)s %(u)s %(t)s "%(r)s" %(s)s %(b)s "%(f)s" "%(a)s"
+  errorlog: /home/local/QCRI/kisufaj/VisualizePlots/backend/gunicorn_logs/error.log
+  loglevel: debug
+  capture_output: False
+  logger_class: gunicorn.glogging.Logger
+  logconfig: None
+  logconfig_dict: {}
+  syslog_addr: udp://localhost:514
+  syslog: False
+  syslog_prefix: None
+  syslog_facility: user
+  enable_stdio_inheritance: False
+  statsd_host: None
+  dogstatsd_tags: 
+  statsd_prefix: 
+  proc_name: None
+  default_proc_name: routes:app
+  pythonpath: None
+  paste: None
+  on_starting: <function OnStarting.on_starting at 0x7f31273534c0>
+  on_reload: <function OnReload.on_reload at 0x7f31273535e0>
+  when_ready: <function WhenReady.when_ready at 0x7f3127353700>
+  pre_fork: <function Prefork.pre_fork at 0x7f3127353820>
+  post_fork: <function Postfork.post_fork at 0x7f3127353940>
+  post_worker_init: <function PostWorkerInit.post_worker_init at 0x7f3127353a60>
+  worker_int: <function WorkerInt.worker_int at 0x7f3127353b80>
+  worker_abort: <function WorkerAbort.worker_abort at 0x7f3127353ca0>
+  pre_exec: <function PreExec.pre_exec at 0x7f3127353dc0>
+  pre_request: <function PreRequest.pre_request at 0x7f3127353ee0>
+  post_request: <function PostRequest.post_request at 0x7f3127353f70>
+  child_exit: <function ChildExit.child_exit at 0x7f312736b0d0>
+  worker_exit: <function WorkerExit.worker_exit at 0x7f312736b1f0>
+  nworkers_changed: <function NumWorkersChanged.nworkers_changed at 0x7f312736b310>
+  on_exit: <function OnExit.on_exit at 0x7f312736b430>
+  proxy_protocol: False
+  proxy_allow_ips: ['127.0.0.1']
+  keyfile: /etc/nginx/conf.d/certs/wildcard.qcri.org.key
+  certfile: /etc/nginx/conf.d/certs/2022/wildcard.qcri.org.crt
+  ssl_version: 2
+  cert_reqs: 0
+  ca_certs: None
+  suppress_ragged_eofs: True
+  do_handshake_on_connect: False
+  ciphers: None
+  raw_paste_global_conf: []
+  strip_header_spaces: False
+[2022-05-16 15:42:52 +0300] [24950] [INFO] Starting gunicorn 20.1.0
+[2022-05-16 15:42:52 +0300] [24950] [DEBUG] Arbiter booted
+[2022-05-16 15:42:52 +0300] [24950] [INFO] Listening at: https://0.0.0.0:5000 (24950)
+[2022-05-16 15:42:52 +0300] [24950] [INFO] Using worker: sync
+[2022-05-16 15:42:52 +0300] [24951] [INFO] Booting worker with pid: 24951
+[2022-05-16 15:42:52 +0300] [24950] [DEBUG] 1 workers
+[2022-05-16 15:43:47 +0300] [24951] [DEBUG] Error processing SSL request.
+[2022-05-16 15:43:47 +0300] [24951] [DEBUG] Invalid request from ip=10.161.86.32: [SSL: SSL_HANDSHAKE_FAILURE] ssl handshake failure (_ssl.c:2627)
+[2022-05-16 15:43:47 +0300] [24951] [DEBUG] Failed to send error message.
+[2022-05-16 15:43:47 +0300] [24951] [DEBUG] GET /samplePCAAdmixDataset
+[2022-05-17 12:06:25 +0300] [24950] [INFO] Handling signal: int
+[2022-05-17 12:06:25 +0300] [24951] [INFO] Worker exiting (pid: 24951)
+[2022-05-17 12:06:25 +0300] [24950] [INFO] Shutting down: Master
+[2022-05-17 12:06:26 +0300] [30682] [DEBUG] Current configuration:
+  config: gunicorn.conf
+  wsgi_app: None
+  bind: ['0.0.0.0:5000']
+  backlog: 2048
+  workers: 1
+  worker_class: sync
+  threads: 1
+  worker_connections: 1000
+  max_requests: 0
+  max_requests_jitter: 0
+  timeout: 30
+  graceful_timeout: 30
+  keepalive: 2
+  limit_request_line: 4094
+  limit_request_fields: 100
+  limit_request_field_size: 8190
+  reload: False
+  reload_engine: auto
+  reload_extra_files: []
+  spew: False
+  check_config: False
+  print_config: False
+  preload_app: False
+  sendfile: None
+  reuse_port: False
+  chdir: /home/local/QCRI/kisufaj/VisualizePlots/backend
+  daemon: False
+  raw_env: []
+  pidfile: None
+  worker_tmp_dir: None
+  user: 1980764994
+  group: 1980760577
+  umask: 0
+  initgroups: False
+  tmp_upload_dir: None
+  secure_scheme_headers: {'X-FORWARDED-PROTOCOL': 'ssl', 'X-FORWARDED-PROTO': 'https', 'X-FORWARDED-SSL': 'on'}
+  forwarded_allow_ips: ['127.0.0.1']
+  accesslog: /home/local/QCRI/kisufaj/VisualizePlots/backend/gunicorn_logs/access.log
+  disable_redirect_access_to_syslog: False
+  access_log_format: %(h)s %(l)s %(u)s %(t)s "%(r)s" %(s)s %(b)s "%(f)s" "%(a)s"
+  errorlog: /home/local/QCRI/kisufaj/VisualizePlots/backend/gunicorn_logs/error.log
+  loglevel: debug
+  capture_output: False
+  logger_class: gunicorn.glogging.Logger
+  logconfig: None
+  logconfig_dict: {}
+  syslog_addr: udp://localhost:514
+  syslog: False
+  syslog_prefix: None
+  syslog_facility: user
+  enable_stdio_inheritance: False
+  statsd_host: None
+  dogstatsd_tags: 
+  statsd_prefix: 
+  proc_name: None
+  default_proc_name: routes:app
+  pythonpath: None
+  paste: None
+  on_starting: <function OnStarting.on_starting at 0x7f2f40bef4c0>
+  on_reload: <function OnReload.on_reload at 0x7f2f40bef5e0>
+  when_ready: <function WhenReady.when_ready at 0x7f2f40bef700>
+  pre_fork: <function Prefork.pre_fork at 0x7f2f40bef820>
+  post_fork: <function Postfork.post_fork at 0x7f2f40bef940>
+  post_worker_init: <function PostWorkerInit.post_worker_init at 0x7f2f40befa60>
+  worker_int: <function WorkerInt.worker_int at 0x7f2f40befb80>
+  worker_abort: <function WorkerAbort.worker_abort at 0x7f2f40befca0>
+  pre_exec: <function PreExec.pre_exec at 0x7f2f40befdc0>
+  pre_request: <function PreRequest.pre_request at 0x7f2f40befee0>
+  post_request: <function PostRequest.post_request at 0x7f2f40beff70>
+  child_exit: <function ChildExit.child_exit at 0x7f2f40c050d0>
+  worker_exit: <function WorkerExit.worker_exit at 0x7f2f40c051f0>
+  nworkers_changed: <function NumWorkersChanged.nworkers_changed at 0x7f2f40c05310>
+  on_exit: <function OnExit.on_exit at 0x7f2f40c05430>
+  proxy_protocol: False
+  proxy_allow_ips: ['127.0.0.1']
+  keyfile: /etc/nginx/conf.d/certs/wildcard.qcri.org.key
+  certfile: /etc/nginx/conf.d/certs/2022/wildcard.qcri.org.crt
+  ssl_version: 2
+  cert_reqs: 0
+  ca_certs: None
+  suppress_ragged_eofs: True
+  do_handshake_on_connect: False
+  ciphers: None
+  raw_paste_global_conf: []
+  strip_header_spaces: False
+[2022-05-17 12:06:26 +0300] [30682] [INFO] Starting gunicorn 20.1.0
+[2022-05-17 12:06:26 +0300] [30682] [DEBUG] Arbiter booted
+[2022-05-17 12:06:26 +0300] [30682] [INFO] Listening at: https://0.0.0.0:5000 (30682)
+[2022-05-17 12:06:26 +0300] [30682] [INFO] Using worker: sync
+[2022-05-17 12:06:26 +0300] [30683] [INFO] Booting worker with pid: 30683
+[2022-05-17 12:06:26 +0300] [30682] [DEBUG] 1 workers
+[2022-05-17 12:06:50 +0300] [30683] [DEBUG] GET /
+[2022-05-17 12:09:24 +0300] [30682] [INFO] Handling signal: int
+[2022-05-17 12:09:24 +0300] [30682] [INFO] Shutting down: Master
+[2022-05-17 12:09:25 +0300] [30945] [DEBUG] Current configuration:
+  config: gunicorn.conf
+  wsgi_app: None
+  bind: ['0.0.0.0:5000']
+  backlog: 2048
+  workers: 3
+  worker_class: sync
+  threads: 1
+  worker_connections: 1000
+  max_requests: 0
+  max_requests_jitter: 0
+  timeout: 600
+  graceful_timeout: 30
+  keepalive: 2
+  limit_request_line: 4094
+  limit_request_fields: 100
+  limit_request_field_size: 8190
+  reload: False
+  reload_engine: auto
+  reload_extra_files: []
+  spew: False
+  check_config: False
+  print_config: False
+  preload_app: False
+  sendfile: None
+  reuse_port: False
+  chdir: /home/local/QCRI/kisufaj/VisualizePlots/backend
+  daemon: False
+  raw_env: []
+  pidfile: None
+  worker_tmp_dir: None
+  user: 1980764994
+  group: 1980760577
+  umask: 0
+  initgroups: False
+  tmp_upload_dir: None
+  secure_scheme_headers: {'X-FORWARDED-PROTOCOL': 'ssl', 'X-FORWARDED-PROTO': 'https', 'X-FORWARDED-SSL': 'on'}
+  forwarded_allow_ips: ['127.0.0.1']
+  accesslog: /home/local/QCRI/kisufaj/VisualizePlots/backend/gunicorn_logs/access.log
+  disable_redirect_access_to_syslog: False
+  access_log_format: %(h)s %(l)s %(u)s %(t)s "%(r)s" %(s)s %(b)s "%(f)s" "%(a)s"
+  errorlog: /home/local/QCRI/kisufaj/VisualizePlots/backend/gunicorn_logs/error.log
+  loglevel: debug
+  capture_output: False
+  logger_class: gunicorn.glogging.Logger
+  logconfig: None
+  logconfig_dict: {}
+  syslog_addr: udp://localhost:514
+  syslog: False
+  syslog_prefix: None
+  syslog_facility: user
+  enable_stdio_inheritance: False
+  statsd_host: None
+  dogstatsd_tags: 
+  statsd_prefix: 
+  proc_name: None
+  default_proc_name: routes:app
+  pythonpath: None
+  paste: None
+  on_starting: <function OnStarting.on_starting at 0x7f859cc0b4c0>
+  on_reload: <function OnReload.on_reload at 0x7f859cc0b5e0>
+  when_ready: <function WhenReady.when_ready at 0x7f859cc0b700>
+  pre_fork: <function Prefork.pre_fork at 0x7f859cc0b820>
+  post_fork: <function Postfork.post_fork at 0x7f859cc0b940>
+  post_worker_init: <function PostWorkerInit.post_worker_init at 0x7f859cc0ba60>
+  worker_int: <function WorkerInt.worker_int at 0x7f859cc0bb80>
+  worker_abort: <function WorkerAbort.worker_abort at 0x7f859cc0bca0>
+  pre_exec: <function PreExec.pre_exec at 0x7f859cc0bdc0>
+  pre_request: <function PreRequest.pre_request at 0x7f859cc0bee0>
+  post_request: <function PostRequest.post_request at 0x7f859cc0bf70>
+  child_exit: <function ChildExit.child_exit at 0x7f859cc240d0>
+  worker_exit: <function WorkerExit.worker_exit at 0x7f859cc241f0>
+  nworkers_changed: <function NumWorkersChanged.nworkers_changed at 0x7f859cc24310>
+  on_exit: <function OnExit.on_exit at 0x7f859cc24430>
+  proxy_protocol: False
+  proxy_allow_ips: ['127.0.0.1']
+  keyfile: /etc/nginx/conf.d/certs/wildcard.qcri.org.key
+  certfile: /etc/nginx/conf.d/certs/2022/wildcard.qcri.org.crt
+  ssl_version: 2
+  cert_reqs: 0
+  ca_certs: None
+  suppress_ragged_eofs: True
+  do_handshake_on_connect: False
+  ciphers: None
+  raw_paste_global_conf: []
+  strip_header_spaces: False
+[2022-05-17 12:09:25 +0300] [30945] [INFO] Starting gunicorn 20.1.0
+[2022-05-17 12:09:25 +0300] [30945] [DEBUG] Arbiter booted
+[2022-05-17 12:09:25 +0300] [30945] [INFO] Listening at: https://0.0.0.0:5000 (30945)
+[2022-05-17 12:09:25 +0300] [30945] [INFO] Using worker: sync
+[2022-05-17 12:09:25 +0300] [30946] [INFO] Booting worker with pid: 30946
+[2022-05-17 12:09:25 +0300] [30951] [INFO] Booting worker with pid: 30951
+[2022-05-17 12:09:25 +0300] [30952] [INFO] Booting worker with pid: 30952
+[2022-05-17 12:09:25 +0300] [30945] [DEBUG] 3 workers
+[2022-05-17 12:15:31 +0300] [30946] [DEBUG] Error processing SSL request.
+[2022-05-17 12:15:31 +0300] [30946] [DEBUG] Invalid request from ip=10.161.201.12: [SSL: SSL_HANDSHAKE_FAILURE] ssl handshake failure (_ssl.c:2627)
+[2022-05-17 12:15:31 +0300] [30946] [DEBUG] Failed to send error message.
+[2022-05-17 12:15:31 +0300] [30946] [DEBUG] GET /samplePCA
+[2022-05-17 12:16:29 +0300] [30946] [INFO] Worker exiting (pid: 30946)
+[2022-05-17 12:16:29 +0300] [30945] [INFO] Handling signal: int
+[2022-05-17 12:16:29 +0300] [30946] [INFO] Shutting down: Master
+[2022-05-17 12:16:29 +0300] [30952] [INFO] Worker exiting (pid: 30952)
+[2022-05-17 12:16:29 +0300] [30951] [INFO] Worker exiting (pid: 30951)
+[2022-05-17 12:16:29 +0300] [30945] [INFO] Shutting down: Master
+[2022-05-17 12:16:30 +0300] [31480] [DEBUG] Current configuration:
+  config: gunicorn.conf
+  wsgi_app: None
+  bind: ['0.0.0.0:5000']
+  backlog: 2048
+  workers: 3
+  worker_class: sync
+  threads: 1
+  worker_connections: 1000
+  max_requests: 0
+  max_requests_jitter: 0
+  timeout: 600
+  graceful_timeout: 30
+  keepalive: 2
+  limit_request_line: 4094
+  limit_request_fields: 100
+  limit_request_field_size: 8190
+  reload: False
+  reload_engine: auto
+  reload_extra_files: []
+  spew: False
+  check_config: False
+  print_config: False
+  preload_app: False
+  sendfile: None
+  reuse_port: False
+  chdir: /home/local/QCRI/kisufaj/VisualizePlots/backend
+  daemon: False
+  raw_env: []
+  pidfile: None
+  worker_tmp_dir: None
+  user: 1980764994
+  group: 1980760577
+  umask: 0
+  initgroups: False
+  tmp_upload_dir: None
+  secure_scheme_headers: {'X-FORWARDED-PROTOCOL': 'ssl', 'X-FORWARDED-PROTO': 'https', 'X-FORWARDED-SSL': 'on'}
+  forwarded_allow_ips: ['127.0.0.1']
+  accesslog: /home/local/QCRI/kisufaj/VisualizePlots/backend/gunicorn_logs/access.log
+  disable_redirect_access_to_syslog: False
+  access_log_format: %(h)s %(l)s %(u)s %(t)s "%(r)s" %(s)s %(b)s "%(f)s" "%(a)s"
+  errorlog: /home/local/QCRI/kisufaj/VisualizePlots/backend/gunicorn_logs/error.log
+  loglevel: debug
+  capture_output: False
+  logger_class: gunicorn.glogging.Logger
+  logconfig: None
+  logconfig_dict: {}
+  syslog_addr: udp://localhost:514
+  syslog: False
+  syslog_prefix: None
+  syslog_facility: user
+  enable_stdio_inheritance: False
+  statsd_host: None
+  dogstatsd_tags: 
+  statsd_prefix: 
+  proc_name: None
+  default_proc_name: routes:app
+  pythonpath: None
+  paste: None
+  on_starting: <function OnStarting.on_starting at 0x7feb8f0ff4c0>
+  on_reload: <function OnReload.on_reload at 0x7feb8f0ff5e0>
+  when_ready: <function WhenReady.when_ready at 0x7feb8f0ff700>
+  pre_fork: <function Prefork.pre_fork at 0x7feb8f0ff820>
+  post_fork: <function Postfork.post_fork at 0x7feb8f0ff940>
+  post_worker_init: <function PostWorkerInit.post_worker_init at 0x7feb8f0ffa60>
+  worker_int: <function WorkerInt.worker_int at 0x7feb8f0ffb80>
+  worker_abort: <function WorkerAbort.worker_abort at 0x7feb8f0ffca0>
+  pre_exec: <function PreExec.pre_exec at 0x7feb8f0ffdc0>
+  pre_request: <function PreRequest.pre_request at 0x7feb8f0ffee0>
+  post_request: <function PostRequest.post_request at 0x7feb8f0fff70>
+  child_exit: <function ChildExit.child_exit at 0x7feb8f1170d0>
+  worker_exit: <function WorkerExit.worker_exit at 0x7feb8f1171f0>
+  nworkers_changed: <function NumWorkersChanged.nworkers_changed at 0x7feb8f117310>
+  on_exit: <function OnExit.on_exit at 0x7feb8f117430>
+  proxy_protocol: False
+  proxy_allow_ips: ['127.0.0.1']
+  keyfile: /etc/nginx/conf.d/certs/wildcard.qcri.org.key
+  certfile: /etc/nginx/conf.d/certs/2022/wildcard.qcri.org.crt
+  ssl_version: 2
+  cert_reqs: 0
+  ca_certs: None
+  suppress_ragged_eofs: True
+  do_handshake_on_connect: False
+  ciphers: None
+  raw_paste_global_conf: []
+  strip_header_spaces: False
+[2022-05-17 12:16:30 +0300] [31480] [INFO] Starting gunicorn 20.1.0
+[2022-05-17 12:16:30 +0300] [31480] [DEBUG] Arbiter booted
+[2022-05-17 12:16:30 +0300] [31480] [INFO] Listening at: https://0.0.0.0:5000 (31480)
+[2022-05-17 12:16:30 +0300] [31480] [INFO] Using worker: sync
+[2022-05-17 12:16:30 +0300] [31482] [INFO] Booting worker with pid: 31482
+[2022-05-17 12:16:30 +0300] [31487] [INFO] Booting worker with pid: 31487
+[2022-05-17 12:16:30 +0300] [31488] [INFO] Booting worker with pid: 31488
+[2022-05-17 12:16:30 +0300] [31480] [DEBUG] 3 workers
+[2022-05-17 12:16:34 +0300] [31487] [INFO] Worker exiting (pid: 31487)
+[2022-05-17 12:16:34 +0300] [31488] [INFO] Worker exiting (pid: 31488)
+[2022-05-17 12:16:34 +0300] [31482] [INFO] Worker exiting (pid: 31482)
+[2022-05-17 12:16:34 +0300] [31482] [INFO] Shutting down: Master
+[2022-05-17 12:16:34 +0300] [31480] [INFO] Handling signal: int
+[2022-05-17 12:16:35 +0300] [31480] [INFO] Shutting down: Master
+[2022-05-17 12:16:36 +0300] [31573] [DEBUG] Current configuration:
+  config: gunicorn.conf
+  wsgi_app: None
+  bind: ['0.0.0.0:5000']
+  backlog: 2048
+  workers: 3
+  worker_class: sync
+  threads: 1
+  worker_connections: 1000
+  max_requests: 0
+  max_requests_jitter: 0
+  timeout: 600
+  graceful_timeout: 30
+  keepalive: 2
+  limit_request_line: 4094
+  limit_request_fields: 100
+  limit_request_field_size: 8190
+  reload: False
+  reload_engine: auto
+  reload_extra_files: []
+  spew: False
+  check_config: False
+  print_config: False
+  preload_app: False
+  sendfile: None
+  reuse_port: False
+  chdir: /home/local/QCRI/kisufaj/VisualizePlots/backend
+  daemon: False
+  raw_env: []
+  pidfile: None
+  worker_tmp_dir: None
+  user: 1980764994
+  group: 1980760577
+  umask: 0
+  initgroups: False
+  tmp_upload_dir: None
+  secure_scheme_headers: {'X-FORWARDED-PROTOCOL': 'ssl', 'X-FORWARDED-PROTO': 'https', 'X-FORWARDED-SSL': 'on'}
+  forwarded_allow_ips: ['127.0.0.1']
+  accesslog: /home/local/QCRI/kisufaj/VisualizePlots/backend/gunicorn_logs/access.log
+  disable_redirect_access_to_syslog: False
+  access_log_format: %(h)s %(l)s %(u)s %(t)s "%(r)s" %(s)s %(b)s "%(f)s" "%(a)s"
+  errorlog: /home/local/QCRI/kisufaj/VisualizePlots/backend/gunicorn_logs/error.log
+  loglevel: debug
+  capture_output: False
+  logger_class: gunicorn.glogging.Logger
+  logconfig: None
+  logconfig_dict: {}
+  syslog_addr: udp://localhost:514
+  syslog: False
+  syslog_prefix: None
+  syslog_facility: user
+  enable_stdio_inheritance: False
+  statsd_host: None
+  dogstatsd_tags: 
+  statsd_prefix: 
+  proc_name: None
+  default_proc_name: routes:app
+  pythonpath: None
+  paste: None
+  on_starting: <function OnStarting.on_starting at 0x7f0a767254c0>
+  on_reload: <function OnReload.on_reload at 0x7f0a767255e0>
+  when_ready: <function WhenReady.when_ready at 0x7f0a76725700>
+  pre_fork: <function Prefork.pre_fork at 0x7f0a76725820>
+  post_fork: <function Postfork.post_fork at 0x7f0a76725940>
+  post_worker_init: <function PostWorkerInit.post_worker_init at 0x7f0a76725a60>
+  worker_int: <function WorkerInt.worker_int at 0x7f0a76725b80>
+  worker_abort: <function WorkerAbort.worker_abort at 0x7f0a76725ca0>
+  pre_exec: <function PreExec.pre_exec at 0x7f0a76725dc0>
+  pre_request: <function PreRequest.pre_request at 0x7f0a76725ee0>
+  post_request: <function PostRequest.post_request at 0x7f0a76725f70>
+  child_exit: <function ChildExit.child_exit at 0x7f0a7673e0d0>
+  worker_exit: <function WorkerExit.worker_exit at 0x7f0a7673e1f0>
+  nworkers_changed: <function NumWorkersChanged.nworkers_changed at 0x7f0a7673e310>
+  on_exit: <function OnExit.on_exit at 0x7f0a7673e430>
+  proxy_protocol: False
+  proxy_allow_ips: ['127.0.0.1']
+  keyfile: /etc/nginx/conf.d/certs/wildcard.qcri.org.key
+  certfile: /etc/nginx/conf.d/certs/2022/wildcard.qcri.org.crt
+  ssl_version: 2
+  cert_reqs: 0
+  ca_certs: None
+  suppress_ragged_eofs: True
+  do_handshake_on_connect: False
+  ciphers: None
+  raw_paste_global_conf: []
+  strip_header_spaces: False
+[2022-05-17 12:16:36 +0300] [31573] [INFO] Starting gunicorn 20.1.0
+[2022-05-17 12:16:36 +0300] [31573] [DEBUG] Arbiter booted
+[2022-05-17 12:16:36 +0300] [31573] [INFO] Listening at: https://0.0.0.0:5000 (31573)
+[2022-05-17 12:16:36 +0300] [31573] [INFO] Using worker: sync
+[2022-05-17 12:16:36 +0300] [31574] [INFO] Booting worker with pid: 31574
+[2022-05-17 12:16:36 +0300] [31575] [INFO] Booting worker with pid: 31575
+[2022-05-17 12:16:37 +0300] [31579] [INFO] Booting worker with pid: 31579
+[2022-05-17 12:16:37 +0300] [31573] [DEBUG] 3 workers
+[2022-05-17 12:32:07 +0300] [31575] [DEBUG] Error processing SSL request.
+[2022-05-17 12:32:07 +0300] [31575] [DEBUG] Invalid request from ip=10.161.201.12: [SSL: SSL_HANDSHAKE_FAILURE] ssl handshake failure (_ssl.c:2627)
+[2022-05-17 12:32:07 +0300] [31575] [DEBUG] Failed to send error message.
+[2022-05-17 12:32:07 +0300] [31575] [DEBUG] GET /samplePCA
+[2022-05-17 12:33:48 +0300] [31575] [INFO] Worker exiting (pid: 31575)
+[2022-05-17 12:33:48 +0300] [31579] [INFO] Worker exiting (pid: 31579)
+[2022-05-17 12:33:48 +0300] [31574] [INFO] Worker exiting (pid: 31574)
+[2022-05-17 12:33:48 +0300] [31574] [INFO] Shutting down: Master
+[2022-05-17 12:33:48 +0300] [31573] [INFO] Handling signal: int
+[2022-05-17 12:33:48 +0300] [31573] [INFO] Shutting down: Master
+[2022-05-17 12:33:50 +0300] [32680] [DEBUG] Current configuration:
+  config: gunicorn.conf
+  wsgi_app: None
+  bind: ['0.0.0.0:5000']
+  backlog: 2048
+  workers: 3
+  worker_class: sync
+  threads: 1
+  worker_connections: 1000
+  max_requests: 0
+  max_requests_jitter: 0
+  timeout: 600
+  graceful_timeout: 30
+  keepalive: 2
+  limit_request_line: 4094
+  limit_request_fields: 100
+  limit_request_field_size: 8190
+  reload: False
+  reload_engine: auto
+  reload_extra_files: []
+  spew: False
+  check_config: False
+  print_config: False
+  preload_app: False
+  sendfile: None
+  reuse_port: False
+  chdir: /home/local/QCRI/kisufaj/VisualizePlots/backend
+  daemon: False
+  raw_env: []
+  pidfile: None
+  worker_tmp_dir: None
+  user: 1980764994
+  group: 1980760577
+  umask: 0
+  initgroups: False
+  tmp_upload_dir: None
+  secure_scheme_headers: {'X-FORWARDED-PROTOCOL': 'ssl', 'X-FORWARDED-PROTO': 'https', 'X-FORWARDED-SSL': 'on'}
+  forwarded_allow_ips: ['127.0.0.1']
+  accesslog: /home/local/QCRI/kisufaj/VisualizePlots/backend/gunicorn_logs/access.log
+  disable_redirect_access_to_syslog: False
+  access_log_format: %(h)s %(l)s %(u)s %(t)s "%(r)s" %(s)s %(b)s "%(f)s" "%(a)s"
+  errorlog: /home/local/QCRI/kisufaj/VisualizePlots/backend/gunicorn_logs/error.log
+  loglevel: debug
+  capture_output: False
+  logger_class: gunicorn.glogging.Logger
+  logconfig: None
+  logconfig_dict: {}
+  syslog_addr: udp://localhost:514
+  syslog: False
+  syslog_prefix: None
+  syslog_facility: user
+  enable_stdio_inheritance: False
+  statsd_host: None
+  dogstatsd_tags: 
+  statsd_prefix: 
+  proc_name: None
+  default_proc_name: routes:app
+  pythonpath: None
+  paste: None
+  on_starting: <function OnStarting.on_starting at 0x7fa1906574c0>
+  on_reload: <function OnReload.on_reload at 0x7fa1906575e0>
+  when_ready: <function WhenReady.when_ready at 0x7fa190657700>
+  pre_fork: <function Prefork.pre_fork at 0x7fa190657820>
+  post_fork: <function Postfork.post_fork at 0x7fa190657940>
+  post_worker_init: <function PostWorkerInit.post_worker_init at 0x7fa190657a60>
+  worker_int: <function WorkerInt.worker_int at 0x7fa190657b80>
+  worker_abort: <function WorkerAbort.worker_abort at 0x7fa190657ca0>
+  pre_exec: <function PreExec.pre_exec at 0x7fa190657dc0>
+  pre_request: <function PreRequest.pre_request at 0x7fa190657ee0>
+  post_request: <function PostRequest.post_request at 0x7fa190657f70>
+  child_exit: <function ChildExit.child_exit at 0x7fa1906700d0>
+  worker_exit: <function WorkerExit.worker_exit at 0x7fa1906701f0>
+  nworkers_changed: <function NumWorkersChanged.nworkers_changed at 0x7fa190670310>
+  on_exit: <function OnExit.on_exit at 0x7fa190670430>
+  proxy_protocol: False
+  proxy_allow_ips: ['127.0.0.1']
+  keyfile: /etc/nginx/conf.d/certs/wildcard.qcri.org.key
+  certfile: /etc/nginx/conf.d/certs/2022/wildcard.qcri.org.crt
+  ssl_version: 2
+  cert_reqs: 0
+  ca_certs: None
+  suppress_ragged_eofs: True
+  do_handshake_on_connect: False
+  ciphers: None
+  raw_paste_global_conf: []
+  strip_header_spaces: False
+[2022-05-17 12:33:50 +0300] [32680] [INFO] Starting gunicorn 20.1.0
+[2022-05-17 12:33:50 +0300] [32680] [DEBUG] Arbiter booted
+[2022-05-17 12:33:50 +0300] [32680] [INFO] Listening at: https://0.0.0.0:5000 (32680)
+[2022-05-17 12:33:50 +0300] [32680] [INFO] Using worker: sync
+[2022-05-17 12:33:50 +0300] [32681] [INFO] Booting worker with pid: 32681
+[2022-05-17 12:33:50 +0300] [32686] [INFO] Booting worker with pid: 32686
+[2022-05-17 12:33:50 +0300] [32687] [INFO] Booting worker with pid: 32687
+[2022-05-17 12:33:50 +0300] [32680] [DEBUG] 3 workers
+[2022-05-17 12:34:09 +0300] [32681] [DEBUG] Error processing SSL request.
+[2022-05-17 12:34:09 +0300] [32681] [DEBUG] Invalid request from ip=10.161.201.12: [SSL: SSL_HANDSHAKE_FAILURE] ssl handshake failure (_ssl.c:2627)
+[2022-05-17 12:34:09 +0300] [32681] [DEBUG] Failed to send error message.
+[2022-05-17 12:34:09 +0300] [32681] [DEBUG] GET /samplePCAAdmixDataset
+[2022-05-17 12:41:04 +0300] [32687] [DEBUG] Closing connection. 
+[2022-05-17 12:41:14 +0300] [32687] [DEBUG] Closing connection. 
+[2022-05-17 12:50:35 +0300] [32681] [DEBUG] Error processing SSL request.
+[2022-05-17 12:50:35 +0300] [32681] [DEBUG] Invalid request from ip=10.161.201.12: [SSL: SSLV3_ALERT_BAD_CERTIFICATE] sslv3 alert bad certificate (_ssl.c:2627)
+[2022-05-17 12:50:35 +0300] [32681] [DEBUG] Failed to send error message.
+[2022-05-17 12:50:44 +0300] [32686] [DEBUG] Error processing SSL request.
+[2022-05-17 12:50:44 +0300] [32686] [DEBUG] Invalid request from ip=10.161.201.12: [SSL: SSLV3_ALERT_BAD_CERTIFICATE] sslv3 alert bad certificate (_ssl.c:2627)
+[2022-05-17 12:50:44 +0300] [32686] [DEBUG] Failed to send error message.
+[2022-05-17 12:50:49 +0300] [32687] [DEBUG] Error processing SSL request.
+[2022-05-17 12:50:49 +0300] [32687] [DEBUG] Invalid request from ip=10.161.201.12: [SSL: SSL_HANDSHAKE_FAILURE] ssl handshake failure (_ssl.c:2627)
+[2022-05-17 12:50:49 +0300] [32687] [DEBUG] Failed to send error message.
+[2022-05-17 12:50:49 +0300] [32681] [DEBUG] GET /samplePCA
+[2022-05-17 12:50:51 +0300] [32686] [DEBUG] Error processing SSL request.
+[2022-05-17 12:50:51 +0300] [32686] [DEBUG] Invalid request from ip=10.161.201.12: [SSL: SSL_HANDSHAKE_FAILURE] ssl handshake failure (_ssl.c:2627)
+[2022-05-17 12:50:51 +0300] [32686] [DEBUG] Failed to send error message.
+[2022-05-17 12:50:51 +0300] [32686] [DEBUG] GET /samplePCA
+[2022-05-17 12:50:54 +0300] [32681] [DEBUG] Error processing SSL request.
+[2022-05-17 12:50:54 +0300] [32681] [DEBUG] Invalid request from ip=10.161.201.12: [SSL: SSL_HANDSHAKE_FAILURE] ssl handshake failure (_ssl.c:2627)
+[2022-05-17 12:50:54 +0300] [32681] [DEBUG] Failed to send error message.
+[2022-05-17 12:50:54 +0300] [32681] [DEBUG] GET /samplePCA

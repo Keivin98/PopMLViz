@@ -39,9 +39,10 @@ class RadioButtons extends Component {
     // Send formData object
     if (this.state.selectedOption === "Correlation Matrix") {
       axios
-        .post("${process.env.REACT_APP_PROTOCOL}://localhost:5000/uploadCM", formData, {
+        .post(`${process.env.REACT_APP_PROTOCOL}://localhost:5000/uploadCM`, formData, {
           headers: {
             "Content-Type": "multipart/form-data",
+            "Access-Control-Allow-Origin": "*",
           },
         })
         .then((response) => {
@@ -53,9 +54,10 @@ class RadioButtons extends Component {
         });
     } else {
       axios
-        .post("${process.env.REACT_APP_PROTOCOL}://localhost:5000/uploadPCA", formData, {
+        .post(`${process.env.REACT_APP_PROTOCOL}://localhost:5000/uploadPCA`, formData, {
           headers: {
             "Content-Type": "multipart/form-data",
+            "Access-Control-Allow-Origin": "*",
           },
         })
         .then((response) => {

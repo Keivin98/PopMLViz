@@ -25,7 +25,8 @@ from sklearn.ensemble import IsolationForest
 app = create_app()
 # Define a route to fetch the avaialable article
 UPLOAD_FOLDER = './data/'
-
+certfile='/etc/nginx/conf.d/certs/2022/wildcard.qcri.org.crt'
+keyfile='/etc/nginx/conf.d/certs/wildcard.qcri.org.key'
 @app.route("/runkmeans", methods=["POST"], strict_slashes=False)
 def runKmeans():
 	request_df = request.get_json()['df']
@@ -263,4 +264,4 @@ def hello():
 	return "<h1 style='color:blue'>Hello There!</h1>"
 
 if __name__ == "__main__":
-	app.run(host='0.0.0.0', port=5000, debug=True)
+	app.run(host='0.0.0.0', port=5000, keyfile=keyfile, certfile=certfile, debug=True)
