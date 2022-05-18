@@ -109,11 +109,18 @@ def uploadCM():
 	file.save(destination)
 
 	cm_df = pd.read_csv(destination)
-	
-	components = min(20, len(cm_df.columns))
-	pca_new = PCA(n_components = components)
+	try:
+		components = min(20, len(cm_df.columns))
+		pca_new = PCA(n_components = components)
 
-	principalComponents_new = pca_new.fit_transform(cm_df)
+		principalComponents_new = pca_new.fit_transform(cm_df)
+	except:
+		cm_df = pd.read_csv(destination, sep=" ")
+		components = min(20, len(cm_df.columns))
+		pca_new = PCA(n_components = components)
+
+		principalComponents_new = pca_new.fit_transform(cm_df)
+		
 	response_df = pd.DataFrame(principalComponents_new)
 	response_df.columns = ['ID'] + ['PC' + (str(i + 1)) for i in range(components-1)]
 	return response_df.to_csv()
