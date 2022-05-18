@@ -1037,12 +1037,16 @@ class App extends Component {
     });
 
     axios
-      .post(`${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}:5000/uploadCM`, formData, {
-        headers: {
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "*",
-        },
-      })
+      .post(
+        `${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}:5000/uploadCM`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*",
+          },
+        }
+      )
       .then((response) => {
         this.setState({ isLoading: false, selectedUploadOption: "PCA" });
         this.processData(response.data, false);
@@ -1068,12 +1072,16 @@ class App extends Component {
     this.setState({ isLoading: true, ProgressBarType: "Loader" });
 
     axios
-      .post(`${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}:5000/runkmeans`, formData, {
-        headers: {
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "*",
-        },
-      })
+      .post(
+        `${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}:5000/runkmeans`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*",
+          },
+        }
+      )
       .then((r) => {
         var cluster_names = {};
         [...Array(num_clusters)].map((x, index) => {
@@ -1100,12 +1108,16 @@ class App extends Component {
     this.setState({ isLoading: true, ProgressBarType: "Loader" });
 
     axios
-      .post(`${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}:5000/runfuzzy`, formData, {
-        headers: {
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "*",
-        },
-      })
+      .post(
+        `${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}:5000/runfuzzy`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*",
+          },
+        }
+      )
       .then((r) => {
         var cluster_names = {};
         [...Array(num_clusters)].map((x, index) => {
@@ -1133,12 +1145,16 @@ class App extends Component {
       ProgressBarTimeInterval: 70,
     });
     axios
-      .post(`${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}:5000/cmtsne2d`, formData, {
-        headers: {
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "*",
-        },
-      })
+      .post(
+        `${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}:5000/cmtsne2d`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*",
+          },
+        }
+      )
       .then((r) => {
         this.setState({
           isLoading: false,
@@ -1158,12 +1174,16 @@ class App extends Component {
       ProgressBarTimeInterval: 70,
     });
     axios
-      .post(`${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}:5000/cmtsne3d`, formData, {
-        headers: {
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "*",
-        },
-      })
+      .post(
+        `${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}:5000/cmtsne3d`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*",
+          },
+        }
+      )
       .then((r) => {
         this.setState({
           isLoading: false,
@@ -1179,12 +1199,15 @@ class App extends Component {
       ProgressBarType: "Loader",
     });
     axios
-      .get(`${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}:5000/samplePCA`, {
-        headers: {
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "*",
-        },
-      })
+      .get(
+        `${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}:5000/samplePCA`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*",
+          },
+        }
+      )
       .then((r) => {
         this.setState({
           isLoading: false,
@@ -1201,19 +1224,21 @@ class App extends Component {
       ProgressBarType: "Loader",
     });
     axios
-      .get(`${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}:5000/sampleAdmix`, {
-        headers: {
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "*",
-        },
-      })
+      .get(
+        `${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}:5000/sampleAdmix`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*",
+          },
+        }
+      )
       .then((r) => {
         this.setState({
           isLoading: false,
           distributionData: [],
           selectedDescribingColumn: { value: "None", label: "None" },
         });
-        console.log(r.data);
         this.processData(r.data, false, 2);
       });
   };
@@ -1305,7 +1330,7 @@ class App extends Component {
           <BarPlot
             data={this.state.admix}
             alphaVal={this.state.alphaVal}
-            clusterNames={this.state.cluster_names}
+            clusterNames={{ ...this.state.cluster_names }}
             onChange={this.clusterNumberChange}
           />
         );
