@@ -45,9 +45,15 @@ class BarPlot extends Component {
     this.BarPlot();
   };
   componentDidUpdate(prevProps) {
+    console.log(
+      JSON.stringify(prevProps.clusterNames),
+      JSON.stringify(this.props.clusterNames)
+    );
     if (
       prevProps.data !== this.props.data ||
-      prevProps.alphaVal !== this.props.alphaVal
+      prevProps.alphaVal !== this.props.alphaVal ||
+      JSON.stringify(prevProps.clusterNames) !==
+        JSON.stringify(this.props.clusterNames)
     ) {
       this.BarPlot();
     }
