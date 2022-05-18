@@ -3391,3 +3391,302 @@ ValueError: Length mismatch: Expected axis has 9 elements, new values have 10 el
 [2022-05-17 12:50:54 +0300] [32681] [DEBUG] Invalid request from ip=10.161.201.12: [SSL: SSL_HANDSHAKE_FAILURE] ssl handshake failure (_ssl.c:2627)
 [2022-05-17 12:50:54 +0300] [32681] [DEBUG] Failed to send error message.
 [2022-05-17 12:50:54 +0300] [32681] [DEBUG] GET /samplePCA
+[2022-05-17 14:36:13 +0300] [32686] [DEBUG] Error processing SSL request.
+[2022-05-17 14:36:13 +0300] [32686] [DEBUG] Invalid request from ip=10.161.201.12: [SSL: SSL_HANDSHAKE_FAILURE] ssl handshake failure (_ssl.c:2627)
+[2022-05-17 14:36:13 +0300] [32686] [DEBUG] Failed to send error message.
+[2022-05-17 14:36:13 +0300] [32686] [DEBUG] GET /samplePCA
+[2022-05-17 17:45:31 +0300] [32681] [DEBUG] Error processing SSL request.
+[2022-05-17 17:45:31 +0300] [32681] [DEBUG] Invalid request from ip=10.161.234.213: [SSL: HTTP_REQUEST] http request (_ssl.c:2627)
+[2022-05-17 17:45:31 +0300] [32681] [DEBUG] Failed to send error message.
+[2022-05-17 17:45:32 +0300] [32687] [DEBUG] Error processing SSL request.
+[2022-05-17 17:45:32 +0300] [32687] [DEBUG] Invalid request from ip=10.161.234.213: [SSL: HTTP_REQUEST] http request (_ssl.c:2627)
+[2022-05-17 17:45:32 +0300] [32687] [DEBUG] Failed to send error message.
+[2022-05-17 17:45:37 +0300] [32687] [DEBUG] Error processing SSL request.
+[2022-05-17 17:45:37 +0300] [32687] [DEBUG] Invalid request from ip=10.161.234.213: [SSL: HTTP_REQUEST] http request (_ssl.c:2627)
+[2022-05-17 17:45:37 +0300] [32687] [DEBUG] Failed to send error message.
+[2022-05-17 17:45:44 +0300] [32687] [DEBUG] Error processing SSL request.
+[2022-05-17 17:45:44 +0300] [32687] [DEBUG] Invalid request from ip=10.161.234.213: [SSL: UNKNOWN_PROTOCOL] unknown protocol (_ssl.c:2627)
+[2022-05-17 17:45:44 +0300] [32687] [DEBUG] Failed to send error message.
+[2022-05-17 17:46:07 +0300] [32687] [DEBUG] Error processing SSL request.
+[2022-05-17 17:46:07 +0300] [32687] [DEBUG] Invalid request from ip=10.161.234.213: [SSL: HTTP_REQUEST] http request (_ssl.c:2627)
+[2022-05-17 17:46:07 +0300] [32687] [DEBUG] Failed to send error message.
+[2022-05-18 09:47:22 +0300] [32686] [DEBUG] worker: SIGWINCH ignored.
+[2022-05-18 09:47:22 +0300] [32687] [DEBUG] worker: SIGWINCH ignored.
+[2022-05-18 09:47:22 +0300] [32681] [DEBUG] worker: SIGWINCH ignored.
+[2022-05-18 09:47:22 +0300] [32680] [INFO] Handling signal: winch
+[2022-05-18 09:47:22 +0300] [32680] [DEBUG] SIGWINCH ignored. Not daemonized
+[2022-05-18 09:48:09 +0300] [32687] [DEBUG] Error processing SSL request.
+[2022-05-18 09:48:09 +0300] [32687] [DEBUG] Invalid request from ip=10.161.201.12: [SSL: HTTP_REQUEST] http request (_ssl.c:2627)
+[2022-05-18 09:48:09 +0300] [32687] [DEBUG] Failed to send error message.
+[2022-05-18 09:48:09 +0300] [32681] [DEBUG] Error processing SSL request.
+[2022-05-18 09:48:09 +0300] [32681] [DEBUG] Invalid request from ip=10.161.201.12: [SSL: HTTP_REQUEST] http request (_ssl.c:2627)
+[2022-05-18 09:48:09 +0300] [32681] [DEBUG] Failed to send error message.
+[2022-05-18 09:48:09 +0300] [32681] [DEBUG] Error processing SSL request.
+[2022-05-18 09:48:09 +0300] [32681] [DEBUG] Invalid request from ip=10.161.201.12: [SSL: HTTP_REQUEST] http request (_ssl.c:2627)
+[2022-05-18 09:48:09 +0300] [32681] [DEBUG] Failed to send error message.
+[2022-05-18 09:48:09 +0300] [32681] [DEBUG] Error processing SSL request.
+[2022-05-18 09:48:09 +0300] [32681] [DEBUG] Invalid request from ip=10.161.201.12: [SSL: HTTP_REQUEST] http request (_ssl.c:2627)
+[2022-05-18 09:48:09 +0300] [32681] [DEBUG] Failed to send error message.
+[2022-05-18 09:48:09 +0300] [32686] [DEBUG] Error processing SSL request.
+[2022-05-18 09:48:09 +0300] [32686] [DEBUG] Invalid request from ip=10.161.201.12: [SSL: HTTP_REQUEST] http request (_ssl.c:2627)
+[2022-05-18 09:48:09 +0300] [32686] [DEBUG] Failed to send error message.
+[2022-05-18 09:48:09 +0300] [32687] [DEBUG] Error processing SSL request.
+[2022-05-18 09:48:09 +0300] [32687] [DEBUG] Invalid request from ip=10.161.201.12: [SSL: HTTP_REQUEST] http request (_ssl.c:2627)
+[2022-05-18 09:48:09 +0300] [32687] [DEBUG] Failed to send error message.
+[2022-05-18 09:48:09 +0300] [32686] [DEBUG] Error processing SSL request.
+[2022-05-18 09:48:09 +0300] [32686] [DEBUG] Invalid request from ip=10.161.201.12: [SSL: HTTP_REQUEST] http request (_ssl.c:2627)
+[2022-05-18 09:48:09 +0300] [32686] [DEBUG] Failed to send error message.
+[2022-05-18 09:48:09 +0300] [32687] [DEBUG] Error processing SSL request.
+[2022-05-18 09:48:09 +0300] [32687] [DEBUG] Invalid request from ip=10.161.201.12: [SSL: HTTP_REQUEST] http request (_ssl.c:2627)
+[2022-05-18 09:48:09 +0300] [32687] [DEBUG] Failed to send error message.
+[2022-05-18 09:48:09 +0300] [32686] [DEBUG] Error processing SSL request.
+[2022-05-18 09:48:09 +0300] [32686] [DEBUG] Invalid request from ip=10.161.201.12: [SSL: HTTP_REQUEST] http request (_ssl.c:2627)
+[2022-05-18 09:48:09 +0300] [32686] [DEBUG] Failed to send error message.
+[2022-05-18 09:48:09 +0300] [32681] [DEBUG] Error processing SSL request.
+[2022-05-18 09:48:09 +0300] [32681] [DEBUG] Invalid request from ip=10.161.201.12: [SSL: HTTP_REQUEST] http request (_ssl.c:2627)
+[2022-05-18 09:48:09 +0300] [32681] [DEBUG] Failed to send error message.
+[2022-05-18 09:48:15 +0300] [32687] [DEBUG] Error processing SSL request.
+[2022-05-18 09:48:15 +0300] [32687] [DEBUG] Invalid request from ip=10.161.201.12: [SSL: HTTP_REQUEST] http request (_ssl.c:2627)
+[2022-05-18 09:48:15 +0300] [32687] [DEBUG] Failed to send error message.
+[2022-05-18 09:48:15 +0300] [32686] [DEBUG] Error processing SSL request.
+[2022-05-18 09:48:15 +0300] [32686] [DEBUG] Invalid request from ip=10.161.201.12: [SSL: HTTP_REQUEST] http request (_ssl.c:2627)
+[2022-05-18 09:48:15 +0300] [32686] [DEBUG] Failed to send error message.
+[2022-05-18 09:48:15 +0300] [32681] [DEBUG] Error processing SSL request.
+[2022-05-18 09:48:15 +0300] [32681] [DEBUG] Invalid request from ip=10.161.201.12: [SSL: HTTP_REQUEST] http request (_ssl.c:2627)
+[2022-05-18 09:48:15 +0300] [32681] [DEBUG] Failed to send error message.
+[2022-05-18 09:48:15 +0300] [32687] [DEBUG] Error processing SSL request.
+[2022-05-18 09:48:15 +0300] [32687] [DEBUG] Invalid request from ip=10.161.201.12: [SSL: HTTP_REQUEST] http request (_ssl.c:2627)
+[2022-05-18 09:48:15 +0300] [32687] [DEBUG] Failed to send error message.
+[2022-05-18 09:48:15 +0300] [32686] [DEBUG] Error processing SSL request.
+[2022-05-18 09:48:15 +0300] [32686] [DEBUG] Invalid request from ip=10.161.201.12: [SSL: HTTP_REQUEST] http request (_ssl.c:2627)
+[2022-05-18 09:48:15 +0300] [32686] [DEBUG] Failed to send error message.
+[2022-05-18 09:48:15 +0300] [32681] [DEBUG] Error processing SSL request.
+[2022-05-18 09:48:15 +0300] [32681] [DEBUG] Invalid request from ip=10.161.201.12: [SSL: HTTP_REQUEST] http request (_ssl.c:2627)
+[2022-05-18 09:48:15 +0300] [32681] [DEBUG] Failed to send error message.
+[2022-05-18 09:48:15 +0300] [32687] [DEBUG] Error processing SSL request.
+[2022-05-18 09:48:15 +0300] [32687] [DEBUG] Invalid request from ip=10.161.201.12: [SSL: HTTP_REQUEST] http request (_ssl.c:2627)
+[2022-05-18 09:48:15 +0300] [32687] [DEBUG] Failed to send error message.
+[2022-05-18 09:48:15 +0300] [32686] [DEBUG] Error processing SSL request.
+[2022-05-18 09:48:15 +0300] [32686] [DEBUG] Invalid request from ip=10.161.201.12: [SSL: HTTP_REQUEST] http request (_ssl.c:2627)
+[2022-05-18 09:48:15 +0300] [32686] [DEBUG] Failed to send error message.
+[2022-05-18 09:48:15 +0300] [32681] [DEBUG] Error processing SSL request.
+[2022-05-18 09:48:15 +0300] [32681] [DEBUG] Invalid request from ip=10.161.201.12: [SSL: HTTP_REQUEST] http request (_ssl.c:2627)
+[2022-05-18 09:48:15 +0300] [32681] [DEBUG] Failed to send error message.
+[2022-05-18 09:48:15 +0300] [32686] [DEBUG] Error processing SSL request.
+[2022-05-18 09:48:15 +0300] [32686] [DEBUG] Invalid request from ip=10.161.201.12: [SSL: HTTP_REQUEST] http request (_ssl.c:2627)
+[2022-05-18 09:48:15 +0300] [32686] [DEBUG] Failed to send error message.
+[2022-05-18 09:48:16 +0300] [32687] [DEBUG] Error processing SSL request.
+[2022-05-18 09:48:16 +0300] [32687] [DEBUG] Invalid request from ip=10.161.201.12: [SSL: HTTP_REQUEST] http request (_ssl.c:2627)
+[2022-05-18 09:48:16 +0300] [32687] [DEBUG] Failed to send error message.
+[2022-05-18 09:48:16 +0300] [32681] [DEBUG] Error processing SSL request.
+[2022-05-18 09:48:16 +0300] [32681] [DEBUG] Invalid request from ip=10.161.201.12: [SSL: HTTP_REQUEST] http request (_ssl.c:2627)
+[2022-05-18 09:48:16 +0300] [32681] [DEBUG] Failed to send error message.
+[2022-05-18 09:48:16 +0300] [32686] [DEBUG] Error processing SSL request.
+[2022-05-18 09:48:16 +0300] [32686] [DEBUG] Invalid request from ip=10.161.201.12: [SSL: HTTP_REQUEST] http request (_ssl.c:2627)
+[2022-05-18 09:48:16 +0300] [32686] [DEBUG] Failed to send error message.
+[2022-05-18 09:48:16 +0300] [32687] [DEBUG] Error processing SSL request.
+[2022-05-18 09:48:16 +0300] [32687] [DEBUG] Invalid request from ip=10.161.201.12: [SSL: HTTP_REQUEST] http request (_ssl.c:2627)
+[2022-05-18 09:48:16 +0300] [32687] [DEBUG] Failed to send error message.
+[2022-05-18 09:48:16 +0300] [32686] [DEBUG] Error processing SSL request.
+[2022-05-18 09:48:16 +0300] [32686] [DEBUG] Invalid request from ip=10.161.201.12: [SSL: HTTP_REQUEST] http request (_ssl.c:2627)
+[2022-05-18 09:48:16 +0300] [32686] [DEBUG] Failed to send error message.
+[2022-05-18 09:48:16 +0300] [32681] [DEBUG] Error processing SSL request.
+[2022-05-18 09:48:16 +0300] [32681] [DEBUG] Invalid request from ip=10.161.201.12: [SSL: HTTP_REQUEST] http request (_ssl.c:2627)
+[2022-05-18 09:48:16 +0300] [32681] [DEBUG] Failed to send error message.
+[2022-05-18 09:48:16 +0300] [32687] [DEBUG] Error processing SSL request.
+[2022-05-18 09:48:16 +0300] [32687] [DEBUG] Invalid request from ip=10.161.201.12: [SSL: HTTP_REQUEST] http request (_ssl.c:2627)
+[2022-05-18 09:48:16 +0300] [32687] [DEBUG] Failed to send error message.
+[2022-05-18 09:48:16 +0300] [32686] [DEBUG] Error processing SSL request.
+[2022-05-18 09:48:16 +0300] [32686] [DEBUG] Invalid request from ip=10.161.201.12: [SSL: HTTP_REQUEST] http request (_ssl.c:2627)
+[2022-05-18 09:48:16 +0300] [32686] [DEBUG] Failed to send error message.
+[2022-05-18 09:48:16 +0300] [32681] [DEBUG] Error processing SSL request.
+[2022-05-18 09:48:16 +0300] [32681] [DEBUG] Invalid request from ip=10.161.201.12: [SSL: HTTP_REQUEST] http request (_ssl.c:2627)
+[2022-05-18 09:48:16 +0300] [32681] [DEBUG] Failed to send error message.
+[2022-05-18 09:48:16 +0300] [32687] [DEBUG] Error processing SSL request.
+[2022-05-18 09:48:16 +0300] [32687] [DEBUG] Invalid request from ip=10.161.201.12: [SSL: HTTP_REQUEST] http request (_ssl.c:2627)
+[2022-05-18 09:48:16 +0300] [32687] [DEBUG] Failed to send error message.
+[2022-05-18 09:48:17 +0300] [32686] [DEBUG] Error processing SSL request.
+[2022-05-18 09:48:17 +0300] [32686] [DEBUG] Invalid request from ip=10.161.201.12: [SSL: HTTP_REQUEST] http request (_ssl.c:2627)
+[2022-05-18 09:48:17 +0300] [32686] [DEBUG] Failed to send error message.
+[2022-05-18 09:48:17 +0300] [32687] [DEBUG] Error processing SSL request.
+[2022-05-18 09:48:17 +0300] [32687] [DEBUG] Invalid request from ip=10.161.201.12: [SSL: HTTP_REQUEST] http request (_ssl.c:2627)
+[2022-05-18 09:48:17 +0300] [32687] [DEBUG] Failed to send error message.
+[2022-05-18 09:48:17 +0300] [32687] [DEBUG] Error processing SSL request.
+[2022-05-18 09:48:17 +0300] [32687] [DEBUG] Invalid request from ip=10.161.201.12: [SSL: HTTP_REQUEST] http request (_ssl.c:2627)
+[2022-05-18 09:48:17 +0300] [32687] [DEBUG] Failed to send error message.
+[2022-05-18 09:48:17 +0300] [32681] [DEBUG] Error processing SSL request.
+[2022-05-18 09:48:17 +0300] [32681] [DEBUG] Invalid request from ip=10.161.201.12: [SSL: HTTP_REQUEST] http request (_ssl.c:2627)
+[2022-05-18 09:48:17 +0300] [32681] [DEBUG] Failed to send error message.
+[2022-05-18 09:48:17 +0300] [32681] [DEBUG] Error processing SSL request.
+[2022-05-18 09:48:17 +0300] [32681] [DEBUG] Invalid request from ip=10.161.201.12: [SSL: HTTP_REQUEST] http request (_ssl.c:2627)
+[2022-05-18 09:48:17 +0300] [32681] [DEBUG] Failed to send error message.
+[2022-05-18 09:48:17 +0300] [32686] [DEBUG] Error processing SSL request.
+[2022-05-18 09:48:17 +0300] [32686] [DEBUG] Invalid request from ip=10.161.201.12: [SSL: HTTP_REQUEST] http request (_ssl.c:2627)
+[2022-05-18 09:48:17 +0300] [32686] [DEBUG] Failed to send error message.
+[2022-05-18 09:48:17 +0300] [32687] [DEBUG] Error processing SSL request.
+[2022-05-18 09:48:17 +0300] [32687] [DEBUG] Invalid request from ip=10.161.201.12: [SSL: HTTP_REQUEST] http request (_ssl.c:2627)
+[2022-05-18 09:48:17 +0300] [32687] [DEBUG] Failed to send error message.
+[2022-05-18 09:48:17 +0300] [32681] [DEBUG] Error processing SSL request.
+[2022-05-18 09:48:17 +0300] [32681] [DEBUG] Invalid request from ip=10.161.201.12: [SSL: HTTP_REQUEST] http request (_ssl.c:2627)
+[2022-05-18 09:48:17 +0300] [32681] [DEBUG] Failed to send error message.
+[2022-05-18 09:48:17 +0300] [32686] [DEBUG] Error processing SSL request.
+[2022-05-18 09:48:17 +0300] [32686] [DEBUG] Invalid request from ip=10.161.201.12: [SSL: HTTP_REQUEST] http request (_ssl.c:2627)
+[2022-05-18 09:48:17 +0300] [32686] [DEBUG] Failed to send error message.
+[2022-05-18 09:48:17 +0300] [32681] [DEBUG] Error processing SSL request.
+[2022-05-18 09:48:17 +0300] [32681] [DEBUG] Invalid request from ip=10.161.201.12: [SSL: HTTP_REQUEST] http request (_ssl.c:2627)
+[2022-05-18 09:48:17 +0300] [32681] [DEBUG] Failed to send error message.
+[2022-05-18 09:48:19 +0300] [32686] [DEBUG] Error processing SSL request.
+[2022-05-18 09:48:19 +0300] [32686] [DEBUG] Invalid request from ip=10.161.201.12: [SSL: HTTP_REQUEST] http request (_ssl.c:2627)
+[2022-05-18 09:48:19 +0300] [32686] [DEBUG] Failed to send error message.
+[2022-05-18 09:48:19 +0300] [32681] [DEBUG] Error processing SSL request.
+[2022-05-18 09:48:19 +0300] [32681] [DEBUG] Invalid request from ip=10.161.201.12: [SSL: HTTP_REQUEST] http request (_ssl.c:2627)
+[2022-05-18 09:48:19 +0300] [32681] [DEBUG] Failed to send error message.
+[2022-05-18 09:48:19 +0300] [32687] [DEBUG] Error processing SSL request.
+[2022-05-18 09:48:19 +0300] [32687] [DEBUG] Invalid request from ip=10.161.201.12: [SSL: HTTP_REQUEST] http request (_ssl.c:2627)
+[2022-05-18 09:48:19 +0300] [32687] [DEBUG] Failed to send error message.
+[2022-05-18 09:48:19 +0300] [32686] [DEBUG] Error processing SSL request.
+[2022-05-18 09:48:19 +0300] [32686] [DEBUG] Invalid request from ip=10.161.201.12: [SSL: HTTP_REQUEST] http request (_ssl.c:2627)
+[2022-05-18 09:48:19 +0300] [32686] [DEBUG] Failed to send error message.
+[2022-05-18 09:48:19 +0300] [32687] [DEBUG] Error processing SSL request.
+[2022-05-18 09:48:19 +0300] [32687] [DEBUG] Invalid request from ip=10.161.201.12: [SSL: HTTP_REQUEST] http request (_ssl.c:2627)
+[2022-05-18 09:48:19 +0300] [32687] [DEBUG] Failed to send error message.
+[2022-05-18 09:48:19 +0300] [32681] [DEBUG] Error processing SSL request.
+[2022-05-18 09:48:19 +0300] [32681] [DEBUG] Invalid request from ip=10.161.201.12: [SSL: HTTP_REQUEST] http request (_ssl.c:2627)
+[2022-05-18 09:48:19 +0300] [32681] [DEBUG] Failed to send error message.
+[2022-05-18 09:48:19 +0300] [32687] [DEBUG] Error processing SSL request.
+[2022-05-18 09:48:19 +0300] [32687] [DEBUG] Invalid request from ip=10.161.201.12: [SSL: HTTP_REQUEST] http request (_ssl.c:2627)
+[2022-05-18 09:48:19 +0300] [32687] [DEBUG] Failed to send error message.
+[2022-05-18 09:48:19 +0300] [32686] [DEBUG] Error processing SSL request.
+[2022-05-18 09:48:19 +0300] [32686] [DEBUG] Invalid request from ip=10.161.201.12: [SSL: HTTP_REQUEST] http request (_ssl.c:2627)
+[2022-05-18 09:48:19 +0300] [32686] [DEBUG] Failed to send error message.
+[2022-05-18 09:48:19 +0300] [32681] [DEBUG] Error processing SSL request.
+[2022-05-18 09:48:19 +0300] [32681] [DEBUG] Invalid request from ip=10.161.201.12: [SSL: HTTP_REQUEST] http request (_ssl.c:2627)
+[2022-05-18 09:48:19 +0300] [32681] [DEBUG] Failed to send error message.
+[2022-05-18 09:48:19 +0300] [32687] [DEBUG] Error processing SSL request.
+[2022-05-18 09:48:19 +0300] [32687] [DEBUG] Invalid request from ip=10.161.201.12: [SSL: HTTP_REQUEST] http request (_ssl.c:2627)
+[2022-05-18 09:48:19 +0300] [32687] [DEBUG] Failed to send error message.
+[2022-05-18 09:48:33 +0300] [32687] [DEBUG] Error processing SSL request.
+[2022-05-18 09:48:33 +0300] [32687] [DEBUG] Invalid request from ip=10.161.201.12: [SSL: HTTP_REQUEST] http request (_ssl.c:2627)
+[2022-05-18 09:48:33 +0300] [32687] [DEBUG] Failed to send error message.
+[2022-05-18 09:48:33 +0300] [32681] [DEBUG] Error processing SSL request.
+[2022-05-18 09:48:33 +0300] [32681] [DEBUG] Invalid request from ip=10.161.201.12: [SSL: HTTP_REQUEST] http request (_ssl.c:2627)
+[2022-05-18 09:48:33 +0300] [32681] [DEBUG] Failed to send error message.
+[2022-05-18 09:48:33 +0300] [32686] [DEBUG] Error processing SSL request.
+[2022-05-18 09:48:33 +0300] [32686] [DEBUG] Invalid request from ip=10.161.201.12: [SSL: HTTP_REQUEST] http request (_ssl.c:2627)
+[2022-05-18 09:48:33 +0300] [32686] [DEBUG] Failed to send error message.
+[2022-05-18 09:48:33 +0300] [32686] [DEBUG] Error processing SSL request.
+[2022-05-18 09:48:33 +0300] [32686] [DEBUG] Invalid request from ip=10.161.201.12: [SSL: HTTP_REQUEST] http request (_ssl.c:2627)
+[2022-05-18 09:48:33 +0300] [32686] [DEBUG] Failed to send error message.
+[2022-05-18 09:48:33 +0300] [32681] [DEBUG] Error processing SSL request.
+[2022-05-18 09:48:33 +0300] [32681] [DEBUG] Invalid request from ip=10.161.201.12: [SSL: HTTP_REQUEST] http request (_ssl.c:2627)
+[2022-05-18 09:48:33 +0300] [32681] [DEBUG] Failed to send error message.
+[2022-05-18 09:48:33 +0300] [32686] [DEBUG] Error processing SSL request.
+[2022-05-18 09:48:33 +0300] [32686] [DEBUG] Invalid request from ip=10.161.201.12: [SSL: HTTP_REQUEST] http request (_ssl.c:2627)
+[2022-05-18 09:48:33 +0300] [32686] [DEBUG] Failed to send error message.
+[2022-05-18 09:48:33 +0300] [32687] [DEBUG] Error processing SSL request.
+[2022-05-18 09:48:33 +0300] [32687] [DEBUG] Invalid request from ip=10.161.201.12: [SSL: HTTP_REQUEST] http request (_ssl.c:2627)
+[2022-05-18 09:48:33 +0300] [32687] [DEBUG] Failed to send error message.
+[2022-05-18 09:48:33 +0300] [32681] [DEBUG] Error processing SSL request.
+[2022-05-18 09:48:33 +0300] [32681] [DEBUG] Invalid request from ip=10.161.201.12: [SSL: HTTP_REQUEST] http request (_ssl.c:2627)
+[2022-05-18 09:48:33 +0300] [32681] [DEBUG] Failed to send error message.
+[2022-05-18 09:48:33 +0300] [32686] [DEBUG] Error processing SSL request.
+[2022-05-18 09:48:33 +0300] [32686] [DEBUG] Invalid request from ip=10.161.201.12: [SSL: HTTP_REQUEST] http request (_ssl.c:2627)
+[2022-05-18 09:48:33 +0300] [32686] [DEBUG] Failed to send error message.
+[2022-05-18 09:48:33 +0300] [32681] [DEBUG] Error processing SSL request.
+[2022-05-18 09:48:33 +0300] [32681] [DEBUG] Invalid request from ip=10.161.201.12: [SSL: HTTP_REQUEST] http request (_ssl.c:2627)
+[2022-05-18 09:48:33 +0300] [32681] [DEBUG] Failed to send error message.
+[2022-05-18 09:48:40 +0300] [32686] [DEBUG] Error processing SSL request.
+[2022-05-18 09:48:40 +0300] [32686] [DEBUG] Invalid request from ip=10.161.201.12: [SSL: SSLV3_ALERT_BAD_CERTIFICATE] sslv3 alert bad certificate (_ssl.c:2627)
+[2022-05-18 09:48:40 +0300] [32686] [DEBUG] Failed to send error message.
+[2022-05-18 09:48:45 +0300] [32686] [DEBUG] GET /
+[2022-05-18 09:48:45 +0300] [32686] [DEBUG] GET /favicon.ico
+[2022-05-18 09:48:47 +0300] [32681] [DEBUG] Error processing SSL request.
+[2022-05-18 09:48:47 +0300] [32681] [DEBUG] Invalid request from ip=10.161.201.12: [SSL: HTTP_REQUEST] http request (_ssl.c:2627)
+[2022-05-18 09:48:47 +0300] [32681] [DEBUG] Failed to send error message.
+[2022-05-18 09:48:47 +0300] [32687] [DEBUG] Error processing SSL request.
+[2022-05-18 09:48:47 +0300] [32687] [DEBUG] Invalid request from ip=10.161.201.12: [SSL: HTTP_REQUEST] http request (_ssl.c:2627)
+[2022-05-18 09:48:47 +0300] [32687] [DEBUG] Failed to send error message.
+[2022-05-18 09:48:47 +0300] [32681] [DEBUG] Error processing SSL request.
+[2022-05-18 09:48:47 +0300] [32681] [DEBUG] Invalid request from ip=10.161.201.12: [SSL: HTTP_REQUEST] http request (_ssl.c:2627)
+[2022-05-18 09:48:47 +0300] [32681] [DEBUG] Failed to send error message.
+[2022-05-18 09:48:47 +0300] [32687] [DEBUG] Error processing SSL request.
+[2022-05-18 09:48:47 +0300] [32687] [DEBUG] Invalid request from ip=10.161.201.12: [SSL: HTTP_REQUEST] http request (_ssl.c:2627)
+[2022-05-18 09:48:47 +0300] [32687] [DEBUG] Failed to send error message.
+[2022-05-18 09:48:47 +0300] [32687] [DEBUG] Error processing SSL request.
+[2022-05-18 09:48:47 +0300] [32687] [DEBUG] Invalid request from ip=10.161.201.12: [SSL: HTTP_REQUEST] http request (_ssl.c:2627)
+[2022-05-18 09:48:47 +0300] [32687] [DEBUG] Failed to send error message.
+[2022-05-18 09:48:47 +0300] [32681] [DEBUG] Error processing SSL request.
+[2022-05-18 09:48:47 +0300] [32681] [DEBUG] Invalid request from ip=10.161.201.12: [SSL: HTTP_REQUEST] http request (_ssl.c:2627)
+[2022-05-18 09:48:47 +0300] [32681] [DEBUG] Failed to send error message.
+[2022-05-18 09:48:47 +0300] [32687] [DEBUG] Error processing SSL request.
+[2022-05-18 09:48:47 +0300] [32687] [DEBUG] Invalid request from ip=10.161.201.12: [SSL: HTTP_REQUEST] http request (_ssl.c:2627)
+[2022-05-18 09:48:47 +0300] [32687] [DEBUG] Failed to send error message.
+[2022-05-18 09:48:47 +0300] [32687] [DEBUG] Error processing SSL request.
+[2022-05-18 09:48:47 +0300] [32687] [DEBUG] Invalid request from ip=10.161.201.12: [SSL: HTTP_REQUEST] http request (_ssl.c:2627)
+[2022-05-18 09:48:47 +0300] [32687] [DEBUG] Failed to send error message.
+[2022-05-18 09:48:47 +0300] [32687] [DEBUG] Error processing SSL request.
+[2022-05-18 09:48:47 +0300] [32687] [DEBUG] Invalid request from ip=10.161.201.12: [SSL: HTTP_REQUEST] http request (_ssl.c:2627)
+[2022-05-18 09:48:47 +0300] [32687] [DEBUG] Failed to send error message.
+[2022-05-18 09:48:47 +0300] [32687] [DEBUG] Error processing SSL request.
+[2022-05-18 09:48:47 +0300] [32687] [DEBUG] Invalid request from ip=10.161.201.12: [SSL: HTTP_REQUEST] http request (_ssl.c:2627)
+[2022-05-18 09:48:47 +0300] [32687] [DEBUG] Failed to send error message.
+[2022-05-18 09:48:49 +0300] [32681] [DEBUG] Error processing SSL request.
+[2022-05-18 09:48:49 +0300] [32681] [DEBUG] Invalid request from ip=10.161.201.12: [SSL: HTTP_REQUEST] http request (_ssl.c:2627)
+[2022-05-18 09:48:49 +0300] [32681] [DEBUG] Failed to send error message.
+[2022-05-18 09:48:49 +0300] [32687] [DEBUG] Error processing SSL request.
+[2022-05-18 09:48:49 +0300] [32687] [DEBUG] Invalid request from ip=10.161.201.12: [SSL: HTTP_REQUEST] http request (_ssl.c:2627)
+[2022-05-18 09:48:49 +0300] [32687] [DEBUG] Failed to send error message.
+[2022-05-18 09:48:49 +0300] [32687] [DEBUG] Error processing SSL request.
+[2022-05-18 09:48:49 +0300] [32687] [DEBUG] Invalid request from ip=10.161.201.12: [SSL: HTTP_REQUEST] http request (_ssl.c:2627)
+[2022-05-18 09:48:49 +0300] [32687] [DEBUG] Failed to send error message.
+[2022-05-18 09:48:49 +0300] [32686] [DEBUG] Error processing SSL request.
+[2022-05-18 09:48:49 +0300] [32686] [DEBUG] Invalid request from ip=10.161.201.12: [SSL: HTTP_REQUEST] http request (_ssl.c:2627)
+[2022-05-18 09:48:49 +0300] [32686] [DEBUG] Failed to send error message.
+[2022-05-18 09:48:49 +0300] [32686] [DEBUG] Error processing SSL request.
+[2022-05-18 09:48:49 +0300] [32686] [DEBUG] Invalid request from ip=10.161.201.12: [SSL: HTTP_REQUEST] http request (_ssl.c:2627)
+[2022-05-18 09:48:49 +0300] [32686] [DEBUG] Failed to send error message.
+[2022-05-18 09:48:49 +0300] [32686] [DEBUG] Error processing SSL request.
+[2022-05-18 09:48:49 +0300] [32686] [DEBUG] Invalid request from ip=10.161.201.12: [SSL: HTTP_REQUEST] http request (_ssl.c:2627)
+[2022-05-18 09:48:49 +0300] [32686] [DEBUG] Failed to send error message.
+[2022-05-18 09:48:49 +0300] [32687] [DEBUG] Error processing SSL request.
+[2022-05-18 09:48:49 +0300] [32687] [DEBUG] Invalid request from ip=10.161.201.12: [SSL: HTTP_REQUEST] http request (_ssl.c:2627)
+[2022-05-18 09:48:49 +0300] [32687] [DEBUG] Failed to send error message.
+[2022-05-18 09:48:49 +0300] [32681] [DEBUG] Error processing SSL request.
+[2022-05-18 09:48:49 +0300] [32681] [DEBUG] Invalid request from ip=10.161.201.12: [SSL: HTTP_REQUEST] http request (_ssl.c:2627)
+[2022-05-18 09:48:49 +0300] [32681] [DEBUG] Failed to send error message.
+[2022-05-18 09:48:49 +0300] [32687] [DEBUG] Error processing SSL request.
+[2022-05-18 09:48:49 +0300] [32687] [DEBUG] Invalid request from ip=10.161.201.12: [SSL: HTTP_REQUEST] http request (_ssl.c:2627)
+[2022-05-18 09:48:49 +0300] [32687] [DEBUG] Failed to send error message.
+[2022-05-18 09:48:49 +0300] [32686] [DEBUG] Error processing SSL request.
+[2022-05-18 09:48:49 +0300] [32686] [DEBUG] Invalid request from ip=10.161.201.12: [SSL: HTTP_REQUEST] http request (_ssl.c:2627)
+[2022-05-18 09:48:49 +0300] [32686] [DEBUG] Failed to send error message.
+[2022-05-18 09:48:53 +0300] [32681] [DEBUG] GET /
+[2022-05-18 09:51:19 +0300] [32681] [DEBUG] worker: SIGWINCH ignored.
+[2022-05-18 09:51:19 +0300] [32687] [DEBUG] worker: SIGWINCH ignored.
+[2022-05-18 09:51:19 +0300] [32686] [DEBUG] worker: SIGWINCH ignored.
+[2022-05-18 09:51:19 +0300] [32680] [INFO] Handling signal: winch
+[2022-05-18 09:51:19 +0300] [32680] [DEBUG] SIGWINCH ignored. Not daemonized
+[2022-05-18 09:53:17 +0300] [32686] [DEBUG] OPTIONS /samplePCA
+[2022-05-18 09:53:17 +0300] [32681] [DEBUG] GET /samplePCA
+[2022-05-18 09:53:35 +0300] [32681] [DEBUG] OPTIONS /runkmeans
+[2022-05-18 09:53:35 +0300] [32681] [DEBUG] POST /runkmeans
+[2022-05-18 09:53:54 +0300] [32681] [DEBUG] OPTIONS /detectoutliers
+[2022-05-18 09:53:54 +0300] [32681] [DEBUG] POST /detectoutliers
+[2022-05-18 10:28:07 +0300] [32686] [DEBUG] OPTIONS /samplePCA
+[2022-05-18 10:28:07 +0300] [32681] [DEBUG] GET /samplePCA
+[2022-05-18 10:40:16 +0300] [32681] [DEBUG] Error processing SSL request.
+[2022-05-18 10:40:16 +0300] [32681] [DEBUG] Invalid request from ip=10.161.200.248: [SSL: SSL_HANDSHAKE_FAILURE] ssl handshake failure (_ssl.c:2627)
+[2022-05-18 10:40:16 +0300] [32681] [DEBUG] Failed to send error message.
+[2022-05-18 10:42:15 +0300] [32687] [DEBUG] Ignoring connection reset
+[2022-05-18 10:42:25 +0300] [32681] [DEBUG] Ignoring connection reset
+[2022-05-18 10:44:04 +0300] [32681] [DEBUG] Ignoring connection reset
+[2022-05-18 10:59:53 +0300] [32681] [DEBUG] OPTIONS /samplePCA
+[2022-05-18 10:59:53 +0300] [32681] [DEBUG] GET /samplePCA
+[2022-05-18 11:00:00 +0300] [32687] [DEBUG] OPTIONS /runkmeans
+[2022-05-18 11:00:00 +0300] [32687] [DEBUG] POST /runkmeans
+[2022-05-18 11:00:05 +0300] [32681] [DEBUG] POST /runkmeans
+[2022-05-18 11:00:09 +0300] [32681] [DEBUG] OPTIONS /sampleAdmix
+[2022-05-18 11:00:09 +0300] [32687] [DEBUG] GET /sampleAdmix
+[2022-05-18 11:01:27 +0300] [32686] [DEBUG] OPTIONS /detectoutliers
+[2022-05-18 11:01:27 +0300] [32686] [DEBUG] POST /detectoutliers
+[2022-05-18 11:01:31 +0300] [32687] [DEBUG] POST /detectoutliers

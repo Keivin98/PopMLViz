@@ -25,8 +25,8 @@ from sklearn.ensemble import IsolationForest
 app = create_app()
 # Define a route to fetch the avaialable article
 UPLOAD_FOLDER = './data/'
-certfile='/etc/nginx/conf.d/certs/2022/wildcard.qcri.org.crt'
-keyfile='/etc/nginx/conf.d/certs/wildcard.qcri.org.key'
+# certfile='/etc/nginx/conf.d/certs/2022/wildcard.qcri.org.crt'
+# keyfile='/etc/nginx/conf.d/certs/wildcard.qcri.org.key'
 @app.route("/runkmeans", methods=["POST"], strict_slashes=False)
 def runKmeans():
 	request_df = request.get_json()['df']
@@ -242,18 +242,18 @@ def detectoutliers():
 
 @app.route("/samplePCA", methods=["GET"], strict_slashes=False)
 def samplePCA():
-	pca_sample = pd.read_csv("../datasets/KG_PCS.csv")
+	pca_sample = pd.read_csv("./datasets/KG_PCS.csv")
 	return pca_sample.to_csv()
 
 @app.route("/sampleAdmix", methods=["GET"], strict_slashes=False)
 def sampleAdmix():
-	admix_sample = pd.read_csv("../datasets/admix_KG.5.Q", sep=' ')
+	admix_sample = pd.read_csv("./datasets/admix_KG.5.Q", sep=' ')
 	return admix_sample.to_csv(index=False, sep=' ')
 
 @app.route("/samplePCAAdmixDataset", methods=["GET"], strict_slashes=False)
 def samplePCAAdmixDataset():
-	pca_sample = pd.read_csv("../datasets/KG_PCS.csv")
-	admix_sample = pd.read_csv("../datasets/admix_KG.5.Q", sep=' ')
+	pca_sample = pd.read_csv("./datasets/KG_PCS.csv")
+	admix_sample = pd.read_csv("./datasets/admix_KG.5.Q", sep=' ')
 	return {
 		"pca": pca_sample.to_csv(), 
 		"admix" : admix_sample.to_csv(index=False, sep=' ')
@@ -264,4 +264,4 @@ def hello():
 	return "<h1 style='color:blue'>Hello There!</h1>"
 
 if __name__ == "__main__":
-	app.run(host='0.0.0.0', port=5000, keyfile=keyfile, certfile=certfile, debug=True)
+	app.run(host='0.0.0.0', port=5000, debug=True)

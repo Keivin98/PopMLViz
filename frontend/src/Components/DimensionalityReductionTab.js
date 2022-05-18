@@ -53,6 +53,7 @@ class UploadAndVisualizeTab extends Component {
       .post(`${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}:5000/runPCAIR`, formData, {
         headers: {
           "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*",
         },
       })
       .then((r) => {
