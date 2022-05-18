@@ -853,13 +853,21 @@ class App extends Component {
     var selectedUploadOption = this.state.selectedUploadOption;
     var headers = [];
     if (selectedUploadOption === "admixture" || admix === 2) {
-      headers = [...Array(dataStringLines[0].split(" ").length)].map(
+      headersSpaceDelim = [...Array(dataStringLines[0].split(" ").length)].map(
         (x, index) => {
           return "v" + (index + 1);
         }
       );
     } else {
-      headers = dataStringLines[0].split(/,(?![^"]*"(?:(?:[^"]*"){2})*[^"]*$)/);
+      var headersCommaDelim = dataStringLines[0].split(
+        /,(?![^"]*"(?:(?:[^"]*"){2})*[^"]*$)/
+      );
+      var headersSpaceDelim = dataStringLines[0].split(" ");
+      if (headersCommaDelim.length > headersSpaceDelim.length) {
+        headers = headersCommaDelim;
+      } else {
+        headers = headersSpaceDelim;
+      }
     }
     const list = [];
     for (let i = 1; i < dataStringLines.length; i++) {
@@ -867,7 +875,15 @@ class App extends Component {
       if (selectedUploadOption === "admixture" || admix === 2) {
         row = dataStringLines[i - 1].split(" ");
       } else {
-        row = dataStringLines[i].split(/,(?![^"]*"(?:(?:[^"]*"){2})*[^"]*$)/);
+        var rowCommaDelim = dataStringLines[i].split(
+          /,(?![^"]*"(?:(?:[^"]*"){2})*[^"]*$)/
+        );
+        var rowSpaceDelim = dataStringLines[i].split(" ");
+        if (rowCommaDelim.length > rowSpaceDelim.length) {
+          row = rowCommaDelim;
+        } else {
+          row = rowSpaceDelim;
+        }
       }
       if (headers && row.length === headers.length) {
         const obj = {};
@@ -1589,7 +1605,7 @@ class App extends Component {
               <div>
                 <input
                   type="file"
-                  accept=".csv,.xlsx,.xls"
+                  accept=".csv,.xlsx,.xls, .txt"
                   disabled={this.state.selectedUploadOption === null}
                   onChange={this.handleFileUpload}
                 />
@@ -1639,7 +1655,7 @@ class App extends Component {
                   <label style={{ marginRight: "3%" }}>PCA</label>
                   <input
                     type="file"
-                    accept=".csv,.xlsx,.xls"
+                    accept=".csv,.xlsx,.xls,.txt"
                     onChange={this.handleAdmixFileUpload1}
                   />
                 </div>
@@ -1690,7 +1706,7 @@ class App extends Component {
             this.state.selectedUploadOption === "t-SNE 3D") && (
             <input
               type="file"
-              accept=".csv,.xlsx,.xls,.Q"
+              accept=".csv,.xlsx,.xls,.Q,.txt"
               disabled={this.state.selectedUploadOption === null}
               onChange={this.handleFileUpload}
             />
