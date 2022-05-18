@@ -3,7 +3,6 @@ After cloning the repository run:
 ```
 cd VisualizePlots
 mkdir /backend/data
-mkdir /frontend/public/datasets
 ```
 
 Add your datasets to public/datasets.
