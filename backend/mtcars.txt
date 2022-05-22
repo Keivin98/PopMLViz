@@ -1,5 +1,0 @@
-""	"x"
-"1"	"/home/local/QCRI/kisufaj/R/x86_64-pc-linux-gnu-library/4.1"
-"2"	"/usr/local/lib/R/site-library"
-"3"	"/usr/lib/R/site-library"
-"4"	"/usr/lib/R/library"
