@@ -1,7 +1,7 @@
 After cloning the repository run:
 
 ```
-cd VisualizePlots
+cd PopMLViz
 mkdir /backend/data
 ```
 
