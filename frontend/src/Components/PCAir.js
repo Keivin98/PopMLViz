@@ -19,10 +19,13 @@ class PCAir extends Component {
       loading: true,
     });
 
-    fetch(`${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}:5000/api/uploadPCAIR`, {
-      method: "POST",
-      body: data,
-    })
+    fetch(
+      `${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}:5000/api/uploadPCAIR`,
+      {
+        method: "POST",
+        body: data,
+      }
+    )
       .then((response) => response.json())
       .then((data) => {
         console.log(data["filename"]);
@@ -48,10 +51,20 @@ class PCAir extends Component {
       loading: true,
     });
 
+<<<<<<< HEAD
     fetch(`${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}:5000/api/uploadPCAIR`, {
       method: "POST",
       body: data,
     })
+=======
+    fetch(
+      `${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}:5000/api/uploadPCAIR`,
+      {
+        method: "POST",
+        body: data,
+      }
+    )
+>>>>>>> da3f9a08 (fixed for the app to be downloaded)
       .then((response) => response.json())
       .then((data) => {
         console.log(data["filename"]);
@@ -76,10 +89,20 @@ class PCAir extends Component {
       loading: true,
     });
 
+<<<<<<< HEAD
     fetch(`${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}:5000/api/uploadPCAIR`, {
       method: "POST",
       body: data,
     })
+=======
+    fetch(
+      `${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}:5000/api/uploadPCAIR`,
+      {
+        method: "POST",
+        body: data,
+      }
+    )
+>>>>>>> da3f9a08 (fixed for the app to be downloaded)
       .then((response) => response.json())
       .then((data) => {
         console.log(data["filename"]);
@@ -104,10 +127,20 @@ class PCAir extends Component {
       loading: true,
     });
 
+<<<<<<< HEAD
     fetch(`${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}:5000/api/uploadPCAIR`, {
       method: "POST",
       body: data,
     })
+=======
+    fetch(
+      `${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}:5000/api/uploadPCAIR`,
+      {
+        method: "POST",
+        body: data,
+      }
+    )
+>>>>>>> da3f9a08 (fixed for the app to be downloaded)
       .then((response) => response.json())
       .then((data) => {
         console.log(data["filename"]);

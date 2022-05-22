@@ -50,12 +50,16 @@ class UploadAndVisualizeTab extends Component {
     };
 
     axios
-      .post(`${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}:5000/api/runPCAIR`, formData, {
-        headers: {
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "*",
-        },
-      })
+      .post(
+        `${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}:5000/api/runPCAIR`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*",
+          },
+        }
+      )
       .then((r) => {
         this.setState({
           isLoading: false,

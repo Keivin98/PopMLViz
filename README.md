@@ -26,7 +26,7 @@ npm install
 npm start
 ```
 
-Your web-browser will load http://localhost:3000
+Your web-browser will load on http://localhost:3000
 
 ![1](https://github.com/Keivin98/VisualizePlots/blob/main/1.png?raw=true)
 ![2](https://github.com/Keivin98/VisualizePlots/blob/main/2.png?raw=true)
