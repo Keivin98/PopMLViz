@@ -19,7 +19,6 @@ from rpy2.robjects.packages import importr
 import rpy2.robjects.packages as rpackages
 from fcmeans import FCM
 from sklearn.ensemble import IsolationForest
-
 # Create an application instance
 
 app = create_app()
@@ -27,7 +26,7 @@ app = create_app()
 UPLOAD_FOLDER = './data/'
 # certfile='/etc/nginx/conf.d/certs/2022/wildcard.qcri.org.crt'
 # keyfile='/etc/nginx/conf.d/certs/wildcard.qcri.org.key'
-@app.route("/runkmeans", methods=["POST"], strict_slashes=False)
+@app.route("/api/runkmeans", methods=["POST"], strict_slashes=False)
 def runKmeans():
 	request_df = request.get_json()['df']
 	
@@ -45,7 +44,7 @@ def runKmeans():
 	kmeans = KMeans(n_clusters=num_clusters, random_state=123).fit_predict(pca_df[pca_cols])
 	return jsonify(list(map(lambda x : int(x), kmeans)))
 
-@app.route("/runfuzzy", methods=["POST"], strict_slashes=False)
+@app.route("/api/runfuzzy", methods=["POST"], strict_slashes=False)
 def runFuzzy():
 	request_df = request.get_json()['df']
 	
@@ -71,7 +70,7 @@ def runFuzzy():
 	
 	return jsonify(list(map(lambda x : int(x), fuzzy)))
 
-@app.route("/cmtsne2d", methods=["POST"], strict_slashes=False)
+@app.route("/api/cmtsne2d", methods=["POST"], strict_slashes=False)
 def cmtsne2d():
 	# print('tsne')
 	request_df = request.get_json()['df']
@@ -85,7 +84,7 @@ def cmtsne2d():
 	tsne_visualization = TSNE(random_state=123).fit_transform(pca_df[pca_cols])
 	return pd.DataFrame(tsne_visualization).to_csv()
 
-@app.route("/cmtsne3d", methods=["POST"], strict_slashes=False)
+@app.route("/api/cmtsne3d", methods=["POST"], strict_slashes=False)
 def cmtsne3d():
 	# print('tsne')
 	request_df = request.get_json()['df']
@@ -99,7 +98,7 @@ def cmtsne3d():
 	tsne_visualization = TSNE(n_components=3, random_state=123).fit_transform(pca_df[pca_cols])
 	return pd.DataFrame(tsne_visualization).to_csv()
 
-@app.route("/uploadCM", methods=["POST"], strict_slashes=False)
+@app.route("/api/uploadCM", methods=["POST"], strict_slashes=False)
 def uploadCM():
 	target=os.path.join(UPLOAD_FOLDER,'test_docs')
 	if not os.path.isdir(target):
@@ -129,7 +128,7 @@ def random_string(length):
     pool = string.ascii_letters + string.digits
     return ''.join(random.choice(pool) for i in range(length))
 
-@app.route('/uploadPCAIR', methods=['POST'])
+@app.route('/api/uploadPCAIR', methods=['POST'])
 def uploadPCAIR():
 	target=os.path.join(UPLOAD_FOLDER,'test_docs')
 	if not os.path.isdir(target):
@@ -143,7 +142,7 @@ def uploadPCAIR():
 	return {'filename': filename}
 
 
-@app.route('/runPCAIR', methods=['POST'])
+@app.route('/api/runPCAIR', methods=['POST'])
 def runPCAIR():
 	# robjects.r.source("./PCA_AIR.r ", encoding="utf-8")
 	bed_name = request.get_json()['bedName']
@@ -153,6 +152,7 @@ def runPCAIR():
 	gds_name = random_string(12)
 	result_name = random_string(12)
 	robjects.r('''
+		.libPaths("/home/local/QCRI/kisufaj/R/x86_64-pc-linux-gnu-library/4.1")
 		library(GENESIS)
 		library(SNPRelate)
 		library(GWASTools)
@@ -182,7 +182,7 @@ def runPCAIR():
 	return pd.read_csv('./data/test_docs/%s.csv' % (result_name)).to_csv()
 
 
-@app.route("/detectoutliers", methods=["POST"], strict_slashes=False)
+@app.route("/api/detectoutliers", methods=["POST"], strict_slashes=False)
 def detectoutliers():
 	print('detecting outliers')
 	def choose_columns(x):
@@ -247,17 +247,17 @@ def detectoutliers():
 	change_to_binary = apply_combineType.apply(binary)
 	return change_to_binary.to_csv()
 
-@app.route("/samplePCA", methods=["GET"], strict_slashes=False)
+@app.route("/api/samplePCA", methods=["GET"], strict_slashes=False)
 def samplePCA():
 	pca_sample = pd.read_csv("./datasets/KG_PCS.csv")
 	return pca_sample.to_csv()
 
-@app.route("/sampleAdmix", methods=["GET"], strict_slashes=False)
+@app.route("/api/sampleAdmix", methods=["GET"], strict_slashes=False)
 def sampleAdmix():
 	admix_sample = pd.read_csv("./datasets/admix_KG.5.Q", sep=' ')
 	return admix_sample.to_csv(index=False, sep=' ')
 
-@app.route("/samplePCAAdmixDataset", methods=["GET"], strict_slashes=False)
+@app.route("/api/samplePCAAdmixDataset", methods=["GET"], strict_slashes=False)
 def samplePCAAdmixDataset():
 	pca_sample = pd.read_csv("./datasets/KG_PCS.csv")
 	admix_sample = pd.read_csv("./datasets/admix_KG.5.Q", sep=' ')
@@ -266,7 +266,7 @@ def samplePCAAdmixDataset():
 		"admix" : admix_sample.to_csv(index=False, sep=' ')
 		}
 
-@app.route("/")
+@app.route("/api/")
 def hello():
 	return "<h1 style='color:blue'>Hello There!</h1>"
 

@@ -13,7 +13,7 @@ class UploadAndVisualizeTab extends Component {
     open: false,
     isLoading: false,
     ProgressBarType: "ProgressBar",
-    ProgressBarTimeInterval: 40,
+    ProgressBarTimeInterval: 80,
   };
   setOpen = (open) => {
     this.setState({ open: open });
@@ -50,7 +50,7 @@ class UploadAndVisualizeTab extends Component {
     };
 
     axios
-      .post(`${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}:5000/runPCAIR`, formData, {
+      .post(`${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}/api/runPCAIR`, formData, {
         headers: {
           "Content-Type": "application/json",
           "Access-Control-Allow-Origin": "*",
