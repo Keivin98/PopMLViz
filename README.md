@@ -1,13 +1,9 @@
-After cloning the repository run:
+After cloning the repository open a terminal and run:
 
 ```console
 foo@bar:~$ cd PopMLViz
 foo@bar:~$ mkdir backend/data
 ```
-
-Add your datasets to public/datasets.
-
-Open a terminal and run :
 
 ```console
 foo@bar:~$ cd backend/
