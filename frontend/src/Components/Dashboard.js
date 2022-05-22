@@ -853,7 +853,7 @@ class App extends Component {
     var selectedUploadOption = this.state.selectedUploadOption;
     var headers = [];
     if (selectedUploadOption === "admixture" || admix === 2) {
-      headersSpaceDelim = [...Array(dataStringLines[0].split(" ").length)].map(
+      headers = [...Array(dataStringLines[0].split(" ").length)].map(
         (x, index) => {
           return "v" + (index + 1);
         }
@@ -1054,7 +1054,7 @@ class App extends Component {
 
     axios
       .post(
-        `${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}:5000/uploadCM`,
+        `${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}/api/uploadCM/`,
         formData,
         {
           headers: {
@@ -1089,12 +1089,11 @@ class App extends Component {
 
     axios
       .post(
-        `${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}:5000/runkmeans`,
+        `${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}/api/runkmeans/`,
         formData,
         {
           headers: {
             "Content-Type": "application/json",
-            "Access-Control-Allow-Origin": "*",
           },
         }
       )
@@ -1125,7 +1124,7 @@ class App extends Component {
 
     axios
       .post(
-        `${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}:5000/runfuzzy`,
+        `${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}/api/runfuzzy/`,
         formData,
         {
           headers: {
@@ -1162,7 +1161,7 @@ class App extends Component {
     });
     axios
       .post(
-        `${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}:5000/cmtsne2d`,
+        `${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}/api/cmtsne2d/`,
         formData,
         {
           headers: {
@@ -1191,7 +1190,7 @@ class App extends Component {
     });
     axios
       .post(
-        `${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}:5000/cmtsne3d`,
+        `${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}/api/cmtsne3d/`,
         formData,
         {
           headers: {
@@ -1216,11 +1215,11 @@ class App extends Component {
     });
     axios
       .get(
-        `${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}:5000/samplePCA`,
+        `${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}/api/samplePCA/`,
         {
           headers: {
             "Content-Type": "application/json",
-            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Origin": "*"
           },
         }
       )
@@ -1241,7 +1240,7 @@ class App extends Component {
     });
     axios
       .get(
-        `${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}:5000/sampleAdmix`,
+        `${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}/api/sampleAdmix/`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -1266,7 +1265,7 @@ class App extends Component {
     });
     axios
       .get(
-        `${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}:5000/samplePCAAdmixDataset`,
+        `${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}/api/samplePCAAdmixDataset/`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -1299,7 +1298,7 @@ class App extends Component {
       this.setState({ isLoading: true, ProgressBarType: "Loader" });
       axios
         .post(
-          `${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}:5000/detectoutliers`,
+          `${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}/api/detectoutliers/`,
           formData,
           {
             headers: {
