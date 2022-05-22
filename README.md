@@ -20,7 +20,8 @@ Open another terminal and on the /frontend/ folder run:
 
 ```
 cd frontend/
-echo "REACT_APP_DOMAIN=localhost" > .flaskenv
+echo "REACT_APP_DOMAIN=localhost" > .env
+echo "REACT_APP_PROTOCOL=http" >> .env
 npm install
 npm start
 ```
