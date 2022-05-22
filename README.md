@@ -2,7 +2,7 @@ After cloning the repository run:
 
 ```
 cd PopMLViz
-mkdir /backend/data
+mkdir backend/data
 ```
 
 Add your datasets to public/datasets.
