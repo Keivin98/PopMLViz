@@ -1,29 +1,29 @@
 After cloning the repository run:
 
-```
-cd PopMLViz
-mkdir backend/data
+```console
+foo@bar:~$ cd PopMLViz
+foo@bar:~$ mkdir backend/data
 ```
 
 Add your datasets to public/datasets.
 
 Open a terminal and run :
 
-```
-cd backend/
-source flaskenv/bin/activate
-pip install -r flask_req.txt
-./run
+```console
+foo@bar:~$ cd backend/
+foo@bar:~$ source flaskenv/bin/activate
+foo@bar:~$ pip install -r flask_req.txt
+foo@bar:~$ ./run
 ```
 
 Open another terminal and on the /frontend/ folder run:
 
-```
-cd frontend/
-echo "REACT_APP_DOMAIN=localhost" > .env
-echo "REACT_APP_PROTOCOL=http" >> .env
-npm install
-npm start
+```console
+foo@bar:~$ cd frontend/
+foo@bar:~$ echo "REACT_APP_DOMAIN=localhost" > .env
+foo@bar:~$ echo "REACT_APP_PROTOCOL=http" >> .env
+foo@bar:~$ npm install
+foo@bar:~$ npm start
 ```
 
 Your web-browser will load on http://localhost:3000
