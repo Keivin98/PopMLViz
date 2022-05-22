@@ -15,3 +15,4 @@
 /backend/requirements.txt
 /backend/q.txt
 /backend/subprocess1.py
+/backend/gunicorn_logs/
