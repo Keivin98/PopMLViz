@@ -1054,7 +1054,7 @@ class App extends Component {
 
     axios
       .post(
-        `${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}/api/uploadCM/`,
+        `${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}:5000/api/uploadCM/`,
         formData,
         {
           headers: {
@@ -1089,7 +1089,7 @@ class App extends Component {
 
     axios
       .post(
-        `${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}/api/runkmeans/`,
+        `${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}:5000/api/runkmeans/`,
         formData,
         {
           headers: {
@@ -1124,7 +1124,7 @@ class App extends Component {
 
     axios
       .post(
-        `${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}/api/runfuzzy/`,
+        `${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}:5000/api/runfuzzy/`,
         formData,
         {
           headers: {
@@ -1161,7 +1161,7 @@ class App extends Component {
     });
     axios
       .post(
-        `${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}/api/cmtsne2d/`,
+        `${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}:5000/api/cmtsne2d/`,
         formData,
         {
           headers: {
@@ -1190,7 +1190,7 @@ class App extends Component {
     });
     axios
       .post(
-        `${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}/api/cmtsne3d/`,
+        `${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}:5000/api/cmtsne3d/`,
         formData,
         {
           headers: {
@@ -1215,7 +1215,7 @@ class App extends Component {
     });
     axios
       .get(
-        `${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}/api/samplePCA/`,
+        `${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}:5000/api/samplePCA/`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -1240,7 +1240,7 @@ class App extends Component {
     });
     axios
       .get(
-        `${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}/api/sampleAdmix/`,
+        `${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}:5000/api/sampleAdmix/`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -1265,7 +1265,7 @@ class App extends Component {
     });
     axios
       .get(
-        `${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}/api/samplePCAAdmixDataset/`,
+        `${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}:5000/api/samplePCAAdmixDataset/`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -1298,7 +1298,7 @@ class App extends Component {
       this.setState({ isLoading: true, ProgressBarType: "Loader" });
       axios
         .post(
-          `${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}/api/detectoutliers/`,
+          `${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}:5000/api/detectoutliers/`,
           formData,
           {
             headers: {
