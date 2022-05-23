@@ -19,7 +19,7 @@ class PCAir extends Component {
       loading: true,
     });
 
-    fetch(`${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}/api/uploadPCAIR`, {
+    fetch(`${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}:5000/api/uploadPCAIR`, {
       method: "POST",
       body: data,
     })
@@ -48,7 +48,7 @@ class PCAir extends Component {
       loading: true,
     });
 
-    fetch(`${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}/api/uploadPCAIR`, {
+    fetch(`${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}:5000/api/uploadPCAIR`, {
       method: "POST",
       body: data,
     })
@@ -76,7 +76,7 @@ class PCAir extends Component {
       loading: true,
     });
 
-    fetch(`${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}/api/uploadPCAIR`, {
+    fetch(`${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}:5000/api/uploadPCAIR`, {
       method: "POST",
       body: data,
     })
@@ -104,7 +104,7 @@ class PCAir extends Component {
       loading: true,
     });
 
-    fetch(`${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}/api/uploadPCAIR`, {
+    fetch(`${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}:5000/api/uploadPCAIR`, {
       method: "POST",
       body: data,
     })
