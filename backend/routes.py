@@ -67,12 +67,10 @@ def runFuzzy():
 	
 	fcm.fit(pca_df1)
 	fuzzy = fcm.predict(pca_df1)
-	print(list(fuzzy))
 	return jsonify(list(map(lambda x : int(x), fuzzy)))
 
 @app.route("/api/cmtsne2d", methods=["POST"], strict_slashes=False)
 def cmtsne2d():
-	# print('tsne')
 	request_df = request.get_json()['df']
 	pca_df = pd.json_normalize(request_df)
 	try:
@@ -86,7 +84,6 @@ def cmtsne2d():
 
 @app.route("/api/cmtsne3d", methods=["POST"], strict_slashes=False)
 def cmtsne3d():
-	# print('tsne')
 	request_df = request.get_json()['df']
 	pca_df = pd.json_normalize(request_df)
 	try:
@@ -184,7 +181,6 @@ def runPCAIR():
 
 @app.route("/api/detectoutliers", methods=["POST"], strict_slashes=False)
 def detectoutliers():
-	print('detecting outliers')
 	def choose_columns(x):
 		return ('PC%d' % (x))
 
@@ -206,7 +202,6 @@ def detectoutliers():
 
 	combine_type = int(request.get_json()['combineType'])
 	std_freedom = int(request_method)
-	print(std_freedom)
 	
 	df = pd.json_normalize(request_df)
 	newdf = {}
@@ -225,7 +220,6 @@ def detectoutliers():
 	
 	
 	for col in columns_of_interest:
-		# print(col)
 		if col in (df.columns):
 			pcx = df.loc[:, col]
 			pcx = pd.Series(pcx, dtype='float')
