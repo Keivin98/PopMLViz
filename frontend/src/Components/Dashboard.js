@@ -933,7 +933,15 @@ class App extends Component {
     if (this.state.selectedUploadOption === "Correlation Matrix") {
       this.UploadCMDataset(e);
     } else {
-      this.setState({ selectedFile: e.target.files[0], isLoading: false });
+      this.setState({
+        selectedFile: e.target.files[0],
+        isLoading: false,
+        data: [],
+        outlierData: [],
+        distributionData: [],
+        clusterNames: [],
+        clusterColors: [],
+      });
       const file = e.target.files[0];
       const reader = new FileReader();
       reader.onload = (evt) => {
@@ -1212,6 +1220,10 @@ class App extends Component {
     this.setState({
       isLoading: true,
       ProgressBarType: "Loader",
+      OutlierData: [],
+      cluster_names: {},
+      clusterColors: [],
+      distributionData: [],
     });
     axios
       .get(
@@ -1237,6 +1249,10 @@ class App extends Component {
     this.setState({
       isLoading: true,
       ProgressBarType: "Loader",
+      OutlierData: [],
+      cluster_names: {},
+      clusterColors: [],
+      distributionData: [],
     });
     axios
       .get(
@@ -1262,6 +1278,9 @@ class App extends Component {
     this.setState({
       isLoading: true,
       ProgressBarType: "Loader",
+      OutlierData: [],
+      cluster_names: {},
+      clusterColors: [],
     });
     axios
       .get(
