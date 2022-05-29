@@ -1115,6 +1115,7 @@ class App extends Component {
       isLoading: true,
       ProgressBarType: "Loader",
       admix: [],
+      selectedUploadOption: "PCA",
     });
 
     axios
@@ -1155,6 +1156,7 @@ class App extends Component {
       df: this.state.data,
       num_clusters: num_clusters,
       admix: [],
+      selectedUploadOption: "PCA",
     };
 
     this.setState({ isLoading: true, ProgressBarType: "Loader" });
@@ -2059,6 +2061,7 @@ class App extends Component {
                             : "NOTE: If the difference between the top two admixture results for the entity is less than the chosen certainty, the entity will be marked as Undefined!"
                         }
                         parentCallback={this.handleAdmixOptionsCallback}
+                        disabled={this.state.admix.length == 0}
                       />
                     </div>
                     {this.state.data !== null && (

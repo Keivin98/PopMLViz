@@ -54,6 +54,7 @@ class AdmixOptions extends Component {
             }}
             variant="outlined"
             style={{ marginLeft: "10px" }}
+            disabled={this.props.disabled}
           >
             Apply
           </Button>
@@ -70,5 +71,6 @@ AdmixOptions.propTypes = {
   initialVal: PropTypes.number,
   name: PropTypes.string,
   description: PropTypes.string,
+  disabled: PropTypes.bool,
 };
 export default AdmixOptions;
