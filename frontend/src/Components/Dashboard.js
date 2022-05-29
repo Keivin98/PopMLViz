@@ -173,7 +173,7 @@ class App extends Component {
           mode: "markers",
           text: cluster_texts,
           hovertemplate: hoverTemplate,
-          marker: { color: randomColors[0] },
+          marker: { color: randomColors[0], size: 6 },
         },
       ];
     }
@@ -227,7 +227,7 @@ class App extends Component {
               marker: {
                 color: randomColors[colID],
                 symbol: randomShapes[0],
-                size: 4,
+                size: 6,
               },
               text: "",
               hovertemplate: "<i>(%{x:.4f}, %{y:.4f}) </i>",
@@ -243,7 +243,7 @@ class App extends Component {
               marker: {
                 color: randomColors[0],
                 symbol: randomShapes[colID],
-                size: 4,
+                size: 6,
               },
               text: "",
               hovertemplate: "<i>(%{x:.4f}, %{y:.4f}) </i>",
@@ -256,7 +256,11 @@ class App extends Component {
               x: [],
               y: [],
               mode: "markers",
-              marker: { color: randomColors[colID], symbol: randomShapes[0] },
+              marker: {
+                color: randomColors[colID],
+                symbol: randomShapes[0],
+                size: 6,
+              },
               text: "",
               hovertemplate: "<i>(%{x:.4f}, %{y:.4f}) </i>",
             };
@@ -266,7 +270,11 @@ class App extends Component {
               x: [],
               y: [],
               mode: "markers",
-              marker: { color: randomColors[0], symbol: randomShapes[colID] },
+              marker: {
+                color: randomColors[0],
+                symbol: randomShapes[colID],
+                size: 6,
+              },
               text: "",
               hovertemplate: "<i>(%{x:.4f}, %{y:.4f}) </i>",
             };
@@ -444,7 +452,7 @@ class App extends Component {
               type: "scatter3d",
               marker: {
                 color: colors[k],
-                size: 4,
+                size: 6,
                 symbol: "cross",
                 opacity: 0.5,
               },
@@ -457,7 +465,12 @@ class App extends Component {
               x: x_clusters_outliers[k],
               y: y_clusters_outliers[k],
               mode: "markers",
-              marker: { color: colors[k], symbol: "cross", opacity: 0.5 },
+              marker: {
+                color: colors[k],
+                symbol: "cross",
+                opacity: 0.5,
+                size: 6,
+              },
               text: cluster_texts[k],
               hovertemplate: "<i>(%{x:.4f}, %{y:.4f}, %{z:.4f}) </i>",
             });
@@ -474,7 +487,7 @@ class App extends Component {
             z: z_clusters[k],
             mode: "markers",
             type: "scatter3d",
-            marker: { color: colors[k], size: 2 },
+            marker: { color: colors[k], size: 2, size: 6 },
             text: cluster_texts[k],
             hovertemplate: "<i>(%{x:.4f}, %{y:.4f}, %{z:.4f}) </i>",
           });
@@ -484,7 +497,7 @@ class App extends Component {
             x: x_clusters[k],
             y: y_clusters[k],
             mode: "markers",
-            marker: { color: colors[k] },
+            marker: { color: colors[k], size: 6 },
             text: cluster_texts[k],
             hovertemplate: "<i>(%{x:.4f}, %{y:.4f}) </i>",
           });
@@ -585,7 +598,7 @@ class App extends Component {
             z: [],
             type: "scatter3d",
             mode: "markers",
-            marker: { color: otherColor, size: 2 },
+            marker: { color: otherColor, size: 6 },
             text: "",
             hovertemplate: "<i>(%{x:.4f}, %{y:.4f}) </i>",
           });
@@ -599,7 +612,7 @@ class App extends Component {
             mode: "markers",
             marker: {
               color: outlierColor,
-              size: 4,
+              size: 6,
               symbol: "cross",
               opacity: "0.5",
             },
@@ -612,7 +625,7 @@ class App extends Component {
             x: [],
             y: [],
             mode: "markers",
-            marker: { color: otherColor },
+            marker: { color: otherColor, size: 6 },
             text: "",
             hovertemplate: "<i>(%{x:.4f}, %{y:.4f}) </i>",
           });
@@ -621,7 +634,12 @@ class App extends Component {
             x: [],
             y: [],
             mode: "markers",
-            marker: { color: outlierColor, symbol: "cross", opacity: "0.5" },
+            marker: {
+              color: outlierColor,
+              symbol: "cross",
+              opacity: "0.5",
+              size: 6,
+            },
             text: "",
             hovertemplate: "<i>(%{x:.4f}, %{y:.4f}) </i>",
           });
@@ -762,7 +780,7 @@ class App extends Component {
           mode: "markers",
           text: cluster_texts,
           hovertemplate: hoverTemplate,
-          marker: { color: randomColors[0] },
+          marker: { color: randomColors[0], size: 6 },
         },
       ];
     }
@@ -810,7 +828,7 @@ class App extends Component {
           type: "scatter3d",
           text: cluster_texts,
           hovertemplate: hoverTemplate,
-          marker: { color: randomColors[0], size: 2 },
+          marker: { color: randomColors[0], size: 6 },
         },
       ];
       var layout = {

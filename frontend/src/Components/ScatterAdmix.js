@@ -164,7 +164,7 @@ class ScatterAdmix extends Component {
               type: "scatter3d",
               marker: {
                 color: color,
-                size: 4,
+                size: 6,
                 symbol: "cross",
                 opacity: 0.5,
               },
@@ -196,7 +196,7 @@ class ScatterAdmix extends Component {
             z: z_clusters[k],
             mode: "markers",
             type: "scatter3d",
-            marker: { color: color, size: 4, symbol: symbol },
+            marker: { color: color, size: 6, symbol: symbol },
             text: cluster_texts[k],
             hovertemplate: "<i>(%{x:.4f}, %{y:.4f}, %{z:.4f}) </i>",
           });
