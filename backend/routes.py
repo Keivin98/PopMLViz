@@ -60,14 +60,14 @@ def runFuzzy():
 	if not pca_cols:
 		pca_cols = pca_df.columns
 
-	fcm = FCM(n_clusters=num_clusters)
+	fcm = FCM(n_clusters=num_clusters, random_state=111,  max_iter=1000)
 	
 	pca_df = pca_df[pca_cols].astype('float64')
 	pca_df1 = (pca_df[pca_cols].to_numpy())
 	
 	fcm.fit(pca_df1)
 	fuzzy = fcm.predict(pca_df1)
-	
+	print(list(fuzzy))
 	return jsonify(list(map(lambda x : int(x), fuzzy)))
 
 @app.route("/api/cmtsne2d", methods=["POST"], strict_slashes=False)

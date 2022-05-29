@@ -17,6 +17,7 @@ const randomColors = [
   "#0740ba",
   "#277f05",
 ];
+
 class BarPlot extends Component {
   state = {
     numClusters: 2,
