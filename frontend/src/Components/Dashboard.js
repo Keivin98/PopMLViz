@@ -1111,7 +1111,11 @@ class App extends Component {
       num_clusters: num_clusters,
     };
 
-    this.setState({ isLoading: true, ProgressBarType: "Loader" });
+    this.setState({
+      isLoading: true,
+      ProgressBarType: "Loader",
+      admix: [],
+    });
 
     axios
       .post(
@@ -1150,6 +1154,7 @@ class App extends Component {
     const formData = {
       df: this.state.data,
       num_clusters: num_clusters,
+      admix: [],
     };
 
     this.setState({ isLoading: true, ProgressBarType: "Loader" });
