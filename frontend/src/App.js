@@ -1,11 +1,24 @@
 import "./App.css";
+import ReactGA from "react-ga";
 import Dashboard from "./Components/Dashboard";
+import LandingPage from "./Components/LandingPage";
 import Navbar from "react-bootstrap/Navbar";
 
-function App() {
+
+
+
+
+
+function App() {  
+  
+  //Google Analytics Initialization
+  ReactGA.initialize("UA-230152920-1");
+  const TRACKING_ID = "UA-230152920-1";
+  ReactGA.initialize(TRACKING_ID);
+  
   return (
     <div>
-      <Navbar
+      {/* <Navbar
         style={{
           position: "fixed",
           height: "6%",
@@ -21,11 +34,14 @@ function App() {
             style={{ width: "6%", position: "fixed", left: "7%", top: "1%" }}
           />
         </Navbar.Brand>
-      </Navbar>
+      </Navbar> */}
 
-      <Dashboard />
+      {/* <Dashboard /> */}
+      
+      <LandingPage/>
     </div>
   );
-}
+} 
+
 
 export default App;

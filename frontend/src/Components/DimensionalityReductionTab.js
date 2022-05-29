@@ -143,7 +143,6 @@ class UploadAndVisualizeTab extends Component {
               />
               <label style={{ paddingLeft: "10px" }}> t-SNE 3D</label>
             </div>
-
             <div>
               {this.state.selectedUploadOption === "Correlation Matrix" && (
                 <div
