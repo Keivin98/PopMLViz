@@ -51,6 +51,12 @@ class RadioButtons extends Component {
               <button onClick={this.onFileUpload}>{response.data}</button>
             </div>
           );
+        })
+        .catch(() => {
+          this.setState({
+            isLoading: false,
+          });
+          alert("Network error! Please check the request or try again.");
         });
     } else {
       axios
@@ -66,6 +72,12 @@ class RadioButtons extends Component {
               <button onClick={this.onFileUpload}>{response.data}</button>
             </div>
           );
+        })
+        .catch(() => {
+          this.setState({
+            isLoading: false,
+          });
+          alert("Network error! Please check the request or try again.");
         });
     }
   };

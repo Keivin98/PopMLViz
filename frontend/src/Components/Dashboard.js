@@ -200,6 +200,18 @@ class App extends Component {
           uniqueTags.push(categoricalData[catID]);
         }
       }
+      if (uniqueTags.length > 20) {
+        alert("There are too many unique values! Check the categorical data!");
+        this.setState(
+          {
+            distributionData: [],
+            selectedDescribingColumn: null,
+          },
+          () => {
+            return;
+          }
+        );
+      }
 
       for (var colID = 0; colID < uniqueTags.length; colID++) {
         data_new.push({});
@@ -1074,6 +1086,12 @@ class App extends Component {
       .then((response) => {
         this.setState({ isLoading: false, selectedUploadOption: "PCA" });
         this.processData(response.data, false);
+      })
+      .catch(() => {
+        this.setState({
+          isLoading: false,
+        });
+        alert("Network error! Please check the request or try again.");
       });
   };
   runCluster = (s) => {
@@ -1119,6 +1137,12 @@ class App extends Component {
           selectedDescribingColumn: { value: "None", label: "None" },
           num_clusters: num_clusters,
         });
+      })
+      .catch(() => {
+        this.setState({
+          isLoading: false,
+        });
+        alert("Network error! Please check the request or try again.");
       });
   };
 
@@ -1155,6 +1179,12 @@ class App extends Component {
           selectedDescribingColumn: { value: "None", label: "None" },
           num_clusters: num_clusters,
         });
+      })
+      .catch(() => {
+        this.setState({
+          isLoading: false,
+        });
+        alert("Network error! Please check the request or try again.");
       });
   };
 
@@ -1185,6 +1215,12 @@ class App extends Component {
           selectedDescribingColumn: { value: "None", label: "None" },
         });
         this.processData(r.data, false);
+      })
+      .catch(() => {
+        this.setState({
+          isLoading: false,
+        });
+        alert("Network error! Please check the request or try again.");
       });
   };
   runTSNE3d = () => {
@@ -1214,6 +1250,12 @@ class App extends Component {
           selectedDescribingColumn: { value: "None", label: "None" },
         });
         this.processData(r.data, false);
+      })
+      .catch(() => {
+        this.setState({
+          isLoading: false,
+        });
+        alert("Network error! Please check the request or try again.");
       });
   };
   samplePCADataset = () => {
@@ -1242,6 +1284,12 @@ class App extends Component {
           selectedDescribingColumn: { value: "None", label: "None" },
         });
         this.processData(r.data, false);
+      })
+      .catch(() => {
+        this.setState({
+          isLoading: false,
+        });
+        alert("Network error! Please check the request or try again.");
       });
   };
 
@@ -1271,6 +1319,12 @@ class App extends Component {
           selectedDescribingColumn: { value: "None", label: "None" },
         });
         this.processData(r.data, false, 2);
+      })
+      .catch(() => {
+        this.setState({
+          isLoading: false,
+        });
+        alert("Network error! Please check the request or try again.");
       });
   };
 
@@ -1301,6 +1355,12 @@ class App extends Component {
         console.log(r.data.admix);
         this.processData(r.data.pca, false, 1);
         this.processData(r.data.admix, false, 2);
+      })
+      .catch(() => {
+        this.setState({
+          isLoading: false,
+        });
+        alert("Network error! Please check the request or try again.");
       });
   };
 
@@ -1331,6 +1391,12 @@ class App extends Component {
             isLoading: false,
           });
           this.processData(r.data, true);
+        })
+        .catch(() => {
+          this.setState({
+            isLoading: false,
+          });
+          alert("Network error! Please check the request or try again.");
         });
     }
   };
