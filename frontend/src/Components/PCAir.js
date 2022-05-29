@@ -38,6 +38,17 @@ class PCAir extends Component {
             this.props.onChange(this.state);
           }
         );
+      })
+      .catch(() => {
+        alert("Network error! Please check the request or try again.");
+        this.setState(
+          {
+            isLoading: false,
+          },
+          () => {
+            this.props.onChange(this.state);
+          }
+        );
       });
   };
 
@@ -65,6 +76,17 @@ class PCAir extends Component {
           {
             loading: false,
             kinshipName: data["filename"],
+          },
+          () => {
+            this.props.onChange(this.state);
+          }
+        );
+      })
+      .catch(() => {
+        alert("Network error! Please check the request or try again.");
+        this.setState(
+          {
+            isLoading: false,
           },
           () => {
             this.props.onChange(this.state);
@@ -101,6 +123,17 @@ class PCAir extends Component {
             this.props.onChange(this.state);
           }
         );
+      })
+      .catch(() => {
+        alert("Network error! Please check the request or try again.");
+        this.setState(
+          {
+            isLoading: false,
+          },
+          () => {
+            this.props.onChange(this.state);
+          }
+        );
       });
   };
   handleBimRequest = async (ev) => {
@@ -127,6 +160,17 @@ class PCAir extends Component {
           {
             loading: false,
             bimName: data["filename"],
+          },
+          () => {
+            this.props.onChange(this.state);
+          }
+        );
+      })
+      .catch(() => {
+        alert("Network error! Please check the request or try again.");
+        this.setState(
+          {
+            isLoading: false,
           },
           () => {
             this.props.onChange(this.state);

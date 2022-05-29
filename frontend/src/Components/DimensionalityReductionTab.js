@@ -72,6 +72,7 @@ class UploadAndVisualizeTab extends Component {
           isLoading: false,
         });
         alert("Network error! Please check the request or try again.");
+        this.props.onChange(this.state);
       });
   };
   PCAirChange = (st) => {
