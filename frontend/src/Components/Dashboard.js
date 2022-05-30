@@ -83,6 +83,7 @@ class App extends Component {
     admix: [],
     AdmixOptionsLabelCheck: true,
     plotTitle: "",
+    mappingIDColumn: "",
   };
   handleMultiChange = (option) => {
     let act = [];
@@ -128,7 +129,6 @@ class App extends Component {
   onFileChange = (event) => {
     // Update the state
     this.setState({ selectedFile: event.target.files[0] });
-    // console.log(event.target.files[0]);
   };
 
   correlationMatrixUpload = () => {
@@ -151,20 +151,18 @@ class App extends Component {
     var x1 = [];
     var y1 = [];
     var cluster_texts = [];
-    var mapping_id = true;
+    var mapping_id = this.state.mappingIDColumn !== "";
     var hoverTemplate =
-      "<i>(%{x}, %{y:.4f}) </i>" + "<br><b>Mapping ID</b>:%{text}</b></br>";
+      this.state.mappingIDColumn === ""
+        ? "<i>(%{x}, %{y:.4f}) </i>"
+        : "<i>(%{x}, %{y:.4f}) </i>" + "<br><b>Mapping ID</b>:%{text}</b></br>";
     if (this.state.data != null && y != null) {
       for (var i = 0; i < this.state.data.length; i++) {
         x1.push(i);
         y1.push(this.state.data[i][y]);
 
-        if (mapping_id && this.state.data[i]["MappingID2"] == null) {
-          mapping_id = false;
-          hoverTemplate = "<i>(%{x}, %{y:.4f}) </i>";
-        }
         if (mapping_id) {
-          cluster_texts.push(this.state.data[i]["MappingID2"]);
+          cluster_texts.push(this.state.data[i][this.state.mappingIDColumn]);
         }
       }
       var data_new = [
@@ -184,7 +182,6 @@ class App extends Component {
         data={data_new}
         layout={{
           title: this.state.plotTitle,
-          xaxis: { title: "ID" },
           yaxis: { title: y },
         }}
       />
@@ -204,15 +201,10 @@ class App extends Component {
       }
       if (uniqueTags.length > 20) {
         alert("There are too many unique values! Check the categorical data!");
-        this.setState(
-          {
-            distributionData: [],
-            selectedDescribingColumn: null,
-          },
-          () => {
-            return;
-          }
-        );
+        this.setState({
+          distributionData: [],
+          selectedDescribingColumn: null,
+        });
       }
 
       for (var colID = 0; colID < uniqueTags.length; colID++) {
@@ -232,7 +224,7 @@ class App extends Component {
                 size: 6,
               },
               text: "",
-              hovertemplate: "<i>(%{x:.4f}, %{y:.4f}) </i>",
+              hovertemplate: "<i>(%{x:.4f}, %{y:.4f}), %{z:.4f}) </i>",
             };
           } else {
             data_new[colID] = {
@@ -375,6 +367,19 @@ class App extends Component {
     var layout = {};
     if (DIM === 2) {
       var z_clusters = [];
+      var mapping_id = this.state.mappingIDColumn !== "";
+      var hoverTemplate =
+        this.state.mappingIDColumn === ""
+          ? "<i>(%{x:.4f}, %{y:.4f} %{z:.4f}) </i>"
+          : "<i>(%{x:.4f}, %{y:.4f} %{z:.4f}) </i>" +
+            "<br><b>Mapping ID</b>:%{text}</b></br>";
+    } else {
+      var mapping_id = this.state.mappingIDColumn !== "";
+      var hoverTemplate =
+        this.state.mappingIDColumn === ""
+          ? "<i>(%{x:.4f}, %{y:.4f}) </i>"
+          : "<i>(%{x:.4f}, %{y:.4f}) </i>" +
+            "<br><b>Mapping ID</b>:%{text}</b></br>";
     }
     var cluster_texts = [];
 
@@ -435,6 +440,11 @@ class App extends Component {
             z_clusters[rowCol].push(this.state.data[i][z]);
           }
         }
+        if (mapping_id) {
+          cluster_texts[rowCol].push(
+            this.state.data[i][this.state.mappingIDColumn]
+          );
+        }
       }
       var data_new = [];
       for (var k = 0; k < this.state.num_clusters; k += 1) {
@@ -449,12 +459,12 @@ class App extends Component {
               type: "scatter3d",
               marker: {
                 color: colors[k],
-                size: 6,
+                size: 4,
                 symbol: "cross",
                 opacity: 0.5,
               },
               text: cluster_texts[k],
-              hovertemplate: "<i>(%{x:.4f}, %{y:.4f}, %{z:.4f}) </i>",
+              hovertemplate: hoverTemplate,
             });
           } else {
             data_new.push({
@@ -469,7 +479,7 @@ class App extends Component {
                 size: 6,
               },
               text: cluster_texts[k],
-              hovertemplate: "<i>(%{x:.4f}, %{y:.4f}, %{z:.4f}) </i>",
+              hovertemplate: hoverTemplate,
             });
           }
         }
@@ -484,9 +494,9 @@ class App extends Component {
             z: z_clusters[k],
             mode: "markers",
             type: "scatter3d",
-            marker: { color: colors[k], size: 2, size: 6 },
+            marker: { color: colors[k], size: 4 },
             text: cluster_texts[k],
-            hovertemplate: "<i>(%{x:.4f}, %{y:.4f}, %{z:.4f}) </i>",
+            hovertemplate: hoverTemplate,
           });
         } else {
           data_new.push({
@@ -496,7 +506,7 @@ class App extends Component {
             mode: "markers",
             marker: { color: colors[k], size: 6 },
             text: cluster_texts[k],
-            hovertemplate: "<i>(%{x:.4f}, %{y:.4f}) </i>",
+            hovertemplate: hoverTemplate,
           });
         }
       }
@@ -569,6 +579,8 @@ class App extends Component {
     var cluster_texts = [];
     var uniqueTags = [];
     var layout = {};
+    var mapping_id = this.state.mappingIDColumn !== "";
+
     if (categoricalData != null) {
       // find unique values
       for (var catID = 0; catID < categoricalData.length; catID++) {
@@ -581,7 +593,12 @@ class App extends Component {
         var outlierColor = outliersOnly ? "grey" : randomColors[colID];
         var otherColor = outliersOnly ? randomColors[0] : randomColors[colID];
         var title = outliersOnly ? "0" : uniqueTags[colID];
+
         if (DIM === 2) {
+          var hoverTemplate = !mapping_id
+            ? "<i>(%{x:.4f}, %{y:.4f} %{z}, %{z:.4f}) </i>"
+            : "<i>(%{x:.4f}, %{y:.4f} %{z}, %{z:.4f}) </i>" +
+              "<br><b>Mapping ID</b>:%{text}</b></br>";
           // actual data
           data_new.push({
             name: title,
@@ -590,9 +607,9 @@ class App extends Component {
             z: [],
             type: "scatter3d",
             mode: "markers",
-            marker: { color: otherColor, size: 6 },
-            text: "",
-            hovertemplate: "<i>(%{x:.4f}, %{y:.4f}) </i>",
+            marker: { color: otherColor, size: 4 },
+            text: [],
+            hovertemplate: hoverTemplate,
           });
           // outliers
           data_new.push({
@@ -604,22 +621,26 @@ class App extends Component {
             mode: "markers",
             marker: {
               color: outlierColor,
-              size: 6,
+              size: 4,
               symbol: "cross",
               opacity: "0.5",
             },
-            text: "",
-            hovertemplate: "<i>(%{x:.4f}, %{y:.4f}) </i>",
+            text: [],
+            hovertemplate: hoverTemplate,
           });
         } else {
+          var hoverTemplate = !mapping_id
+            ? "<i>(%{x:.4f}, %{y:.4f}</i>"
+            : "<i>(%{x:.4f}, %{y:.4f}</i>" +
+              "<br><b>Mapping ID</b>:%{text}</b></br>";
           data_new.push({
             name: title,
             x: [],
             y: [],
             mode: "markers",
             marker: { color: otherColor, size: 6 },
-            text: "",
-            hovertemplate: "<i>(%{x:.4f}, %{y:.4f}) </i>",
+            text: [],
+            hovertemplate: hoverTemplate,
           });
           data_new.push({
             name: "Outliers " + title,
@@ -632,10 +653,12 @@ class App extends Component {
               opacity: "0.5",
               size: 6,
             },
-            text: "",
-            hovertemplate: "<i>(%{x:.4f}, %{y:.4f}) </i>",
+            text: [],
+            hovertemplate: hoverTemplate,
           });
         }
+        cluster_texts.push([]);
+        cluster_texts.push([]);
       }
     }
 
@@ -646,34 +669,60 @@ class App extends Component {
           if (distributionData[i]) {
             data_new[2 * categoryID + 1].x.push(i);
             data_new[2 * categoryID + 1].y.push(this.state.data[i][x]);
+            if (mapping_id) {
+              data_new[2 * categoryID + 1].text.push(
+                this.state.data[i][this.state.mappingIDColumn]
+              );
+            }
           } else {
             data_new[2 * categoryID].x.push(i);
             data_new[2 * categoryID].y.push(this.state.data[i][x]);
+            if (mapping_id) {
+              data_new[2 * categoryID].text.push(
+                this.state.data[i][this.state.mappingIDColumn]
+              );
+            }
           }
         } else if (DIM === 1) {
           if (distributionData[i]) {
             data_new[2 * categoryID + 1].x.push(this.state.data[i][x]);
             data_new[2 * categoryID + 1].y.push(this.state.data[i][y]);
+            if (mapping_id) {
+              data_new[2 * categoryID + 1].text.push(
+                this.state.data[i][this.state.mappingIDColumn]
+              );
+            }
           } else {
             data_new[2 * categoryID].x.push(this.state.data[i][x]);
             data_new[2 * categoryID].y.push(this.state.data[i][y]);
+            if (mapping_id) {
+              data_new[2 * categoryID].text.push(
+                this.state.data[i][this.state.mappingIDColumn]
+              );
+            }
           }
         } else {
           if (distributionData[i]) {
             data_new[2 * categoryID + 1].x.push(this.state.data[i][x]);
             data_new[2 * categoryID + 1].y.push(this.state.data[i][y]);
             data_new[2 * categoryID + 1].z.push(this.state.data[i][z]);
+            if (mapping_id) {
+              data_new[2 * categoryID + 1].text.push(
+                this.state.data[i][this.state.mappingIDColumn]
+              );
+            }
           } else {
             data_new[2 * categoryID].x.push(this.state.data[i][x]);
             data_new[2 * categoryID].y.push(this.state.data[i][y]);
             data_new[2 * categoryID].z.push(this.state.data[i][z]);
+            if (mapping_id) {
+              data_new[2 * categoryID].text.push(
+                this.state.data[i][this.state.mappingIDColumn]
+              );
+            }
           }
         }
-        cluster_texts.push(this.state.data[i][x]);
       }
-    }
-    for (colID = 0; colID < uniqueTags.length; colID++) {
-      data_new.text = cluster_texts;
     }
 
     var plot_title = this.state.plotTitle;
@@ -681,7 +730,6 @@ class App extends Component {
     if (DIM === 0) {
       layout = {
         title: plot_title,
-        xaxis: { title: "MappingID2" },
         yaxis: { title: y },
       };
     } else if (DIM === 1) {
@@ -743,20 +791,17 @@ class App extends Component {
     var x1 = [];
     var y1 = [];
     var cluster_texts = [];
-    var mapping_id = true;
-    var hoverTemplate =
-      "<i>(%{x:.4f}, %{y:.4f}) </i>" + "<br><b>Mapping ID</b>:%{text}</b></br>";
+    var mapping_id = this.state.mappingIDColumn !== "";
+    var hoverTemplate = !mapping_id
+      ? "<i>(%{x}, %{y:.4f}) </i>"
+      : "<i>(%{x}, %{y:.4f}) </i>" + "<br><b>Mapping ID</b>:%{text}</b></br>";
 
     if (this.state.data != null && x != null && y != null) {
       for (var i = 0; i < this.state.data.length; i++) {
         x1.push(this.state.data[i][x]);
         y1.push(this.state.data[i][y]);
-        if (mapping_id && this.state.data[i]["MappingID2"] == null) {
-          mapping_id = false;
-          hoverTemplate = "<i>(%{x}, %{y:.4f} %{z}, %{z:.4f}) </i>";
-        }
         if (mapping_id) {
-          cluster_texts.push(this.state.data[i]["MappingID2"]);
+          cluster_texts.push(this.state.data[i][this.state.mappingIDColumn]);
         }
       }
       var data_new = [
@@ -788,21 +833,19 @@ class App extends Component {
     var z1 = [];
     var y1 = [];
     var cluster_texts = [];
-    var mapping_id = true;
-    var hoverTemplate =
-      "<i>(%{x:.4f}, %{y:.4f} %{z}, %{z:.4f}) </i>" +
-      "<br><b>Mapping ID</b>:%{text}</b></br>";
+
+    var mapping_id = this.state.mappingIDColumn !== "";
+    var hoverTemplate = !mapping_id
+      ? "<i>(%{x:.4f}, %{y:.4f} %{z}, %{z:.4f}) </i>"
+      : "<i>(%{x:.4f}, %{y:.4f} %{z}, %{z:.4f}) </i>" +
+        "<br><b>Mapping ID</b>:%{text}</b></br>";
     if (this.state.data != null && x != null && y != null && z != null) {
       for (var i = 0; i < this.state.data.length; i++) {
         x1.push(this.state.data[i][x]);
         y1.push(this.state.data[i][y]);
         z1.push(this.state.data[i][z]);
-        if (mapping_id && this.state.data[i]["MappingID2"] == null) {
-          mapping_id = false;
-          hoverTemplate = "<i>(%{x}, %{y:.4f} %{z}, %{z:.4f}) </i>";
-        }
         if (mapping_id) {
-          cluster_texts.push(this.state.data[i]["MappingID2"]);
+          cluster_texts.push(this.state.data[i][this.state.mappingIDColumn]);
         }
       }
       var data_new = [
@@ -815,7 +858,7 @@ class App extends Component {
           type: "scatter3d",
           text: cluster_texts,
           hovertemplate: hoverTemplate,
-          marker: { color: randomColors[0], size: 6 },
+          marker: { color: randomColors[0], size: 4 },
         },
       ];
       var layout = {
@@ -1948,7 +1991,28 @@ class App extends Component {
                     <TabPanel>
                       <div className="row">
                         <div className="row-md-8"></div>
-
+                        <div
+                          style={{
+                            width: "90%",
+                            marginTop: "3%",
+                            marginLeft: "3%",
+                          }}
+                        >
+                          <label>
+                            {" "}
+                            <h5 style={{}}> Describing Columns </h5>
+                          </label>
+                          <Select
+                            name="filters"
+                            placeholder="Filters"
+                            value={this.state.multiValue.filter((elem) => {
+                              return elem.label !== "None";
+                            })}
+                            options={this.state.selectActions}
+                            onChange={this.handleMultiChange}
+                            isMulti
+                          />
+                        </div>
                         {this.state.multiValue.length > 0 && (
                           <div style={styles.describingColumnDropDown}>
                             <label style={{ marginLeft: "1%" }}>
@@ -2004,26 +2068,22 @@ class App extends Component {
                       <div
                         style={{
                           width: "90%",
-                          marginTop: "3%",
+                          marginTop: "10%",
                           marginLeft: "3%",
                         }}
                       >
                         <label>
                           {" "}
-                          <h5 style={{}}> Describing Columns </h5>
+                          <h5 style={{}}> Mapping ID Column </h5>
                         </label>
                         <Select
-                          name="filters"
-                          placeholder="Filters"
-                          value={this.state.multiValue.filter((elem) => {
-                            return elem.label !== "None";
-                          })}
-                          options={this.state.selectActions}
-                          onChange={this.handleMultiChange}
-                          isMulti
+                          placeholder="Mapping ID"
+                          options={this.state.allActions}
+                          onChange={(option) => {
+                            this.setState({ mappingIDColumn: option.label });
+                          }}
                         />
                       </div>
-
                       {this.state.data !== null && (
                         <DownloadData
                           data={this.state.data}
