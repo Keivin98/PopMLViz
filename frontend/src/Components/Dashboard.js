@@ -966,7 +966,6 @@ class App extends Component {
       this.setState({
         selectedFile: e.target.files[0],
         isLoading: false,
-        data: [],
         outlierData: [],
         distributionData: [],
         clusterNames: [],

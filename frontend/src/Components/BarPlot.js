@@ -93,6 +93,7 @@ class BarPlot extends Component {
             opacity: this.range(0, y_values.length).map((x) =>
               x < positionOfUndefined ? 1 : 0.2
             ),
+            color: colors[n - 1],
           },
         });
       }
