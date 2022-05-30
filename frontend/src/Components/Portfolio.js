@@ -6,7 +6,7 @@ class Portfolio extends Component {
   render() {
     return (
       <Fade bottom duration={1200}>
-      <section id="portfolio">
+      <section id="portfolio" style={CSS.portfolio}>
         <div className="row" style={{width:"30%"}}>
           <h1>Dashboard</h1>
             <img src="./images/portfolio/1.png"/>
@@ -24,5 +24,18 @@ class Portfolio extends Component {
     );
   }
 }
+
+
+const CSS = {
+  portfolio:  {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+    width: "100%",
+    marginBottom: "5%",
+ 
+  }
+}
+
 
 export default Portfolio;

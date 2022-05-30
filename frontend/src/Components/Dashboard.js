@@ -23,6 +23,8 @@ import FormLabel from "@mui/material/FormLabel";
 import Loader from "react-loader-spinner";
 import "react-tabs/style/react-tabs.css";
 import AdmixOptions from "./AdmixOptions";
+import Navbar from "react-bootstrap/Navbar";
+
 
 require("dotenv").config();
 const randomColors = [
@@ -1595,6 +1597,28 @@ class App extends Component {
 
   render() {
     return (
+
+      <div>
+       <Navbar
+        style={{
+          position: "fixed",
+          height: "6%",
+          width: "100%",
+          paddingLeft: "45%",
+          backgroundColor: "#3b3f4e",
+        }}
+      >
+        <Navbar.Brand style={{ color: "white" }}>
+          PopMLViz
+          <img
+            src="./logo.jpeg"
+            style={{ width: "6%", position: "fixed", left: "7%", top: "1%" }}
+          />
+        </Navbar.Brand>
+      </Navbar>
+
+
+
       <div style={styles.splitScreen}>
         <div class="leftpane" style={styles.leftPane}>
           <form style={{ marginTop: "1%" }}>
@@ -1994,6 +2018,7 @@ class App extends Component {
             </Tabs>
           </div>
         </div>
+      </div>
       </div>
     );
   }

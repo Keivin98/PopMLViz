@@ -1,7 +1,7 @@
 import React, {useState,setState} from 'react';
 import {database} from './firebase'
 import {ref,push,child,update} from "firebase/database";
-
+import { Fade, Slide } from "react-reveal";
 
 function Register() {
     
@@ -40,26 +40,30 @@ function Register() {
 
     return(
         <div className="form">
-            <div className="form-body">
-                <div className="username">
-                    <label className="form__label" for="Name">Name </label>
-                    <input className="form__input" type="text" value={Name} onChange = {(e) => handleInputChange(e)} id="Name" placeholder="Name"/>
+            <Fade bottom duration={1000}>
+              <h1 align="center">Get In Touch.</h1>
+            </Fade>
+            <Slide left duration={1000}>
+                <div className="form-body">
+                    <div className="username">
+                        <label className="form__label" for="Name">Name </label>
+                        <input className="form__input" type="text" value={Name} onChange={(e) => handleInputChange(e)} id="Name" placeholder="Name" />
+                    </div>
+                    <div className="email">
+                        <label className="form__label" for="email">Email </label>
+                        <input type="email" id="email" className="form__input" value={email} onChange={(e) => handleInputChange(e)} placeholder="Email" />
+                    </div>
+                    <div className="institution">
+                        <label className="form__label" for="institution">Institution</label>
+                        <input className="form__input" type="text" id="institution" value={institution} onChange={(e) => handleInputChange(e)} placeholder="institution" />
+                    </div>
                 </div>
-                <div className="email">
-                    <label className="form__label" for="email">Email </label>
-                    <input  type="email" id="email" className="form__input" value={email} onChange = {(e) => handleInputChange(e)} placeholder="Email"/>
+                <div class="footer">
+                    <button onClick={()=>handleSubmit()} type="submit" class="btn">Register</button>
                 </div>
-                <div className="institution">
-                    <label className="form__label" for="institution">Institution</label>
-                    <input className="form__input" type="text"  id="institution" value={institution} onChange = {(e) => handleInputChange(e)} placeholder="institution"/>
-                </div>
-            </div>
-            <div class="footer">
-                <button onClick={()=>handleSubmit()} type="submit" class="btn">Register</button>
-            </div>
+            </Slide>
         </div>
-      
-
     )       
 }
+
 export default Register;

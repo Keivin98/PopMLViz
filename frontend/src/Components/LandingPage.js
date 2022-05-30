@@ -3,14 +3,13 @@ import Header from './Header';
 import Portfolio from "./Portfolio";
 import Register from "./Register";
 
-
 class LandingPage extends Component {
 
   render() {
     return (
       <div>
         
-        <Header />
+        <Header/>
         <Portfolio/>
         <Register />
         
@@ -18,5 +17,6 @@ class LandingPage extends Component {
     )
   }
 }
+
 
 export default LandingPage;

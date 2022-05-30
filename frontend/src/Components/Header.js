@@ -2,9 +2,10 @@ import React, { Component } from "react";
 import ParticlesBg from "particles-bg";
 import Fade from "react-reveal";
 import useAnalyticsEventTracker from './useAnalyticsEventTracker';
+import { FaBook } from "react-icons/fa";
 
 function Header(props) {  
-    
+
   //render() {
     const gaEventTracker = useAnalyticsEventTracker('social');
     const name = "PopMLViz";
@@ -25,11 +26,11 @@ function Header(props) {
             
             <li>
               <a className="smoothscroll" href="#portfolio">
-                Works
+                Portfolio
               </a>
             </li>
             <li>
-              <a className="smoothscroll" href="#contact">
+              <a className="smoothscroll" href="#register">
                 Register
               </a>
             </li>
@@ -46,11 +47,10 @@ function Header(props) {
             </Fade>
             <hr />
 
-
             <Fade bottom duration={2000}>
               <ul className="social">
-                <a href={"https://popmlvis.qcri.org"} className="button btn project-btn" onClick={()=>gaEventTracker('Live')}>
-                  <i className="fa fa-book"></i>Live
+                <a href={"/Dashboard"} className="button btn project-btn" onClick={()=>gaEventTracker('Live')}>
+                  <FaBook /> Live
                 </a>
                 <a href={"https://github.com/Keivin98/PopMLViz"} className="button btn github-btn" onClick={()=>gaEventTracker('Github')}>
                   <i className="fa fa-github"></i>Github
@@ -58,12 +58,13 @@ function Header(props) {
               </ul>
             </Fade>
           
-          
           </div>
         </div>
       </header>
     );
   }
 //}
+
+
 
 export default Header;
