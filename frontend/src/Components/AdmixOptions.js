@@ -1,12 +1,13 @@
 import React, { Component } from "react";
 import Typography from "@material-ui/core/Typography";
 import Slider from "@material-ui/core/Slider";
-import { Button } from "@material-ui/core";
+import { Button, Checkbox } from "@material-ui/core";
 import PropTypes from "prop-types";
 
 class AdmixOptions extends Component {
   state = {
     initialVal: 0,
+    checked: true,
   };
 
   componentDidMount = () => {
@@ -63,6 +64,26 @@ class AdmixOptions extends Component {
         <label style={{ marginTop: "10%", fontStyle: "italic" }}>
           {this.props.description}{" "}
         </label>
+        {this.props.name == "Certainty" && (
+          <div style={{ marginTop: "10%" }}>
+            <input
+              type="checkbox"
+              id="topping"
+              name="topping"
+              value="Paneer"
+              checked={this.state.checked}
+              onClick={() => {
+                this.setState({ checked: !this.state.checked }, () => {
+                  if (this.props.onChange) {
+                    this.props.onChange(this.state);
+                  }
+                });
+              }}
+              style={{ marginRight: "2%" }}
+            />
+            Show Undefined Label
+          </div>
+        )}
       </div>
     );
   }

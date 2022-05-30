@@ -81,6 +81,7 @@ class App extends Component {
     showOutputOptions: false,
     selectedColorShape: 0,
     admix: [],
+    AdmixOptionsLabelCheck: true,
   };
   handleMultiChange = (option) => {
     let act = [];
@@ -1455,10 +1456,11 @@ class App extends Component {
             alphaVal={this.state.alphaVal}
             clusterNames={{ ...this.state.cluster_names }}
             onChange={this.clusterNumberChange}
+            AdmixOptionsLabelCheck={this.state.AdmixOptionsLabelCheck}
           />
         );
       } else {
-        return <BarPlot data={[]} />;
+        return <BarPlot data={[]} AdmixOptionsLabelCheck={false} />;
       }
     }
     if (
@@ -1668,7 +1670,9 @@ class App extends Component {
   clusterNumberChange = (data) => {
     this.setState({ num_clusters: data.numClusters });
   };
-
+  handleAdmixOptionCheckedLabel = (data) => {
+    this.setState({ AdmixOptionsLabelCheck: data.checked });
+  };
   UploadTabChange = (data) => {
     if (
       data.selectedUploadOption === "pcairandadmixture" ||
@@ -2078,6 +2082,7 @@ class App extends Component {
                         }
                         parentCallback={this.handleAdmixOptionsCallback}
                         disabled={this.state.admix.length == 0}
+                        onChange={this.handleAdmixOptionCheckedLabel}
                       />
                     </div>
                     {this.state.data !== null && (

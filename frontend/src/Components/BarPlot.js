@@ -21,6 +21,8 @@ const randomColors = [
 class BarPlot extends Component {
   state = {
     numClusters: 2,
+    data_new: [],
+    positionOfUndefined: 0,
   };
   range = (start, end) => {
     /* generate a range : [start, start+1, ..., end-1, end] */
@@ -46,10 +48,6 @@ class BarPlot extends Component {
     this.BarPlot();
   };
   componentDidUpdate(prevProps) {
-    console.log(
-      JSON.stringify(prevProps.clusterNames),
-      JSON.stringify(this.props.clusterNames)
-    );
     if (
       prevProps.data !== this.props.data ||
       prevProps.alphaVal !== this.props.alphaVal ||
@@ -97,22 +95,58 @@ class BarPlot extends Component {
           },
         });
       }
+
       if (this.state.numClusters !== numClusters) {
-        this.setState({ numClusters: numClusters, data_new: data_new }, () => {
-          if (this.props.onChange) {
-            this.props.onChange(this.state);
+        this.setState(
+          {
+            numClusters: numClusters,
+            data_new: data_new,
+          },
+          () => {
+            if (this.props.onChange) {
+              this.props.onChange(this.state);
+            }
           }
-        });
+        );
       }
-      this.setState({ data_new: data_new });
+      this.setState({
+        data_new: data_new,
+        positionOfUndefined: positionOfUndefined,
+      });
     }
   };
   render() {
+    var pos = this.state.positionOfUndefined;
+    var dataLen =
+      this.state.data_new.length === 0 ? 0 : this.state.data_new[0].x.length;
     return (
       <div>
         <Plot
           data={this.state.data_new}
-          layout={{ title: "ADMIXTURE", barmode: "stack" }}
+          layout={{
+            title: "ADMIXTURE",
+            barmode: "stack",
+            annotations:
+              this.props.AdmixOptionsLabelCheck &&
+              dataLen > 0 &&
+              pos !== dataLen
+                ? [
+                    {
+                      xref: "paper",
+                      yref: "paper",
+                      x: (pos + (dataLen - pos) / 2) / dataLen,
+                      xanchor: "top",
+                      y: 0.95,
+                      yanchor: "top",
+                      text: "Undefined",
+                      font: {
+                        color: "black",
+                      },
+                      showarrow: true,
+                    },
+                  ]
+                : [],
+          }}
           style={styles.barContainer}
         />
       </div>
@@ -124,6 +158,7 @@ BarPlot.propTypes = {
   data: PropTypes.array,
   alphaVal: PropTypes.number,
   clusterNames: PropTypes.array,
+  AdmixOptionsLabelCheck: PropTypes.bool,
 };
 
 const styles = {
