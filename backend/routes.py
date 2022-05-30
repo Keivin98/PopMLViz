@@ -19,6 +19,7 @@ from rpy2.robjects.packages import importr
 import rpy2.robjects.packages as rpackages
 from fcmeans import FCM
 from sklearn.ensemble import IsolationForest
+import pickle
 # Create an application instance
 
 app = create_app()
@@ -72,6 +73,8 @@ def runFuzzy():
 @app.route("/api/cmtsne2d", methods=["POST"], strict_slashes=False)
 def cmtsne2d():
 	request_df = request.get_json()['df']
+	
+
 	pca_df = pd.json_normalize(request_df)
 	try:
 		pca_cols = [x for x in pca_df.columns if 'PC' in x]
@@ -101,24 +104,31 @@ def uploadCM():
 	if not os.path.isdir(target):
 		os.mkdir(target)
 	file = request.files['file'] 
-	destination="/".join([target, file.filename])
-	file.save(destination)
+	filename = random_string(12)
+	extension = '.' + file.filename.split('.')[-1]
+	destination = "/".join([target, filename])
+	file.save(destination + extension)
 
-	cm_df = pd.read_csv(destination)
+	if extension == ".pkl":
+		cm_df = pickle.load(open(destination + extension, "rb"))
+	else:
+		cm_df = pd.read_csv(destination + extension)
+
 	try:
 		components = min(20, len(cm_df.columns))
 		pca_new = PCA(n_components = components)
 
 		principalComponents_new = pca_new.fit_transform(cm_df)
 	except:
-		cm_df = pd.read_csv(destination, sep=" ")
+		cm_df = pd.read_csv(destination + extension, sep=" ")
 		components = min(20, len(cm_df.columns))
 		pca_new = PCA(n_components = components)
 
 		principalComponents_new = pca_new.fit_transform(cm_df)
 		
 	response_df = pd.DataFrame(principalComponents_new)
-	response_df.columns = ['ID'] + ['PC' + (str(i + 1)) for i in range(components-1)]
+	response_df.columns = ['PC' + (str(i + 1)) for i in range(components)]
+	print(response_df)
 	return response_df.to_csv()
 
 def random_string(length):

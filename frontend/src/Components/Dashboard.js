@@ -1747,7 +1747,7 @@ class App extends Component {
               <div>
                 <input
                   type="file"
-                  accept=".csv,.xlsx,.xls, .txt"
+                  accept=".csv,.xlsx,.xls,.txt"
                   disabled={this.state.selectedUploadOption === null}
                   onChange={this.handleFileUpload}
                 />
@@ -1848,7 +1848,7 @@ class App extends Component {
             this.state.selectedUploadOption === "t-SNE 3D") && (
             <input
               type="file"
-              accept=".csv,.xlsx,.xls,.Q,.txt"
+              accept=".csv,.xlsx,.xls,.Q,.txt,.pkl"
               disabled={this.state.selectedUploadOption === null}
               onChange={this.handleFileUpload}
             />
