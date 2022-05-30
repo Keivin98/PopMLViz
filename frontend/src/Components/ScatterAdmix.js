@@ -213,12 +213,7 @@ class ScatterAdmix extends Component {
         }
       }
     }
-    var plot_title =
-      DIM === 0
-        ? "1D plot of " + x
-        : DIM === 1
-        ? "2D plot of " + x + " and " + y
-        : "3D plot of " + x + ", " + y + " and " + z;
+    var plot_title = this.props.plotTitle;
 
     if (DIM === 2) {
       layout = {
@@ -348,6 +343,7 @@ ScatterAdmix.propTypes = {
   y: PropTypes.string,
   z: PropTypes.string,
   clusterNames: PropTypes.array,
+  plotTitle: PropTypes.string,
 };
 const styles = {
   ScatterContainer: {

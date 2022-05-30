@@ -82,6 +82,7 @@ class App extends Component {
     selectedColorShape: 0,
     admix: [],
     AdmixOptionsLabelCheck: true,
+    plotTitle: "",
   };
   handleMultiChange = (option) => {
     let act = [];
@@ -182,8 +183,8 @@ class App extends Component {
       <ScatterPlot
         data={data_new}
         layout={{
-          title: "1D plot of " + y,
-          xaxis: { title: "MappingID2" },
+          title: this.state.plotTitle,
+          xaxis: { title: "ID" },
           yaxis: { title: y },
         }}
       />
@@ -305,17 +306,12 @@ class App extends Component {
       data_new.text = cluster_texts;
     }
 
-    var plot_title =
-      DIM === 0
-        ? "1D plot of " + x
-        : DIM === 1
-        ? "2D plot of " + x + "and " + y
-        : "3D plot of " + x + ", " + y + " and " + z;
+    var plot_title = this.state.plotTitle;
 
     if (DIM === 0) {
       layout = {
         title: plot_title,
-        xaxis: { title: "MappingID2" },
+        xaxis: { title: "ID" },
         yaxis: { title: y },
       };
     } else if (DIM === 1) {
@@ -505,12 +501,7 @@ class App extends Component {
         }
       }
     }
-    var plot_title =
-      DIM === 0
-        ? "1D plot of " + x
-        : DIM === 1
-        ? "2D plot of " + x + " and " + y
-        : "3D plot of " + x + ", " + y + " and " + z;
+    var plot_title = this.state.plotTitle;
 
     if (DIM === 2) {
       layout = {
@@ -685,12 +676,7 @@ class App extends Component {
       data_new.text = cluster_texts;
     }
 
-    var plot_title =
-      DIM === 0
-        ? "1D plot of " + x
-        : DIM === 1
-        ? "2D plot of " + x + " and " + y
-        : "3D plot of " + x + ", " + y + " and " + z;
+    var plot_title = this.state.plotTitle;
 
     if (DIM === 0) {
       layout = {
@@ -789,7 +775,7 @@ class App extends Component {
       <ScatterPlot
         data={data_new}
         layout={{
-          title: "2D plot of " + x + " and " + y,
+          title: this.state.plotTitle,
           xaxis: { title: x },
           yaxis: { title: y },
         }}
@@ -873,7 +859,7 @@ class App extends Component {
             title: z,
           },
         },
-        title: "3D plot of " + x + ", " + y + " and " + z,
+        title: this.state.plotTitle,
       };
     }
     return <ScatterPlot data={data_new} layout={layout} />;
@@ -1457,6 +1443,7 @@ class App extends Component {
             clusterNames={{ ...this.state.cluster_names }}
             onChange={this.clusterNumberChange}
             AdmixOptionsLabelCheck={this.state.AdmixOptionsLabelCheck}
+            plotTitle={this.state.plotTitle}
           />
         );
       } else {
@@ -1479,6 +1466,7 @@ class App extends Component {
           z={this.state.selectedColumns[2]}
           clusterNames={this.state.cluster_names}
           onChange={this.clusterNumberChange}
+          plotTitle={this.state.plotTitle}
         />
       );
     } else {
@@ -1686,8 +1674,11 @@ class App extends Component {
     }
   };
 
-  handleTabOutputCallback = (cluster_names) => {
-    this.setState({ cluster_names: cluster_names });
+  handleTabOutputCallback = (state) => {
+    this.setState({
+      cluster_names: state.cluster_names,
+      plotTitle: state.plotTitle,
+    });
   };
   handleAdmixOptionsCallback = (alphaVal) => {
     this.setState({ alphaVal: alphaVal });
@@ -2044,12 +2035,11 @@ class App extends Component {
                     </TabPanel>
                     <TabPanel style={styles.outputSettings}>
                       {" "}
-                      {this.state.showOutputOptions && (
-                        <TabOutputOptions
-                          uniqueClusters={this.state.num_clusters}
-                          parentCallback={this.handleTabOutputCallback}
-                        />
-                      )}
+                      <TabOutputOptions
+                        uniqueClusters={this.state.num_clusters}
+                        parentCallback={this.handleTabOutputCallback}
+                        showClusters={this.state.showOutputOptions}
+                      />
                     </TabPanel>{" "}
                   </div>
                 )}
@@ -2092,12 +2082,11 @@ class App extends Component {
                     )}
                   </TabPanel>
                   <TabPanel style={styles.outputSettings}>
-                    {this.state.showOutputOptions && (
-                      <TabOutputOptions
-                        uniqueClusters={this.state.num_clusters}
-                        parentCallback={this.handleTabOutputCallback}
-                      />
-                    )}
+                    <TabOutputOptions
+                      uniqueClusters={this.state.num_clusters}
+                      parentCallback={this.handleTabOutputCallback}
+                      showClusters={this.state.showOutputOptions}
+                    />
                   </TabPanel>
                 </div>
               )}

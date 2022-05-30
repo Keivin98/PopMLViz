@@ -75,6 +75,7 @@ class BarPlot extends Component {
       let positionOfUndefined = sortedValues
         .map((x) => this.assignClusterToRow(x))
         .indexOf(numClusters);
+
       for (let n = 1; n < numClusters + 1; n += 1) {
         var name = !(n - 1 in this.props.clusterNames)
           ? n - 1 == numClusters
@@ -129,15 +130,12 @@ class BarPlot extends Component {
     }
   };
   render() {
-    var pos = this.state.positionOfUndefined;
-    var dataLen =
-      this.state.data_new.length === 0 ? 0 : this.state.data_new[0].x.length;
     return (
       <div>
         <Plot
           data={this.state.data_new}
           layout={{
-            title: "ADMIXTURE",
+            title: this.props.plotTitle,
             barmode: "stack",
             bargap: 0,
           }}
@@ -153,6 +151,7 @@ BarPlot.propTypes = {
   alphaVal: PropTypes.number,
   clusterNames: PropTypes.array,
   AdmixOptionsLabelCheck: PropTypes.bool,
+  plotTitle: PropTypes.string,
 };
 
 const styles = {
