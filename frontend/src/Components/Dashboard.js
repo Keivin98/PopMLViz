@@ -1670,9 +1670,6 @@ class App extends Component {
   clusterNumberChange = (data) => {
     this.setState({ num_clusters: data.numClusters });
   };
-  handleAdmixOptionCheckedLabel = (data) => {
-    this.setState({ AdmixOptionsLabelCheck: data.checked });
-  };
   UploadTabChange = (data) => {
     if (
       data.selectedUploadOption === "pcairandadmixture" ||
@@ -2082,7 +2079,6 @@ class App extends Component {
                         }
                         parentCallback={this.handleAdmixOptionsCallback}
                         disabled={this.state.admix.length == 0}
-                        onChange={this.handleAdmixOptionCheckedLabel}
                       />
                     </div>
                     {this.state.data !== null && (

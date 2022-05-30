@@ -85,7 +85,10 @@ class BarPlot extends Component {
         data_new.push({
           type: "bar",
           name: name,
-          x: this.range(0, y_values.length),
+          x: [
+            ...this.range(0, positionOfUndefined),
+            ...this.range(positionOfUndefined + 5, y_values.length),
+          ],
           y: y_values,
           marker: {
             opacity: this.range(0, y_values.length).map((x) =>
@@ -95,6 +98,16 @@ class BarPlot extends Component {
           },
         });
       }
+      data_new.push({
+        type: "bar",
+        name: "Undefined",
+        x: this.range(positionOfUndefined, positionOfUndefined + 5),
+        y: [1.1, 1.1, 1.1, 1.1, 1.1],
+        base: [-0.05, -0.05, -0.05, -0.05, -0.05],
+        marker: {
+          color: "black",
+        },
+      });
 
       if (this.state.numClusters !== numClusters) {
         this.setState(
@@ -126,26 +139,7 @@ class BarPlot extends Component {
           layout={{
             title: "ADMIXTURE",
             barmode: "stack",
-            annotations:
-              this.props.AdmixOptionsLabelCheck &&
-              dataLen > 0 &&
-              pos !== dataLen
-                ? [
-                    {
-                      xref: "paper",
-                      yref: "paper",
-                      x: (pos + (dataLen - pos) / 2) / dataLen,
-                      xanchor: "top",
-                      y: 0.95,
-                      yanchor: "top",
-                      text: "Undefined",
-                      font: {
-                        color: "black",
-                      },
-                      showarrow: true,
-                    },
-                  ]
-                : [],
+            bargap: 0,
           }}
           style={styles.barContainer}
         />

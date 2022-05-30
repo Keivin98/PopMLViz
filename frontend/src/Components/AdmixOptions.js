@@ -64,26 +64,6 @@ class AdmixOptions extends Component {
         <label style={{ marginTop: "10%", fontStyle: "italic" }}>
           {this.props.description}{" "}
         </label>
-        {this.props.name == "Certainty" && (
-          <div style={{ marginTop: "10%" }}>
-            <input
-              type="checkbox"
-              id="topping"
-              name="topping"
-              value="Paneer"
-              checked={this.state.checked}
-              onClick={() => {
-                this.setState({ checked: !this.state.checked }, () => {
-                  if (this.props.onChange) {
-                    this.props.onChange(this.state);
-                  }
-                });
-              }}
-              style={{ marginRight: "2%" }}
-            />
-            Show Undefined Label
-          </div>
-        )}
       </div>
     );
   }
