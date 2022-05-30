@@ -108,7 +108,7 @@ def uploadCM():
 	extension = '.' + file.filename.split('.')[-1]
 	destination = "/".join([target, filename])
 	file.save(destination + extension)
-
+	
 	if extension == ".pkl":
 		cm_df = pickle.load(open(destination + extension, "rb"))
 	else:

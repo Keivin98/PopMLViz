@@ -395,3 +395,6 @@
 127.0.0.1 - - [22/May/2022:12:13:24 +0300] "POST /api/uploadCM/ HTTP/1.0" 200 1059129 "http://popmlvis.qcri.org/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:100.0) Gecko/20100101 Firefox/100.0"
 127.0.0.1 - - [22/May/2022:12:16:46 +0300] "OPTIONS /api/samplePCAAdmixDataset/ HTTP/1.0" 200 0 "http://popmlvis.qcri.org/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:100.0) Gecko/20100101 Firefox/100.0"
 127.0.0.1 - - [22/May/2022:12:16:46 +0300] "GET /api/samplePCAAdmixDataset/ HTTP/1.0" 200 1112287 "http://popmlvis.qcri.org/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:100.0) Gecko/20100101 Firefox/100.0"
+127.0.0.1 - naffy [30/May/2022:16:45:18 +0300] "GET /api/samplePCA/ HTTP/1.0" 200 1012539 "https://popmlvis.qcri.org/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.64 Safari/537.36"
+127.0.0.1 - naffy [30/May/2022:16:45:32 +0300] "POST /api/uploadCM/ HTTP/1.0" 500 290 "https://popmlvis.qcri.org/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.64 Safari/537.36"
+127.0.0.1 - naffy [30/May/2022:16:51:54 +0300] "POST /api/uploadCM/ HTTP/1.0" 200 1059095 "https://popmlvis.qcri.org/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.64 Safari/537.36"
