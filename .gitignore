@@ -4,12 +4,12 @@
 /frontend/.env
 /frontend/build/
 /backend/data/
-backend/gunicorn_logs/
-backend/logs/
+/backend/gunicorn_logs/
+/backend/logs/
 /backend/__pycache__/
 /backend/node_modules/
 /backend/venv
-data/
+/data/
 /node_modules
 /backend/env
 /backend/requirements.txt
