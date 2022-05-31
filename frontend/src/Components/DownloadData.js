@@ -19,98 +19,100 @@ class DownloadData extends Component {
 
   render() {
     return (
-      <div className="block-example border-light" style={styles.download}>
-        <label>
-          <input
-            name="outliers"
-            type="checkbox"
-            checked={this.state.outlierCheck}
-            readOnly={true}
-            disabled={this.props.OutlierData.length === 0}
-            onClick={() => {
-              this.setState({ outlierCheck: !this.state.outlierCheck });
-              var newData = [];
-              for (var i = 0; i < this.state.data.length; i++) {
-                var row =
-                  this.state.downloadableData.length > 0
-                    ? this.state.downloadableData[i]
-                    : this.state.data[i];
-                if (!this.state.clusterCheck) {
-                  row = Object.fromEntries(
-                    Object.entries(row).filter(([key]) => key !== "cluster")
-                  );
-                }
-                var outlierInp = this.props.OutlierData[i];
-                row = {
-                  ...row,
-                  outlier: outlierInp,
-                };
-                newData = [...newData, row];
-              }
-              this.setState({
-                downloadableData: newData,
-              });
-            }}
-          />
-          {"\t"} Remove Outliers
-        </label>
-        <label>
-          <input
-            name="clustering"
-            type="checkbox"
-            checked={this.state.clusterCheck}
-            onChange={() => {
-              if (this.state.clusterCheck) {
-                this.setState({
-                  clusterCheck: !this.state.clusterCheck,
-                });
-              } else {
+      <div>
+        <div className="block-example border-light" style={styles.download}>
+          <label>
+            <input
+              name="outliers"
+              type="checkbox"
+              checked={this.state.outlierCheck}
+              readOnly={true}
+              disabled={this.props.OutlierData.length === 0}
+              onClick={() => {
+                this.setState({ outlierCheck: !this.state.outlierCheck });
                 var newData = [];
                 for (var i = 0; i < this.state.data.length; i++) {
                   var row =
                     this.state.downloadableData.length > 0
                       ? this.state.downloadableData[i]
                       : this.state.data[i];
-                  if (!this.state.outlierCheck) {
+                  if (!this.state.clusterCheck) {
                     row = Object.fromEntries(
-                      Object.entries(row).filter(([key]) => key !== "outlier")
+                      Object.entries(row).filter(([key]) => key !== "cluster")
                     );
                   }
+                  var outlierInp = this.props.OutlierData[i];
                   row = {
                     ...row,
-                    cluster:
-                      this.props.clusterNames[this.props.clusterColors[i]],
+                    outlier: outlierInp,
                   };
                   newData = [...newData, row];
                 }
                 this.setState({
-                  clusterCheck: !this.state.clusterCheck,
                   downloadableData: newData,
                 });
+              }}
+            />
+            {"\t"} Remove Outliers
+          </label>
+          <label>
+            <input
+              name="clustering"
+              type="checkbox"
+              checked={this.state.clusterCheck}
+              onChange={() => {
+                if (this.state.clusterCheck) {
+                  this.setState({
+                    clusterCheck: !this.state.clusterCheck,
+                  });
+                } else {
+                  var newData = [];
+                  for (var i = 0; i < this.state.data.length; i++) {
+                    var row =
+                      this.state.downloadableData.length > 0
+                        ? this.state.downloadableData[i]
+                        : this.state.data[i];
+                    if (!this.state.outlierCheck) {
+                      row = Object.fromEntries(
+                        Object.entries(row).filter(([key]) => key !== "outlier")
+                      );
+                    }
+                    row = {
+                      ...row,
+                      cluster:
+                        this.props.clusterNames[this.props.clusterColors[i]],
+                    };
+                    newData = [...newData, row];
+                  }
+                  this.setState({
+                    clusterCheck: !this.state.clusterCheck,
+                    downloadableData: newData,
+                  });
+                }
+              }}
+              disabled={this.props.clusterColors.length === 0}
+            />
+            {"\t"} Include Clustering Info
+          </label>
+          <Button variant="outlined">
+            <CSVLink
+              data={
+                this.state.downloadableData.length === 0
+                  ? this.state.data
+                  : this.state.downloadableData
               }
-            }}
-            disabled={this.props.clusterColors.length === 0}
-          />
-          {"\t"} Include Clustering Info
-        </label>
-        <Button variant="outlined">
-          <CSVLink
-            data={
-              this.state.downloadableData.length === 0
-                ? this.state.data
-                : this.state.downloadableData
-            }
-            onClick={() => {
-              this.setState({
-                clusterCheck: false,
-                outlierCheck: false,
-                // downloadableData: []
-              });
-            }}
-          >
-            Download Data
-          </CSVLink>
-        </Button>
+              onClick={() => {
+                this.setState({
+                  clusterCheck: false,
+                  outlierCheck: false,
+                  // downloadableData: []
+                });
+              }}
+            >
+              Download Data
+            </CSVLink>
+          </Button>
+        </div>
       </div>
     );
   }

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Plot from "react-plotly.js";
+import * as Plotly from "plotly.js";
 import PropTypes from "prop-types";
 
 const randomColors = [
@@ -55,6 +55,7 @@ class ScatterAdmix extends Component {
     if (this.props.data !== null) {
       this.setState({ alphaVal: this.props.alphaVal });
       this.splitPCAandADMIX();
+      this.ScatterAdmixFromData();
     }
   }
   componentDidUpdate(prevProps) {
@@ -70,6 +71,7 @@ class ScatterAdmix extends Component {
     ) {
       this.setState({ clusterNames: this.props.clusterNames });
     }
+    this.ScatterAdmixFromData();
   }
   scatterWithClusters(DIM, x, y, z, outliers, outlierData) {
     let num_clusters =
@@ -266,9 +268,14 @@ class ScatterAdmix extends Component {
         yaxis: { title: y },
       };
     }
-    return (
-      <Plot data={data_new} layout={layout} style={styles.ScatterContainer} />
-    );
+    return Plotly.newPlot("scatterAdmix", data_new, layout, {
+      toImageButtonOptions: {
+        filename: this.props.plotTitle,
+        width: this.props.picWidth,
+        height: this.props.picHeight,
+        format: this.props.picFormat,
+      },
+    });
   }
   splitPCAandADMIX = () => {
     let clusterColors = this.props.AdmixData.map((row) => {
@@ -307,7 +314,19 @@ class ScatterAdmix extends Component {
       .reduce((total, curr) => (total = total + curr), 0);
 
     if (this.props.PCAdata == null || DIMS === 0) {
-      return <Plot data={[]} style={styles.ScatterContainer} />;
+      return Plotly.newPlot(
+        "scatterAdmix",
+        [],
+        {},
+        {
+          toImageButtonOptions: {
+            filename: this.props.plotTitle,
+            width: this.props.picWidth,
+            height: this.props.picHeight,
+            format: this.props.picFormat,
+          },
+        }
+      );
     } else {
       if (this.props.outlierData.length > 0) {
         return this.scatterWithClusters(
@@ -332,7 +351,7 @@ class ScatterAdmix extends Component {
   };
 
   render() {
-    return <div>{this.ScatterAdmixFromData()}</div>;
+    return <div id="scatterAdmix" style={styles.ScatterContainer}></div>;
   }
 }
 ScatterAdmix.propTypes = {
@@ -343,6 +362,9 @@ ScatterAdmix.propTypes = {
   y: PropTypes.string,
   z: PropTypes.string,
   clusterNames: PropTypes.array,
+  picWidth: PropTypes.number,
+  picHeight: PropTypes.number,
+  picFormat: PropTypes.string,
   plotTitle: PropTypes.string,
 };
 const styles = {

@@ -84,6 +84,10 @@ class App extends Component {
     AdmixOptionsLabelCheck: true,
     plotTitle: "",
     mappingIDColumn: "",
+    picHeight: 600,
+    picWidth: 800,
+    plotTitle: "",
+    picFormat: "png",
   };
   handleMultiChange = (option) => {
     let act = [];
@@ -184,6 +188,10 @@ class App extends Component {
           title: this.state.plotTitle,
           yaxis: { title: y },
         }}
+        picWidth={Number(this.state.picWidth)}
+        picHeight={Number(this.state.picHeight)}
+        picFormat={this.state.picFormat}
+        plotTitle={this.state.plotTitle}
       />
     );
   };
@@ -358,7 +366,16 @@ class App extends Component {
       };
     }
 
-    return <ScatterPlot data={data_new} layout={layout} />;
+    return (
+      <ScatterPlot
+        data={data_new}
+        layout={layout}
+        picWidth={this.state.picWidth}
+        picHeight={this.state.picHeight}
+        picFormat={this.state.picFormat}
+        plotTitle={this.state.plotTitle}
+      />
+    );
   };
 
   scatterWithClusters(DIM, x, y, z, outliers, distributionData) {
@@ -564,7 +581,16 @@ class App extends Component {
         yaxis: { title: y },
       };
     }
-    return <ScatterPlot data={data_new} layout={layout} />;
+    return (
+      <ScatterPlot
+        data={data_new}
+        layout={layout}
+        picWidth={this.state.picWidth}
+        picHeight={this.state.picHeight}
+        picFormat={this.state.picFormat}
+        plotTitle={this.state.plotTitle}
+      />
+    );
   }
 
   scatterCategoricalandOutliers = (
@@ -784,7 +810,16 @@ class App extends Component {
       };
     }
 
-    return <ScatterPlot data={data_new} layout={layout} />;
+    return (
+      <ScatterPlot
+        data={data_new}
+        layout={layout}
+        picWidth={this.state.picWidth}
+        picHeight={this.state.picHeight}
+        picFormat={this.state.picFormat}
+        plotTitle={this.state.plotTitle}
+      />
+    );
   };
 
   scatter2d = (x, y) => {
@@ -824,6 +859,10 @@ class App extends Component {
           xaxis: { title: x },
           yaxis: { title: y },
         }}
+        picWidth={this.state.picWidth}
+        picHeight={this.state.picHeight}
+        picFormat={this.state.picFormat}
+        plotTitle={this.state.plotTitle}
       />
     );
   };
@@ -905,7 +944,16 @@ class App extends Component {
         title: this.state.plotTitle,
       };
     }
-    return <ScatterPlot data={data_new} layout={layout} />;
+    return (
+      <ScatterPlot
+        data={data_new}
+        layout={layout}
+        picWidth={this.state.picWidth}
+        picHeight={this.state.picHeight}
+        picFormat={this.state.picFormat}
+        plotTitle={this.state.plotTitle}
+      />
+    );
   };
 
   processData = async (dataString, outliers, admix) => {
@@ -1487,10 +1535,22 @@ class App extends Component {
             onChange={this.clusterNumberChange}
             AdmixOptionsLabelCheck={this.state.AdmixOptionsLabelCheck}
             plotTitle={this.state.plotTitle}
+            picWidth={Number(this.state.picWidth)}
+            picHeight={Number(this.state.picHeight)}
+            picFormat={this.state.picFormat}
           />
         );
       } else {
-        return <BarPlot data={[]} AdmixOptionsLabelCheck={false} />;
+        return (
+          <BarPlot
+            data={[]}
+            AdmixOptionsLabelCheck={false}
+            plotTitle={this.state.plotTitle}
+            picWidth={Number(this.state.picWidth)}
+            picHeight={Number(this.state.picHeight)}
+            picFormat={this.state.picFormat}
+          />
+        );
       }
     }
     if (
@@ -1510,6 +1570,9 @@ class App extends Component {
           clusterNames={this.state.cluster_names}
           onChange={this.clusterNumberChange}
           plotTitle={this.state.plotTitle}
+          picWidth={Number(this.state.picWidth)}
+          picHeight={Number(this.state.picHeight)}
+          picFormat={this.state.picFormat}
         />
       );
     } else {
@@ -1518,7 +1581,15 @@ class App extends Component {
         this.state.selectedColumns[1] === null &&
         this.state.selectedColumns[2] === null
       ) {
-        return <ScatterPlot data={[]} />;
+        return (
+          <ScatterPlot
+            data={[]}
+            picWidth={this.state.picWidth}
+            picHeight={this.state.picHeight}
+            picFormat={this.state.picFormat}
+            plotTitle={this.state.plotTitle}
+          />
+        );
       } else if (
         this.state.selectedColumns[1] === null &&
         this.state.selectedColumns[2] === null
@@ -1721,6 +1792,9 @@ class App extends Component {
     this.setState({
       cluster_names: state.cluster_names,
       plotTitle: state.plotTitle,
+      picWidth: state.width,
+      picHeight: state.height,
+      picFormat: state.selectedColumn,
     });
   };
   handleAdmixOptionsCallback = (alphaVal) => {

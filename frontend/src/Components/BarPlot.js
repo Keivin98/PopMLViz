@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import Plot from "react-plotly.js";
 import PropTypes from "prop-types";
+import * as Plotly from "plotly.js";
 
 const randomColors = [
   "#3f91ba",
@@ -52,7 +52,11 @@ class BarPlot extends Component {
       prevProps.data !== this.props.data ||
       prevProps.alphaVal !== this.props.alphaVal ||
       JSON.stringify(prevProps.clusterNames) !==
-        JSON.stringify(this.props.clusterNames)
+        JSON.stringify(this.props.clusterNames) ||
+      prevProps.picWidth !== this.props.picWidth ||
+      prevProps.picHeight !== this.props.picHeight ||
+      prevProps.picFormat !== this.props.picFormat ||
+      prevProps.plotTitle !== this.props.plotTitle
     ) {
       this.BarPlot();
     }
@@ -127,22 +131,27 @@ class BarPlot extends Component {
         data_new: data_new,
         positionOfUndefined: positionOfUndefined,
       });
+      return Plotly.newPlot(
+        "barPlot",
+        data_new,
+        {
+          title: this.props.plotTitle,
+          barmode: "stack",
+          bargap: 0,
+        },
+        {
+          toImageButtonOptions: {
+            filename: this.props.plotTitle,
+            width: this.props.picWidth,
+            height: this.props.picHeight,
+            format: this.props.picFormat,
+          },
+        }
+      );
     }
   };
   render() {
-    return (
-      <div>
-        <Plot
-          data={this.state.data_new}
-          layout={{
-            title: this.props.plotTitle,
-            barmode: "stack",
-            bargap: 0,
-          }}
-          style={styles.barContainer}
-        />
-      </div>
-    );
+    return <div id="barPlot" style={styles.barContainer}></div>;
   }
 }
 
@@ -152,6 +161,9 @@ BarPlot.propTypes = {
   clusterNames: PropTypes.array,
   AdmixOptionsLabelCheck: PropTypes.bool,
   plotTitle: PropTypes.string,
+  picWidth: PropTypes.number,
+  picHeight: PropTypes.number,
+  picFormat: PropTypes.string,
 };
 
 const styles = {
