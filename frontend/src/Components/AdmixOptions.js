@@ -6,11 +6,12 @@ import PropTypes from "prop-types";
 
 class AdmixOptions extends Component {
   state = {
-    initialVal: 0,
+    initialVal: this.props.initialVal,
     checked: true,
   };
 
   componentDidMount = () => {
+    console.log();
     this.setState({ initialVal: this.props.initialVal });
   };
   rangeSelector = (event, newValue) => {
@@ -45,7 +46,7 @@ class AdmixOptions extends Component {
             value={this.state.initialVal}
             onChange={this.rangeSelector}
             valueLabelDisplay="auto"
-            min={0}
+            min={1}
             max={100}
           />
           <Button

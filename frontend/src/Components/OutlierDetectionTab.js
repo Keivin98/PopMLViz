@@ -31,7 +31,10 @@ class OutlierDetectionTab extends Component {
         value: 4,
       },
     ],
-    selectedOutlierMethod: null,
+    selectedOutlierMethod: {
+      label: "None",
+      value: 0,
+    },
     open: false,
     columnRange: [1, 20],
     pressed: false,
@@ -118,12 +121,14 @@ class OutlierDetectionTab extends Component {
                   color: "white",
                 }}
               >
-                <Switch
-                  labelRight={this.state.pressed === true ? "OR" : "AND"}
-                  labelLeft={"Mode:"}
-                  //   disabled={true}
-                  onChange={this.handleChangeSwitch}
-                />
+                {this.state.selectedOutlierMethod !== 4 && (
+                  <Switch
+                    labelRight={this.state.pressed === true ? "OR" : "AND"}
+                    labelLeft={"Mode:"}
+                    //   disabled={true}
+                    onChange={this.handleChangeSwitch}
+                  />
+                )}
               </div>
             </div>
             <OutlierBlock

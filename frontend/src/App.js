@@ -14,7 +14,7 @@ function App() {
           backgroundColor: "#3b3f4e",
         }}
       >
-        <Navbar.Brand style={{ color: "white" }}>
+        <Navbar.Brand style={{ color: "white", fontSize: 24 }}>
           PopMLViz
           <img
             src="./logo.jpeg"

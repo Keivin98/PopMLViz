@@ -1998,9 +1998,15 @@ class App extends Component {
                             marginLeft: "3%",
                           }}
                         >
-                          <label>
+                          <label
+                            style={{
+                              fontWeight: "300",
+                              fontSize: 18,
+                              padding: "2%",
+                            }}
+                          >
                             {" "}
-                            <h5 style={{}}> Describing Columns </h5>
+                            Describing Columns
                           </label>
                           <Select
                             name="filters"
@@ -2015,16 +2021,14 @@ class App extends Component {
                         </div>
                         {this.state.multiValue.length > 0 && (
                           <div style={styles.describingColumnDropDown}>
-                            <label style={{ marginLeft: "1%" }}>
-                              <h6
-                                style={{
-                                  width: "100%",
-                                  marginTop: "3%",
-                                  marginLeft: "1%",
-                                }}
-                              >
-                                Choose Describing Column
-                              </h6>
+                            <label
+                              style={{
+                                fontWeight: "300",
+                                fontSize: 18,
+                                padding: "2%",
+                              }}
+                            >
+                              Choose Describing Column
                             </label>
                             <div>
                               <Select
@@ -2072,9 +2076,14 @@ class App extends Component {
                           marginLeft: "3%",
                         }}
                       >
-                        <label>
-                          {" "}
-                          <h5 style={{}}> Mapping ID Column </h5>
+                        <label
+                          style={{
+                            fontWeight: "300",
+                            fontSize: 18,
+                            padding: "2%",
+                          }}
+                        >
+                          Mapping ID Column
                         </label>
                         <Select
                           placeholder="Mapping ID"
@@ -2114,7 +2123,7 @@ class App extends Component {
                       }}
                     >
                       <AdmixOptions
-                        initialVal={40}
+                        initialVal={this.state.alphaVal}
                         name={
                           this.state.selectedUploadOption ===
                           "pcairandadmixture"

@@ -13,7 +13,7 @@ class TabOutputOptions extends Component {
       num_clusters = 2;
     }
     return (
-      <div>
+      <div style={{ padding: "4%" }}>
         <h6>Change plot title:</h6>
         <div style={{ marginTop: "10px" }}>
           <label style={{ width: "30%" }}>Plot Title</label>
