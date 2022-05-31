@@ -4,11 +4,21 @@
 /frontend/.env
 /frontend/build/
 /backend/data/
+<<<<<<< HEAD
 /backend/gunicorn_logs/
 /backend/logs/
+||||||| b66d9d5... Removed all files that are in the .gitignore
+/backend/gunicorn_logs/
+/backend/logs/
+/backend/__pycache__/
+=======
+backend/gunicorn_logs/
+backend/logs/
+/backend/__pycache__/
+>>>>>>> parent of b66d9d5... Removed all files that are in the .gitignore
 /backend/node_modules/
 /backend/venv
-/data/
+data/
 /node_modules
 /backend/requirements.txt
 /backend/q.txt
