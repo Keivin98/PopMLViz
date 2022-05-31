@@ -6,12 +6,10 @@
 /backend/data/
 /backend/gunicorn_logs/
 /backend/logs/
-/backend/__pycache__/
 /backend/node_modules/
 /backend/venv
 /data/
 /node_modules
-/backend/env
 /backend/requirements.txt
 /backend/q.txt
 /backend/subprocess1.py
