@@ -88,6 +88,8 @@ class App extends Component {
     picWidth: 800,
     plotTitle: "",
     picFormat: "png",
+    metaData: [],
+    metaDataColumns: [],
   };
   handleMultiChange = (option) => {
     let act = [];
@@ -122,6 +124,24 @@ class App extends Component {
   setAdmix = (data) => {
     this.setState({ admix: data });
   };
+  setMetaData = (data) => {
+    this.setState({ metaData: data });
+  };
+  setMetaDataColumns = (columns) => {
+    let act = [];
+    for (var i = 0; i < columns.length; i++) {
+      act.push({
+        value: columns[i]["name"].toLowerCase(),
+        label: columns[i]["name"],
+      });
+    }
+    this.setState({
+      metaDataColumns: columns,
+      selectActions: [...this.state.selectActions, act],
+      allActions: [...this.state.allActions, act],
+    });
+  };
+
   setOutlierData = (data) => {
     this.setState({
       OutlierData: data.map((elem) => {
@@ -956,11 +976,11 @@ class App extends Component {
     );
   };
 
-  processData = async (dataString, outliers, admix) => {
+  processData = async (dataString, outliers, type) => {
     const dataStringLines = dataString.split(/\r\n|\n/);
     var selectedUploadOption = this.state.selectedUploadOption;
     var headers = [];
-    if (selectedUploadOption === "admixture" || admix === 2) {
+    if (selectedUploadOption === "typeture" || type === 2) {
       headers = [...Array(dataStringLines[0].split(" ").length)].map(
         (x, index) => {
           return "v" + (index + 1);
@@ -980,7 +1000,7 @@ class App extends Component {
     const list = [];
     for (let i = 1; i < dataStringLines.length; i++) {
       var row = [];
-      if (selectedUploadOption === "admixture" || admix === 2) {
+      if (selectedUploadOption === "typeture" || type === 2) {
         row = dataStringLines[i - 1].split(" ");
       } else {
         var rowCommaDelim = dataStringLines[i].split(
@@ -1021,13 +1041,17 @@ class App extends Component {
     if (outliers === true) {
       this.setOutlierData(list);
     } else {
-      if (admix != null) {
-        if (admix === 1) {
+      if (type != null) {
+        if (type === 1) {
           this.setData(list);
           this.setColumns(columns);
         }
-        if (admix === 2) {
+        if (type === 2) {
           this.setAdmix(list);
+        }
+        if (type === 3) {
+          this.setMetaData(list);
+          this.setMetaDataColumns(columns);
         }
       } else {
         this.setData(list);
@@ -1036,8 +1060,26 @@ class App extends Component {
     }
   };
 
-  // handle file upload
-  handleFileUpload = (e, admix) => {
+  mergeDataWithMetaData = () => {
+    if (this.state.data.length !== this.state.metaData.length) {
+      alert("The dimensions do not match!");
+      this.setState({ metaData: [], metaDataColumns: [] });
+    }
+    var mergedData = this.state.data.map((elem, index) => {
+      return Object.assign({}, elem, this.state.metaData[index]);
+    });
+    var mergedColumns = [...this.state.columns, ...this.state.metaDataColumns];
+    this.setColumns(mergedColumns);
+    this.setState({ data: mergedData, metaData: [] });
+  };
+
+  //  handle file upload
+  //  e is the file information
+  //  type is the type of the file :
+  //  1 for handleAdmixFileUpload1
+  //  2 for handleAdmixFileUpload2
+  //  3 for metadata
+  handleFileUpload = (e, type) => {
     if (this.state.selectedUploadOption === "Correlation Matrix") {
       this.UploadCMDataset(e);
     } else {
@@ -1060,11 +1102,13 @@ class App extends Component {
         const ws = wb.Sheets[wsname];
         /* Convert array of arrays */
         const data = XLSX.utils.sheet_to_csv(ws, { header: 1 });
-        this.processData(data, false, admix).then(() => {
-          if (
-            this.state.selectedUploadOption === "PCA" ||
-            this.state.selectedUploadOption === "admixture"
-          ) {
+        this.processData(data, false, type).then(() => {
+          if (this.state.selectedUploadOption === "admixture") {
+          }
+          if (this.state.selectedUploadOption === "PCA") {
+            if (type === 3) {
+              this.mergeDataWithMetaData();
+            }
           } else if (this.state.selectedUploadOption === "t-SNE 2D") {
             this.runTSNE2d();
           } else if (this.state.selectedUploadOption === "t-SNE 3D") {
@@ -1083,7 +1127,9 @@ class App extends Component {
   handleAdmixFileUpload2 = (e) => {
     this.handleFileUpload(e, 2);
   };
-
+  handleMetaDataUpload = (e) => {
+    this.handleFileUpload(e, 3);
+  };
   handleSelectXChange = (value) => {
     this.setState({
       selectedColumns: [
@@ -1760,6 +1806,9 @@ class App extends Component {
       }
     }
   };
+  onInputClick = (event) => {
+    event.target.value = "";
+  };
   DRTabChange = (data) => {
     this.setState({
       selectedUploadOption: data.selectedUploadOption,
@@ -2199,6 +2248,26 @@ class App extends Component {
                             this.setState({ mappingIDColumn: option.label });
                           }}
                         />
+                        <label
+                          style={{
+                            fontWeight: "300",
+                            padding: "2%",
+                            fontSize: 18,
+                            marginTop: "10%",
+                          }}
+                        >
+                          Add Metadata
+                          <input
+                            type="file"
+                            accept=".csv,.xlsx,.xls,.txt"
+                            onChange={this.handleMetaDataUpload}
+                            onClick={this.onInputClick}
+                            disabled={
+                              this.state.data == null ||
+                              this.state.data.length === 0
+                            }
+                          />
+                        </label>
                       </div>
                       {this.state.data !== null && (
                         <DownloadData
