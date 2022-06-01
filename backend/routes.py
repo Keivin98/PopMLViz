@@ -83,8 +83,9 @@ def cmtsne2d():
 	if not pca_cols:
 		pca_cols = pca_df.columns
 	tsne_visualization = TSNE(random_state=123).fit_transform(pca_df[pca_cols])
-	tsne_visualization.columns = ["TSNE-1", "TSNE-2"]
-	return pd.DataFrame(tsne_visualization).to_csv()
+	tsne_df = pd.DataFrame(tsne_visualization)
+	tsne_df.columns = ["TSNE-1", "TSNE-2"]
+	return tsne_df.to_csv()
 
 @app.route("/api/cmtsne3d", methods=["POST"], strict_slashes=False)
 def cmtsne3d():
@@ -97,8 +98,9 @@ def cmtsne3d():
 	if not pca_cols:
 		pca_cols = pca_df.columns
 	tsne_visualization = TSNE(n_components=3, random_state=123).fit_transform(pca_df[pca_cols])
-	tsne_visualization.columns = ["TSNE-1", "TSNE-2", "TSNE-3"]
-	return pd.DataFrame(tsne_visualization).to_csv()
+	tsne_df = pd.DataFrame(tsne_visualization)
+	tsne_df.columns = ["TSNE-1", "TSNE-2", "TSNE-3"]
+	return tsne_df.to_csv()
 
 @app.route("/api/uploadCM", methods=["POST"], strict_slashes=False)
 def uploadCM():
