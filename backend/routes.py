@@ -83,6 +83,7 @@ def cmtsne2d():
 	if not pca_cols:
 		pca_cols = pca_df.columns
 	tsne_visualization = TSNE(random_state=123).fit_transform(pca_df[pca_cols])
+	tsne_visualization.columns = ["TSNE-1", "TSNE-2"]
 	return pd.DataFrame(tsne_visualization).to_csv()
 
 @app.route("/api/cmtsne3d", methods=["POST"], strict_slashes=False)
@@ -96,6 +97,7 @@ def cmtsne3d():
 	if not pca_cols:
 		pca_cols = pca_df.columns
 	tsne_visualization = TSNE(n_components=3, random_state=123).fit_transform(pca_df[pca_cols])
+	tsne_visualization.columns = ["TSNE-1", "TSNE-2", "TSNE-3"]
 	return pd.DataFrame(tsne_visualization).to_csv()
 
 @app.route("/api/uploadCM", methods=["POST"], strict_slashes=False)
@@ -168,23 +170,33 @@ def runPCAIR():
 
 		geno <- GdsGenotypeReader(filename = "./data/test_docs/%s.gds")
 		genoData <- GenotypeData(geno)
+		kinship <- "%s"
+		empty <- ""
+		if(kinship == empty){
+			IDs <- read.table("./data/test_docs/%s.fam", header = FALSE)
+			pcair_result_nokin <- pcair(gdsobj = genoData, kinobj = NULL, divobj = NULL, num.cores = 32)  ## Normal PCA
+			pc_vectors_nokin <- as.data.frame(pcair_result_nokin$vectors[,c(1:20)])
+			pc_vectors_nokin$IID <- as.character(IDs$V1)
+			colnames(pc_vectors_nokin)[1:20] = paste("PC",1:20,sep="")
+			write.csv(pc_vectors_nokin, "./data/test_docs/%s.csv",row.names=F,col.names=TRUE)
+		}else{
+			kinship <- read.table("./data/test_docs/%s.txt", header = FALSE)
+			IDs <- read.table("./data/test_docs/%s.fam", header = FALSE)
 
-		kinship <- read.table("./data/test_docs/%s.txt", header = FALSE)
-		IDs <- read.table("./data/test_docs/%s.fam", header = FALSE)
+			IDs_col <- IDs[,1]
 
-		IDs_col <- IDs[,1]
+			colnames(kinship) <- IDs_col
+			rownames(kinship) <- IDs_col
+			pcair_result       <- pcair(gdsobj = genoData, kinobj = as.matrix(kinship), divobj = as.matrix(kinship), div.thresh= -2^(-9/2),kin.thresh=2^(-9/2), num.cores = 32) ## PC-air
 
-		colnames(kinship) <- IDs_col
-		rownames(kinship) <- IDs_col
+			pc_vectors <- as.data.frame(pcair_result$vectors[,c(1:20)])
+			pc_vectors$IID <- as.character(IDs$V1) 
 
-		pcair_result       <- pcair(gdsobj = genoData, kinobj = as.matrix(kinship), divobj = as.matrix(kinship), div.thresh= -2^(-9/2),kin.thresh=2^(-9/2), num.cores = 32) ## PC-air
-
-		pc_vectors <- as.data.frame(pcair_result$vectors[,c(1:20)])
-		pc_vectors$IID <- as.character(IDs$V1) 
-
-		colnames(pc_vectors)[1:20] = paste("PC",1:20,sep="")
-		write.csv(pc_vectors, "./data/test_docs/%s.csv",row.names=F,col.names=TRUE)
-		''' % (bed_name, bim_name, fam_name, gds_name, gds_name,  kinship_name, fam_name, result_name))
+			colnames(pc_vectors)[1:20] = paste("PC",1:20,sep="")
+			write.csv(pc_vectors, "./data/test_docs/%s.csv",row.names=F,col.names=TRUE)
+		}
+		
+		''' % (bed_name, bim_name, fam_name, gds_name, gds_name, kinship_name, fam_name, result_name, kinship_name, fam_name, result_name))
 	
 	return pd.read_csv('./data/test_docs/%s.csv' % (result_name)).to_csv()
 
