@@ -39,12 +39,12 @@ function Register() {
 
 
     return(
-        <div className="form">
+        <div className="form" style={CSS.form}>
             <Fade bottom duration={1000}>
               <h1 align="center">Get In Touch.</h1>
             </Fade>
             <Slide left duration={1000}>
-                <div className="form-body">
+                <div className="form-body" style={CSS.formBody}>
                     <div className="username">
                         <label className="form__label" for="Name">Name </label>
                         <input className="form__input" type="text" value={Name} onChange={(e) => handleInputChange(e)} id="Name" placeholder="Name" />
@@ -65,5 +65,19 @@ function Register() {
         </div>
     )       
 }
+
+const CSS = {
+    form:  {
+        backgroundColor: "rgb(255, 255, 255)",
+        borderRadius: "5px",
+        width: "550px",
+        margin: "20px" ,
+        padding: "20px",
+    },
+    formBody: {
+        textAlign: "center",
+        padding: "20px 100px",
+     }
+  }
 
 export default Register;

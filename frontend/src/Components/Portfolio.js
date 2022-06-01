@@ -8,16 +8,16 @@ class Portfolio extends Component {
       <Fade bottom duration={1200}>
       <section id="portfolio" style={CSS.portfolio}>
         <div className="row" style={{width:"30%"}}>
-          <h1>Dashboard</h1>
+          <h1 style={CSS.portfolio}>Dashboard</h1>
             <img src="./images/portfolio/1.png"/>
         </div>
         <div className="row" style={{width:"30%"}}>
-        <h1>2D Plot</h1>
+          <h1 style={CSS.portfolio}>2D Plot</h1>
             <img src="./images/portfolio/2.png"/>
         </div>
         <div className="row" style={{width:"30%"}}>
-        <h1>Admixture</h1>
-          <img src="./images/portfolio/3.png"/>
+          <h1 style={CSS.portfolio}>Admixture</h1>
+            <img src="./images/portfolio/3.png"/>
         </div>
       </section> 
       </Fade>
@@ -33,7 +33,7 @@ const CSS = {
     justifyContent: "space-evenly",
     width: "100%",
     marginBottom: "5%",
- 
+    fontSize: "2rem",
   }
 }
 

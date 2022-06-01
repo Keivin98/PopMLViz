@@ -1073,7 +1073,11 @@ class App extends Component {
   runCluster = (s) => {
     if (s.selectedClusterMethod === 0) {
       this.runKmeans(s.num_clusters);
-    } else {
+    } 
+    if (s.selectedClusterMethod === 1){
+      this.runHC(s.num_clusters);
+    }
+    else {
       this.runFuzzy(s.num_clusters);
     }
   };
@@ -1115,7 +1119,45 @@ class App extends Component {
         });
       });
   };
+//////////////////////////////////////////////////////////////////
+//Hierarchical clustering code:Naffy
 
+  runHC = (num_clusters) => {
+    const formData = {
+      df: this.state.data,
+      num_clusters: num_clusters,
+    };
+
+    this.setState({ isLoading: true, ProgressBarType: "Loader" });
+
+    axios
+      .post(
+        `${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}:5000/api/runhc/`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
+      .then((r) => {
+        var cluster_names = {};
+        [...Array(num_clusters)].map((x, index) => {
+          cluster_names[index] = index;
+        });
+        this.setState({
+          isLoading: false,
+          clusterColors: r.data,
+          cluster_names: cluster_names,
+          showOutputOptions: true,
+          distributionData: [],
+          selectedDescribingColumn: { value: "None", label: "None" },
+          num_clusters: num_clusters,
+        });
+      });
+  };
+
+//////////////////////////////////////////////////////////////////
   runFuzzy = (num_clusters) => {
     const formData = {
       df: this.state.data,

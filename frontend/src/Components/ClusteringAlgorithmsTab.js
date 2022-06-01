@@ -13,8 +13,12 @@ class ClusteringAlgorithmsTab extends Component {
 				value: 0,
 			},
 			{
-				label: 'Fuzzy c-means',
+				label: 'Hierarchical clustering',
 				value: 1,
+			},
+			{
+				label: 'Fuzzy c-means',
+				value: 2,
 			},
 		],
 		num_clusters: 2,

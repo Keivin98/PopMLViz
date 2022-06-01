@@ -2,11 +2,10 @@ import React, { Component } from "react";
 import ParticlesBg from "particles-bg";
 import Fade from "react-reveal";
 import useAnalyticsEventTracker from './useAnalyticsEventTracker';
-import { FaBook } from "react-icons/fa";
+import { FaBook , FaGithub } from "react-icons/fa";
 
 function Header(props) {  
 
-  //render() {
     const gaEventTracker = useAnalyticsEventTracker('social');
     const name = "PopMLViz";
     const description = "Population Machine Learning Visualization";
@@ -16,8 +15,8 @@ function Header(props) {
       <header id="home">
         <ParticlesBg type="circle" bg={true} />
 
-        <nav id="nav-wrap">
-          <ul id="nav" className="nav">
+        <nav id="nav-wrap" style={CSS.NavWrap}>
+          <ul id="nav" className="nav" >
             <li className="current">
               <a className="smoothscroll" href="#home">
                 Home
@@ -48,12 +47,12 @@ function Header(props) {
             <hr />
 
             <Fade bottom duration={2000}>
-              <ul className="social">
+              <ul className="social" style={CSS.Social}>
                 <a href={"/Dashboard"} className="button btn project-btn" onClick={()=>gaEventTracker('Live')}>
                   <FaBook /> Live
                 </a>
                 <a href={"https://github.com/Keivin98/PopMLViz"} className="button btn github-btn" onClick={()=>gaEventTracker('Github')}>
-                  <i className="fa fa-github"></i>Github
+                  <FaGithub/>Github
                 </a>
               </ul>
             </Fade>
@@ -63,8 +62,26 @@ function Header(props) {
       </header>
     );
   }
-//}
 
+
+const CSS = {
+  NavWrap:{
+    font: "15px",
+    width: "100%",
+    textTransform: "uppercase",
+    letterSpacing: "2.5px",
+    marginLeft: "39.5%",
+    zIndex: "100",
+    position: "fixed",
+    left: "0",
+    top: "0",
+    },
+  Social:{
+    color:"red",
+    font: "15px",
+    textTransform: "uppercase",
+  }
+}
 
 
 export default Header;
