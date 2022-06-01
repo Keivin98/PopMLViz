@@ -1803,10 +1803,13 @@ class App extends Component {
 
   onPressReset = () => {
     this.setState({
+      data: [],
       OutlierData: [],
       cluster_names: {},
       clusterColors: [],
       distributionData: [],
+      selectActions: [],
+      selectedColumns: [null, null, null],
     });
   };
 
@@ -2014,6 +2017,16 @@ class App extends Component {
                 </label>
                 <div style={{ width: "75%" }}>
                   <Select
+                    value={{
+                      value:
+                        this.state.selectedColumns[0] == null
+                          ? "None"
+                          : this.state.selectedColumns[0],
+                      label:
+                        this.state.selectedColumns[0] == null
+                          ? "None"
+                          : this.state.selectedColumns[0],
+                    }}
                     options={this.state.selectActions}
                     onChange={this.handleSelectXChange}
                     isDisabled={this.state.selectedUploadOption === "admixture"}
@@ -2027,6 +2040,16 @@ class App extends Component {
                 </label>
                 <div style={{ width: "75%" }}>
                   <Select
+                    value={{
+                      value:
+                        this.state.selectedColumns[1] == null
+                          ? "None"
+                          : this.state.selectedColumns[1],
+                      label:
+                        this.state.selectedColumns[1] == null
+                          ? "None"
+                          : this.state.selectedColumns[1],
+                    }}
                     options={this.state.selectActions}
                     onChange={this.handleSelectYChange}
                     isDisabled={
@@ -2043,6 +2066,16 @@ class App extends Component {
                 </label>
                 <div style={{ width: "75%" }}>
                   <Select
+                    value={{
+                      value:
+                        this.state.selectedColumns[2] == null
+                          ? "None"
+                          : this.state.selectedColumns[2],
+                      label:
+                        this.state.selectedColumns[2] == null
+                          ? "None"
+                          : this.state.selectedColumns[2],
+                    }}
                     options={this.state.selectActions}
                     onChange={this.handleSelectZChange}
                     isDisabled={
