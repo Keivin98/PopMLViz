@@ -6,6 +6,7 @@ import { Button } from "@material-ui/core";
 import OutlierBlock from "./OutlierBlock";
 import Switch from "./Switch";
 import { FcMindMap } from "react-icons/fc";
+import PropTypes from "prop-types";
 
 class OutlierDetectionTab extends Component {
   state = {
@@ -48,13 +49,25 @@ class OutlierDetectionTab extends Component {
       value: 0,
     },
     open: false,
-    columnRange: [1, 20],
+    columnRange: [1, Math.min(this.props.numFeatures, 20)],
     pressed: false,
   };
   setOpen = (open) => {
     this.setState({ open: open });
   };
-
+  componentDidMount = () => {
+    this.setState({
+      columnRange: [1, Math.min(this.props.numFeatures, 20)],
+    });
+  };
+  componentDidUpdate = (prevProps) => {
+    console.log("sadadasdsodt", this.props.numFeatures);
+    if (prevProps.numFeatures !== this.props.numFeatures) {
+      this.setState({
+        columnRange: [1, Math.min(this.props.numFeatures, 20)],
+      });
+    }
+  };
   handleChangeSwitch = (e) => {
     const pressed = e.target.checked;
     this.setState({ pressed });
@@ -133,7 +146,7 @@ class OutlierDetectionTab extends Component {
                   color: "white",
                 }}
               >
-                {this.state.selectedOutlierMethod !== 4 && (
+                {this.state.selectedOutlierMethod < 4 && (
                   <Switch
                     labelRight={this.state.pressed === true ? "OR" : "AND"}
                     labelLeft={"Mode:"}
@@ -179,5 +192,10 @@ class OutlierDetectionTab extends Component {
     );
   }
 }
+
+OutlierDetectionTab.propTypes = {
+  numFeatures: PropTypes.number,
+  // allActions: PropTypes.array,
+};
 
 export default OutlierDetectionTab;

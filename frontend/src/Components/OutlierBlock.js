@@ -5,9 +5,34 @@ import PropTypes from "prop-types";
 
 class OutlierBlock extends Component {
   state = {
-    columnRange: this.props.columnRange,
+    columnRange: [],
   };
-
+  componentDidMount = () => {
+    if (this.props.columnRange[1] < this.props.columnRange[0]) {
+      this.setState({
+        columnRange: [this.props.columnRange[0], this.props.columnRange[0]],
+        disabled: true,
+      });
+    } else {
+      this.setState({
+        columnRange: [this.props.columnRange[0], this.props.columnRange[1]],
+      });
+    }
+  };
+  componentDidUpdate = (prevProps) => {
+    if (prevProps.columnRange[1] !== this.props.columnRange[1]) {
+      if (this.props.columnRange[1] < this.props.columnRange[0]) {
+        this.setState({
+          columnRange: [this.props.columnRange[0], this.props.columnRange[0]],
+          disabled: true,
+        });
+      } else {
+        this.setState({
+          columnRange: [this.props.columnRange[0], this.props.columnRange[1]],
+        });
+      }
+    }
+  };
   rangeSelector = (event, newValue) => {
     this.setState({ columnRange: newValue });
   };
@@ -40,9 +65,10 @@ class OutlierBlock extends Component {
             onChange={this.rangeSelector}
             valueLabelDisplay="auto"
             min={1}
-            max={20}
+            max={this.props.columnRange[1]}
             marks
             style={{ color: "#1891fb" }}
+            disabled={this.state.disabled}
           />
           <Button
             onClick={this.handleApplyClick}
@@ -57,7 +83,12 @@ class OutlierBlock extends Component {
             Apply
           </Button>
         </div>
-        Columns: PC{this.state.columnRange[0]} to PC{this.state.columnRange[1]}
+        {!this.state.disabled && (
+          <label>
+            Column {this.state.columnRange[0]} -- Column{" "}
+            {this.state.columnRange[1]}
+          </label>
+        )}
       </div>
     );
   }

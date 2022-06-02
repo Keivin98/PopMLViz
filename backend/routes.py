@@ -32,8 +32,6 @@ from sklearn.covariance import EllipticEnvelope
 app = create_app()
 # Define a route to fetch the avaialable article
 UPLOAD_FOLDER = './data/'
-# certfile='/etc/nginx/conf.d/certs/2022/wildcard.qcri.org.crt'
-# keyfile='/etc/nginx/conf.d/certs/wildcard.qcri.org.key'
 @app.route("/api/runkmeans", methods=["POST"], strict_slashes=False)
 def runKmeans():
 	request_df = request.get_json()['df']
@@ -233,7 +231,10 @@ def runPCAIR():
 @app.route("/api/detectoutliers", methods=["POST"], strict_slashes=False)
 def detectoutliers():
 	def choose_columns(x):
-		return ('PC%d' % (x))
+		if input_format == "pca":
+			return ('PC%d' % (x))
+		else:
+			return ('TSNE-%d' % (x))
 
 	def binary(x):
 		if x == 1:
@@ -253,7 +254,7 @@ def detectoutliers():
 
 	combine_type = int(request.get_json()['combineType'])
 	std_freedom = int(request_method)
-	
+	input_format = request.get_json()['inputFormat']
 	df = pd.json_normalize(request_df)
 	newdf = {}
 

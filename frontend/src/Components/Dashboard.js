@@ -25,7 +25,6 @@ import "react-tabs/style/react-tabs.css";
 import AdmixOptions from "./AdmixOptions";
 import Navbar from "react-bootstrap/Navbar";
 
-
 require("dotenv").config();
 const randomColors = [
   "#3f91ba",
@@ -58,7 +57,7 @@ class App extends Component {
     num_clusters: 2,
     ProgressBarType: "Loader",
     ProgressBarTimeInterval: 5,
-    columnRange: [1, 10],
+    columnRange: [],
     selectedFile: null,
     imageURL: "",
     columns: null,
@@ -1240,17 +1239,24 @@ class App extends Component {
   runCluster = (s) => {
     if (s.selectedClusterMethod === 0) {
       this.runKmeans(s.num_clusters);
-    } 
-    if (s.selectedClusterMethod === 1){
-      this.runHC(s.num_clusters);
     }
-    else {
+    if (s.selectedClusterMethod === 1) {
+      this.runHC(s.num_clusters);
+    } else {
       this.runFuzzy(s.num_clusters);
     }
   };
 
   runOutliers = (s) => {
-    this.detectOutliers(s.selectedOutlierMethod, s.columnRange, s.pressed);
+    const inputFormat = this.state.selectedUploadOption.includes("t-SNE")
+      ? "tsne"
+      : "pca";
+    this.detectOutliers(
+      s.selectedOutlierMethod,
+      s.columnRange,
+      s.pressed,
+      inputFormat
+    );
   };
   runKmeans = (num_clusters) => {
     const formData = {
@@ -1297,45 +1303,45 @@ class App extends Component {
         alert("Network error! Please check the request or try again.");
       });
   };
-//////////////////////////////////////////////////////////////////
-//Hierarchical clustering code:Naffy
+  //////////////////////////////////////////////////////////////////
+  //Hierarchical clustering code:Naffy
 
-runHC = (num_clusters) => {
-  const formData = {
-    df: this.state.data,
-    num_clusters: num_clusters,
+  runHC = (num_clusters) => {
+    const formData = {
+      df: this.state.data,
+      num_clusters: num_clusters,
+    };
+
+    this.setState({ isLoading: true, ProgressBarType: "Loader" });
+
+    axios
+      .post(
+        `${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}:5000/api/runhc/`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
+      .then((r) => {
+        var cluster_names = {};
+        [...Array(num_clusters)].map((x, index) => {
+          cluster_names[index] = index;
+        });
+        this.setState({
+          isLoading: false,
+          clusterColors: r.data,
+          cluster_names: cluster_names,
+          showOutputOptions: true,
+          distributionData: [],
+          selectedDescribingColumn: { value: "None", label: "None" },
+          num_clusters: num_clusters,
+        });
+      });
   };
 
-  this.setState({ isLoading: true, ProgressBarType: "Loader" });
-
-  axios
-    .post(
-      `${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}:5000/api/runhc/`,
-      formData,
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    )
-    .then((r) => {
-      var cluster_names = {};
-      [...Array(num_clusters)].map((x, index) => {
-        cluster_names[index] = index;
-      });
-      this.setState({
-        isLoading: false,
-        clusterColors: r.data,
-        cluster_names: cluster_names,
-        showOutputOptions: true,
-        distributionData: [],
-        selectedDescribingColumn: { value: "None", label: "None" },
-        num_clusters: num_clusters,
-      });
-    });
-};
-
-//////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////
   runFuzzy = (num_clusters) => {
     const formData = {
       df: this.state.data,
@@ -1555,7 +1561,12 @@ runHC = (num_clusters) => {
       });
   };
 
-  detectOutliers = (selectedOutlierMethod, columnRange, pressed) => {
+  detectOutliers = (
+    selectedOutlierMethod,
+    columnRange,
+    pressed,
+    inputFormat
+  ) => {
     if (selectedOutlierMethod === 0) {
       this.setOutlierData([]);
     } else {
@@ -1564,6 +1575,7 @@ runHC = (num_clusters) => {
         method: selectedOutlierMethod,
         columnRange: columnRange,
         combineType: pressed,
+        inputFormat: inputFormat,
       };
       this.setState({ isLoading: true, ProgressBarType: "Loader" });
       axios
@@ -1850,8 +1862,9 @@ runHC = (num_clusters) => {
       }
     }
   };
-  onInputClick = (event) => {
+  onInputMetadataClick = (event) => {
     event.target.value = "";
+    event.target.label = "";
   };
   DRTabChange = (data) => {
     this.setState({
@@ -1896,325 +1909,442 @@ runHC = (num_clusters) => {
 
   onPressReset = () => {
     this.setState({
-      data: [],
-      OutlierData: [],
-      cluster_names: {},
-      clusterColors: [],
+      num_clusters: 2,
+      ProgressBarType: "Loader",
+      columnRange: [],
+      selectedFile: null,
+      imageURL: "",
+      columns: null,
+      data: null,
       distributionData: [],
+      pressed: false,
+      cluster_names: {},
+      alphaVal: 40,
+      allActions: [],
       selectActions: [],
       selectedColumns: [null, null, null],
+      selectedOption: null,
+      isLoading: false,
+      clusterColors: [],
+      show: true,
+      multiValue: [],
+      describingValues: [],
+      selectedDescribingColumn: { value: "None", label: "None" },
+      selectedClusterMethod: null,
+      OutlierData: [],
+      showOutputOptions: false,
+      selectedColorShape: 0,
+      admix: [],
+      AdmixOptionsLabelCheck: true,
+      plotTitle: "",
+      mappingIDColumn: "",
+      picHeight: 600,
+      picWidth: 800,
+      plotTitle: "",
+      picFormat: "png",
+      metaData: [],
+      metaDataColumns: [],
     });
   };
 
   render() {
     return (
       <div>
-      <Navbar
-        style={{
-          position: "fixed",
-          height: "6%",
-          width: "100%",
-          paddingLeft: "45%",
-          backgroundColor: "#3b3f4e",
-        }}
-      >
-        <Navbar.Brand style={{ color: "white", fontSize: 24 }}>
-          PopMLViz
-          <img
-            src="./logo.jpeg"
-            style={{ width: "6%", position: "fixed", left: "7%", top: "1%" }}
-          />
-        </Navbar.Brand>
-      </Navbar>
+        <Navbar
+          style={{
+            position: "fixed",
+            height: "6%",
+            width: "100%",
+            paddingLeft: "45%",
+            backgroundColor: "#3b3f4e",
+          }}
+        >
+          <Navbar.Brand style={{ color: "white", fontSize: 24 }}>
+            PopMLViz
+            <img
+              src="./logo.jpeg"
+              style={{ width: "6%", position: "fixed", left: "7%", top: "1%" }}
+            />
+          </Navbar.Brand>
+        </Navbar>
 
+        <div style={styles.splitScreen}>
+          <div class="leftpane" style={styles.leftPane}>
+            <form style={{ marginTop: "1%" }}>
+              <UploadAndVisualizeTab onChange={this.UploadTabChange} />
 
-      <div style={styles.splitScreen}>
-        <div class="leftpane" style={styles.leftPane}>
-          <form style={{ marginTop: "1%" }}>
-            <UploadAndVisualizeTab onChange={this.UploadTabChange} />
-
-            {this.state.selectedUploadOption === "PCA" && (
-              <div>
-                <input
-                  type="file"
-                  accept=".csv,.xlsx,.xls,.txt"
-                  disabled={this.state.selectedUploadOption === null}
-                  onChange={this.handleFileUpload}
-                />
-                <Button
-                  variant="outlined"
-                  style={{
-                    backgroundColor: "#ebeff7",
-                    marginTop: "2%",
-                  }}
-                  onClick={this.samplePCADataset}
-                >
-                  {" "}
-                  Load Sample Dataset
-                </Button>
-              </div>
-            )}
-            {this.state.selectedUploadOption === "admixture" && (
-              <div>
-                <input
-                  type="file"
-                  accept=".Q"
-                  disabled={this.state.selectedUploadOption === null}
-                  onChange={this.handleAdmixFileUpload2}
-                />
-                <Button
-                  variant="outlined"
-                  style={{
-                    backgroundColor: "#ebeff7",
-                    marginTop: "2%",
-                  }}
-                  onClick={this.sampleAdmixDataset}
-                >
-                  {" "}
-                  Load Sample Dataset
-                </Button>
-              </div>
-            )}
-            {this.state.selectedUploadOption === "pcairandadmixture" && (
-              <div
-                style={{
-                  width: "200%",
-                  paddingTop: "20px",
-                  paddingBottom: "20px",
-                }}
-              >
-                <div style={styles.littleUpload}>
-                  <label style={{ marginRight: "3%" }}>PCA</label>
+              {this.state.selectedUploadOption === "PCA" && (
+                <div>
                   <input
                     type="file"
                     accept=".csv,.xlsx,.xls,.txt"
-                    onChange={this.handleAdmixFileUpload1}
+                    disabled={this.state.selectedUploadOption === null}
+                    onChange={this.handleFileUpload}
                   />
+                  <Button
+                    variant="outlined"
+                    style={{
+                      backgroundColor: "#ebeff7",
+                      marginTop: "2%",
+                    }}
+                    onClick={this.samplePCADataset}
+                  >
+                    {" "}
+                    Load Sample Dataset
+                  </Button>
                 </div>
-                <div style={styles.littleUpload}>
-                  <label style={{ marginRight: "4.5%" }}>Admix</label>
+              )}
+              {this.state.selectedUploadOption === "admixture" && (
+                <div>
                   <input
                     type="file"
                     accept=".Q"
+                    disabled={this.state.selectedUploadOption === null}
                     onChange={this.handleAdmixFileUpload2}
                   />
-                </div>
-                <Button
-                  variant="outlined"
-                  style={{
-                    backgroundColor: "#ebeff7",
-                    marginTop: "2%",
-                  }}
-                  onClick={this.samplePCAAdmixDataset}
-                >
-                  {" "}
-                  Load Sample Dataset
-                </Button>
-                {this.state.loading && (
-                  <Loader
-                    type="TailSpin"
-                    color="#00BFFF"
-                    height="30"
-                    width="30"
-                    style={{ marginTop: "2%", marginLeft: "20%" }}
-                  />
-                )}
-              </div>
-            )}
-          </form>
-          <hr
-            style={{
-              backgroundColor: "white",
-              height: 3,
-              opacity: 1,
-            }}
-          />
-          <DimensionalityReductionTab
-            onChange={this.DRTabChange}
-            processData={this.processData}
-          />
-          {(this.state.selectedUploadOption === "Correlation Matrix" ||
-            this.state.selectedUploadOption === "t-SNE 2D" ||
-            this.state.selectedUploadOption === "t-SNE 3D") && (
-            <input
-              type="file"
-              accept=".csv,.xlsx,.xls,.Q,.txt,.pkl"
-              disabled={this.state.selectedUploadOption === null}
-              onChange={this.handleFileUpload}
-            />
-          )}
-          <hr
-            style={{
-              backgroundColor: "white",
-              height: 3,
-              opacity: 1,
-            }}
-          />
-          <ClusteringAlgorithmsTab onChange={this.runCluster} />
-
-          <hr
-            style={{
-              backgroundColor: "white",
-              height: 3,
-              opacity: 1,
-            }}
-          />
-
-          <OutlierDetectionTab onChange={this.runOutliers} />
-
-          <div style={{ marginTop: "20%" }}>
-            <Button
-              variant="outlined"
-              style={{
-                color: "red",
-                fontWeight: "bold",
-                fontStyle: "italic",
-                backgroundColor: "#ebeff7",
-                marginLeft: "32%",
-              }}
-              onClick={this.onPressReset}
-            >
-              RESET
-            </Button>
-          </div>
-        </div>
-
-        <div
-          className="block-example border border-light"
-          style={styles.rightPane}
-        >
-          {this.state.isLoading && (
-            <ProgressBarTime
-              totalTime={this.state.ProgressBarTimeInterval}
-              type={this.state.ProgressBarType}
-              isLoading={this.state.isLoading}
-            />
-          )}
-          {!this.state.isLoading && <div>{this.showScatterPlot()}</div>}
-          <div>
-            <div className="radio" style={styles.dimensions}>
-              <FormControl style={{ marginLeft: "2%", marginTop: "1%" }}>
-                <FormLabel id="demo-row-radio-buttons-group-label">
-                  Plot
-                </FormLabel>
-                <RadioGroup
-                  row
-                  aria-labelledby="demo-row-radio-buttons-group-label"
-                  name="row-radio-buttons-group"
-                  value={this.state.selectedOption}
-                  onChange={this.onValueChangeDims}
-                >
-                  <FormControlLabel
-                    value="1D"
-                    disabled={this.state.selectedUploadOption === "admixture"}
-                    control={<Radio color="success" size="small" />}
-                    label="1D"
-                  />
-                  <FormControlLabel
-                    value="2D"
-                    disabled={this.state.selectedUploadOption === "admixture"}
-                    control={<Radio color="success" size="small" />}
-                    label="2D"
-                  />
-                  <FormControlLabel
-                    value="3D"
-                    disabled={this.state.selectedUploadOption === "admixture"}
-                    control={<Radio color="success" size="small" />}
-                    label="3D"
-                  />
-                </RadioGroup>
-              </FormControl>
-              <div style={styles.dropDown}>
-                <label style={{ width: "25%", marginLeft: "12%" }}>
-                  <h6 style={{}}> X-axis </h6>
-                </label>
-                <div style={{ width: "75%" }}>
-                  <Select
-                    value={{
-                      value:
-                        this.state.selectedColumns[0] == null
-                          ? "None"
-                          : this.state.selectedColumns[0],
-                      label:
-                        this.state.selectedColumns[0] == null
-                          ? "None"
-                          : this.state.selectedColumns[0],
+                  <Button
+                    variant="outlined"
+                    style={{
+                      backgroundColor: "#ebeff7",
+                      marginTop: "2%",
                     }}
-                    options={this.state.selectActions}
-                    onChange={this.handleSelectXChange}
-                    isDisabled={this.state.selectedUploadOption === "admixture"}
-                  />
-                </div>
-              </div>
-
-              <div style={styles.dropDown}>
-                <label style={{ width: "25%", marginLeft: "12%" }}>
-                  <h6 style={{}}> Y-axis </h6>
-                </label>
-                <div style={{ width: "75%" }}>
-                  <Select
-                    value={{
-                      value:
-                        this.state.selectedColumns[1] == null
-                          ? "None"
-                          : this.state.selectedColumns[1],
-                      label:
-                        this.state.selectedColumns[1] == null
-                          ? "None"
-                          : this.state.selectedColumns[1],
-                    }}
-                    options={this.state.selectActions}
-                    onChange={this.handleSelectYChange}
-                    isDisabled={
-                      (this.state.selectedOption !== "3D" &&
-                        this.state.selectedOption !== "2D") ||
-                      this.state.selectedUploadOption === "admixture"
-                    }
-                  />
-                </div>
-              </div>
-              <div style={styles.dropDown}>
-                <label style={{ width: "25%", marginLeft: "12%" }}>
-                  <h6 style={{}}> Z-axis </h6>
-                </label>
-                <div style={{ width: "75%" }}>
-                  <Select
-                    value={{
-                      value:
-                        this.state.selectedColumns[2] == null
-                          ? "None"
-                          : this.state.selectedColumns[2],
-                      label:
-                        this.state.selectedColumns[2] == null
-                          ? "None"
-                          : this.state.selectedColumns[2],
-                    }}
-                    options={this.state.selectActions}
-                    onChange={this.handleSelectZChange}
-                    isDisabled={
-                      this.state.selectedOption !== "3D" ||
-                      this.state.selectedUploadOption === "admixture"
-                    }
-                  />
-                </div>
-              </div>
-            </div>
-            <Tabs style={styles.optionsContainer}>
-              <TabList>
-                <Tab>Settings</Tab>
-                <Tab>Output Options</Tab>
-              </TabList>
-              {this.state.selectedUploadOption !== "admixture" &&
-                this.state.selectedUploadOption !== "pcairandadmixture" && (
-                  <div>
+                    onClick={this.sampleAdmixDataset}
+                  >
                     {" "}
-                    <TabPanel>
-                      <div className="row">
-                        <div className="row-md-8"></div>
+                    Load Sample Dataset
+                  </Button>
+                </div>
+              )}
+              {this.state.selectedUploadOption === "pcairandadmixture" && (
+                <div
+                  style={{
+                    width: "200%",
+                    paddingTop: "20px",
+                    paddingBottom: "20px",
+                  }}
+                >
+                  <div style={styles.littleUpload}>
+                    <label style={{ marginRight: "3%" }}>PCA</label>
+                    <input
+                      type="file"
+                      accept=".csv,.xlsx,.xls,.txt"
+                      onChange={this.handleAdmixFileUpload1}
+                    />
+                  </div>
+                  <div style={styles.littleUpload}>
+                    <label style={{ marginRight: "4.5%" }}>Admix</label>
+                    <input
+                      type="file"
+                      accept=".Q"
+                      onChange={this.handleAdmixFileUpload2}
+                    />
+                  </div>
+                  <Button
+                    variant="outlined"
+                    style={{
+                      backgroundColor: "#ebeff7",
+                      marginTop: "2%",
+                    }}
+                    onClick={this.samplePCAAdmixDataset}
+                  >
+                    {" "}
+                    Load Sample Dataset
+                  </Button>
+                  {this.state.loading && (
+                    <Loader
+                      type="TailSpin"
+                      color="#00BFFF"
+                      height="30"
+                      width="30"
+                      style={{ marginTop: "2%", marginLeft: "20%" }}
+                    />
+                  )}
+                </div>
+              )}
+            </form>
+            <hr
+              style={{
+                backgroundColor: "white",
+                height: 3,
+                opacity: 1,
+              }}
+            />
+            <DimensionalityReductionTab
+              onChange={this.DRTabChange}
+              processData={this.processData}
+            />
+            {(this.state.selectedUploadOption === "Correlation Matrix" ||
+              this.state.selectedUploadOption === "t-SNE 2D" ||
+              this.state.selectedUploadOption === "t-SNE 3D") && (
+              <input
+                type="file"
+                accept=".csv,.xlsx,.xls,.Q,.txt,.pkl"
+                disabled={this.state.selectedUploadOption === null}
+                onChange={this.handleFileUpload}
+              />
+            )}
+            <hr
+              style={{
+                backgroundColor: "white",
+                height: 3,
+                opacity: 1,
+              }}
+            />
+            <ClusteringAlgorithmsTab onChange={this.runCluster} />
+
+            <hr
+              style={{
+                backgroundColor: "white",
+                height: 3,
+                opacity: 1,
+              }}
+            />
+
+            <OutlierDetectionTab
+              onChange={this.runOutliers}
+              numFeatures={
+                this.state.allActions.filter((elem) => {
+                  return (
+                    elem.label.includes("PC") || elem.label.includes("TSNE")
+                  );
+                }).length
+              }
+              allActions={this.state.allActions}
+            />
+
+            <div style={{ marginTop: "20%" }}>
+              <Button
+                variant="outlined"
+                style={{
+                  color: "red",
+                  fontWeight: "bold",
+                  fontStyle: "italic",
+                  backgroundColor: "#ebeff7",
+                  marginLeft: "32%",
+                }}
+                onClick={this.onPressReset}
+              >
+                RESET
+              </Button>
+            </div>
+          </div>
+
+          <div
+            className="block-example border border-light"
+            style={styles.rightPane}
+          >
+            {this.state.isLoading && (
+              <ProgressBarTime
+                totalTime={this.state.ProgressBarTimeInterval}
+                type={this.state.ProgressBarType}
+                isLoading={this.state.isLoading}
+              />
+            )}
+            {!this.state.isLoading && <div>{this.showScatterPlot()}</div>}
+            <div>
+              <div className="radio" style={styles.dimensions}>
+                <FormControl style={{ marginLeft: "2%", marginTop: "1%" }}>
+                  <FormLabel id="demo-row-radio-buttons-group-label">
+                    Plot
+                  </FormLabel>
+                  <RadioGroup
+                    row
+                    aria-labelledby="demo-row-radio-buttons-group-label"
+                    name="row-radio-buttons-group"
+                    value={this.state.selectedOption}
+                    onChange={this.onValueChangeDims}
+                  >
+                    <FormControlLabel
+                      value="1D"
+                      disabled={this.state.selectedUploadOption === "admixture"}
+                      control={<Radio color="success" size="small" />}
+                      label="1D"
+                    />
+                    <FormControlLabel
+                      value="2D"
+                      disabled={this.state.selectedUploadOption === "admixture"}
+                      control={<Radio color="success" size="small" />}
+                      label="2D"
+                    />
+                    <FormControlLabel
+                      value="3D"
+                      disabled={this.state.selectedUploadOption === "admixture"}
+                      control={<Radio color="success" size="small" />}
+                      label="3D"
+                    />
+                  </RadioGroup>
+                </FormControl>
+                <div style={styles.dropDown}>
+                  <label style={{ width: "25%", marginLeft: "12%" }}>
+                    <h6 style={{}}> X-axis </h6>
+                  </label>
+                  <div style={{ width: "75%" }}>
+                    <Select
+                      value={{
+                        value:
+                          this.state.selectedColumns[0] == null
+                            ? "None"
+                            : this.state.selectedColumns[0],
+                        label:
+                          this.state.selectedColumns[0] == null
+                            ? "None"
+                            : this.state.selectedColumns[0],
+                      }}
+                      options={this.state.selectActions}
+                      onChange={this.handleSelectXChange}
+                      isDisabled={
+                        this.state.selectedUploadOption === "admixture"
+                      }
+                    />
+                  </div>
+                </div>
+
+                <div style={styles.dropDown}>
+                  <label style={{ width: "25%", marginLeft: "12%" }}>
+                    <h6 style={{}}> Y-axis </h6>
+                  </label>
+                  <div style={{ width: "75%" }}>
+                    <Select
+                      value={{
+                        value:
+                          this.state.selectedColumns[1] == null
+                            ? "None"
+                            : this.state.selectedColumns[1],
+                        label:
+                          this.state.selectedColumns[1] == null
+                            ? "None"
+                            : this.state.selectedColumns[1],
+                      }}
+                      options={this.state.selectActions}
+                      onChange={this.handleSelectYChange}
+                      isDisabled={
+                        (this.state.selectedOption !== "3D" &&
+                          this.state.selectedOption !== "2D") ||
+                        this.state.selectedUploadOption === "admixture"
+                      }
+                    />
+                  </div>
+                </div>
+                <div style={styles.dropDown}>
+                  <label style={{ width: "25%", marginLeft: "12%" }}>
+                    <h6 style={{}}> Z-axis </h6>
+                  </label>
+                  <div style={{ width: "75%" }}>
+                    <Select
+                      value={{
+                        value:
+                          this.state.selectedColumns[2] == null
+                            ? "None"
+                            : this.state.selectedColumns[2],
+                        label:
+                          this.state.selectedColumns[2] == null
+                            ? "None"
+                            : this.state.selectedColumns[2],
+                      }}
+                      options={this.state.selectActions}
+                      onChange={this.handleSelectZChange}
+                      isDisabled={
+                        this.state.selectedOption !== "3D" ||
+                        this.state.selectedUploadOption === "admixture"
+                      }
+                    />
+                  </div>
+                </div>
+              </div>
+              <Tabs style={styles.optionsContainer}>
+                <TabList>
+                  <Tab>Settings</Tab>
+                  <Tab>Output Options</Tab>
+                </TabList>
+                {this.state.selectedUploadOption !== "admixture" &&
+                  this.state.selectedUploadOption !== "pcairandadmixture" && (
+                    <div>
+                      {" "}
+                      <TabPanel>
+                        <div className="row">
+                          <div className="row-md-8"></div>
+                          <div
+                            style={{
+                              width: "90%",
+                              marginTop: "3%",
+                              marginLeft: "3%",
+                            }}
+                          >
+                            <label
+                              style={{
+                                fontWeight: "300",
+                                fontSize: 18,
+                                padding: "2%",
+                              }}
+                            >
+                              {" "}
+                              Describing Columns
+                            </label>
+                            <Select
+                              name="filters"
+                              placeholder="Filters"
+                              value={this.state.multiValue.filter((elem) => {
+                                return elem.label !== "None";
+                              })}
+                              options={this.state.selectActions}
+                              onChange={this.handleMultiChange}
+                              isMulti
+                            />
+                          </div>
+                          {this.state.multiValue.length > 0 && (
+                            <div style={styles.describingColumnDropDown}>
+                              <label
+                                style={{
+                                  fontWeight: "300",
+                                  fontSize: 18,
+                                  padding: "2%",
+                                }}
+                              >
+                                Choose Describing Column
+                              </label>
+                              <div>
+                                <Select
+                                  value={this.state.selectedDescribingColumn}
+                                  options={this.state.multiValue}
+                                  onChange={this.handleSpecificColumns}
+                                />
+                              </div>
+                              <FormControl
+                                style={{ marginLeft: "2%", marginTop: "2%" }}
+                              >
+                                <FormLabel id="describingColumn-row-radio-buttons-group-label">
+                                  Identify by:{" "}
+                                </FormLabel>
+                                <RadioGroup
+                                  row
+                                  aria-labelledby="describingColumn-row-radio-buttons-group-label"
+                                  name="row-radio-buttons-group"
+                                  onChange={this.onValueChangeColorShape}
+                                  style={{ marginLeft: "2%", marginTop: "2%" }}
+                                >
+                                  <FormControlLabel
+                                    value={0}
+                                    control={
+                                      <Radio color="success" size="small" />
+                                    }
+                                    label="Color"
+                                  />
+                                  <FormControlLabel
+                                    value={1}
+                                    control={
+                                      <Radio color="success" size="small" />
+                                    }
+                                    label="Shape"
+                                  />
+                                </RadioGroup>
+                              </FormControl>
+                            </div>
+                          )}
+                        </div>
                         <div
                           style={{
                             width: "90%",
-                            marginTop: "3%",
+                            marginTop: "10%",
                             marginLeft: "3%",
                           }}
                         >
@@ -2225,185 +2355,107 @@ runHC = (num_clusters) => {
                               padding: "2%",
                             }}
                           >
-                            {" "}
-                            Describing Columns
+                            Mapping ID Column
                           </label>
                           <Select
-                            name="filters"
-                            placeholder="Filters"
-                            value={this.state.multiValue.filter((elem) => {
-                              return elem.label !== "None";
-                            })}
-                            options={this.state.selectActions}
-                            onChange={this.handleMultiChange}
-                            isMulti
+                            placeholder="Mapping ID"
+                            options={this.state.allActions}
+                            onChange={(option) => {
+                              this.setState({ mappingIDColumn: option.label });
+                            }}
                           />
+                          <label
+                            style={{
+                              fontWeight: "300",
+                              padding: "2%",
+                              fontSize: 18,
+                              marginTop: "10%",
+                            }}
+                          >
+                            Add Metadata
+                            <input
+                              type="file"
+                              accept=".csv,.xlsx,.xls,.txt"
+                              onChange={this.handleMetaDataUpload}
+                              onClick={this.onInputMetadataClick}
+                              disabled={
+                                this.state.data == null ||
+                                this.state.data.length === 0
+                              }
+                            />
+                          </label>
                         </div>
-                        {this.state.multiValue.length > 0 && (
-                          <div style={styles.describingColumnDropDown}>
-                            <label
-                              style={{
-                                fontWeight: "300",
-                                fontSize: 18,
-                                padding: "2%",
-                              }}
-                            >
-                              Choose Describing Column
-                            </label>
-                            <div>
-                              <Select
-                                value={this.state.selectedDescribingColumn}
-                                options={this.state.multiValue}
-                                onChange={this.handleSpecificColumns}
-                              />
-                            </div>
-                            <FormControl
-                              style={{ marginLeft: "2%", marginTop: "2%" }}
-                            >
-                              <FormLabel id="describingColumn-row-radio-buttons-group-label">
-                                Identify by:{" "}
-                              </FormLabel>
-                              <RadioGroup
-                                row
-                                aria-labelledby="describingColumn-row-radio-buttons-group-label"
-                                name="row-radio-buttons-group"
-                                onChange={this.onValueChangeColorShape}
-                                style={{ marginLeft: "2%", marginTop: "2%" }}
-                              >
-                                <FormControlLabel
-                                  value={0}
-                                  control={
-                                    <Radio color="success" size="small" />
-                                  }
-                                  label="Color"
-                                />
-                                <FormControlLabel
-                                  value={1}
-                                  control={
-                                    <Radio color="success" size="small" />
-                                  }
-                                  label="Shape"
-                                />
-                              </RadioGroup>
-                            </FormControl>
-                          </div>
+                        {this.state.data !== null && (
+                          <DownloadData
+                            data={this.state.data}
+                            clusterColors={this.state.clusterColors}
+                            OutlierData={this.state.OutlierData}
+                            clusterNames={this.state.cluster_names}
+                          />
                         )}
-                      </div>
+                      </TabPanel>
+                      <TabPanel style={styles.outputSettings}>
+                        {" "}
+                        <TabOutputOptions
+                          uniqueClusters={this.state.num_clusters}
+                          parentCallback={this.handleTabOutputCallback}
+                          showClusters={this.state.showOutputOptions}
+                        />
+                      </TabPanel>{" "}
+                    </div>
+                  )}
+                {(this.state.selectedUploadOption === "pcairandadmixture" ||
+                  this.state.selectedUploadOption === "admixture") && (
+                  <div>
+                    <TabPanel>
                       <div
                         style={{
                           width: "90%",
-                          marginTop: "10%",
                           marginLeft: "3%",
                         }}
                       >
-                        <label
-                          style={{
-                            fontWeight: "300",
-                            fontSize: 18,
-                            padding: "2%",
-                          }}
-                        >
-                          Mapping ID Column
-                        </label>
-                        <Select
-                          placeholder="Mapping ID"
-                          options={this.state.allActions}
-                          onChange={(option) => {
-                            this.setState({ mappingIDColumn: option.label });
-                          }}
+                        <AdmixOptions
+                          initialVal={this.state.alphaVal}
+                          name={
+                            this.state.selectedUploadOption ===
+                            "pcairandadmixture"
+                              ? "Alpha"
+                              : "Certainty"
+                          }
+                          description={
+                            this.state.selectedUploadOption ===
+                            "pcairandadmixture"
+                              ? "NOTE: If the admixture result for the entity is less than the chosen alpha, the entity will be marked as Undefined!"
+                              : "NOTE: If the difference between the top two admixture results for the entity is less than the chosen certainty, the entity will be marked as Mixed!"
+                          }
+                          parentCallback={this.handleAdmixOptionsCallback}
+                          disabled={this.state.admix.length == 0}
                         />
-                        <label
-                          style={{
-                            fontWeight: "300",
-                            padding: "2%",
-                            fontSize: 18,
-                            marginTop: "10%",
-                          }}
-                        >
-                          Add Metadata
-                          <input
-                            type="file"
-                            accept=".csv,.xlsx,.xls,.txt"
-                            onChange={this.handleMetaDataUpload}
-                            onClick={this.onInputClick}
-                            disabled={
-                              this.state.data == null ||
-                              this.state.data.length === 0
-                            }
-                          />
-                        </label>
                       </div>
                       {this.state.data !== null && (
                         <DownloadData
                           data={this.state.data}
                           clusterColors={this.state.clusterColors}
                           OutlierData={this.state.OutlierData}
+                          columnRange={this.state.columnRange}
                           clusterNames={this.state.cluster_names}
                         />
                       )}
                     </TabPanel>
                     <TabPanel style={styles.outputSettings}>
-                      {" "}
                       <TabOutputOptions
                         uniqueClusters={this.state.num_clusters}
                         parentCallback={this.handleTabOutputCallback}
                         showClusters={this.state.showOutputOptions}
                       />
-                    </TabPanel>{" "}
+                    </TabPanel>
                   </div>
                 )}
-              {(this.state.selectedUploadOption === "pcairandadmixture" ||
-                this.state.selectedUploadOption === "admixture") && (
-                <div>
-                  <TabPanel>
-                    <div
-                      style={{
-                        width: "90%",
-                        marginLeft: "3%",
-                      }}
-                    >
-                      <AdmixOptions
-                        initialVal={this.state.alphaVal}
-                        name={
-                          this.state.selectedUploadOption ===
-                          "pcairandadmixture"
-                            ? "Alpha"
-                            : "Certainty"
-                        }
-                        description={
-                          this.state.selectedUploadOption ===
-                          "pcairandadmixture"
-                            ? "NOTE: If the admixture result for the entity is less than the chosen alpha, the entity will be marked as Undefined!"
-                            : "NOTE: If the difference between the top two admixture results for the entity is less than the chosen certainty, the entity will be marked as Mixed!"
-                        }
-                        parentCallback={this.handleAdmixOptionsCallback}
-                        disabled={this.state.admix.length == 0}
-                      />
-                    </div>
-                    {this.state.data !== null && (
-                      <DownloadData
-                        data={this.state.data}
-                        clusterColors={this.state.clusterColors}
-                        OutlierData={this.state.OutlierData}
-                        columnRange={this.state.columnRange}
-                        clusterNames={this.state.cluster_names}
-                      />
-                    )}
-                  </TabPanel>
-                  <TabPanel style={styles.outputSettings}>
-                    <TabOutputOptions
-                      uniqueClusters={this.state.num_clusters}
-                      parentCallback={this.handleTabOutputCallback}
-                      showClusters={this.state.showOutputOptions}
-                    />
-                  </TabPanel>
-                </div>
-              )}
-            </Tabs>
+              </Tabs>
+            </div>
           </div>
         </div>
       </div>
-    </div>
     );
   }
 }
