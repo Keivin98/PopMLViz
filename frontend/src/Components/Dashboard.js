@@ -1320,7 +1320,7 @@ class App extends Component {
 
     axios
       .post(
-        `${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}:5000/api/runhc/`,
+        `${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}${process.env.REACT_APP_PORT}/api/runhc/`,
         formData,
         {
           headers: {
@@ -1342,10 +1342,17 @@ class App extends Component {
           selectedDescribingColumn: { value: "None", label: "None" },
           num_clusters: num_clusters,
         });
+      })
+      .catch(() => {
+        this.setState({
+          isLoading: false,
+        });
+        alert("Network error! Please check the request or try again.");
       });
   };
 
   //////////////////////////////////////////////////////////////////
+
   runFuzzy = (num_clusters) => {
     const formData = {
       df: this.state.data,
