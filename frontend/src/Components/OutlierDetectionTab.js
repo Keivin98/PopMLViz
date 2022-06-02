@@ -61,7 +61,6 @@ class OutlierDetectionTab extends Component {
     });
   };
   componentDidUpdate = (prevProps) => {
-    console.log("sadadasdsodt", this.props.numFeatures);
     if (prevProps.numFeatures !== this.props.numFeatures) {
       this.setState({
         columnRange: [1, Math.min(this.props.numFeatures, 20)],

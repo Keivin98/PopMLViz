@@ -2130,7 +2130,9 @@ class App extends Component {
               numFeatures={
                 this.state.allActions.filter((elem) => {
                   return (
-                    elem.label.includes("PC") || elem.label.includes("TSNE")
+                    Array.isArray(elem) ||
+                    elem.label.includes("PC") ||
+                    elem.label.includes("TSNE")
                   );
                 }).length
               }
