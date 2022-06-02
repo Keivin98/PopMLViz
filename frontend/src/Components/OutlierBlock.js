@@ -6,6 +6,7 @@ import PropTypes from "prop-types";
 class OutlierBlock extends Component {
   state = {
     columnRange: [],
+    disabled: false,
   };
   componentDidMount = () => {
     if (this.props.columnRange[1] < this.props.columnRange[0]) {
@@ -16,6 +17,7 @@ class OutlierBlock extends Component {
     } else {
       this.setState({
         columnRange: [this.props.columnRange[0], this.props.columnRange[1]],
+        disabled: false,
       });
     }
   };
@@ -29,6 +31,7 @@ class OutlierBlock extends Component {
       } else {
         this.setState({
           columnRange: [this.props.columnRange[0], this.props.columnRange[1]],
+          disabled: false,
         });
       }
     }

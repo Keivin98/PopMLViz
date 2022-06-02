@@ -56,6 +56,7 @@ class OutlierDetectionTab extends Component {
     this.setState({ open: open });
   };
   componentDidMount = () => {
+    console.log("sssssss", this.props.numFeatures);
     this.setState({
       columnRange: [1, Math.min(this.props.numFeatures, 20)],
     });
