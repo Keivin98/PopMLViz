@@ -20,6 +20,13 @@ import rpy2.robjects.packages as rpackages
 from fcmeans import FCM
 from sklearn.ensemble import IsolationForest
 import pickle
+#####
+from sklearn.svm import OneClassSVM
+from sklearn.neighbors import LocalOutlierFactor
+from sklearn.cluster import AgglomerativeClustering 
+from sklearn.covariance import EllipticEnvelope
+#####
+
 # Create an application instance
 
 app = create_app()
@@ -44,6 +51,25 @@ def runKmeans():
 		pca_cols = pca_df.columns
 	kmeans = KMeans(n_clusters=num_clusters, random_state=123).fit_predict(pca_df[pca_cols])
 	return jsonify(list(map(lambda x : int(x), kmeans)))
+
+@app.route("/api/runhc", methods=["POST"], strict_slashes=False)
+def runHC():
+	request_df = request.get_json()['df']
+	
+	num_clusters = request.get_json()['num_clusters']
+	if num_clusters < 2:
+		num_clusters = 2
+	pca_df = pd.json_normalize(request_df)
+	try:
+		pca_cols = [x for x in pca_df.columns if 'PC' in x]
+	except:
+		pca_cols = pca_df.columns
+	
+	if not pca_cols:
+		pca_cols = pca_df.columns
+
+	hc = AgglomerativeClustering(n_clusters=num_clusters, affinity = 'euclidean', linkage ='complete').fit_predict(pca_df[pca_cols])
+	return jsonify(list(map(lambda x : int(x), hc)))
 
 @app.route("/api/runfuzzy", methods=["POST"], strict_slashes=False)
 def runFuzzy():
@@ -234,13 +260,32 @@ def detectoutliers():
 	
 	columns_of_interest = list(map(choose_columns, column_range))
 	
-	if std_freedom > 3:
-		# pc_columns = [col for col in df.columns if 'PC' in col]
+	if std_freedom == 4:
+    		# pc_columns = [col for col in df.columns if 'PC' in col]
 
 		clf = IsolationForest(contamination=0.1, random_state=123).fit_predict(df[columns_of_interest])
 		clf_binary = {0: list(map(outliers, clf))}
 		clf_df = pd.DataFrame(clf_binary)
 		return clf_df.to_csv()
+	
+	#MCD, check this code again
+	if std_freedom == 5:
+			clf = EllipticEnvelope(contamination=0.01).fit_predict(df[columns_of_interest])
+			clf_binary = {0: list(map(outliers, clf))}
+			clf_df = pd.DataFrame(clf_binary)
+			return clf_df.to_csv()
+	#Local Outlier Factor, working
+	if std_freedom == 6:
+			clf = LocalOutlierFactor(n_neighbors=20, contamination=.03).fit_predict(df[columns_of_interest])
+			clf_binary = {0: list(map(outliers, clf))}
+			clf_df = pd.DataFrame(clf_binary)
+			return clf_df.to_csv()
+    #One-Class SVM
+	if std_freedom == 7:
+    		clf = OneClassSVM(kernel='rbf', gamma=0.001, nu=0.03).fit_predict(df[columns_of_interest])
+			#clf_binary = {0: list(map(outliers, clf))}
+			#clf_df = pd.DataFrame(clf_binary)
+			#return clf.to_csv()
 	
 	
 	for col in columns_of_interest:

@@ -1,6 +1,10 @@
 {
   "dependencies": {
     "axios": "^0.24.0",
-    "react-csv-to-table": "^0.0.4"
+    "firebase": "^9.8.2",
+    "particles-bg": "^2.5.5",
+    "react-csv-to-table": "^0.0.4",
+    "react-ga": "^3.3.0",
+    "react-reveal": "^1.2.2"
   }
 }

@@ -30,6 +30,18 @@ class OutlierDetectionTab extends Component {
         label: "Isolation Forest",
         value: 4,
       },
+      {
+        label: "Minimum Covariance Determinant",
+        value: 5,
+      },
+      {
+        label: "Local Outlier Factor",
+        value: 6,
+      },
+      {
+        label: "OneClassSVM",
+        value: 7,
+      },
     ],
     selectedOutlierMethod: {
       label: "None",

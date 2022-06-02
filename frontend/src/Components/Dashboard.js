@@ -23,6 +23,8 @@ import FormLabel from "@mui/material/FormLabel";
 import Loader from "react-loader-spinner";
 import "react-tabs/style/react-tabs.css";
 import AdmixOptions from "./AdmixOptions";
+import Navbar from "react-bootstrap/Navbar";
+
 
 require("dotenv").config();
 const randomColors = [
@@ -1238,7 +1240,11 @@ class App extends Component {
   runCluster = (s) => {
     if (s.selectedClusterMethod === 0) {
       this.runKmeans(s.num_clusters);
-    } else {
+    } 
+    if (s.selectedClusterMethod === 1){
+      this.runHC(s.num_clusters);
+    }
+    else {
       this.runFuzzy(s.num_clusters);
     }
   };
@@ -1291,7 +1297,45 @@ class App extends Component {
         alert("Network error! Please check the request or try again.");
       });
   };
+//////////////////////////////////////////////////////////////////
+//Hierarchical clustering code:Naffy
 
+runHC = (num_clusters) => {
+  const formData = {
+    df: this.state.data,
+    num_clusters: num_clusters,
+  };
+
+  this.setState({ isLoading: true, ProgressBarType: "Loader" });
+
+  axios
+    .post(
+      `${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}:5000/api/runhc/`,
+      formData,
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    )
+    .then((r) => {
+      var cluster_names = {};
+      [...Array(num_clusters)].map((x, index) => {
+        cluster_names[index] = index;
+      });
+      this.setState({
+        isLoading: false,
+        clusterColors: r.data,
+        cluster_names: cluster_names,
+        showOutputOptions: true,
+        distributionData: [],
+        selectedDescribingColumn: { value: "None", label: "None" },
+        num_clusters: num_clusters,
+      });
+    });
+};
+
+//////////////////////////////////////////////////////////////////
   runFuzzy = (num_clusters) => {
     const formData = {
       df: this.state.data,
@@ -1864,6 +1908,26 @@ class App extends Component {
 
   render() {
     return (
+      <div>
+      <Navbar
+        style={{
+          position: "fixed",
+          height: "6%",
+          width: "100%",
+          paddingLeft: "45%",
+          backgroundColor: "#3b3f4e",
+        }}
+      >
+        <Navbar.Brand style={{ color: "white", fontSize: 24 }}>
+          PopMLViz
+          <img
+            src="./logo.jpeg"
+            style={{ width: "6%", position: "fixed", left: "7%", top: "1%" }}
+          />
+        </Navbar.Brand>
+      </Navbar>
+
+
       <div style={styles.splitScreen}>
         <div class="leftpane" style={styles.leftPane}>
           <form style={{ marginTop: "1%" }}>
@@ -2339,6 +2403,7 @@ class App extends Component {
           </div>
         </div>
       </div>
+    </div>
     );
   }
 }

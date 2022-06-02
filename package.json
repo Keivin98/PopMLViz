@@ -1,1 +1,8 @@
-{}
+{
+  "dependencies": {
+    "firebase": "^9.8.2",
+    "particles-bg": "^2.5.5",
+    "react-ga": "^3.3.0",
+    "react-reveal": "^1.2.2"
+  }
+}
