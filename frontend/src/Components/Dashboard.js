@@ -1103,12 +1103,12 @@ class App extends Component {
         /* Convert array of arrays */
         const data = XLSX.utils.sheet_to_csv(ws, { header: 1 });
         this.processData(data, false, type).then(() => {
+          if (type === 3) {
+            return this.mergeDataWithMetaData();
+          }
           if (this.state.selectedUploadOption === "admixture") {
           }
           if (this.state.selectedUploadOption === "PCA") {
-            if (type === 3) {
-              this.mergeDataWithMetaData();
-            }
           } else if (this.state.selectedUploadOption === "t-SNE 2D") {
             this.runTSNE2d();
           } else if (this.state.selectedUploadOption === "t-SNE 3D") {
@@ -2310,7 +2310,7 @@ class App extends Component {
                           this.state.selectedUploadOption ===
                           "pcairandadmixture"
                             ? "NOTE: If the admixture result for the entity is less than the chosen alpha, the entity will be marked as Undefined!"
-                            : "NOTE: If the difference between the top two admixture results for the entity is less than the chosen certainty, the entity will be marked as Undefined!"
+                            : "NOTE: If the difference between the top two admixture results for the entity is less than the chosen certainty, the entity will be marked as Mixed!"
                         }
                         parentCallback={this.handleAdmixOptionsCallback}
                         disabled={this.state.admix.length == 0}

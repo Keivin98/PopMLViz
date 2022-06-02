@@ -105,7 +105,7 @@ class BarPlot extends Component {
       }
       data_new.push({
         type: "bar",
-        name: "Undefined",
+        name: "Mixed",
         x: this.range(positionOfUndefined, positionOfUndefined + 5),
         y: [1.1, 1.1, 1.1, 1.1, 1.1],
         base: [-0.05, -0.05, -0.05, -0.05, -0.05],
