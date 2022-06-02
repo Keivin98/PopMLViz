@@ -56,7 +56,6 @@ class OutlierDetectionTab extends Component {
     this.setState({ open: open });
   };
   componentDidMount = () => {
-    console.log("sssssss", this.props.numFeatures);
     this.setState({
       columnRange: [1, Math.min(this.props.numFeatures, 20)],
     });
@@ -159,6 +158,7 @@ class OutlierDetectionTab extends Component {
             <OutlierBlock
               columnRange={this.state.columnRange}
               onChange={this.handleOutlierColumnChange}
+              numFeatures={this.props.numFeatures}
             />
 
             <div

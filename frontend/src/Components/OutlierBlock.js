@@ -68,7 +68,7 @@ class OutlierBlock extends Component {
             onChange={this.rangeSelector}
             valueLabelDisplay="auto"
             min={1}
-            max={this.props.columnRange[1]}
+            max={this.props.numFeatures}
             marks
             style={{ color: "#1891fb" }}
             disabled={this.state.disabled}
@@ -98,5 +98,6 @@ class OutlierBlock extends Component {
 }
 OutlierBlock.propTypes = {
   columnRange: PropTypes.array,
+  numFeatures: PropTypes.number,
 };
 export default OutlierBlock;
