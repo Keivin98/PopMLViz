@@ -67,8 +67,9 @@ def runHC():
 	
 	if not pca_cols:
 		pca_cols = pca_df.columns
-
-	hc = AgglomerativeClustering(n_clusters=num_clusters, affinity = 'euclidean', linkage ='complete').fit_predict(pca_df[pca_cols])
+	# print(pca_df[pca_cols])
+	hc = AgglomerativeClustering(n_clusters=num_clusters, affinity = 'euclidean', linkage ='ward').fit_predict(pca_df[pca_cols])
+	print(list(hc))
 	return jsonify(list(map(lambda x : int(x), hc)))
 
 @app.route("/api/runfuzzy", methods=["POST"], strict_slashes=False)
@@ -259,22 +260,19 @@ def detectoutliers():
 	
 	
 	columns_of_interest = list(map(choose_columns, column_range))
-	
+	#Isolation Forest
 	if std_freedom == 4:
-    		# pc_columns = [col for col in df.columns if 'PC' in col]
-
 		clf = IsolationForest(contamination=0.1, random_state=123).fit_predict(df[columns_of_interest])
 		clf_binary = {0: list(map(outliers, clf))}
 		clf_df = pd.DataFrame(clf_binary)
 		return clf_df.to_csv()
-	
-	#MCD, check this code again
+	#MCD
 	if std_freedom == 5:
 			clf = EllipticEnvelope(contamination=0.01).fit_predict(df[columns_of_interest])
 			clf_binary = {0: list(map(outliers, clf))}
 			clf_df = pd.DataFrame(clf_binary)
 			return clf_df.to_csv()
-	#Local Outlier Factor, working
+	#Local Outlier Factor
 	if std_freedom == 6:
 			clf = LocalOutlierFactor(n_neighbors=20, contamination=.03).fit_predict(df[columns_of_interest])
 			clf_binary = {0: list(map(outliers, clf))}
@@ -282,12 +280,12 @@ def detectoutliers():
 			return clf_df.to_csv()
     #One-Class SVM
 	if std_freedom == 7:
-    		clf = OneClassSVM(kernel='rbf', gamma=0.001, nu=0.03).fit_predict(df[columns_of_interest])
-			#clf_binary = {0: list(map(outliers, clf))}
-			#clf_df = pd.DataFrame(clf_binary)
-			#return clf.to_csv()
+		clf = OneClassSVM(kernel='rbf').fit_predict(df[columns_of_interest])
+		clf_binary = {0: list(map(outliers, clf))}
+		clf_df = pd.DataFrame(clf_binary)
+		return clf_df.to_csv()
 	
-	
+	#Standard Deviation
 	for col in columns_of_interest:
 		if col in (df.columns):
 			pcx = df.loc[:, col]

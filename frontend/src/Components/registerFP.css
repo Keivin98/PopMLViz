@@ -1,44 +1,46 @@
 /* ------------------------------------------------------------------ */
 /* e. Register Section
 /* ------------------------------------------------------------------ */
-.form{
-   background-color: rgb(255, 255, 255);
-   border-radius: 51px;
-   width: 550px;
-   margin: 20px auto;
-   padding: 20px;
-   /* height: 600px; */
+.form {
+  background-color: rgb(255, 255, 255);
+  border-radius: 51px;
+  width: 550px;
+  margin: 20px auto;
+  padding: 20px;
+  justify-content: center;
+  align-items: center;
+  /* height: 600px; */
 }
 
-.form-body{
-   text-align: left;
-   padding: 20px 100px;
+.form-body {
+  text-align: left;
+  padding: 20px 150px 50px;
 }
 
-.form-body > *{
-   padding: 5px;
+.form-body > * {
+  padding: 5px;
 }
 
-.form__label{
-   width: 40%;
+.form__label {
+  width: 40%;
 }
 
-.btn{
-   display: inline-block;
-   text-align: center;
-   vertical-align: middle;
-   padding: 6px 12px;
-   font-size: 14px;
-   border-radius: 4px;
-   background-color: #428bca;
-   margin: 5px; /* space between buttons */
+.btn {
+  display: inline-block;
+  text-align: center;
+  vertical-align: middle;
+  padding: 6px 12px;
+  font-size: 14px;
+  border-radius: 4px;
+  background-color: #428bca;
+  margin: 5px; /* space between buttons */
 }
-.btn:hover{
-   background: #666;
-   color: #c1e1e0;
+.btn:hover {
+  background: #666;
+  color: #c1e1e0;
 }
 .msg {
-   border: 1px solid lightgray;
-   border-radius: 10px;
-   padding: 20px;
- }
+  border: 1px solid lightgray;
+  border-radius: 10px;
+  padding: 20px;
+}
