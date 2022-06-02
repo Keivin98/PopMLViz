@@ -41,7 +41,7 @@ def runKmeans():
 		num_clusters = 2
 	pca_df = pd.json_normalize(request_df)
 	try:
-		pca_cols = [x for x in pca_df.columns if 'PC' in x]
+		pca_cols = [x for x in pca_df.columns if 'PC' in x or 'TSNE' in x]
 	except:
 		pca_cols = pca_df.columns
 	
@@ -59,7 +59,7 @@ def runHC():
 		num_clusters = 2
 	pca_df = pd.json_normalize(request_df)
 	try:
-		pca_cols = [x for x in pca_df.columns if 'PC' in x]
+		pca_cols = [x for x in pca_df.columns if 'PC' in x or 'TSNE' in x]
 	except:
 		pca_cols = pca_df.columns
 	
@@ -79,7 +79,7 @@ def runFuzzy():
 		num_clusters = 2
 	pca_df = pd.json_normalize(request_df)
 	try:
-		pca_cols = [x for x in pca_df.columns if 'PC' in x]
+		pca_cols = [x for x in pca_df.columns if 'PC' in x or 'TSNE' in x]
 	except:
 		pca_cols = pca_df.columns
 	
@@ -102,7 +102,7 @@ def cmtsne2d():
 
 	pca_df = pd.json_normalize(request_df)
 	try:
-		pca_cols = [x for x in pca_df.columns if 'PC' in x]
+		pca_cols = [x for x in pca_df.columns if 'PC' in x or 'TSNE' in x]
 	except:
 		pca_cols = pca_df.columns
 	if not pca_cols:
@@ -117,7 +117,7 @@ def cmtsne3d():
 	request_df = request.get_json()['df']
 	pca_df = pd.json_normalize(request_df)
 	try:
-		pca_cols = [x for x in pca_df.columns if 'PC' in x]
+		pca_cols = [x for x in pca_df.columns if 'PC' in x or 'TSNE' in x]
 	except:
 		pca_cols = pca_df.columns
 	if not pca_cols:
