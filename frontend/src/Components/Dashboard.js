@@ -1233,7 +1233,9 @@ class App extends Component {
         this.setState({
           isLoading: false,
         });
-        alert("Network error! Please check the request or try again.");
+        alert(
+          "Server error! Please check the input and try again. If the error persists, refer to the docs! "
+        );
       });
   };
   runCluster = (s) => {
@@ -1300,7 +1302,9 @@ class App extends Component {
         this.setState({
           isLoading: false,
         });
-        alert("Network error! Please check the request or try again.");
+        alert(
+          "Server error! Please check the input and try again. If the error persists, refer to the docs! "
+        );
       });
   };
   //////////////////////////////////////////////////////////////////
@@ -1382,7 +1386,9 @@ class App extends Component {
         this.setState({
           isLoading: false,
         });
-        alert("Network error! Please check the request or try again.");
+        alert(
+          "Server error! Please check the input and try again. If the error persists, refer to the docs! "
+        );
       });
   };
 
@@ -1418,7 +1424,9 @@ class App extends Component {
         this.setState({
           isLoading: false,
         });
-        alert("Network error! Please check the request or try again.");
+        alert(
+          "Server error! Please check the input and try again. If the error persists, refer to the docs! "
+        );
       });
   };
   runTSNE3d = () => {
@@ -1453,7 +1461,9 @@ class App extends Component {
         this.setState({
           isLoading: false,
         });
-        alert("Network error! Please check the request or try again.");
+        alert(
+          "Server error! Please check the input and try again. If the error persists, refer to the docs! "
+        );
       });
   };
   samplePCADataset = () => {
@@ -1487,7 +1497,9 @@ class App extends Component {
         this.setState({
           isLoading: false,
         });
-        alert("Network error! Please check the request or try again.");
+        alert(
+          "Server error! Please check the input and try again. If the error persists, refer to the docs! "
+        );
       });
   };
 
@@ -1522,7 +1534,9 @@ class App extends Component {
         this.setState({
           isLoading: false,
         });
-        alert("Network error! Please check the request or try again.");
+        alert(
+          "Server error! Please check the input and try again. If the error persists, refer to the docs! "
+        );
       });
   };
 
@@ -1557,7 +1571,9 @@ class App extends Component {
         this.setState({
           isLoading: false,
         });
-        alert("Network error! Please check the request or try again.");
+        alert(
+          "Server error! Please check the input and try again. If the error persists, refer to the docs! "
+        );
       });
   };
 
@@ -1599,7 +1615,9 @@ class App extends Component {
           this.setState({
             isLoading: false,
           });
-          alert("Network error! Please check the request or try again.");
+          alert(
+            "Server error! Please check the input and try again. If the error persists, refer to the docs! "
+          );
         });
     }
   };

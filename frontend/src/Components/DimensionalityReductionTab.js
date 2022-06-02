@@ -71,7 +71,9 @@ class UploadAndVisualizeTab extends Component {
         this.setState({
           isLoading: false,
         });
-        alert("Network error! Please check the request or try again.");
+        alert(
+          "Server error! Please check the input and try again. If the error persists, refer to the docs! "
+        );
         this.props.onChange(this.state);
       });
   };
