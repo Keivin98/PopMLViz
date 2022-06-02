@@ -49,7 +49,7 @@ class OutlierDetectionTab extends Component {
       value: 0,
     },
     open: false,
-    columnRange: [1, Math.min(this.props.numFeatures, 20)],
+    columnRange: [1, this.props.numFeatures],
     pressed: false,
   };
   setOpen = (open) => {
@@ -57,13 +57,13 @@ class OutlierDetectionTab extends Component {
   };
   componentDidMount = () => {
     this.setState({
-      columnRange: [1, Math.min(this.props.numFeatures, 20)],
+      columnRange: [1, this.props.numFeatures],
     });
   };
   componentDidUpdate = (prevProps) => {
     if (prevProps.numFeatures !== this.props.numFeatures) {
       this.setState({
-        columnRange: [1, Math.min(this.props.numFeatures, 20)],
+        columnRange: [1, this.props.numFeatures],
       });
     }
   };
