@@ -4,7 +4,6 @@ import React, { Component } from "react";
 class Portfolio extends Component {
   render() {
     return (
-      // <Fade bottom duration={1200}>
       <section id="portfolio" style={CSS.portfolio}>
         <div className="row" style={{ width: "30%" }}>
           <h1 style={CSS.portfolio}>Dashboard</h1>
@@ -19,7 +18,6 @@ class Portfolio extends Component {
           <img src="./images/portfolio/3.png" />
         </div>
       </section>
-      // </Fade>
     );
   }
 }
