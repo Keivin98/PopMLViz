@@ -7400,3 +7400,1395 @@ AttributeError: Can't get attribute '_unpickle_block' on <module 'pandas._libs.i
 [2022-05-30 16:47:06 +0300] [17603] [DEBUG] SIGWINCH ignored. Not daemonized
 [2022-05-30 16:47:06 +0300] [17609] [DEBUG] worker: SIGWINCH ignored.
 [2022-05-30 16:51:53 +0300] [17604] [DEBUG] POST /api/uploadCM/
+[2022-06-02 14:52:13 +0300] [13865] [DEBUG] Current configuration:
+  config: gunicorn.conf
+  wsgi_app: None
+  bind: ['0.0.0.0:5000']
+  backlog: 2048
+  workers: 3
+  worker_class: sync
+  threads: 1
+  worker_connections: 1000
+  max_requests: 0
+  max_requests_jitter: 0
+  timeout: 600
+  graceful_timeout: 30
+  keepalive: 2
+  limit_request_line: 4094
+  limit_request_fields: 100
+  limit_request_field_size: 8190
+  reload: False
+  reload_engine: auto
+  reload_extra_files: []
+  spew: False
+  check_config: False
+  print_config: False
+  preload_app: False
+  sendfile: None
+  reuse_port: False
+  chdir: /home/local/QCRI/kisufaj/VisualizePlots/backend
+  daemon: False
+  raw_env: []
+  pidfile: None
+  worker_tmp_dir: None
+  user: 1980764994
+  group: 1980760577
+  umask: 0
+  initgroups: False
+  tmp_upload_dir: None
+  secure_scheme_headers: {'X-FORWARDED-PROTOCOL': 'ssl', 'X-FORWARDED-PROTO': 'https', 'X-FORWARDED-SSL': 'on'}
+  forwarded_allow_ips: ['127.0.0.1']
+  accesslog: /home/local/QCRI/kisufaj/VisualizePlots/backend/gunicorn_logs/access.log
+  disable_redirect_access_to_syslog: False
+  access_log_format: %(h)s %(l)s %(u)s %(t)s "%(r)s" %(s)s %(b)s "%(f)s" "%(a)s"
+  errorlog: /home/local/QCRI/kisufaj/VisualizePlots/backend/gunicorn_logs/error.log
+  loglevel: debug
+  capture_output: False
+  logger_class: gunicorn.glogging.Logger
+  logconfig: None
+  logconfig_dict: {}
+  syslog_addr: udp://localhost:514
+  syslog: False
+  syslog_prefix: None
+  syslog_facility: user
+  enable_stdio_inheritance: False
+  statsd_host: None
+  dogstatsd_tags: 
+  statsd_prefix: 
+  proc_name: None
+  default_proc_name: routes:app
+  pythonpath: None
+  paste: None
+  on_starting: <function OnStarting.on_starting at 0x7efd58477820>
+  on_reload: <function OnReload.on_reload at 0x7efd58477940>
+  when_ready: <function WhenReady.when_ready at 0x7efd58477a60>
+  pre_fork: <function Prefork.pre_fork at 0x7efd58477b80>
+  post_fork: <function Postfork.post_fork at 0x7efd58477ca0>
+  post_worker_init: <function PostWorkerInit.post_worker_init at 0x7efd58477dc0>
+  worker_int: <function WorkerInt.worker_int at 0x7efd58477ee0>
+  worker_abort: <function WorkerAbort.worker_abort at 0x7efd58399040>
+  pre_exec: <function PreExec.pre_exec at 0x7efd58399160>
+  pre_request: <function PreRequest.pre_request at 0x7efd58399280>
+  post_request: <function PostRequest.post_request at 0x7efd58399310>
+  child_exit: <function ChildExit.child_exit at 0x7efd58399430>
+  worker_exit: <function WorkerExit.worker_exit at 0x7efd58399550>
+  nworkers_changed: <function NumWorkersChanged.nworkers_changed at 0x7efd58399670>
+  on_exit: <function OnExit.on_exit at 0x7efd58399790>
+  proxy_protocol: False
+  proxy_allow_ips: ['127.0.0.1']
+  keyfile: /etc/nginx/conf.d/certs/wildcard.qcri.org.key
+  certfile: /etc/nginx/conf.d/certs/2022/wildcard.qcri.org.crt
+  ssl_version: 2
+  cert_reqs: 0
+  ca_certs: None
+  suppress_ragged_eofs: True
+  do_handshake_on_connect: False
+  ciphers: None
+  raw_paste_global_conf: []
+  strip_header_spaces: False
+[2022-06-02 14:52:13 +0300] [13865] [INFO] Starting gunicorn 20.1.0
+[2022-06-02 14:52:13 +0300] [13865] [DEBUG] Arbiter booted
+[2022-06-02 14:52:13 +0300] [13865] [INFO] Listening at: https://0.0.0.0:5000 (13865)
+[2022-06-02 14:52:13 +0300] [13865] [INFO] Using worker: sync
+[2022-06-02 14:52:13 +0300] [13866] [INFO] Booting worker with pid: 13866
+[2022-06-02 14:52:13 +0300] [13871] [INFO] Booting worker with pid: 13871
+[2022-06-02 14:52:13 +0300] [13872] [INFO] Booting worker with pid: 13872
+[2022-06-02 14:52:13 +0300] [13865] [DEBUG] 3 workers
+[2022-06-02 14:52:22 +0300] [13866] [DEBUG] POST /api/runkmeans/
+[2022-06-02 14:52:22 +0300] [13872] [DEBUG] POST /api/runfuzzy/
+[2022-06-02 14:52:22,740] ERROR in app: Exception on /api/runkmeans/ [POST]
+Traceback (most recent call last):
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask/app.py", line 2070, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask/app.py", line 1515, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask_cors/extension.py", line 165, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask/app.py", line 1513, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask/app.py", line 1499, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**req.view_args)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/routes.py", line 50, in runKmeans
+    kmeans = KMeans(n_clusters=num_clusters, random_state=123).fit_predict(pca_df[pca_cols])
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/sklearn/cluster/_kmeans.py", line 1255, in fit_predict
+    return self.fit(X, sample_weight=sample_weight).labels_
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/sklearn/cluster/_kmeans.py", line 1137, in fit
+    X = self._validate_data(
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/sklearn/base.py", line 566, in _validate_data
+    X = check_array(X, **check_params)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/sklearn/utils/validation.py", line 746, in check_array
+    array = np.asarray(array, order=order, dtype=dtype)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/pandas/core/generic.py", line 1993, in __array__
+    return np.asarray(self._values, dtype=dtype)
+ValueError: could not convert string to float: 'HG00096'
+[2022-06-02 14:52:22,779] ERROR in app: Exception on /api/runfuzzy/ [POST]
+Traceback (most recent call last):
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask/app.py", line 2070, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask/app.py", line 1515, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask_cors/extension.py", line 165, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask/app.py", line 1513, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask/app.py", line 1499, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**req.view_args)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/routes.py", line 91, in runFuzzy
+    pca_df = pca_df[pca_cols].astype('float64')
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/pandas/core/generic.py", line 5815, in astype
+    new_data = self._mgr.astype(dtype=dtype, copy=copy, errors=errors)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/pandas/core/internals/managers.py", line 418, in astype
+    return self.apply("astype", dtype=dtype, copy=copy, errors=errors)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/pandas/core/internals/managers.py", line 327, in apply
+    applied = getattr(b, f)(**kwargs)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/pandas/core/internals/blocks.py", line 591, in astype
+    new_values = astype_array_safe(values, dtype, copy=copy, errors=errors)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/pandas/core/dtypes/cast.py", line 1309, in astype_array_safe
+    new_values = astype_array(values, dtype, copy=copy)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/pandas/core/dtypes/cast.py", line 1257, in astype_array
+    values = astype_nansafe(values, dtype, copy=copy)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/pandas/core/dtypes/cast.py", line 1095, in astype_nansafe
+    result = astype_nansafe(flat, dtype, copy=copy, skipna=skipna)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/pandas/core/dtypes/cast.py", line 1201, in astype_nansafe
+    return arr.astype(dtype, copy=True)
+ValueError: could not convert string to float: 'HG00096'
+[2022-06-02 15:13:49 +0300] [13872] [DEBUG] GET /api/samplePCA/
+[2022-06-02 15:14:00 +0300] [13871] [DEBUG] POST /api/runhc/
+[2022-06-02 15:14:25 +0300] [13872] [DEBUG] POST /api/runhc/
+[2022-06-02 15:14:30 +0300] [13866] [DEBUG] POST /api/runhc/
+[2022-06-02 15:14:51 +0300] [13871] [DEBUG] GET /api/samplePCA/
+[2022-06-02 15:23:46 +0300] [13871] [DEBUG] GET /api/samplePCA/
+[2022-06-02 15:24:16 +0300] [13872] [DEBUG] POST /api/runkmeans/
+[2022-06-02 15:24:16 +0300] [13871] [DEBUG] POST /api/runfuzzy/
+[2022-06-02 15:24:20 +0300] [13871] [DEBUG] POST /api/runkmeans/
+[2022-06-02 15:24:20 +0300] [13872] [DEBUG] POST /api/runfuzzy/
+[2022-06-02 15:24:25 +0300] [13866] [DEBUG] POST /api/runkmeans/
+[2022-06-02 15:24:25 +0300] [13871] [DEBUG] POST /api/runfuzzy/
+[2022-06-02 15:24:27 +0300] [13866] [DEBUG] POST /api/runkmeans/
+[2022-06-02 15:24:27 +0300] [13871] [DEBUG] POST /api/runfuzzy/
+[2022-06-02 15:24:37 +0300] [13866] [DEBUG] POST /api/detectoutliers/
+[2022-06-02 15:24:46 +0300] [13866] [DEBUG] POST /api/detectoutliers/
+[2022-06-02 15:24:52 +0300] [13872] [DEBUG] POST /api/detectoutliers/
+[2022-06-02 15:31:27 +0300] [13866] [DEBUG] GET /api/samplePCA/
+[2022-06-02 15:31:34 +0300] [13866] [DEBUG] POST /api/detectoutliers/
+[2022-06-02 15:31:38 +0300] [13872] [DEBUG] POST /api/detectoutliers/
+[2022-06-02 15:31:43 +0300] [13872] [DEBUG] POST /api/detectoutliers/
+[2022-06-02 15:31:48 +0300] [13866] [DEBUG] POST /api/detectoutliers/
+[2022-06-02 15:31:53 +0300] [13872] [DEBUG] POST /api/detectoutliers/
+[2022-06-02 15:32:05 +0300] [13872] [DEBUG] POST /api/detectoutliers/
+[2022-06-02 15:32:10 +0300] [13872] [DEBUG] POST /api/detectoutliers/
+[2022-06-02 15:33:46 +0300] [13866] [DEBUG] GET /api/samplePCA/
+[2022-06-02 15:34:45 +0300] [13871] [DEBUG] POST /api/cmtsne2d/
+[2022-06-02 15:35:05 +0300] [13871] [DEBUG] POST /api/detectoutliers/
+[2022-06-02 15:35:10 +0300] [13871] [DEBUG] POST /api/detectoutliers/
+[2022-06-02 15:36:17 +0300] [13871] [DEBUG] POST /api/runhc/
+[2022-06-02 15:36:17,069] ERROR in app: Exception on /api/runhc/ [POST]
+Traceback (most recent call last):
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask/app.py", line 2070, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask/app.py", line 1515, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask_cors/extension.py", line 165, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask/app.py", line 1513, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask/app.py", line 1499, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**req.view_args)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/routes.py", line 69, in runHC
+    hc = AgglomerativeClustering(n_clusters=num_clusters, affinity = 'euclidean', linkage ='ward').fit_predict(pca_df[pca_cols])
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/sklearn/cluster/_agglomerative.py", line 1054, in fit_predict
+    return super().fit_predict(X, y)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/sklearn/base.py", line 736, in fit_predict
+    self.fit(X)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/sklearn/cluster/_agglomerative.py", line 917, in fit
+    X = self._validate_data(X, ensure_min_samples=2, estimator=self)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/sklearn/base.py", line 566, in _validate_data
+    X = check_array(X, **check_params)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/sklearn/utils/validation.py", line 746, in check_array
+    array = np.asarray(array, order=order, dtype=dtype)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/pandas/core/generic.py", line 1993, in __array__
+    return np.asarray(self._values, dtype=dtype)
+ValueError: could not convert string to float: 'HG00096'
+[2022-06-02 15:36:23 +0300] [13871] [DEBUG] POST /api/runkmeans/
+[2022-06-02 15:36:23,466] ERROR in app: Exception on /api/runkmeans/ [POST]
+Traceback (most recent call last):
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask/app.py", line 2070, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask/app.py", line 1515, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask_cors/extension.py", line 165, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask/app.py", line 1513, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask/app.py", line 1499, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**req.view_args)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/routes.py", line 50, in runKmeans
+    kmeans = KMeans(n_clusters=num_clusters, random_state=123).fit_predict(pca_df[pca_cols])
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/sklearn/cluster/_kmeans.py", line 1255, in fit_predict
+    return self.fit(X, sample_weight=sample_weight).labels_
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/sklearn/cluster/_kmeans.py", line 1137, in fit
+    X = self._validate_data(
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/sklearn/base.py", line 566, in _validate_data
+    X = check_array(X, **check_params)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/sklearn/utils/validation.py", line 746, in check_array
+    array = np.asarray(array, order=order, dtype=dtype)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/pandas/core/generic.py", line 1993, in __array__
+    return np.asarray(self._values, dtype=dtype)
+ValueError: could not convert string to float: 'HG00096'
+[2022-06-02 15:36:23 +0300] [13872] [DEBUG] POST /api/runfuzzy/
+[2022-06-02 15:36:23,483] ERROR in app: Exception on /api/runfuzzy/ [POST]
+Traceback (most recent call last):
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask/app.py", line 2070, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask/app.py", line 1515, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask_cors/extension.py", line 165, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask/app.py", line 1513, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask/app.py", line 1499, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**req.view_args)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/routes.py", line 91, in runFuzzy
+    pca_df = pca_df[pca_cols].astype('float64')
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/pandas/core/generic.py", line 5815, in astype
+    new_data = self._mgr.astype(dtype=dtype, copy=copy, errors=errors)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/pandas/core/internals/managers.py", line 418, in astype
+    return self.apply("astype", dtype=dtype, copy=copy, errors=errors)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/pandas/core/internals/managers.py", line 327, in apply
+    applied = getattr(b, f)(**kwargs)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/pandas/core/internals/blocks.py", line 591, in astype
+    new_values = astype_array_safe(values, dtype, copy=copy, errors=errors)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/pandas/core/dtypes/cast.py", line 1309, in astype_array_safe
+    new_values = astype_array(values, dtype, copy=copy)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/pandas/core/dtypes/cast.py", line 1257, in astype_array
+    values = astype_nansafe(values, dtype, copy=copy)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/pandas/core/dtypes/cast.py", line 1095, in astype_nansafe
+    result = astype_nansafe(flat, dtype, copy=copy, skipna=skipna)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/pandas/core/dtypes/cast.py", line 1201, in astype_nansafe
+    return arr.astype(dtype, copy=True)
+ValueError: could not convert string to float: 'HG00096'
+[2022-06-02 15:36:32 +0300] [13865] [INFO] Handling signal: int
+[2022-06-02 15:36:32 +0300] [13871] [INFO] Worker exiting (pid: 13871)
+[2022-06-02 15:36:32 +0300] [13865] [INFO] Shutting down: Master
+[2022-06-02 15:36:33 +0300] [15181] [DEBUG] Current configuration:
+  config: gunicorn.conf
+  wsgi_app: None
+  bind: ['0.0.0.0:5000']
+  backlog: 2048
+  workers: 3
+  worker_class: sync
+  threads: 1
+  worker_connections: 1000
+  max_requests: 0
+  max_requests_jitter: 0
+  timeout: 600
+  graceful_timeout: 30
+  keepalive: 2
+  limit_request_line: 4094
+  limit_request_fields: 100
+  limit_request_field_size: 8190
+  reload: False
+  reload_engine: auto
+  reload_extra_files: []
+  spew: False
+  check_config: False
+  print_config: False
+  preload_app: False
+  sendfile: None
+  reuse_port: False
+  chdir: /home/local/QCRI/kisufaj/VisualizePlots/backend
+  daemon: False
+  raw_env: []
+  pidfile: None
+  worker_tmp_dir: None
+  user: 1980764994
+  group: 1980760577
+  umask: 0
+  initgroups: False
+  tmp_upload_dir: None
+  secure_scheme_headers: {'X-FORWARDED-PROTOCOL': 'ssl', 'X-FORWARDED-PROTO': 'https', 'X-FORWARDED-SSL': 'on'}
+  forwarded_allow_ips: ['127.0.0.1']
+  accesslog: /home/local/QCRI/kisufaj/VisualizePlots/backend/gunicorn_logs/access.log
+  disable_redirect_access_to_syslog: False
+  access_log_format: %(h)s %(l)s %(u)s %(t)s "%(r)s" %(s)s %(b)s "%(f)s" "%(a)s"
+  errorlog: /home/local/QCRI/kisufaj/VisualizePlots/backend/gunicorn_logs/error.log
+  loglevel: debug
+  capture_output: False
+  logger_class: gunicorn.glogging.Logger
+  logconfig: None
+  logconfig_dict: {}
+  syslog_addr: udp://localhost:514
+  syslog: False
+  syslog_prefix: None
+  syslog_facility: user
+  enable_stdio_inheritance: False
+  statsd_host: None
+  dogstatsd_tags: 
+  statsd_prefix: 
+  proc_name: None
+  default_proc_name: routes:app
+  pythonpath: None
+  paste: None
+  on_starting: <function OnStarting.on_starting at 0x7fcbc0b9f550>
+  on_reload: <function OnReload.on_reload at 0x7fcbc0b9f670>
+  when_ready: <function WhenReady.when_ready at 0x7fcbc0b9f790>
+  pre_fork: <function Prefork.pre_fork at 0x7fcbc0b9f8b0>
+  post_fork: <function Postfork.post_fork at 0x7fcbc0b9f9d0>
+  post_worker_init: <function PostWorkerInit.post_worker_init at 0x7fcbc0b9faf0>
+  worker_int: <function WorkerInt.worker_int at 0x7fcbc0b9fc10>
+  worker_abort: <function WorkerAbort.worker_abort at 0x7fcbc0b9fd30>
+  pre_exec: <function PreExec.pre_exec at 0x7fcbc0b9fe50>
+  pre_request: <function PreRequest.pre_request at 0x7fcbc0b9ff70>
+  post_request: <function PostRequest.post_request at 0x7fcbc0bba040>
+  child_exit: <function ChildExit.child_exit at 0x7fcbc0bba160>
+  worker_exit: <function WorkerExit.worker_exit at 0x7fcbc0bba280>
+  nworkers_changed: <function NumWorkersChanged.nworkers_changed at 0x7fcbc0bba3a0>
+  on_exit: <function OnExit.on_exit at 0x7fcbc0bba4c0>
+  proxy_protocol: False
+  proxy_allow_ips: ['127.0.0.1']
+  keyfile: /etc/nginx/conf.d/certs/wildcard.qcri.org.key
+  certfile: /etc/nginx/conf.d/certs/2022/wildcard.qcri.org.crt
+  ssl_version: 2
+  cert_reqs: 0
+  ca_certs: None
+  suppress_ragged_eofs: True
+  do_handshake_on_connect: False
+  ciphers: None
+  raw_paste_global_conf: []
+  strip_header_spaces: False
+[2022-06-02 15:36:33 +0300] [15181] [INFO] Starting gunicorn 20.1.0
+[2022-06-02 15:36:33 +0300] [15181] [DEBUG] Arbiter booted
+[2022-06-02 15:36:33 +0300] [15181] [INFO] Listening at: https://0.0.0.0:5000 (15181)
+[2022-06-02 15:36:33 +0300] [15181] [INFO] Using worker: sync
+[2022-06-02 15:36:33 +0300] [15182] [INFO] Booting worker with pid: 15182
+[2022-06-02 15:36:33 +0300] [15187] [INFO] Booting worker with pid: 15187
+[2022-06-02 15:36:33 +0300] [15188] [INFO] Booting worker with pid: 15188
+[2022-06-02 15:36:33 +0300] [15181] [DEBUG] 3 workers
+[2022-06-02 15:36:44 +0300] [15182] [DEBUG] POST /api/runkmeans/
+[2022-06-02 15:36:44 +0300] [15188] [DEBUG] POST /api/runfuzzy/
+[2022-06-02 15:36:49 +0300] [15182] [DEBUG] POST /api/runhc/
+[2022-06-02 15:36:51 +0300] [15182] [DEBUG] POST /api/runhc/
+[2022-06-02 15:36:56 +0300] [15187] [DEBUG] POST /api/runfuzzy/
+[2022-06-02 16:06:34 +0300] [15188] [DEBUG] GET /api/samplePCAAdmixDataset/
+[2022-06-02 16:08:01 +0300] [15182] [DEBUG] POST /api/uploadPCAIR
+[2022-06-02 16:08:05 +0300] [15187] [DEBUG] POST /api/uploadPCAIR
+[2022-06-02 16:08:08 +0300] [15187] [DEBUG] POST /api/uploadPCAIR
+[2022-06-02 16:08:13 +0300] [15188] [DEBUG] POST /api/runPCAIR
+[2022-06-02 16:10:26 +0300] [15181] [INFO] Handling signal: int
+[2022-06-02 16:10:26 +0300] [15182] [INFO] Worker exiting (pid: 15182)
+[2022-06-02 16:10:26 +0300] [15187] [INFO] Worker exiting (pid: 15187)
+[2022-06-02 16:10:36 +0300] [15188] [DEBUG] Ignoring EPIPE
+[2022-06-02 16:10:36 +0300] [15188] [INFO] Worker exiting (pid: 15188)
+[2022-06-02 16:10:37 +0300] [15181] [INFO] Shutting down: Master
+[2022-06-02 16:10:38 +0300] [16177] [DEBUG] Current configuration:
+  config: gunicorn.conf
+  wsgi_app: None
+  bind: ['0.0.0.0:5000']
+  backlog: 2048
+  workers: 3
+  worker_class: sync
+  threads: 1
+  worker_connections: 1000
+  max_requests: 0
+  max_requests_jitter: 0
+  timeout: 600
+  graceful_timeout: 30
+  keepalive: 2
+  limit_request_line: 4094
+  limit_request_fields: 100
+  limit_request_field_size: 8190
+  reload: False
+  reload_engine: auto
+  reload_extra_files: []
+  spew: False
+  check_config: False
+  print_config: False
+  preload_app: False
+  sendfile: None
+  reuse_port: False
+  chdir: /home/local/QCRI/kisufaj/VisualizePlots/backend
+  daemon: False
+  raw_env: []
+  pidfile: None
+  worker_tmp_dir: None
+  user: 1980764994
+  group: 1980760577
+  umask: 0
+  initgroups: False
+  tmp_upload_dir: None
+  secure_scheme_headers: {'X-FORWARDED-PROTOCOL': 'ssl', 'X-FORWARDED-PROTO': 'https', 'X-FORWARDED-SSL': 'on'}
+  forwarded_allow_ips: ['127.0.0.1']
+  accesslog: /home/local/QCRI/kisufaj/VisualizePlots/backend/gunicorn_logs/access.log
+  disable_redirect_access_to_syslog: False
+  access_log_format: %(h)s %(l)s %(u)s %(t)s "%(r)s" %(s)s %(b)s "%(f)s" "%(a)s"
+  errorlog: /home/local/QCRI/kisufaj/VisualizePlots/backend/gunicorn_logs/error.log
+  loglevel: debug
+  capture_output: False
+  logger_class: gunicorn.glogging.Logger
+  logconfig: None
+  logconfig_dict: {}
+  syslog_addr: udp://localhost:514
+  syslog: False
+  syslog_prefix: None
+  syslog_facility: user
+  enable_stdio_inheritance: False
+  statsd_host: None
+  dogstatsd_tags: 
+  statsd_prefix: 
+  proc_name: None
+  default_proc_name: routes:app
+  pythonpath: None
+  paste: None
+  on_starting: <function OnStarting.on_starting at 0x7f4b95434550>
+  on_reload: <function OnReload.on_reload at 0x7f4b95434670>
+  when_ready: <function WhenReady.when_ready at 0x7f4b95434790>
+  pre_fork: <function Prefork.pre_fork at 0x7f4b954348b0>
+  post_fork: <function Postfork.post_fork at 0x7f4b954349d0>
+  post_worker_init: <function PostWorkerInit.post_worker_init at 0x7f4b95434af0>
+  worker_int: <function WorkerInt.worker_int at 0x7f4b95434c10>
+  worker_abort: <function WorkerAbort.worker_abort at 0x7f4b95434d30>
+  pre_exec: <function PreExec.pre_exec at 0x7f4b95434e50>
+  pre_request: <function PreRequest.pre_request at 0x7f4b95434f70>
+  post_request: <function PostRequest.post_request at 0x7f4b9544e040>
+  child_exit: <function ChildExit.child_exit at 0x7f4b9544e160>
+  worker_exit: <function WorkerExit.worker_exit at 0x7f4b9544e280>
+  nworkers_changed: <function NumWorkersChanged.nworkers_changed at 0x7f4b9544e3a0>
+  on_exit: <function OnExit.on_exit at 0x7f4b9544e4c0>
+  proxy_protocol: False
+  proxy_allow_ips: ['127.0.0.1']
+  keyfile: /etc/nginx/conf.d/certs/wildcard.qcri.org.key
+  certfile: /etc/nginx/conf.d/certs/2022/wildcard.qcri.org.crt
+  ssl_version: 2
+  cert_reqs: 0
+  ca_certs: None
+  suppress_ragged_eofs: True
+  do_handshake_on_connect: False
+  ciphers: None
+  raw_paste_global_conf: []
+  strip_header_spaces: False
+[2022-06-02 16:10:38 +0300] [16177] [INFO] Starting gunicorn 20.1.0
+[2022-06-02 16:10:38 +0300] [16177] [DEBUG] Arbiter booted
+[2022-06-02 16:10:38 +0300] [16177] [INFO] Listening at: https://0.0.0.0:5000 (16177)
+[2022-06-02 16:10:38 +0300] [16177] [INFO] Using worker: sync
+[2022-06-02 16:10:38 +0300] [16178] [INFO] Booting worker with pid: 16178
+[2022-06-02 16:10:38 +0300] [16183] [INFO] Booting worker with pid: 16183
+[2022-06-02 16:10:38 +0300] [16184] [INFO] Booting worker with pid: 16184
+[2022-06-02 16:10:38 +0300] [16177] [DEBUG] 3 workers
+[2022-06-02 16:10:46 +0300] [16184] [DEBUG] POST /api/runPCAIR
+[2022-06-02 16:12:26 +0300] [16183] [DEBUG] GET /api/samplePCA/
+[2022-06-02 16:13:05 +0300] [16183] [DEBUG] POST /api/cmtsne2d/
+[2022-06-02 16:13:12 +0300] [16184] [DEBUG] Ignoring EPIPE
+[2022-06-02 16:15:36 +0300] [16178] [DEBUG] POST /api/uploadPCAIR
+[2022-06-02 16:15:38 +0300] [16184] [DEBUG] POST /api/runPCAIR
+[2022-06-02 16:15:56 +0300] [16178] [DEBUG] POST /api/uploadPCAIR
+[2022-06-02 16:16:02 +0300] [16183] [DEBUG] POST /api/uploadPCAIR
+[2022-06-02 16:16:07 +0300] [16178] [DEBUG] POST /api/uploadPCAIR
+[2022-06-02 16:16:09 +0300] [16178] [DEBUG] POST /api/runPCAIR
+[2022-06-02 16:18:01 +0300] [16183] [DEBUG] POST /api/runhc/
+[2022-06-02 16:18:23 +0300] [16178] [DEBUG] POST /api/detectoutliers/
+[2022-06-02 16:18:54 +0300] [16178] [DEBUG] GET /api/sampleAdmix/
+[2022-06-02 16:20:50 +0300] [16183] [DEBUG] GET /api/samplePCA/
+[2022-06-02 16:21:48 +0300] [16183] [DEBUG] POST /api/detectoutliers/
+[2022-06-02 17:37:32 +0300] [16183] [DEBUG] POST /api/uploadPCAIR
+[2022-06-02 17:37:34 +0300] [16178] [DEBUG] POST /api/uploadPCAIR
+[2022-06-02 17:37:36 +0300] [16178] [DEBUG] POST /api/runPCAIR
+[2022-06-02 17:37:36,147] ERROR in app: Exception on /api/runPCAIR [POST]
+Traceback (most recent call last):
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask/app.py", line 2070, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask/app.py", line 1515, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask_cors/extension.py", line 165, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask/app.py", line 1513, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask/app.py", line 1499, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**req.view_args)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/routes.py", line 190, in runPCAIR
+    robjects.r('''
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/rpy2/robjects/__init__.py", line 438, in __call__
+    res = self.eval(p)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/rpy2/robjects/functions.py", line 198, in __call__
+    return (super(SignatureTranslatedFunction, self)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/rpy2/robjects/functions.py", line 125, in __call__
+    res = super(Function, self).__call__(*new_args, **new_kwargs)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/rpy2/rinterface_lib/conversion.py", line 45, in _
+    cdata = function(*args, **kwargs)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/rpy2/rinterface.py", line 680, in __call__
+    raise embedded.RRuntimeError(_rinterface._geterrmessage())
+rpy2.rinterface_lib.embedded.RRuntimeError: Error in file(filename, "rb") : cannot open the connection
+
+[2022-06-02 17:37:46 +0300] [16178] [DEBUG] POST /api/uploadPCAIR
+[2022-06-02 17:37:59 +0300] [16184] [DEBUG] POST /api/runPCAIR
+[2022-06-02 17:38:09 +0300] [16183] [DEBUG] POST /api/uploadPCAIR
+[2022-06-02 17:45:44 +0300] [16178] [DEBUG] POST /api/uploadPCAIR
+[2022-06-02 17:45:47 +0300] [16183] [DEBUG] POST /api/runPCAIR
+[2022-06-02 17:45:47 +0300] [16184] [DEBUG] POST /api/uploadPCAIR
+[2022-06-02 17:45:53,100] ERROR in app: Exception on /api/runPCAIR [POST]
+Traceback (most recent call last):
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask/app.py", line 2070, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask/app.py", line 1515, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask_cors/extension.py", line 165, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask/app.py", line 1513, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask/app.py", line 1499, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**req.view_args)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/routes.py", line 190, in runPCAIR
+    robjects.r('''
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/rpy2/robjects/__init__.py", line 438, in __call__
+    res = self.eval(p)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/rpy2/robjects/functions.py", line 198, in __call__
+    return (super(SignatureTranslatedFunction, self)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/rpy2/robjects/functions.py", line 125, in __call__
+    res = super(Function, self).__call__(*new_args, **new_kwargs)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/rpy2/rinterface_lib/conversion.py", line 45, in _
+    cdata = function(*args, **kwargs)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/rpy2/rinterface.py", line 680, in __call__
+    raise embedded.RRuntimeError(_rinterface._geterrmessage())
+rpy2.rinterface_lib.embedded.RRuntimeError: Error in file(filename, "rb") : cannot open the connection
+
+[2022-06-02 17:46:18 +0300] [16183] [DEBUG] POST /api/uploadPCAIR
+[2022-06-02 17:47:41 +0300] [16178] [DEBUG] POST /api/uploadPCAIR
+[2022-06-02 17:47:42 +0300] [16178] [DEBUG] POST /api/runPCAIR
+[2022-06-02 17:47:42,453] ERROR in app: Exception on /api/runPCAIR [POST]
+Traceback (most recent call last):
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask/app.py", line 2070, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask/app.py", line 1515, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask_cors/extension.py", line 165, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask/app.py", line 1513, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask/app.py", line 1499, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**req.view_args)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/routes.py", line 190, in runPCAIR
+    robjects.r('''
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/rpy2/robjects/__init__.py", line 438, in __call__
+    res = self.eval(p)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/rpy2/robjects/functions.py", line 198, in __call__
+    return (super(SignatureTranslatedFunction, self)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/rpy2/robjects/functions.py", line 125, in __call__
+    res = super(Function, self).__call__(*new_args, **new_kwargs)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/rpy2/rinterface_lib/conversion.py", line 45, in _
+    cdata = function(*args, **kwargs)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/rpy2/rinterface.py", line 680, in __call__
+    raise embedded.RRuntimeError(_rinterface._geterrmessage())
+rpy2.rinterface_lib.embedded.RRuntimeError: Error in file(filename, "rb") : cannot open the connection
+
+[2022-06-02 17:47:45 +0300] [16183] [DEBUG] POST /api/uploadPCAIR
+[2022-06-02 17:47:51 +0300] [16183] [DEBUG] POST /api/uploadPCAIR
+[2022-06-02 17:48:11 +0300] [16178] [DEBUG] POST /api/runPCAIR
+[2022-06-02 17:48:38 +0300] [16183] [DEBUG] POST /api/runPCAIR
+[2022-06-02 17:48:38,885] ERROR in app: Exception on /api/runPCAIR [POST]
+Traceback (most recent call last):
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask/app.py", line 2070, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask/app.py", line 1515, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask_cors/extension.py", line 165, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask/app.py", line 1513, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask/app.py", line 1499, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**req.view_args)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/routes.py", line 190, in runPCAIR
+    robjects.r('''
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/rpy2/robjects/__init__.py", line 438, in __call__
+    res = self.eval(p)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/rpy2/robjects/functions.py", line 198, in __call__
+    return (super(SignatureTranslatedFunction, self)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/rpy2/robjects/functions.py", line 125, in __call__
+    res = super(Function, self).__call__(*new_args, **new_kwargs)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/rpy2/rinterface_lib/conversion.py", line 45, in _
+    cdata = function(*args, **kwargs)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/rpy2/rinterface.py", line 680, in __call__
+    raise embedded.RRuntimeError(_rinterface._geterrmessage())
+rpy2.rinterface_lib.embedded.RRuntimeError: Error in file(filename, "rb") : cannot open the connection
+
+[2022-06-02 17:48:47 +0300] [16183] [DEBUG] POST /api/uploadPCAIR
+[2022-06-02 17:48:51 +0300] [16183] [DEBUG] POST /api/runPCAIR
+[2022-06-02 17:48:51,705] ERROR in app: Exception on /api/runPCAIR [POST]
+Traceback (most recent call last):
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask/app.py", line 2070, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask/app.py", line 1515, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask_cors/extension.py", line 165, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask/app.py", line 1513, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask/app.py", line 1499, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**req.view_args)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/routes.py", line 190, in runPCAIR
+    robjects.r('''
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/rpy2/robjects/__init__.py", line 438, in __call__
+    res = self.eval(p)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/rpy2/robjects/functions.py", line 198, in __call__
+    return (super(SignatureTranslatedFunction, self)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/rpy2/robjects/functions.py", line 125, in __call__
+    res = super(Function, self).__call__(*new_args, **new_kwargs)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/rpy2/rinterface_lib/conversion.py", line 45, in _
+    cdata = function(*args, **kwargs)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/rpy2/rinterface.py", line 680, in __call__
+    raise embedded.RRuntimeError(_rinterface._geterrmessage())
+rpy2.rinterface_lib.embedded.RRuntimeError: Error in file(filename, "rb") : cannot open the connection
+
+[2022-06-02 17:49:06 +0300] [16184] [DEBUG] POST /api/uploadPCAIR
+[2022-06-02 17:49:10 +0300] [16178] [DEBUG] POST /api/uploadPCAIR
+[2022-06-02 17:49:27 +0300] [16178] [DEBUG] POST /api/uploadPCAIR
+[2022-06-02 17:49:30 +0300] [16183] [DEBUG] POST /api/runPCAIR
+[2022-06-02 17:49:41 +0300] [16184] [DEBUG] POST /api/uploadPCAIR
+[2022-06-02 17:49:54 +0300] [16184] [DEBUG] POST /api/uploadPCAIR
+[2022-06-02 19:50:30 +0300] [16183] [DEBUG] GET /api/samplePCA/
+[2022-06-02 19:50:41 +0300] [16183] [DEBUG] POST /api/runhc/
+[2022-06-02 19:50:54 +0300] [16183] [DEBUG] POST /api/detectoutliers/
+[2022-06-02 19:51:04 +0300] [16183] [DEBUG] POST /api/detectoutliers/
+[2022-06-02 19:51:21 +0300] [16184] [DEBUG] GET /api/sampleAdmix/
+[2022-06-02 22:33:19 +0300] [16183] [DEBUG] GET /api/samplePCA/
+[2022-06-02 22:33:32 +0300] [16184] [DEBUG] POST /api/detectoutliers/
+[2022-06-03 10:09:03 +0300] [16184] [DEBUG] POST /api/uploadPCAIR
+[2022-06-03 10:09:07 +0300] [16184] [DEBUG] POST /api/uploadPCAIR
+[2022-06-03 10:09:08 +0300] [16184] [DEBUG] POST /api/runPCAIR
+[2022-06-03 10:09:08,984] ERROR in app: Exception on /api/runPCAIR [POST]
+Traceback (most recent call last):
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask/app.py", line 2070, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask/app.py", line 1515, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask_cors/extension.py", line 165, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask/app.py", line 1513, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask/app.py", line 1499, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**req.view_args)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/routes.py", line 190, in runPCAIR
+    robjects.r('''
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/rpy2/robjects/__init__.py", line 438, in __call__
+    res = self.eval(p)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/rpy2/robjects/functions.py", line 198, in __call__
+    return (super(SignatureTranslatedFunction, self)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/rpy2/robjects/functions.py", line 125, in __call__
+    res = super(Function, self).__call__(*new_args, **new_kwargs)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/rpy2/rinterface_lib/conversion.py", line 45, in _
+    cdata = function(*args, **kwargs)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/rpy2/rinterface.py", line 680, in __call__
+    raise embedded.RRuntimeError(_rinterface._geterrmessage())
+rpy2.rinterface_lib.embedded.RRuntimeError: Error in file(filename, "rb") : cannot open the connection
+
+[2022-06-03 10:09:20 +0300] [16183] [DEBUG] POST /api/runPCAIR
+[2022-06-03 10:09:20,168] ERROR in app: Exception on /api/runPCAIR [POST]
+Traceback (most recent call last):
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask/app.py", line 2070, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask/app.py", line 1515, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask_cors/extension.py", line 165, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask/app.py", line 1513, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask/app.py", line 1499, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**req.view_args)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/routes.py", line 190, in runPCAIR
+    robjects.r('''
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/rpy2/robjects/__init__.py", line 438, in __call__
+    res = self.eval(p)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/rpy2/robjects/functions.py", line 198, in __call__
+    return (super(SignatureTranslatedFunction, self)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/rpy2/robjects/functions.py", line 125, in __call__
+    res = super(Function, self).__call__(*new_args, **new_kwargs)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/rpy2/rinterface_lib/conversion.py", line 45, in _
+    cdata = function(*args, **kwargs)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/rpy2/rinterface.py", line 680, in __call__
+    raise embedded.RRuntimeError(_rinterface._geterrmessage())
+rpy2.rinterface_lib.embedded.RRuntimeError: Error in file(filename, "rb") : cannot open the connection
+
+[2022-06-03 10:09:27 +0300] [16184] [DEBUG] POST /api/runPCAIR
+[2022-06-03 10:09:27,153] ERROR in app: Exception on /api/runPCAIR [POST]
+Traceback (most recent call last):
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask/app.py", line 2070, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask/app.py", line 1515, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask_cors/extension.py", line 165, in wrapped_function
+    return cors_after_request(app.make_response(f(*args, **kwargs)))
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask/app.py", line 1513, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/flask/app.py", line 1499, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**req.view_args)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/routes.py", line 190, in runPCAIR
+    robjects.r('''
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/rpy2/robjects/__init__.py", line 438, in __call__
+    res = self.eval(p)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/rpy2/robjects/functions.py", line 198, in __call__
+    return (super(SignatureTranslatedFunction, self)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/rpy2/robjects/functions.py", line 125, in __call__
+    res = super(Function, self).__call__(*new_args, **new_kwargs)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/rpy2/rinterface_lib/conversion.py", line 45, in _
+    cdata = function(*args, **kwargs)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/rpy2/rinterface.py", line 680, in __call__
+    raise embedded.RRuntimeError(_rinterface._geterrmessage())
+rpy2.rinterface_lib.embedded.RRuntimeError: Error in file(filename, "rb") : cannot open the connection
+
+[2022-06-03 10:09:40 +0300] [16183] [DEBUG] POST /api/uploadPCAIR
+[2022-06-03 10:09:52 +0300] [16183] [DEBUG] POST /api/runPCAIR
+[2022-06-03 10:10:46 +0300] [16184] [DEBUG] POST /api/cmtsne2d/
+[2022-06-03 11:52:12 +0300] [16183] [DEBUG] POST /api/cmtsne3d/
+[2022-06-03 11:54:29 +0300] [16183] [DEBUG] POST /api/cmtsne3d/
+[2022-06-03 11:56:25 +0300] [16178] [DEBUG] POST /api/cmtsne2d/
+[2022-06-03 11:57:57 +0300] [16183] [DEBUG] Ignoring EPIPE
+[2022-06-03 18:08:58 +0300] [16184] [DEBUG] worker: SIGWINCH ignored.
+[2022-06-03 18:08:58 +0300] [16183] [DEBUG] worker: SIGWINCH ignored.
+[2022-06-03 18:08:58 +0300] [16177] [INFO] Handling signal: winch
+[2022-06-03 18:08:58 +0300] [16177] [DEBUG] SIGWINCH ignored. Not daemonized
+[2022-06-03 18:08:58 +0300] [16178] [DEBUG] worker: SIGWINCH ignored.
+[2022-06-03 18:09:00 +0300] [16184] [INFO] Worker exiting (pid: 16184)
+[2022-06-03 18:09:00 +0300] [16178] [INFO] Worker exiting (pid: 16178)
+[2022-06-03 18:09:00 +0300] [16183] [INFO] Worker exiting (pid: 16183)
+[2022-06-03 18:09:00 +0300] [16177] [INFO] Handling signal: int
+[2022-06-03 18:09:02 +0300] [16177] [INFO] Shutting down: Master
+[2022-06-03 18:09:09 +0300] [23697] [DEBUG] Current configuration:
+  config: gunicorn.conf
+  wsgi_app: None
+  bind: ['0.0.0.0:5000']
+  backlog: 2048
+  workers: 3
+  worker_class: sync
+  threads: 1
+  worker_connections: 1000
+  max_requests: 0
+  max_requests_jitter: 0
+  timeout: 600
+  graceful_timeout: 30
+  keepalive: 2
+  limit_request_line: 4094
+  limit_request_fields: 100
+  limit_request_field_size: 8190
+  reload: False
+  reload_engine: auto
+  reload_extra_files: []
+  spew: False
+  check_config: False
+  print_config: False
+  preload_app: False
+  sendfile: None
+  reuse_port: False
+  chdir: /home/local/QCRI/kisufaj/VisualizePlots/backend
+  daemon: False
+  raw_env: []
+  pidfile: None
+  worker_tmp_dir: None
+  user: 1980764994
+  group: 1980760577
+  umask: 0
+  initgroups: False
+  tmp_upload_dir: None
+  secure_scheme_headers: {'X-FORWARDED-PROTOCOL': 'ssl', 'X-FORWARDED-PROTO': 'https', 'X-FORWARDED-SSL': 'on'}
+  forwarded_allow_ips: ['127.0.0.1']
+  accesslog: /home/local/QCRI/kisufaj/VisualizePlots/backend/gunicorn_logs/access.log
+  disable_redirect_access_to_syslog: False
+  access_log_format: %(h)s %(l)s %(u)s %(t)s "%(r)s" %(s)s %(b)s "%(f)s" "%(a)s"
+  errorlog: /home/local/QCRI/kisufaj/VisualizePlots/backend/gunicorn_logs/error.log
+  loglevel: debug
+  capture_output: False
+  logger_class: gunicorn.glogging.Logger
+  logconfig: None
+  logconfig_dict: {}
+  syslog_addr: udp://localhost:514
+  syslog: False
+  syslog_prefix: None
+  syslog_facility: user
+  enable_stdio_inheritance: False
+  statsd_host: None
+  dogstatsd_tags: 
+  statsd_prefix: 
+  proc_name: None
+  default_proc_name: routes:app
+  pythonpath: None
+  paste: None
+  on_starting: <function OnStarting.on_starting at 0x7f7e4c523550>
+  on_reload: <function OnReload.on_reload at 0x7f7e4c523670>
+  when_ready: <function WhenReady.when_ready at 0x7f7e4c523790>
+  pre_fork: <function Prefork.pre_fork at 0x7f7e4c5238b0>
+  post_fork: <function Postfork.post_fork at 0x7f7e4c5239d0>
+  post_worker_init: <function PostWorkerInit.post_worker_init at 0x7f7e4c523af0>
+  worker_int: <function WorkerInt.worker_int at 0x7f7e4c523c10>
+  worker_abort: <function WorkerAbort.worker_abort at 0x7f7e4c523d30>
+  pre_exec: <function PreExec.pre_exec at 0x7f7e4c523e50>
+  pre_request: <function PreRequest.pre_request at 0x7f7e4c523f70>
+  post_request: <function PostRequest.post_request at 0x7f7e4c53e040>
+  child_exit: <function ChildExit.child_exit at 0x7f7e4c53e160>
+  worker_exit: <function WorkerExit.worker_exit at 0x7f7e4c53e280>
+  nworkers_changed: <function NumWorkersChanged.nworkers_changed at 0x7f7e4c53e3a0>
+  on_exit: <function OnExit.on_exit at 0x7f7e4c53e4c0>
+  proxy_protocol: False
+  proxy_allow_ips: ['127.0.0.1']
+  keyfile: /etc/nginx/conf.d/certs/wildcard.qcri.org.key
+  certfile: /etc/nginx/conf.d/certs/2022/wildcard.qcri.org.crt
+  ssl_version: 2
+  cert_reqs: 0
+  ca_certs: None
+  suppress_ragged_eofs: True
+  do_handshake_on_connect: False
+  ciphers: None
+  raw_paste_global_conf: []
+  strip_header_spaces: False
+[2022-06-03 18:09:09 +0300] [23697] [INFO] Starting gunicorn 20.1.0
+[2022-06-03 18:09:09 +0300] [23697] [DEBUG] Arbiter booted
+[2022-06-03 18:09:09 +0300] [23697] [INFO] Listening at: https://0.0.0.0:5000 (23697)
+[2022-06-03 18:09:09 +0300] [23697] [INFO] Using worker: sync
+[2022-06-03 18:09:09 +0300] [23698] [INFO] Booting worker with pid: 23698
+[2022-06-03 18:09:09 +0300] [23699] [INFO] Booting worker with pid: 23699
+[2022-06-03 18:09:09 +0300] [23700] [INFO] Booting worker with pid: 23700
+[2022-06-03 18:09:10 +0300] [23697] [DEBUG] 3 workers
+[2022-06-03 18:14:32 +0300] [23699] [DEBUG] GET /api/samplePCA/
+[2022-06-03 18:24:06 +0300] [23698] [DEBUG] POST /api/uploadPCAIR
+[2022-06-03 18:49:55 +0300] [23699] [DEBUG] POST /api/uploadPCAIR
+[2022-06-03 18:50:00 +0300] [23700] [DEBUG] POST /api/uploadPCAIR
+[2022-06-03 18:50:01 +0300] [23698] [DEBUG] POST /api/runPCAIR
+[2022-06-03 18:52:25 +0300] [23698] [DEBUG] Ignoring EPIPE
+[2022-06-03 19:05:50 +0300] [23699] [DEBUG] POST /api/uploadPCAIR
+[2022-06-04 15:27:18 +0300] [23700] [DEBUG] worker: SIGWINCH ignored.
+[2022-06-04 15:27:18 +0300] [23699] [DEBUG] worker: SIGWINCH ignored.
+[2022-06-04 15:27:18 +0300] [23697] [INFO] Handling signal: winch
+[2022-06-04 15:27:18 +0300] [23697] [DEBUG] SIGWINCH ignored. Not daemonized
+[2022-06-04 15:27:18 +0300] [23698] [DEBUG] worker: SIGWINCH ignored.
+[2022-06-04 15:29:44 +0300] [23698] [DEBUG] POST /api/uploadPCAIR
+[2022-06-04 15:29:54 +0300] [23700] [DEBUG] POST /api/uploadPCAIR
+[2022-06-04 15:30:01 +0300] [23700] [DEBUG] POST /api/uploadPCAIR
+[2022-06-04 15:30:02 +0300] [23700] [DEBUG] POST /api/runPCAIR
+[2022-06-04 15:35:40 +0300] [23699] [INFO] Worker exiting (pid: 23699)
+[2022-06-04 15:35:40 +0300] [23700] [INFO] Worker exiting (pid: 23700)
+[2022-06-04 15:35:40 +0300] [23697] [INFO] Handling signal: int
+[2022-06-04 15:35:41 +0300] [23697] [INFO] Shutting down: Master
+[2022-06-04 15:35:42 +0300] [29058] [DEBUG] Current configuration:
+  config: gunicorn.conf
+  wsgi_app: None
+  bind: ['0.0.0.0:5000']
+  backlog: 2048
+  workers: 3
+  worker_class: sync
+  threads: 1
+  worker_connections: 1000
+  max_requests: 0
+  max_requests_jitter: 0
+  timeout: 600
+  graceful_timeout: 30
+  keepalive: 2
+  limit_request_line: 4094
+  limit_request_fields: 100
+  limit_request_field_size: 8190
+  reload: False
+  reload_engine: auto
+  reload_extra_files: []
+  spew: False
+  check_config: False
+  print_config: False
+  preload_app: False
+  sendfile: None
+  reuse_port: False
+  chdir: /home/local/QCRI/kisufaj/VisualizePlots/backend
+  daemon: False
+  raw_env: []
+  pidfile: None
+  worker_tmp_dir: None
+  user: 1980764994
+  group: 1980760577
+  umask: 0
+  initgroups: False
+  tmp_upload_dir: None
+  secure_scheme_headers: {'X-FORWARDED-PROTOCOL': 'ssl', 'X-FORWARDED-PROTO': 'https', 'X-FORWARDED-SSL': 'on'}
+  forwarded_allow_ips: ['127.0.0.1']
+  accesslog: /home/local/QCRI/kisufaj/VisualizePlots/backend/gunicorn_logs/access.log
+  disable_redirect_access_to_syslog: False
+  access_log_format: %(h)s %(l)s %(u)s %(t)s "%(r)s" %(s)s %(b)s "%(f)s" "%(a)s"
+  errorlog: /home/local/QCRI/kisufaj/VisualizePlots/backend/gunicorn_logs/error.log
+  loglevel: debug
+  capture_output: False
+  logger_class: gunicorn.glogging.Logger
+  logconfig: None
+  logconfig_dict: {}
+  syslog_addr: udp://localhost:514
+  syslog: False
+  syslog_prefix: None
+  syslog_facility: user
+  enable_stdio_inheritance: False
+  statsd_host: None
+  dogstatsd_tags: 
+  statsd_prefix: 
+  proc_name: None
+  default_proc_name: routes:app
+  pythonpath: None
+  paste: None
+  on_starting: <function OnStarting.on_starting at 0x7f39f9fd1550>
+  on_reload: <function OnReload.on_reload at 0x7f39f9fd1670>
+  when_ready: <function WhenReady.when_ready at 0x7f39f9fd1790>
+  pre_fork: <function Prefork.pre_fork at 0x7f39f9fd18b0>
+  post_fork: <function Postfork.post_fork at 0x7f39f9fd19d0>
+  post_worker_init: <function PostWorkerInit.post_worker_init at 0x7f39f9fd1af0>
+  worker_int: <function WorkerInt.worker_int at 0x7f39f9fd1c10>
+  worker_abort: <function WorkerAbort.worker_abort at 0x7f39f9fd1d30>
+  pre_exec: <function PreExec.pre_exec at 0x7f39f9fd1e50>
+  pre_request: <function PreRequest.pre_request at 0x7f39f9fd1f70>
+  post_request: <function PostRequest.post_request at 0x7f39f9fec040>
+  child_exit: <function ChildExit.child_exit at 0x7f39f9fec160>
+  worker_exit: <function WorkerExit.worker_exit at 0x7f39f9fec280>
+  nworkers_changed: <function NumWorkersChanged.nworkers_changed at 0x7f39f9fec3a0>
+  on_exit: <function OnExit.on_exit at 0x7f39f9fec4c0>
+  proxy_protocol: False
+  proxy_allow_ips: ['127.0.0.1']
+  keyfile: /etc/nginx/conf.d/certs/wildcard.qcri.org.key
+  certfile: /etc/nginx/conf.d/certs/2022/wildcard.qcri.org.crt
+  ssl_version: 2
+  cert_reqs: 0
+  ca_certs: None
+  suppress_ragged_eofs: True
+  do_handshake_on_connect: False
+  ciphers: None
+  raw_paste_global_conf: []
+  strip_header_spaces: False
+[2022-06-04 15:35:42 +0300] [29058] [INFO] Starting gunicorn 20.1.0
+[2022-06-04 15:35:42 +0300] [29058] [DEBUG] Arbiter booted
+[2022-06-04 15:35:42 +0300] [29058] [INFO] Listening at: https://0.0.0.0:5000 (29058)
+[2022-06-04 15:35:42 +0300] [29058] [INFO] Using worker: sync
+[2022-06-04 15:35:42 +0300] [29060] [INFO] Booting worker with pid: 29060
+[2022-06-04 15:35:42 +0300] [29060] [ERROR] Exception in worker process
+Traceback (most recent call last):
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/gunicorn/arbiter.py", line 589, in spawn_worker
+    worker.init_process()
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/gunicorn/workers/base.py", line 134, in init_process
+    self.load_wsgi()
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/gunicorn/workers/base.py", line 146, in load_wsgi
+    self.wsgi = self.app.wsgi()
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/gunicorn/app/base.py", line 67, in wsgi
+    self.callable = self.load()
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/gunicorn/app/wsgiapp.py", line 58, in load
+    return self.load_wsgiapp()
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/gunicorn/app/wsgiapp.py", line 48, in load_wsgiapp
+    return util.import_app(self.app_uri)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/gunicorn/util.py", line 359, in import_app
+    mod = importlib.import_module(module)
+  File "/usr/lib/python3.9/importlib/__init__.py", line 127, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1030, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1007, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 986, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 680, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 786, in exec_module
+  File "<frozen importlib._bootstrap_external>", line 923, in get_code
+  File "<frozen importlib._bootstrap_external>", line 853, in source_to_code
+  File "<frozen importlib._bootstrap>", line 228, in _call_with_frames_removed
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/routes.py", line 239
+    	return pd.read_csv('./data/test_docs/%s.csv' % (result_name)).to_csv()
+    	^
+SyntaxError: invalid syntax
+[2022-06-04 15:35:42 +0300] [29060] [INFO] Worker exiting (pid: 29060)
+[2022-06-04 15:35:42 +0300] [29065] [INFO] Booting worker with pid: 29065
+[2022-06-04 15:35:42 +0300] [29065] [ERROR] Exception in worker process
+Traceback (most recent call last):
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/gunicorn/arbiter.py", line 589, in spawn_worker
+    worker.init_process()
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/gunicorn/workers/base.py", line 134, in init_process
+    self.load_wsgi()
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/gunicorn/workers/base.py", line 146, in load_wsgi
+    self.wsgi = self.app.wsgi()
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/gunicorn/app/base.py", line 67, in wsgi
+    self.callable = self.load()
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/gunicorn/app/wsgiapp.py", line 58, in load
+    return self.load_wsgiapp()
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/gunicorn/app/wsgiapp.py", line 48, in load_wsgiapp
+    return util.import_app(self.app_uri)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/gunicorn/util.py", line 359, in import_app
+    mod = importlib.import_module(module)
+  File "/usr/lib/python3.9/importlib/__init__.py", line 127, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1030, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1007, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 986, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 680, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 786, in exec_module
+  File "<frozen importlib._bootstrap_external>", line 923, in get_code
+  File "<frozen importlib._bootstrap_external>", line 853, in source_to_code
+  File "<frozen importlib._bootstrap>", line 228, in _call_with_frames_removed
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/routes.py", line 239
+    	return pd.read_csv('./data/test_docs/%s.csv' % (result_name)).to_csv()
+    	^
+SyntaxError: invalid syntax
+[2022-06-04 15:35:42 +0300] [29065] [INFO] Worker exiting (pid: 29065)
+[2022-06-04 15:35:47 +0300] [29102] [DEBUG] Current configuration:
+  config: gunicorn.conf
+  wsgi_app: None
+  bind: ['0.0.0.0:5000']
+  backlog: 2048
+  workers: 3
+  worker_class: sync
+  threads: 1
+  worker_connections: 1000
+  max_requests: 0
+  max_requests_jitter: 0
+  timeout: 600
+  graceful_timeout: 30
+  keepalive: 2
+  limit_request_line: 4094
+  limit_request_fields: 100
+  limit_request_field_size: 8190
+  reload: False
+  reload_engine: auto
+  reload_extra_files: []
+  spew: False
+  check_config: False
+  print_config: False
+  preload_app: False
+  sendfile: None
+  reuse_port: False
+  chdir: /home/local/QCRI/kisufaj/VisualizePlots/backend
+  daemon: False
+  raw_env: []
+  pidfile: None
+  worker_tmp_dir: None
+  user: 1980764994
+  group: 1980760577
+  umask: 0
+  initgroups: False
+  tmp_upload_dir: None
+  secure_scheme_headers: {'X-FORWARDED-PROTOCOL': 'ssl', 'X-FORWARDED-PROTO': 'https', 'X-FORWARDED-SSL': 'on'}
+  forwarded_allow_ips: ['127.0.0.1']
+  accesslog: /home/local/QCRI/kisufaj/VisualizePlots/backend/gunicorn_logs/access.log
+  disable_redirect_access_to_syslog: False
+  access_log_format: %(h)s %(l)s %(u)s %(t)s "%(r)s" %(s)s %(b)s "%(f)s" "%(a)s"
+  errorlog: /home/local/QCRI/kisufaj/VisualizePlots/backend/gunicorn_logs/error.log
+  loglevel: debug
+  capture_output: False
+  logger_class: gunicorn.glogging.Logger
+  logconfig: None
+  logconfig_dict: {}
+  syslog_addr: udp://localhost:514
+  syslog: False
+  syslog_prefix: None
+  syslog_facility: user
+  enable_stdio_inheritance: False
+  statsd_host: None
+  dogstatsd_tags: 
+  statsd_prefix: 
+  proc_name: None
+  default_proc_name: routes:app
+  pythonpath: None
+  paste: None
+  on_starting: <function OnStarting.on_starting at 0x7f5aa49e7550>
+  on_reload: <function OnReload.on_reload at 0x7f5aa49e7670>
+  when_ready: <function WhenReady.when_ready at 0x7f5aa49e7790>
+  pre_fork: <function Prefork.pre_fork at 0x7f5aa49e78b0>
+  post_fork: <function Postfork.post_fork at 0x7f5aa49e79d0>
+  post_worker_init: <function PostWorkerInit.post_worker_init at 0x7f5aa49e7af0>
+  worker_int: <function WorkerInt.worker_int at 0x7f5aa49e7c10>
+  worker_abort: <function WorkerAbort.worker_abort at 0x7f5aa49e7d30>
+  pre_exec: <function PreExec.pre_exec at 0x7f5aa49e7e50>
+  pre_request: <function PreRequest.pre_request at 0x7f5aa49e7f70>
+  post_request: <function PostRequest.post_request at 0x7f5aa4a01040>
+  child_exit: <function ChildExit.child_exit at 0x7f5aa4a01160>
+  worker_exit: <function WorkerExit.worker_exit at 0x7f5aa4a01280>
+  nworkers_changed: <function NumWorkersChanged.nworkers_changed at 0x7f5aa4a013a0>
+  on_exit: <function OnExit.on_exit at 0x7f5aa4a014c0>
+  proxy_protocol: False
+  proxy_allow_ips: ['127.0.0.1']
+  keyfile: /etc/nginx/conf.d/certs/wildcard.qcri.org.key
+  certfile: /etc/nginx/conf.d/certs/2022/wildcard.qcri.org.crt
+  ssl_version: 2
+  cert_reqs: 0
+  ca_certs: None
+  suppress_ragged_eofs: True
+  do_handshake_on_connect: False
+  ciphers: None
+  raw_paste_global_conf: []
+  strip_header_spaces: False
+[2022-06-04 15:35:47 +0300] [29102] [INFO] Starting gunicorn 20.1.0
+[2022-06-04 15:35:47 +0300] [29102] [DEBUG] Arbiter booted
+[2022-06-04 15:35:47 +0300] [29102] [INFO] Listening at: https://0.0.0.0:5000 (29102)
+[2022-06-04 15:35:47 +0300] [29102] [INFO] Using worker: sync
+[2022-06-04 15:35:47 +0300] [29113] [INFO] Booting worker with pid: 29113
+[2022-06-04 15:35:47 +0300] [29113] [ERROR] Exception in worker process
+Traceback (most recent call last):
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/gunicorn/arbiter.py", line 589, in spawn_worker
+    worker.init_process()
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/gunicorn/workers/base.py", line 134, in init_process
+    self.load_wsgi()
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/gunicorn/workers/base.py", line 146, in load_wsgi
+    self.wsgi = self.app.wsgi()
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/gunicorn/app/base.py", line 67, in wsgi
+    self.callable = self.load()
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/gunicorn/app/wsgiapp.py", line 58, in load
+    return self.load_wsgiapp()
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/gunicorn/app/wsgiapp.py", line 48, in load_wsgiapp
+    return util.import_app(self.app_uri)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/gunicorn/util.py", line 359, in import_app
+    mod = importlib.import_module(module)
+  File "/usr/lib/python3.9/importlib/__init__.py", line 127, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1030, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1007, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 986, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 680, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 786, in exec_module
+  File "<frozen importlib._bootstrap_external>", line 923, in get_code
+  File "<frozen importlib._bootstrap_external>", line 853, in source_to_code
+  File "<frozen importlib._bootstrap>", line 228, in _call_with_frames_removed
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/routes.py", line 239
+    	return pd.read_csv('./data/test_docs/%s.csv' % (result_name)).to_csv()
+    	^
+SyntaxError: invalid syntax
+[2022-06-04 15:35:47 +0300] [29113] [INFO] Worker exiting (pid: 29113)
+[2022-06-04 15:35:47 +0300] [29102] [INFO] Shutting down: Master
+[2022-06-04 15:35:47 +0300] [29102] [INFO] Reason: Worker failed to boot.
+[2022-06-04 15:36:00 +0300] [29159] [DEBUG] Current configuration:
+  config: gunicorn.conf
+  wsgi_app: None
+  bind: ['0.0.0.0:5000']
+  backlog: 2048
+  workers: 3
+  worker_class: sync
+  threads: 1
+  worker_connections: 1000
+  max_requests: 0
+  max_requests_jitter: 0
+  timeout: 600
+  graceful_timeout: 30
+  keepalive: 2
+  limit_request_line: 4094
+  limit_request_fields: 100
+  limit_request_field_size: 8190
+  reload: False
+  reload_engine: auto
+  reload_extra_files: []
+  spew: False
+  check_config: False
+  print_config: False
+  preload_app: False
+  sendfile: None
+  reuse_port: False
+  chdir: /home/local/QCRI/kisufaj/VisualizePlots/backend
+  daemon: False
+  raw_env: []
+  pidfile: None
+  worker_tmp_dir: None
+  user: 1980764994
+  group: 1980760577
+  umask: 0
+  initgroups: False
+  tmp_upload_dir: None
+  secure_scheme_headers: {'X-FORWARDED-PROTOCOL': 'ssl', 'X-FORWARDED-PROTO': 'https', 'X-FORWARDED-SSL': 'on'}
+  forwarded_allow_ips: ['127.0.0.1']
+  accesslog: /home/local/QCRI/kisufaj/VisualizePlots/backend/gunicorn_logs/access.log
+  disable_redirect_access_to_syslog: False
+  access_log_format: %(h)s %(l)s %(u)s %(t)s "%(r)s" %(s)s %(b)s "%(f)s" "%(a)s"
+  errorlog: /home/local/QCRI/kisufaj/VisualizePlots/backend/gunicorn_logs/error.log
+  loglevel: debug
+  capture_output: False
+  logger_class: gunicorn.glogging.Logger
+  logconfig: None
+  logconfig_dict: {}
+  syslog_addr: udp://localhost:514
+  syslog: False
+  syslog_prefix: None
+  syslog_facility: user
+  enable_stdio_inheritance: False
+  statsd_host: None
+  dogstatsd_tags: 
+  statsd_prefix: 
+  proc_name: None
+  default_proc_name: routes:app
+  pythonpath: None
+  paste: None
+  on_starting: <function OnStarting.on_starting at 0x7ff55132b550>
+  on_reload: <function OnReload.on_reload at 0x7ff55132b670>
+  when_ready: <function WhenReady.when_ready at 0x7ff55132b790>
+  pre_fork: <function Prefork.pre_fork at 0x7ff55132b8b0>
+  post_fork: <function Postfork.post_fork at 0x7ff55132b9d0>
+  post_worker_init: <function PostWorkerInit.post_worker_init at 0x7ff55132baf0>
+  worker_int: <function WorkerInt.worker_int at 0x7ff55132bc10>
+  worker_abort: <function WorkerAbort.worker_abort at 0x7ff55132bd30>
+  pre_exec: <function PreExec.pre_exec at 0x7ff55132be50>
+  pre_request: <function PreRequest.pre_request at 0x7ff55132bf70>
+  post_request: <function PostRequest.post_request at 0x7ff551346040>
+  child_exit: <function ChildExit.child_exit at 0x7ff551346160>
+  worker_exit: <function WorkerExit.worker_exit at 0x7ff551346280>
+  nworkers_changed: <function NumWorkersChanged.nworkers_changed at 0x7ff5513463a0>
+  on_exit: <function OnExit.on_exit at 0x7ff5513464c0>
+  proxy_protocol: False
+  proxy_allow_ips: ['127.0.0.1']
+  keyfile: /etc/nginx/conf.d/certs/wildcard.qcri.org.key
+  certfile: /etc/nginx/conf.d/certs/2022/wildcard.qcri.org.crt
+  ssl_version: 2
+  cert_reqs: 0
+  ca_certs: None
+  suppress_ragged_eofs: True
+  do_handshake_on_connect: False
+  ciphers: None
+  raw_paste_global_conf: []
+  strip_header_spaces: False
+[2022-06-04 15:36:00 +0300] [29159] [INFO] Starting gunicorn 20.1.0
+[2022-06-04 15:36:00 +0300] [29159] [DEBUG] Arbiter booted
+[2022-06-04 15:36:00 +0300] [29159] [INFO] Listening at: https://0.0.0.0:5000 (29159)
+[2022-06-04 15:36:00 +0300] [29159] [INFO] Using worker: sync
+[2022-06-04 15:36:00 +0300] [29160] [INFO] Booting worker with pid: 29160
+[2022-06-04 15:36:00 +0300] [29160] [ERROR] Exception in worker process
+Traceback (most recent call last):
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/gunicorn/arbiter.py", line 589, in spawn_worker
+    worker.init_process()
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/gunicorn/workers/base.py", line 134, in init_process
+    self.load_wsgi()
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/gunicorn/workers/base.py", line 146, in load_wsgi
+    self.wsgi = self.app.wsgi()
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/gunicorn/app/base.py", line 67, in wsgi
+    self.callable = self.load()
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/gunicorn/app/wsgiapp.py", line 58, in load
+    return self.load_wsgiapp()
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/gunicorn/app/wsgiapp.py", line 48, in load_wsgiapp
+    return util.import_app(self.app_uri)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/gunicorn/util.py", line 359, in import_app
+    mod = importlib.import_module(module)
+  File "/usr/lib/python3.9/importlib/__init__.py", line 127, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1030, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1007, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 986, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 680, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 786, in exec_module
+  File "<frozen importlib._bootstrap_external>", line 923, in get_code
+  File "<frozen importlib._bootstrap_external>", line 853, in source_to_code
+  File "<frozen importlib._bootstrap>", line 228, in _call_with_frames_removed
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/routes.py", line 239
+    	return pd.read_csv('./data/test_docs/%s.csv' % (result_name)).to_csv()
+    	^
+SyntaxError: invalid syntax
+[2022-06-04 15:36:00 +0300] [29160] [INFO] Worker exiting (pid: 29160)
+[2022-06-04 15:36:00 +0300] [29161] [INFO] Booting worker with pid: 29161
+[2022-06-04 15:36:00 +0300] [29161] [ERROR] Exception in worker process
+Traceback (most recent call last):
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/gunicorn/arbiter.py", line 589, in spawn_worker
+    worker.init_process()
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/gunicorn/workers/base.py", line 134, in init_process
+    self.load_wsgi()
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/gunicorn/workers/base.py", line 146, in load_wsgi
+    self.wsgi = self.app.wsgi()
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/gunicorn/app/base.py", line 67, in wsgi
+    self.callable = self.load()
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/gunicorn/app/wsgiapp.py", line 58, in load
+    return self.load_wsgiapp()
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/gunicorn/app/wsgiapp.py", line 48, in load_wsgiapp
+    return util.import_app(self.app_uri)
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/env/lib/python3.9/site-packages/gunicorn/util.py", line 359, in import_app
+    mod = importlib.import_module(module)
+  File "/usr/lib/python3.9/importlib/__init__.py", line 127, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1030, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1007, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 986, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 680, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 786, in exec_module
+  File "<frozen importlib._bootstrap_external>", line 923, in get_code
+  File "<frozen importlib._bootstrap_external>", line 853, in source_to_code
+  File "<frozen importlib._bootstrap>", line 228, in _call_with_frames_removed
+  File "/home/local/QCRI/kisufaj/VisualizePlots/backend/routes.py", line 239
+    	return pd.read_csv('./data/test_docs/%s.csv' % (result_name)).to_csv()
+    	^
+SyntaxError: invalid syntax
+[2022-06-04 15:36:00 +0300] [29161] [INFO] Worker exiting (pid: 29161)
+[2022-06-04 15:38:04 +0300] [29379] [DEBUG] Current configuration:
+  config: gunicorn.conf
+  wsgi_app: None
+  bind: ['0.0.0.0:5000']
+  backlog: 2048
+  workers: 3
+  worker_class: sync
+  threads: 1
+  worker_connections: 1000
+  max_requests: 0
+  max_requests_jitter: 0
+  timeout: 600
+  graceful_timeout: 30
+  keepalive: 2
+  limit_request_line: 4094
+  limit_request_fields: 100
+  limit_request_field_size: 8190
+  reload: False
+  reload_engine: auto
+  reload_extra_files: []
+  spew: False
+  check_config: False
+  print_config: False
+  preload_app: False
+  sendfile: None
+  reuse_port: False
+  chdir: /home/local/QCRI/kisufaj/VisualizePlots/backend
+  daemon: False
+  raw_env: []
+  pidfile: None
+  worker_tmp_dir: None
+  user: 1980764994
+  group: 1980760577
+  umask: 0
+  initgroups: False
+  tmp_upload_dir: None
+  secure_scheme_headers: {'X-FORWARDED-PROTOCOL': 'ssl', 'X-FORWARDED-PROTO': 'https', 'X-FORWARDED-SSL': 'on'}
+  forwarded_allow_ips: ['127.0.0.1']
+  accesslog: /home/local/QCRI/kisufaj/VisualizePlots/backend/gunicorn_logs/access.log
+  disable_redirect_access_to_syslog: False
+  access_log_format: %(h)s %(l)s %(u)s %(t)s "%(r)s" %(s)s %(b)s "%(f)s" "%(a)s"
+  errorlog: /home/local/QCRI/kisufaj/VisualizePlots/backend/gunicorn_logs/error.log
+  loglevel: debug
+  capture_output: False
+  logger_class: gunicorn.glogging.Logger
+  logconfig: None
+  logconfig_dict: {}
+  syslog_addr: udp://localhost:514
+  syslog: False
+  syslog_prefix: None
+  syslog_facility: user
+  enable_stdio_inheritance: False
+  statsd_host: None
+  dogstatsd_tags: 
+  statsd_prefix: 
+  proc_name: None
+  default_proc_name: routes:app
+  pythonpath: None
+  paste: None
+  on_starting: <function OnStarting.on_starting at 0x7feeb0dc2550>
+  on_reload: <function OnReload.on_reload at 0x7feeb0dc2670>
+  when_ready: <function WhenReady.when_ready at 0x7feeb0dc2790>
+  pre_fork: <function Prefork.pre_fork at 0x7feeb0dc28b0>
+  post_fork: <function Postfork.post_fork at 0x7feeb0dc29d0>
+  post_worker_init: <function PostWorkerInit.post_worker_init at 0x7feeb0dc2af0>
+  worker_int: <function WorkerInt.worker_int at 0x7feeb0dc2c10>
+  worker_abort: <function WorkerAbort.worker_abort at 0x7feeb0dc2d30>
+  pre_exec: <function PreExec.pre_exec at 0x7feeb0dc2e50>
+  pre_request: <function PreRequest.pre_request at 0x7feeb0dc2f70>
+  post_request: <function PostRequest.post_request at 0x7feeb0ddd040>
+  child_exit: <function ChildExit.child_exit at 0x7feeb0ddd160>
+  worker_exit: <function WorkerExit.worker_exit at 0x7feeb0ddd280>
+  nworkers_changed: <function NumWorkersChanged.nworkers_changed at 0x7feeb0ddd3a0>
+  on_exit: <function OnExit.on_exit at 0x7feeb0ddd4c0>
+  proxy_protocol: False
+  proxy_allow_ips: ['127.0.0.1']
+  keyfile: /etc/nginx/conf.d/certs/wildcard.qcri.org.key
+  certfile: /etc/nginx/conf.d/certs/2022/wildcard.qcri.org.crt
+  ssl_version: 2
+  cert_reqs: 0
+  ca_certs: None
+  suppress_ragged_eofs: True
+  do_handshake_on_connect: False
+  ciphers: None
+  raw_paste_global_conf: []
+  strip_header_spaces: False
+[2022-06-04 15:38:04 +0300] [29379] [INFO] Starting gunicorn 20.1.0
+[2022-06-04 15:38:04 +0300] [29379] [DEBUG] Arbiter booted
+[2022-06-04 15:38:04 +0300] [29379] [INFO] Listening at: https://0.0.0.0:5000 (29379)
+[2022-06-04 15:38:04 +0300] [29379] [INFO] Using worker: sync
+[2022-06-04 15:38:04 +0300] [29380] [INFO] Booting worker with pid: 29380
+[2022-06-04 15:38:04 +0300] [29385] [INFO] Booting worker with pid: 29385
+[2022-06-04 15:38:04 +0300] [29386] [INFO] Booting worker with pid: 29386
+[2022-06-04 15:38:04 +0300] [29379] [DEBUG] 3 workers
+[2022-06-04 15:38:13 +0300] [29380] [DEBUG] GET /api/samplePCA/
+[2022-06-04 15:40:37 +0300] [29386] [DEBUG] POST /api/uploadPCAIR
