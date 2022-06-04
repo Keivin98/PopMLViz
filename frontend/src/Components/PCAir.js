@@ -211,13 +211,16 @@ class PCAir extends Component {
           />
         </div>
         {this.state.loading && (
-          <Loader
-            type="TailSpin"
-            color="#00BFFF"
-            height="30"
-            width="30"
-            style={{ marginTop: "2%", marginLeft: "20%" }}
-          />
+          <div>
+            <Loader
+              type="TailSpin"
+              color="#00BFFF"
+              height="30"
+              width="30"
+              style={{ marginTop: "2%", marginLeft: "20%" }}
+            />{" "}
+            <label>Please wait for the upload to finish!</label>
+          </div>
         )}
       </div>
     );
