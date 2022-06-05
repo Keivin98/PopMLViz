@@ -25,7 +25,7 @@ class ScatterAdmix extends Component {
       clusterColors: [],
       clusterNames: [],
       PCAdata: [],
-      alphaVal: 0,
+      alphaVal: 1,
     };
   }
 
@@ -166,7 +166,7 @@ class ScatterAdmix extends Component {
               type: "scatter3d",
               marker: {
                 color: color,
-                size: 6,
+                size: 4,
                 symbol: "cross",
                 opacity: 0.5,
               },
@@ -198,7 +198,7 @@ class ScatterAdmix extends Component {
             z: z_clusters[k],
             mode: "markers",
             type: "scatter3d",
-            marker: { color: color, size: 6, symbol: symbol },
+            marker: { color: color, size: 4, symbol: symbol },
             text: cluster_texts[k],
             hovertemplate: "<i>(%{x:.4f}, %{y:.4f}, %{z:.4f}) </i>",
           });
@@ -219,6 +219,20 @@ class ScatterAdmix extends Component {
 
     if (DIM === 2) {
       layout = {
+        // autosize: true,
+        // showlegend: false,
+        legend: {
+          yanchor: "top",
+          y: 0.99,
+          xanchor: "right",
+          x: 0.99,
+        },
+        margin: {
+          l: 0,
+          r: 0,
+          b: 0,
+          t: 0,
+        },
         autosize: true,
         scene: {
           aspectratio: {
@@ -245,17 +259,17 @@ class ScatterAdmix extends Component {
           },
           xaxis: {
             type: "linear",
-            zeroline: false,
+            // zeroline: false,
             title: x,
           },
           yaxis: {
             type: "linear",
-            zeroline: false,
+            // zeroline: false,
             title: y,
           },
           zaxis: {
             type: "linear",
-            zeroline: false,
+            // zeroline: false,
             title: z,
           },
         },
@@ -288,7 +302,7 @@ class ScatterAdmix extends Component {
             (num) => {
               return num < Object.values(this.props.AdmixData[0]).length
                 ? "Cluster " + num
-                : "Undefined Cluster";
+                : "Admixed Cluster";
             }
           );
     this.setState(
