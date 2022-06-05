@@ -94,10 +94,11 @@ function Register() {
         </div>
       </div>
 
-      <div style={{ marginLeft: "40%" }}>
+      <div style={{ marginLeft: "30%" }}>
         <button onClick={() => handleSubmit()} type="submit" class="btn">
           Register
         </button>
+        <button onClick={() => window.location = 'mailto:popmlvissupport@QCRI.org'} type="submit" class="btn">Send Mail</button>
       </div>
       <label style={{ marginLeft: "30%", marginTop: "5%" }}>
         {registerText}
