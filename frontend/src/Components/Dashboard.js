@@ -2452,8 +2452,8 @@ class App extends Component {
                           description={
                             this.state.selectedUploadOption ===
                             "pcairandadmixture"
-                              ? "NOTE: If the admixture result for the entity is less than the chosen alpha, the entity will be marked as Undefined!"
-                              : "NOTE: If the difference between the top two admixture results for the entity is less than the chosen certainty, the entity will be marked as Mixed!"
+                              ? "NOTE: If the admixture result for the entity is less than the chosen alpha, the entity will be marked as Admixed!"
+                              : "NOTE: If the difference between the top two admixture results for the entity is less than the chosen certainty, the entity will be marked as Admixed!"
                           }
                           parentCallback={this.handleAdmixOptionsCallback}
                           disabled={this.state.admix.length == 0}

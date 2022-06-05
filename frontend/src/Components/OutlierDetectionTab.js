@@ -51,19 +51,45 @@ class OutlierDetectionTab extends Component {
     open: false,
     columnRange: [1, this.props.numFeatures],
     pressed: false,
+    columnName: "",
+    allActions: [],
   };
   setOpen = (open) => {
     this.setState({ open: open });
   };
+  findName = (allActions) => {
+    console.log(allActions);
+    if (
+      allActions.filter((elem) => {
+        return Array.isArray(elem) || elem.label.includes("PC");
+      }).length > 0
+    ) {
+      // if there is a column that includes tsne
+      return "PC";
+    } else if (
+      allActions.filter((elem) => {
+        return Array.isArray(elem) || elem.label.includes("TSNE");
+      }).length > 0
+    ) {
+      // if there is a column that includes tsne
+      return "TSNE";
+    } else {
+      return "Variable";
+    }
+  };
   componentDidMount = () => {
     this.setState({
       columnRange: [1, this.props.numFeatures],
+      allActions: this.props.allActions,
+      columnName: this.findName(this.props.allActions),
     });
   };
   componentDidUpdate = (prevProps) => {
     if (prevProps.numFeatures !== this.props.numFeatures) {
       this.setState({
         columnRange: [1, this.props.numFeatures],
+        allActions: this.props.allActions,
+        columnName: this.findName(this.props.allActions),
       });
     }
   };
@@ -159,6 +185,7 @@ class OutlierDetectionTab extends Component {
               columnRange={this.state.columnRange}
               onChange={this.handleOutlierColumnChange}
               numFeatures={this.props.numFeatures}
+              columnName={this.state.columnName}
             />
 
             <div

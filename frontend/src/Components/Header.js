@@ -51,8 +51,9 @@ function Header(props) {
             style={{
               fontWeight: "200",
               fontSize: 24,
-              backgroundColor: "white",
+              backgroundColor: "rgba(255,255,255,0.7)",
               color: "black",
+              // opacity: 0.8,
             }}
           >
             {bio}.

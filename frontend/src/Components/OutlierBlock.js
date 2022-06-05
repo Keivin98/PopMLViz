@@ -88,8 +88,8 @@ class OutlierBlock extends Component {
         </div>
         {!this.state.disabled && (
           <label>
-            Column {this.state.columnRange[0]} -- Column{" "}
-            {this.state.columnRange[1]}
+            {this.props.columnName} {this.state.columnRange[0]} --{" "}
+            {this.props.columnName} {this.state.columnRange[1]}
           </label>
         )}
       </div>
@@ -99,5 +99,6 @@ class OutlierBlock extends Component {
 OutlierBlock.propTypes = {
   columnRange: PropTypes.array,
   numFeatures: PropTypes.number,
+  columnName: PropTypes.string,
 };
 export default OutlierBlock;
