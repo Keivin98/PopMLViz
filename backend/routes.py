@@ -180,14 +180,15 @@ def uploadPCAIR():
 
 @app.route('/api/runPCAIR', methods=['POST'])
 def runPCAIR():
-	# robjects.r.source("./PCA_AIR.r ", encoding="utf-8")
+
 	bed_name = request.get_json()['bedName']
 	bim_name = request.get_json()['bimName']
 	fam_name = request.get_json()['famName']
 	kinship_name = request.get_json()['kinshipName']
 	gds_name = random_string(12)
 	result_name = random_string(12)
-	robjects.r('''
+	if kinship_name == "":
+		robjects.r('''
 		.libPaths("/home/local/QCRI/kisufaj/R/x86_64-pc-linux-gnu-library/4.1")
 		library(GENESIS)
 		library(SNPRelate)
@@ -197,33 +198,43 @@ def runPCAIR():
 
 		geno <- GdsGenotypeReader(filename = "./data/test_docs/%s.gds")
 		genoData <- GenotypeData(geno)
-		kinship <- "%s"
-		empty <- ""
-		if(kinship == empty){
-			IDs <- read.table("./data/test_docs/%s.fam", header = FALSE)
-			pcair_result_nokin <- pcair(gdsobj = genoData, kinobj = NULL, divobj = NULL, num.cores = 32)  ## Normal PCA
-			pc_vectors_nokin <- as.data.frame(pcair_result_nokin$vectors[,c(1:20)])
-			pc_vectors_nokin$IID <- as.character(IDs$V1)
-			colnames(pc_vectors_nokin)[1:20] = paste("PC",1:20,sep="")
-			write.csv(pc_vectors_nokin, "./data/test_docs/%s.csv",row.names=F,col.names=TRUE)
-		}else{
-			kinship <- read.table("./data/test_docs/%s.txt", header = FALSE)
-			IDs <- read.table("./data/test_docs/%s.fam", header = FALSE)
+		
+		IDs <- read.table("./data/test_docs/%s.fam", header = FALSE)
+		pcair_result_nokin <- pcair(gdsobj = genoData, kinobj = NULL, divobj = NULL, num.cores = 4)  ## Normal PCA
+		pc_vectors_nokin <- as.data.frame(pcair_result_nokin$vectors[,c(1:20)])
+		pc_vectors_nokin$IID <- as.character(IDs$V1)
+		colnames(pc_vectors_nokin)[1:20] = paste("PC",1:20,sep="")
+		write.csv(pc_vectors_nokin, "./data/test_docs/%s.csv", row.names=F,col.names=TRUE)
+		''') % (bed_name, bim_name, fam_name, gds_name, gds_name, fam_name, result_name)
+	else:
+		robjects.r('''
+		.libPaths("/home/local/QCRI/kisufaj/R/x86_64-pc-linux-gnu-library/4.1")
+		library(GENESIS)
+		library(SNPRelate)
+		library(GWASTools)
+		showfile.gds(closeall=TRUE)
+		snpgdsBED2GDS(bed.fn = "./data/test_docs/%s.bed", bim.fn = "./data/test_docs/%s.bim", fam.fn ="./data/test_docs/%s.fam", out.gdsfn = "./data/test_docs/%s.gds")
 
-			IDs_col <- IDs[,1]
+		geno <- GdsGenotypeReader(filename = "./data/test_docs/%s.gds")
+		genoData <- GenotypeData(geno)
+		
+		kinship <- read.table("./data/test_docs/%s.txt", header = FALSE)
+		IDs <- read.table("./data/test_docs/%s.fam", header = FALSE)
 
-			colnames(kinship) <- IDs_col
-			rownames(kinship) <- IDs_col
-			pcair_result       <- pcair(gdsobj = genoData, kinobj = as.matrix(kinship), divobj = as.matrix(kinship), div.thresh= -2^(-9/2),kin.thresh=2^(-9/2), num.cores = 32) ## PC-air
+		IDs_col <- IDs[,1]
 
-			pc_vectors <- as.data.frame(pcair_result$vectors[,c(1:20)])
-			pc_vectors$IID <- as.character(IDs$V1) 
+		colnames(kinship) <- IDs_col
+		rownames(kinship) <- IDs_col
+		pcair_result       <- pcair(gdsobj = genoData, kinobj = as.matrix(kinship), divobj = as.matrix(kinship), div.thresh= -2^(-9/2), kin.thresh=2^(-9/2), num.cores = 4) ## PC-air
 
-			colnames(pc_vectors)[1:20] = paste("PC",1:20,sep="")
-			write.csv(pc_vectors, "./data/test_docs/%s.csv",row.names=F,col.names=TRUE)
+		pc_vectors <- as.data.frame(pcair_result$vectors[,c(1:20)])
+		pc_vectors$IID <- as.character(IDs$V1) 
+
+		colnames(pc_vectors)[1:20] = paste("PC",1:20,sep="")
+		write.csv(pc_vectors, "./data/test_docs/%s.csv", row.names=F,col.names=TRUE)
 		}
 		
-		''' % (bed_name, bim_name, fam_name, gds_name, gds_name, kinship_name, fam_name, result_name, kinship_name, fam_name, result_name))
+		''') % (bed_name, bim_name, fam_name, gds_name, gds_name, kinship_name, fam_name,  result_name)
 	
 	return pd.read_csv('./data/test_docs/%s.csv' % (result_name)).to_csv()
 
