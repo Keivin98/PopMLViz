@@ -150,7 +150,7 @@ class ScatterAdmix extends Component {
       for (var k = 0; k < num_clusters + 1; k += 1) {
         var name = !(k in this.state.clusterNames)
           ? k == num_clusters
-            ? "Undefined Cluster"
+            ? "Admixed Cluster"
             : "Cluster " + k
           : this.state.clusterNames[k];
         var symbol = k === num_clusters ? "triangle" : "circle";
@@ -219,11 +219,9 @@ class ScatterAdmix extends Component {
 
     if (DIM === 2) {
       layout = {
-        // autosize: true,
-        // showlegend: false,
         legend: {
           yanchor: "top",
-          y: 0.99,
+          y: 0.89,
           xanchor: "right",
           x: 0.99,
         },
@@ -259,17 +257,17 @@ class ScatterAdmix extends Component {
           },
           xaxis: {
             type: "linear",
-            // zeroline: false,
+            zeroline: false,
             title: x,
           },
           yaxis: {
             type: "linear",
-            // zeroline: false,
+            zeroline: false,
             title: y,
           },
           zaxis: {
             type: "linear",
-            // zeroline: false,
+            zeroline: false,
             title: z,
           },
         },
@@ -389,9 +387,9 @@ const styles = {
     overflow_x: "hidden",
     left: 0,
     marginTop: "13%",
-    marginLeft: "26%",
-    width: "52%",
-    height: "73%",
+    marginLeft: "23%",
+    width: "55%",
+    height: "74%",
   },
 };
 export default ScatterAdmix;

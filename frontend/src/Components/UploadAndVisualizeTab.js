@@ -64,7 +64,7 @@ class DimensionalityReductionTab extends Component {
               <label style={{ paddingLeft: "10px" }}> PCA</label>
             </div>
 
-            <div className="radio">
+            {/* <div className="radio">
               <input
                 type="radio"
                 value="admixture"
@@ -72,7 +72,7 @@ class DimensionalityReductionTab extends Component {
                 onChange={this.onUploadValueChange}
               />
               <label style={{ paddingLeft: "10px" }}> Admixture</label>
-            </div>
+            </div> */}
 
             <div className="radio">
               <input

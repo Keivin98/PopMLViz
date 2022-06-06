@@ -174,9 +174,9 @@ const styles = {
     overflow_x: "hidden",
     left: 0,
     marginTop: "13%",
-    marginLeft: "26%",
-    width: "52%",
-    height: "73%",
+    marginLeft: "23%",
+    width: "55%",
+    height: "74%",
   },
 };
 export default BarPlot;

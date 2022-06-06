@@ -1,4 +1,4 @@
-from flask import jsonify,request
+from flask import jsonify,request,send_file
 # from pandas.core.reshape.tile import cut
 from app import create_app
 import io
@@ -26,6 +26,10 @@ from sklearn.neighbors import LocalOutlierFactor
 from sklearn.cluster import AgglomerativeClustering 
 from sklearn.covariance import EllipticEnvelope
 #####
+from scipy.cluster.hierarchy import dendrogram, linkage
+import matplotlib
+matplotlib.use('Agg')
+from matplotlib import pyplot as plt
 
 # Create an application instance
 
@@ -67,8 +71,21 @@ def runHC():
 		pca_cols = pca_df.columns
 	# print(pca_df[pca_cols])
 	hc = AgglomerativeClustering(n_clusters=num_clusters, affinity = 'euclidean', linkage ='ward').fit_predict(pca_df[pca_cols])
-	print(list(hc))
-	return jsonify(list(map(lambda x : int(x), hc)))
+	
+	plt.figure(figsize=(10, 7))
+	dendrogram(linkage(pca_df[pca_cols], method='ward'))
+	plt.xticks([])
+	filename = random_string(12)
+	plt.savefig('./data/dendrogram/%s.png' % (filename))
+	# filename = "Ok6GVLmq7xbU"
+	return {
+		'result': list(map(lambda x : int(x), hc)), 
+		'filename' : filename + ".png"
+		}
+
+@app.route("/api/dendrogram/<image_name>", methods=["GET"], strict_slashes=False)
+def dendrogramImage(image_name):
+	return send_file("./data/dendrogram/" + image_name)
 
 @app.route("/api/runfuzzy", methods=["POST"], strict_slashes=False)
 def runFuzzy():

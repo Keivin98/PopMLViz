@@ -24,6 +24,7 @@ import Loader from "react-loader-spinner";
 import "react-tabs/style/react-tabs.css";
 import AdmixOptions from "./AdmixOptions";
 import Navbar from "react-bootstrap/Navbar";
+import Dendrogram from "./Dendrogram";
 
 require("dotenv").config();
 const randomColors = [
@@ -91,6 +92,8 @@ class App extends Component {
     picFormat: "png",
     metaData: [],
     metaDataColumns: [],
+    dendrogramPath: "",
+    markerSize: 4,
   };
   handleMultiChange = (option) => {
     let act = [];
@@ -156,22 +159,6 @@ class App extends Component {
     this.setState({ selectedFile: event.target.files[0] });
   };
 
-  correlationMatrixUpload = () => {
-    if (this.state.selectedFile) {
-      return (
-        <div>
-          <h2 style={{}}>File Details:</h2>
-          <p>
-            File Name:{" "}
-            {this.state.selectedFile.name.substr(
-              0,
-              this.state.selectedFile.name.indexOf(".")
-            )}
-          </p>
-        </div>
-      );
-    }
-  };
   scatter1d = (y) => {
     var x1 = [];
     var y1 = [];
@@ -198,7 +185,7 @@ class App extends Component {
           mode: "markers",
           text: cluster_texts,
           hovertemplate: hoverTemplate,
-          marker: { color: randomColors[0], size: 6 },
+          marker: { color: randomColors[0], size: this.state.markerSize },
         },
       ];
     }
@@ -250,7 +237,7 @@ class App extends Component {
               marker: {
                 color: randomColors[colID],
                 symbol: randomShapes[0],
-                size: 6,
+                size: this.state.markerSize,
               },
               text: "",
               hovertemplate: "<i>(%{x:.4f}, %{y:.4f}), %{z:.4f}) </i>",
@@ -266,7 +253,7 @@ class App extends Component {
               marker: {
                 color: randomColors[0],
                 symbol: randomShapes[colID],
-                size: 6,
+                size: this.state.markerSize,
               },
               text: "",
               hovertemplate: "<i>(%{x:.4f}, %{y:.4f}) </i>",
@@ -282,7 +269,7 @@ class App extends Component {
               marker: {
                 color: randomColors[colID],
                 symbol: randomShapes[0],
-                size: 6,
+                size: this.state.markerSize,
               },
               text: "",
               hovertemplate: "<i>(%{x:.4f}, %{y:.4f}) </i>",
@@ -296,7 +283,7 @@ class App extends Component {
               marker: {
                 color: randomColors[0],
                 symbol: randomShapes[colID],
-                size: 6,
+                size: this.state.markerSize,
               },
               text: "",
               hovertemplate: "<i>(%{x:.4f}, %{y:.4f}) </i>",
@@ -343,7 +330,18 @@ class App extends Component {
       };
     } else {
       layout = {
-        autosize: true,
+        legend: {
+          yanchor: "top",
+          y: 0.89,
+          xanchor: "right",
+          x: 0.99,
+        },
+        margin: {
+          l: 0,
+          r: 0,
+          b: 0,
+          t: 0,
+        },
         scene: {
           aspectratio: {
             x: 1,
@@ -497,7 +495,7 @@ class App extends Component {
               type: "scatter3d",
               marker: {
                 color: colors[k],
-                size: 4,
+                size: this.state.markerSize,
                 symbol: "cross",
                 opacity: 0.5,
               },
@@ -514,7 +512,7 @@ class App extends Component {
                 color: colors[k],
                 symbol: "cross",
                 opacity: 0.5,
-                size: 6,
+                size: this.state.markerSize,
               },
               text: cluster_texts[k],
               hovertemplate: hoverTemplate,
@@ -532,7 +530,7 @@ class App extends Component {
             z: z_clusters[k],
             mode: "markers",
             type: "scatter3d",
-            marker: { color: colors[k], size: 4 },
+            marker: { color: colors[k], size: this.state.markerSize },
             text: cluster_texts[k],
             hovertemplate: hoverTemplate,
           });
@@ -542,7 +540,7 @@ class App extends Component {
             x: x_clusters[k],
             y: y_clusters[k],
             mode: "markers",
-            marker: { color: colors[k], size: 6 },
+            marker: { color: colors[k], size: this.state.markerSize },
             text: cluster_texts[k],
             hovertemplate: hoverTemplate,
           });
@@ -553,7 +551,18 @@ class App extends Component {
 
     if (DIM === 2) {
       layout = {
-        autosize: true,
+        legend: {
+          yanchor: "top",
+          y: 0.89,
+          xanchor: "right",
+          x: 0.99,
+        },
+        margin: {
+          l: 0,
+          r: 0,
+          b: 0,
+          t: 0,
+        },
         scene: {
           aspectratio: {
             x: 1,
@@ -654,7 +663,7 @@ class App extends Component {
             z: [],
             type: "scatter3d",
             mode: "markers",
-            marker: { color: otherColor, size: 4 },
+            marker: { color: otherColor, size: this.state.markerSize },
             text: [],
             hovertemplate: hoverTemplate,
           });
@@ -668,7 +677,7 @@ class App extends Component {
             mode: "markers",
             marker: {
               color: outlierColor,
-              size: 4,
+              size: this.state.markerSize,
               symbol: "cross",
               opacity: "0.5",
             },
@@ -685,7 +694,7 @@ class App extends Component {
             x: [],
             y: [],
             mode: "markers",
-            marker: { color: otherColor, size: 6 },
+            marker: { color: otherColor, size: this.state.markerSize },
             text: [],
             hovertemplate: hoverTemplate,
           });
@@ -698,7 +707,7 @@ class App extends Component {
               color: outlierColor,
               symbol: "cross",
               opacity: "0.5",
-              size: 6,
+              size: this.state.markerSize,
             },
             text: [],
             hovertemplate: hoverTemplate,
@@ -787,7 +796,18 @@ class App extends Component {
       };
     } else {
       layout = {
-        autosize: true,
+        legend: {
+          yanchor: "top",
+          y: 0.89,
+          xanchor: "right",
+          x: 0.99,
+        },
+        margin: {
+          l: 0,
+          r: 0,
+          b: 0,
+          t: 0,
+        },
         scene: {
           aspectratio: {
             x: 1,
@@ -868,7 +888,7 @@ class App extends Component {
           mode: "markers",
           text: cluster_texts,
           hovertemplate: hoverTemplate,
-          marker: { color: randomColors[0], size: 6 },
+          marker: { color: randomColors[0], size: this.state.markerSize },
         },
       ];
     }
@@ -918,11 +938,22 @@ class App extends Component {
           type: "scatter3d",
           text: cluster_texts,
           hovertemplate: hoverTemplate,
-          marker: { color: randomColors[0], size: 4 },
+          marker: { color: randomColors[0], size: this.state.markerSize },
         },
       ];
       var layout = {
-        autosize: true,
+        legend: {
+          yanchor: "top",
+          y: 0.89,
+          xanchor: "right",
+          x: 0.99,
+        },
+        margin: {
+          l: 0,
+          r: 0,
+          b: 0,
+          t: 0,
+        },
         scene: {
           aspectratio: {
             x: 1,
@@ -1335,7 +1366,8 @@ class App extends Component {
         });
         this.setState({
           isLoading: false,
-          clusterColors: r.data,
+          clusterColors: r.data.result,
+          dendrogramPath: r.data.filename,
           cluster_names: cluster_names,
           showOutputOptions: true,
           distributionData: [],
@@ -1424,6 +1456,10 @@ class App extends Component {
           isLoading: false,
           distributionData: [],
           selectedDescribingColumn: { value: "None", label: "None" },
+          OutlierData: [],
+          cluster_names: {},
+          clusterColors: [],
+          distributionData: [],
         });
         this.processData(r.data, false);
       })
@@ -1461,6 +1497,10 @@ class App extends Component {
           isLoading: false,
           distributionData: [],
           selectedDescribingColumn: { value: "None", label: "None" },
+          OutlierData: [],
+          cluster_names: {},
+          clusterColors: [],
+          distributionData: [],
         });
         this.processData(r.data, false);
       })
@@ -1652,34 +1692,6 @@ class App extends Component {
     const TWO_DIM = 1;
     const THREE_DIM = 2;
 
-    if (this.state.selectedUploadOption === "admixture") {
-      if (this.state.admix !== undefined) {
-        return (
-          <BarPlot
-            data={this.state.admix}
-            alphaVal={this.state.alphaVal}
-            clusterNames={{ ...this.state.cluster_names }}
-            onChange={this.clusterNumberChange}
-            AdmixOptionsLabelCheck={this.state.AdmixOptionsLabelCheck}
-            plotTitle={this.state.plotTitle}
-            picWidth={Number(this.state.picWidth)}
-            picHeight={Number(this.state.picHeight)}
-            picFormat={this.state.picFormat}
-          />
-        );
-      } else {
-        return (
-          <BarPlot
-            data={[]}
-            AdmixOptionsLabelCheck={false}
-            plotTitle={this.state.plotTitle}
-            picWidth={Number(this.state.picWidth)}
-            picHeight={Number(this.state.picHeight)}
-            picFormat={this.state.picFormat}
-          />
-        );
-      }
-    }
     if (
       this.state.selectedUploadOption === "pcairandadmixture" &&
       this.state.data != null &&
@@ -1926,6 +1938,7 @@ class App extends Component {
       picWidth: state.width,
       picHeight: state.height,
       picFormat: state.selectedColumn,
+      markerSize: state.markerSize,
     });
   };
   handleAdmixOptionsCallback = (alphaVal) => {
@@ -1973,6 +1986,7 @@ class App extends Component {
   };
 
   render() {
+    // console.log("admix", this.state.admix);
     return (
       <div>
         <Navbar
@@ -2167,7 +2181,36 @@ class App extends Component {
                 isLoading={this.state.isLoading}
               />
             )}
-            {!this.state.isLoading && <div>{this.showScatterPlot()}</div>}
+            {!this.state.isLoading && (
+              <div>
+                <Tabs style={styles.dendrogramTabs}>
+                  <TabList>
+                    <Tab>Scatter Plot</Tab>
+                    {this.state.dendrogramPath !== "" && <Tab>Dendrogram</Tab>}
+                    {this.state.admix.length > 0 && <Tab>Admixture</Tab>}
+                  </TabList>
+                  <TabPanel>{this.showScatterPlot()}</TabPanel>
+                  {this.state.dendrogramPath !== "" && (
+                    <TabPanel>
+                      <Dendrogram dendrogramPath={this.state.dendrogramPath} />
+                    </TabPanel>
+                  )}
+                  <TabPanel>
+                    <BarPlot
+                      data={this.state.admix}
+                      alphaVal={this.state.alphaVal}
+                      clusterNames={{ ...this.state.cluster_names }}
+                      onChange={this.clusterNumberChange}
+                      AdmixOptionsLabelCheck={this.state.AdmixOptionsLabelCheck}
+                      plotTitle={this.state.plotTitle}
+                      picWidth={Number(this.state.picWidth)}
+                      picHeight={Number(this.state.picHeight)}
+                      picFormat={this.state.picFormat}
+                    />
+                  </TabPanel>
+                </Tabs>
+              </div>
+            )}
             <div>
               <div className="radio" style={styles.dimensions}>
                 <FormControl style={{ marginLeft: "2%", marginTop: "1%" }}>
@@ -2402,7 +2445,7 @@ class App extends Component {
                             Add Metadata
                             <input
                               type="file"
-                              accept=".csv,.xlsx,.xls,.txt"
+                              accept=".csv,.xlsx,.xls"
                               onChange={this.handleMetaDataUpload}
                               onClick={this.onInputMetadataClick}
                               disabled={
@@ -2506,14 +2549,14 @@ const styles = {
     backgroundColor: "#3b3f4e",
   },
   rightPane: {
-    height: "90%",
+    height: "91%",
     position: "fixed",
     display: "flex",
     flexDirection: "row",
     top: 0,
     right: 0,
-    width: "75%",
-    marginTop: "5%",
+    width: "78%",
+    marginTop: "4%",
     marginRight: "10px",
     justifyContent: "center",
     alignItems: "center",
@@ -2527,11 +2570,11 @@ const styles = {
   dimensions: {
     position: "fixed",
     z_index: 1,
-    top: "11%",
+    top: "8%",
     overflow_x: "hidden",
     left: 0,
-    marginLeft: "26%",
-    width: "52%",
+    marginLeft: "23%",
+    width: "55%",
     display: "flex",
     flexDirection: "row",
     padding: "10px",
@@ -2555,15 +2598,23 @@ const styles = {
   optionsContainer: {
     position: "fixed",
     right: "1%",
-    top: -10,
-    height: "86%",
+    top: 0,
+    height: "89%",
     display: "flex",
     flexDirection: "column",
     width: "20%",
     padding: "10px",
-    marginTop: "6.5%",
+    marginTop: "4.5%",
     backgroundColor: "#f5f6f7",
     borderRadius: 10,
+  },
+  dendrogramTabs: {
+    position: "fixed",
+    top: 0,
+    left: 0,
+    marginTop: "10%",
+    marginLeft: "23%",
+    width: "50%",
   },
   littleUpload: {
     display: "flex",

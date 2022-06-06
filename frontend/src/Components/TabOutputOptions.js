@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Incrementor from "./Incrementor";
 import PropTypes from "prop-types";
 import { Button } from "@material-ui/core";
 import Select from "react-select";
@@ -16,11 +17,26 @@ class TabOutputOptions extends Component {
     selectedColumn: "png",
     width: 800,
     height: 600,
+    image: "",
+    markerSize: 4,
   };
   handleFormatChange = (value) => {
     this.setState({
       selectedColumn: value.label,
     });
+  };
+  componentDidMount = () => {
+    this.setState({ image: this.props.dendrogramPath });
+  };
+  componentDidUpdate = (prevProps) => {
+    if (prevProps.dendrogramPath !== this.props.dendrogramPath) {
+      this.setState({ image: this.props.dendrogramPath });
+    }
+  };
+  handleIncrementChange = (event) => {
+    if (Number(event.target.value) >= 2) {
+      this.setState({ markerSize: Number(event.target.value) });
+    }
   };
   showOutputOptions = () => {
     var num_clusters = this.props.uniqueClusters;
@@ -29,6 +45,20 @@ class TabOutputOptions extends Component {
     }
     return (
       <div style={{ padding: "4%" }}>
+        <div style={{ display: "flex", flexDirection: "row" }}>
+          <h6 style={{ paddingTop: "2%", marginBottom: "10%" }}>
+            Marker size:
+          </h6>
+          <div style={{ width: "50%" }}>
+            <input
+              type="number"
+              name="clicks"
+              style={{ width: "40%", marginLeft: "10%" }}
+              value={Number(this.state.markerSize).toString()}
+              onChange={this.handleIncrementChange}
+            />
+          </div>
+        </div>
         <h6>Change plot title:</h6>
         <div
           style={{
