@@ -14,7 +14,6 @@ class DownloadData extends Component {
 
   rangeSelector = (event, newValue) => {
     this.setState({ columnRange: newValue });
-    console.log(newValue);
   };
 
   render() {

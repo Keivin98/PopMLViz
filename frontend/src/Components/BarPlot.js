@@ -23,6 +23,7 @@ class BarPlot extends Component {
     numClusters: 2,
     data_new: [],
     positionOfUndefined: 0,
+    method: 0,
   };
   range = (start, end) => {
     /* generate a range : [start, start+1, ..., end-1, end] */
@@ -31,7 +32,7 @@ class BarPlot extends Component {
     for (let i = 0; i < len; i++) a[i] = start + i;
     return a;
   };
-  assignClusterToRow = (row) => {
+  assignClusterToRow1 = (row) => {
     // returns index of maximum value
     // unless max and second max are less than 0.2 apart
     var parsedRow = Object.values(row).map((a) => {
@@ -44,13 +45,26 @@ class BarPlot extends Component {
       return parsedRow.indexOf(rowDescending[0]);
     }
   };
+  assignClusterToRow2 = (row) => {
+    // returns index of maximum value
+    // unless max and second max are less than 0.2 apart
+    var parsedRow = Object.values(row).map((a) => {
+      return parseFloat(a);
+    });
+    const rowDescending = [...parsedRow].sort((a, b) => b - a);
+    if (rowDescending[0] < this.props.certaintyVal / 100.0) {
+      return parsedRow.length;
+    } else {
+      return parsedRow.indexOf(rowDescending[0]);
+    }
+  };
+
   componentDidMount = () => {
     this.BarPlot();
   };
   componentDidUpdate(prevProps) {
     if (
       prevProps.data !== this.props.data ||
-      prevProps.alphaVal !== this.props.alphaVal ||
       JSON.stringify(prevProps.clusterNames) !==
         JSON.stringify(this.props.clusterNames) ||
       prevProps.picWidth !== this.props.picWidth ||
@@ -58,6 +72,14 @@ class BarPlot extends Component {
       prevProps.picFormat !== this.props.picFormat ||
       prevProps.plotTitle !== this.props.plotTitle
     ) {
+      this.BarPlot();
+    }
+    if (prevProps.alphaVal !== this.props.alphaVal) {
+      this.setState({ method: 0 });
+      this.BarPlot();
+    }
+    if (prevProps.certaintyVal !== this.props.certaintyVal) {
+      this.setState({ method: 1 });
       this.BarPlot();
     }
   }
@@ -71,10 +93,22 @@ class BarPlot extends Component {
       for (let j = 0; j < numClusters; j += 1) {
         colors.push(randomColors[j]);
       }
-
-      let sortedValues = [...this.props.data].sort((a, b) => {
-        return this.assignClusterToRow(a) > this.assignClusterToRow(b) ? 1 : -1;
-      });
+      let sortedValues = [];
+      if (this.state.method == 0) {
+        sortedValues = [...this.props.data].sort((a, b) => {
+          return this.assignClusterToRow1(a) > this.assignClusterToRow1(b)
+            ? 1
+            : -1;
+        });
+      } else {
+        {
+          sortedValues = [...this.props.data].sort((a, b) => {
+            return this.assignClusterToRow2(a) > this.assignClusterToRow2(b)
+              ? 1
+              : -1;
+          });
+        }
+      }
 
       let positionOfUndefined = sortedValues
         .map((x) => this.assignClusterToRow(x))
@@ -158,6 +192,7 @@ class BarPlot extends Component {
 BarPlot.propTypes = {
   data: PropTypes.array,
   alphaVal: PropTypes.number,
+  certaintyVal: PropTypes.number,
   clusterNames: PropTypes.array,
   AdmixOptionsLabelCheck: PropTypes.bool,
   plotTitle: PropTypes.string,

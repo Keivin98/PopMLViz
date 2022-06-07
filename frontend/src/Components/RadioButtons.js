@@ -18,7 +18,6 @@ class RadioButtons extends Component {
 
   formSubmit(event) {
     event.preventDefault();
-    console.log(this.state.selectedOption);
   }
 
   UploadDataset = () => {
@@ -31,9 +30,6 @@ class RadioButtons extends Component {
       this.state.selectedFile,
       this.state.selectedFile.name
     );
-
-    // Details of the uploaded file
-    console.log(this.state.selectedFile);
 
     // Request made to the backend api
     // Send formData object

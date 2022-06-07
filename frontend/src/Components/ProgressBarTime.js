@@ -72,8 +72,6 @@ class ProgressBarTime extends Component {
         });
       }
     }, 1000 + 1000 * this.state.position);
-
-    console.log(interval);
   }
   componentDidUpdate(prevProps) {
     if (!this.props.isLoading || !prevProps.isLoading) {

@@ -26,15 +26,21 @@ class TabOutputOptions extends Component {
     });
   };
   componentDidMount = () => {
-    this.setState({ image: this.props.dendrogramPath });
+    this.setState({
+      image: this.props.dendrogramPath,
+      markerSize:
+        this.props.markerSize !== undefined ? Number(this.props.markerSize) : 4,
+    });
   };
   componentDidUpdate = (prevProps) => {
     if (prevProps.dendrogramPath !== this.props.dendrogramPath) {
-      this.setState({ image: this.props.dendrogramPath });
+      this.setState({
+        image: this.props.dendrogramPath,
+      });
     }
   };
   handleIncrementChange = (event) => {
-    if (Number(event.target.value) >= 2) {
+    if (Number(event.target.value) >= 2 && event.target.value !== undefined) {
       this.setState({ markerSize: Number(event.target.value) });
     }
   };
@@ -162,6 +168,7 @@ class TabOutputOptions extends Component {
 TabOutputOptions.propTypes = {
   uniqueClusters: PropTypes.number,
   showClusters: PropTypes.bool,
+  markerSize: PropTypes.number,
 };
 
 export default TabOutputOptions;

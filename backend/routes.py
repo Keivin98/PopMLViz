@@ -217,12 +217,21 @@ def runPCAIR():
 		genoData <- GenotypeData(geno)
 		
 		IDs <- read.table("./data/test_docs/%s.fam", header = FALSE)
-		pcair_result_nokin <- pcair(gdsobj = genoData, kinobj = NULL, divobj = NULL, num.cores = 4)  ## Normal PCA
+		kinship <- diag(2504)
+
+		IDs_col <- IDs[,1]
+
+		colnames(kinship) <- IDs_col
+		rownames(kinship) <- IDs_col
+
+		pcair_result_nokin <- pcair(gdsobj = genoData, kinobj = kinship, divobj = kinship, div.thresh= -2^(-9/2),kin.thresh=2^(-9/2), num.cores = 32)  ## Normal PCA
+
 		pc_vectors_nokin <- as.data.frame(pcair_result_nokin$vectors[,c(1:20)])
 		pc_vectors_nokin$IID <- as.character(IDs$V1)
+
 		colnames(pc_vectors_nokin)[1:20] = paste("PC",1:20,sep="")
 		write.csv(pc_vectors_nokin, "./data/test_docs/%s.csv", row.names=F,col.names=TRUE)
-		''') % (bed_name, bim_name, fam_name, gds_name, gds_name, fam_name, result_name)
+		''' % (bed_name, bim_name, fam_name, gds_name, gds_name, fam_name, result_name))
 	else:
 		robjects.r('''
 		.libPaths("/home/local/QCRI/kisufaj/R/x86_64-pc-linux-gnu-library/4.1")
@@ -249,9 +258,8 @@ def runPCAIR():
 
 		colnames(pc_vectors)[1:20] = paste("PC",1:20,sep="")
 		write.csv(pc_vectors, "./data/test_docs/%s.csv", row.names=F,col.names=TRUE)
-		}
 		
-		''') % (bed_name, bim_name, fam_name, gds_name, gds_name, kinship_name, fam_name,  result_name)
+		''' % (bed_name, bim_name, fam_name, gds_name, gds_name, kinship_name, fam_name,  result_name))
 	
 	return pd.read_csv('./data/test_docs/%s.csv' % (result_name)).to_csv()
 

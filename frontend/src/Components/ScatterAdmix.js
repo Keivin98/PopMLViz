@@ -19,15 +19,13 @@ const randomColors = [
 ];
 
 class ScatterAdmix extends Component {
-  constructor() {
-    super();
-    this.state = {
-      clusterColors: [],
-      clusterNames: [],
-      PCAdata: [],
-      alphaVal: 1,
-    };
-  }
+  state = {
+    clusterColors: [],
+    clusterNames: [],
+    PCAdata: [],
+    alphaVal: 1,
+    markerSize: 4,
+  };
 
   range = (start, end) => {
     /* generate a range : [start, start+1, ..., end-1, end] */
@@ -56,6 +54,7 @@ class ScatterAdmix extends Component {
       this.setState({ alphaVal: this.props.alphaVal });
       this.splitPCAandADMIX();
       this.ScatterAdmixFromData();
+      this.setState({ markerSize: this.props.markerSize });
     }
   }
   componentDidUpdate(prevProps) {
@@ -72,13 +71,15 @@ class ScatterAdmix extends Component {
       this.setState({ clusterNames: this.props.clusterNames });
     }
     this.ScatterAdmixFromData();
+    if (prevProps.markerSize !== this.props.markerSize) {
+      this.setState({ markerSize: this.props.markerSize });
+    }
   }
   scatterWithClusters(DIM, x, y, z, outliers, outlierData) {
     let num_clusters =
       this.props.AdmixData == null
         ? 0
         : Object.values(this.props.AdmixData[0]).length;
-    console.log(num_clusters);
     var x_clusters = [];
     var y_clusters = [];
     var layout = {};
@@ -166,7 +167,7 @@ class ScatterAdmix extends Component {
               type: "scatter3d",
               marker: {
                 color: color,
-                size: 4,
+                size: this.state.markerSize,
                 symbol: "cross",
                 opacity: 0.5,
               },
@@ -181,7 +182,7 @@ class ScatterAdmix extends Component {
               mode: "markers",
               marker: {
                 color: color,
-                size: 8,
+                size: this.state.markerSize,
                 symbol: "cross",
                 opacity: 0.5,
               },
@@ -198,7 +199,11 @@ class ScatterAdmix extends Component {
             z: z_clusters[k],
             mode: "markers",
             type: "scatter3d",
-            marker: { color: color, size: 4, symbol: symbol },
+            marker: {
+              color: color,
+              size: this.state.markerSize,
+              symbol: symbol,
+            },
             text: cluster_texts[k],
             hovertemplate: "<i>(%{x:.4f}, %{y:.4f}, %{z:.4f}) </i>",
           });
@@ -208,7 +213,11 @@ class ScatterAdmix extends Component {
             x: x_clusters[k],
             y: y_clusters[k],
             mode: "markers",
-            marker: { color: color, size: 8, symbol: symbol },
+            marker: {
+              color: color,
+              size: this.state.markerSize,
+              symbol: symbol,
+            },
             text: cluster_texts[k],
             hovertemplate: "<i>(%{x:.4f}, %{y:.4f}) </i>",
           });
@@ -378,6 +387,7 @@ ScatterAdmix.propTypes = {
   picHeight: PropTypes.number,
   picFormat: PropTypes.string,
   plotTitle: PropTypes.string,
+  markerSize: PropTypes.number,
 };
 const styles = {
   ScatterContainer: {

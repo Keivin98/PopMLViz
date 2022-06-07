@@ -6,16 +6,19 @@ import PropTypes from "prop-types";
 
 class AdmixOptions extends Component {
   state = {
-    initialVal: this.props.initialVal,
+    initialAlpha: this.props.initialAlpha,
+    initialCertainty: this.props.initialCertainty,
     checked: true,
   };
 
   componentDidMount = () => {
-    console.log();
     this.setState({ initialVal: this.props.initialVal });
   };
-  rangeSelector = (event, newValue) => {
-    this.setState({ initialVal: newValue });
+  rangeSelectorAlpha = (event, newValue) => {
+    this.setState({ initialAlpha: newValue });
+  };
+  rangeSelectorCertainty = (event, newValue) => {
+    this.setState({ initialCertainty: newValue });
   };
 
   render() {
@@ -33,7 +36,7 @@ class AdmixOptions extends Component {
         }}
       >
         <Typography id="range-slider" gutterBottom>
-          <h6>{this.props.name}: </h6>
+          <h6 style={{ fontWeight: "bold" }}>Alpha: </h6>
         </Typography>
         <div
           style={{
@@ -43,15 +46,16 @@ class AdmixOptions extends Component {
           }}
         >
           <Slider
-            value={this.state.initialVal}
-            onChange={this.rangeSelector}
+            value={this.state.initialAlpha}
+            onChange={this.rangeSelectorAlpha}
             valueLabelDisplay="auto"
             min={1}
             max={100}
           />
+
           <Button
             onClick={(event) => {
-              this.props.parentCallback(this.state.initialVal);
+              this.props.parentCallback(this.state);
               event.preventDefault();
             }}
             variant="outlined"
@@ -61,7 +65,38 @@ class AdmixOptions extends Component {
             Apply
           </Button>
         </div>
-        Chosen {this.props.name}: {this.state.initialVal} %
+        Chosen Alpha: {this.state.initialAlpha} %
+        <Typography id="range-slider" gutterBottom>
+          <h6 style={{ marginTop: "10%", fontWeight: "bold" }}>Certainty: </h6>
+        </Typography>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-around",
+          }}
+        >
+          <Slider
+            value={this.state.initialCertainty}
+            onChange={this.rangeSelectorCertainty}
+            valueLabelDisplay="auto"
+            min={1}
+            max={100}
+          />
+
+          <Button
+            onClick={(event) => {
+              this.props.parentCallback(this.state);
+              event.preventDefault();
+            }}
+            variant="outlined"
+            style={{ marginLeft: "10px" }}
+            disabled={this.props.disabled}
+          >
+            Apply
+          </Button>
+        </div>
+        Chosen Certainty: {this.state.initialCertainty} %
         <label style={{ marginTop: "10%", fontStyle: "italic" }}>
           {this.props.description}{" "}
         </label>

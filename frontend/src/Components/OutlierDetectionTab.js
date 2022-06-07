@@ -58,7 +58,6 @@ class OutlierDetectionTab extends Component {
     this.setState({ open: open });
   };
   findName = (allActions) => {
-    console.log(allActions);
     if (
       allActions.filter((elem) => {
         return Array.isArray(elem) || elem.label.includes("PC");

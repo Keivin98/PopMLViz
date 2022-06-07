@@ -67,6 +67,7 @@ class App extends Component {
     pressed: false,
     cluster_names: {},
     alphaVal: 40,
+    certaintyVal: 40,
     allActions: [],
     selectActions: [],
     selectedColumns: [null, null, null],
@@ -1521,6 +1522,7 @@ class App extends Component {
       cluster_names: {},
       clusterColors: [],
       distributionData: [],
+      dendrogramPath: "",
     });
     axios
       .get(
@@ -1558,6 +1560,7 @@ class App extends Component {
       cluster_names: {},
       clusterColors: [],
       distributionData: [],
+      dendrogramPath: "",
     });
     axios
       .get(
@@ -1594,6 +1597,7 @@ class App extends Component {
       OutlierData: [],
       cluster_names: {},
       clusterColors: [],
+      dendrogramPath: "",
     });
     axios
       .get(
@@ -1655,6 +1659,7 @@ class App extends Component {
         .then((r) => {
           this.setState({
             isLoading: false,
+            selectedUploadOption: "PCA",
           });
           this.processData(r.data, true);
         })
@@ -1712,6 +1717,7 @@ class App extends Component {
           picWidth={Number(this.state.picWidth)}
           picHeight={Number(this.state.picHeight)}
           picFormat={this.state.picFormat}
+          markerSize={this.state.markerSize}
         />
       );
     } else {
@@ -1916,10 +1922,7 @@ class App extends Component {
     this.setState({ num_clusters: data.numClusters });
   };
   UploadTabChange = (data) => {
-    if (
-      data.selectedUploadOption === "pcairandadmixture" ||
-      data.selectedUploadOption === "admixture"
-    ) {
+    if (data.selectedUploadOption === "pcairandadmixture") {
       this.setState({
         selectedUploadOption: data.selectedUploadOption,
         showOutputOptions: true,
@@ -1931,18 +1934,24 @@ class App extends Component {
     }
   };
 
-  handleTabOutputCallback = (state) => {
+  handleTabOutputCallback = (outputState) => {
     this.setState({
-      cluster_names: state.cluster_names,
-      plotTitle: state.plotTitle,
-      picWidth: state.width,
-      picHeight: state.height,
-      picFormat: state.selectedColumn,
-      markerSize: state.markerSize,
+      cluster_names: outputState.cluster_names,
+      plotTitle: outputState.plotTitle,
+      picWidth: outputState.width,
+      picHeight: outputState.height,
+      picFormat: outputState.selectedColumn,
+      markerSize:
+        outputState.markerSize == undefined
+          ? this.state.markerSize
+          : outputState.markerSize,
     });
   };
-  handleAdmixOptionsCallback = (alphaVal) => {
-    this.setState({ alphaVal: alphaVal });
+  handleAdmixOptionsCallback = (state) => {
+    this.setState({
+      alphaVal: state.initialAlpha,
+      certaintyVal: state.initialCertainty,
+    });
   };
 
   onPressReset = () => {
@@ -1986,7 +1995,6 @@ class App extends Component {
   };
 
   render() {
-    // console.log("admix", this.state.admix);
     return (
       <div>
         <Navbar
@@ -2187,7 +2195,9 @@ class App extends Component {
                   <TabList>
                     <Tab>Scatter Plot</Tab>
                     {this.state.dendrogramPath !== "" && <Tab>Dendrogram</Tab>}
-                    {this.state.admix.length > 0 && <Tab>Admixture</Tab>}
+                    {this.state.admix.length > 0 &&
+                      this.state.selectedUploadOption ===
+                        "pcairandadmixture" && <Tab>Admixture</Tab>}
                   </TabList>
                   <TabPanel>{this.showScatterPlot()}</TabPanel>
                   {this.state.dendrogramPath !== "" && (
@@ -2465,13 +2475,13 @@ class App extends Component {
                         )}
                       </TabPanel>
                       <TabPanel style={styles.outputSettings}>
-                        {" "}
                         <TabOutputOptions
                           uniqueClusters={this.state.num_clusters}
                           parentCallback={this.handleTabOutputCallback}
                           showClusters={this.state.showOutputOptions}
+                          markerSize={this.state.markerSize}
                         />
-                      </TabPanel>{" "}
+                      </TabPanel>
                     </div>
                   )}
                 {(this.state.selectedUploadOption === "pcairandadmixture" ||
@@ -2485,7 +2495,8 @@ class App extends Component {
                         }}
                       >
                         <AdmixOptions
-                          initialVal={this.state.alphaVal}
+                          initialAlpha={this.state.alphaVal}
+                          initialCertainty={this.state.certaintyVal}
                           name={
                             this.state.selectedUploadOption ===
                             "pcairandadmixture"
@@ -2517,6 +2528,7 @@ class App extends Component {
                         uniqueClusters={this.state.num_clusters}
                         parentCallback={this.handleTabOutputCallback}
                         showClusters={this.state.showOutputOptions}
+                        markerSize={this.state.markerSize}
                       />
                     </TabPanel>
                   </div>

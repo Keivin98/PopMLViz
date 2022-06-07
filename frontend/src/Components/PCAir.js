@@ -28,7 +28,6 @@ class PCAir extends Component {
     )
       .then((response) => response.json())
       .then((data) => {
-        console.log(data["filename"]);
         this.setState(
           {
             loading: false,
@@ -73,7 +72,6 @@ class PCAir extends Component {
     )
       .then((response) => response.json())
       .then((data) => {
-        console.log(data["filename"]);
         this.setState(
           {
             loading: false,
@@ -117,7 +115,6 @@ class PCAir extends Component {
     )
       .then((response) => response.json())
       .then((data) => {
-        console.log(data["filename"]);
         this.setState(
           {
             loading: false,
@@ -161,7 +158,6 @@ class PCAir extends Component {
     )
       .then((response) => response.json())
       .then((data) => {
-        console.log(data["filename"]);
         this.setState(
           {
             loading: false,

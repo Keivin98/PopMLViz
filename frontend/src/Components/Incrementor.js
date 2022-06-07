@@ -12,7 +12,6 @@ class Incrementor extends Component {
         }
       });
     }
-    console.log(Number(event.target.value));
   };
   render() {
     return (

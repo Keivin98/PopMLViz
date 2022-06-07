@@ -4,13 +4,10 @@ import PropTypes from "prop-types";
 import * as Plotly from "plotly.js";
 
 class ScatterPlot extends Component {
-  constructor() {
-    super();
-    this.state = {
-      num_clusters: 0,
-      clusterColors: [],
-    };
-  }
+  state = {
+    num_clusters: 0,
+    clusterColors: [],
+  };
   componentDidMount = () => {
     this.showPlot();
   };
