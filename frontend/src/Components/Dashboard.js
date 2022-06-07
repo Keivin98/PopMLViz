@@ -95,6 +95,7 @@ class App extends Component {
     metaDataColumns: [],
     dendrogramPath: "",
     markerSize: 4,
+    admixMode: 0,
   };
   handleMultiChange = (option) => {
     let act = [];
@@ -1951,6 +1952,7 @@ class App extends Component {
     this.setState({
       alphaVal: state.initialAlpha,
       certaintyVal: state.initialCertainty,
+      admixMode: state.mode == "Alpha" ? 0 : 1,
     });
   };
 
@@ -2209,6 +2211,7 @@ class App extends Component {
                     <BarPlot
                       data={this.state.admix}
                       alphaVal={this.state.alphaVal}
+                      certaintyVal={this.state.certaintyVal}
                       clusterNames={{ ...this.state.cluster_names }}
                       onChange={this.clusterNumberChange}
                       AdmixOptionsLabelCheck={this.state.AdmixOptionsLabelCheck}
@@ -2216,6 +2219,7 @@ class App extends Component {
                       picWidth={Number(this.state.picWidth)}
                       picHeight={Number(this.state.picHeight)}
                       picFormat={this.state.picFormat}
+                      admixMode={this.state.admixMode}
                     />
                   </TabPanel>
                 </Tabs>
@@ -2503,13 +2507,8 @@ class App extends Component {
                               ? "Alpha"
                               : "Certainty"
                           }
-                          description={
-                            this.state.selectedUploadOption ===
-                            "pcairandadmixture"
-                              ? "NOTE: If the admixture result for the subject is less than the chosen alpha, the subject will be marked as Admixed!"
-                              : "NOTE: If the difference between the top two admixture results for the subject is less than the chosen certainty, the subject will be marked as Admixed!"
-                          }
                           parentCallback={this.handleAdmixOptionsCallback}
+                          mode={this.state.admixMode}
                           disabled={this.state.admix.length == 0}
                         />
                       </div>

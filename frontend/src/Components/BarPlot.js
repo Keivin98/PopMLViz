@@ -60,9 +60,11 @@ class BarPlot extends Component {
   };
 
   componentDidMount = () => {
+    this.setState({ mode: this.props.admixMode });
     this.BarPlot();
   };
   componentDidUpdate(prevProps) {
+    console.log(prevProps.certaintyVal, this.props.certaintyVal);
     if (
       prevProps.data !== this.props.data ||
       JSON.stringify(prevProps.clusterNames) !==
@@ -79,8 +81,10 @@ class BarPlot extends Component {
       this.BarPlot();
     }
     if (prevProps.certaintyVal !== this.props.certaintyVal) {
-      this.setState({ method: 1 });
-      this.BarPlot();
+      this.setState({ method: 1 }, () => this.BarPlot());
+    }
+    if (prevProps.admixMode !== this.props.admixMode) {
+      this.setState({ method: this.props.admixMode }, () => this.BarPlot());
     }
   }
   BarPlot = () => {
@@ -94,25 +98,27 @@ class BarPlot extends Component {
         colors.push(randomColors[j]);
       }
       let sortedValues = [];
+      let positionOfUndefined = -1;
       if (this.state.method == 0) {
         sortedValues = [...this.props.data].sort((a, b) => {
           return this.assignClusterToRow1(a) > this.assignClusterToRow1(b)
             ? 1
             : -1;
         });
+        positionOfUndefined = sortedValues
+          .map((x) => this.assignClusterToRow1(x))
+          .indexOf(numClusters);
       } else {
-        {
-          sortedValues = [...this.props.data].sort((a, b) => {
-            return this.assignClusterToRow2(a) > this.assignClusterToRow2(b)
-              ? 1
-              : -1;
-          });
-        }
+        sortedValues = [...this.props.data].sort((a, b) => {
+          return this.assignClusterToRow2(a) > this.assignClusterToRow2(b)
+            ? 1
+            : -1;
+        });
+        positionOfUndefined = sortedValues
+          .map((x) => this.assignClusterToRow2(x))
+          .indexOf(numClusters);
+        // console.log(positionOfUndefined);
       }
-
-      let positionOfUndefined = sortedValues
-        .map((x) => this.assignClusterToRow(x))
-        .indexOf(numClusters);
 
       for (let n = 1; n < numClusters + 1; n += 1) {
         var name = !(n - 1 in this.props.clusterNames)
@@ -121,32 +127,59 @@ class BarPlot extends Component {
             : "Cluster " + (n - 1)
           : this.props.clusterNames[n - 1];
         let y_values = sortedValues.map((x) => x["v" + n]);
+        // console.log(positionOfUndefined);
+        if (positionOfUndefined <= 0) {
+          data_new.push({
+            type: "bar",
+            name: name,
+            x: [
+              ...this.range(0, positionOfUndefined),
+              ...this.range(
+                positionOfUndefined + 5,
+                Math.max(y_values.length, positionOfUndefined + 4)
+              ),
+            ],
+            y: y_values,
+            marker: {
+              opacity: this.range(0, y_values.length).map((x) =>
+                x < positionOfUndefined ? 1 : positionOfUndefined < 0 ? 1 : 0.2
+              ),
+              color: colors[n - 1],
+            },
+          });
+        } else {
+          data_new.push({
+            type: "bar",
+            name: name,
+            x: [
+              ...this.range(0, positionOfUndefined),
+              ...this.range(
+                positionOfUndefined + 5,
+                Math.max(y_values.length, positionOfUndefined + 4)
+              ),
+            ],
+            y: y_values,
+            marker: {
+              opacity: this.range(0, y_values.length).map((x) =>
+                x < positionOfUndefined ? 1 : 0.2
+              ),
+              color: colors[n - 1],
+            },
+          });
+        }
+      }
+      if (positionOfUndefined > 0) {
         data_new.push({
           type: "bar",
-          name: name,
-          x: [
-            ...this.range(0, positionOfUndefined),
-            ...this.range(positionOfUndefined + 5, y_values.length),
-          ],
-          y: y_values,
+          name: "Admixed",
+          x: this.range(positionOfUndefined, positionOfUndefined + 5),
+          y: [1.1, 1.1, 1.1, 1.1, 1.1],
+          base: [-0.05, -0.05, -0.05, -0.05, -0.05],
           marker: {
-            opacity: this.range(0, y_values.length).map((x) =>
-              x < positionOfUndefined ? 1 : 0.2
-            ),
-            color: colors[n - 1],
+            color: "black",
           },
         });
       }
-      data_new.push({
-        type: "bar",
-        name: "Admixed",
-        x: this.range(positionOfUndefined, positionOfUndefined + 5),
-        y: [1.1, 1.1, 1.1, 1.1, 1.1],
-        base: [-0.05, -0.05, -0.05, -0.05, -0.05],
-        marker: {
-          color: "black",
-        },
-      });
 
       if (this.state.numClusters !== numClusters) {
         this.setState(

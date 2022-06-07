@@ -9,10 +9,14 @@ class AdmixOptions extends Component {
     initialAlpha: this.props.initialAlpha,
     initialCertainty: this.props.initialCertainty,
     checked: true,
+    mode: "Alpha",
   };
 
   componentDidMount = () => {
-    this.setState({ initialVal: this.props.initialVal });
+    this.setState({
+      initialVal: this.props.initialVal,
+      mode: this.props.mode == 0 ? "Alpha" : "Certainty",
+    });
   };
   rangeSelectorAlpha = (event, newValue) => {
     this.setState({ initialAlpha: newValue });
@@ -55,8 +59,10 @@ class AdmixOptions extends Component {
 
           <Button
             onClick={(event) => {
-              this.props.parentCallback(this.state);
-              event.preventDefault();
+              this.setState({ mode: "Alpha" }, () => {
+                this.props.parentCallback(this.state);
+                event.preventDefault();
+              });
             }}
             variant="outlined"
             style={{ marginLeft: "10px" }}
@@ -65,7 +71,6 @@ class AdmixOptions extends Component {
             Apply
           </Button>
         </div>
-        Chosen Alpha: {this.state.initialAlpha} %
         <Typography id="range-slider" gutterBottom>
           <h6 style={{ marginTop: "10%", fontWeight: "bold" }}>Certainty: </h6>
         </Typography>
@@ -86,8 +91,10 @@ class AdmixOptions extends Component {
 
           <Button
             onClick={(event) => {
-              this.props.parentCallback(this.state);
-              event.preventDefault();
+              this.setState({ mode: "Certainty" }, () => {
+                this.props.parentCallback(this.state);
+                event.preventDefault();
+              });
             }}
             variant="outlined"
             style={{ marginLeft: "10px" }}
@@ -96,9 +103,24 @@ class AdmixOptions extends Component {
             Apply
           </Button>
         </div>
-        Chosen Certainty: {this.state.initialCertainty} %
+        <label>
+          <span style={{ fontWeight: "bold" }}> {this.state.mode} </span> :{" "}
+          {this.state.mode == "Certainty"
+            ? this.state.initialCertainty
+            : this.state.initialAlpha}{" "}
+          %
+        </label>
         <label style={{ marginTop: "10%", fontStyle: "italic" }}>
-          {this.props.description}{" "}
+          NOTE: If the admixture result for the subject is less than the chosen{" "}
+          <span style={{ fontWeight: "bold" }}>alpha</span>, the subject will be
+          marked as Admixed! {"\n"}{" "}
+        </label>
+        <label style={{ marginTop: "10%", fontStyle: "italic" }}>
+          {" "}
+          If the difference between the top two admixture results for the
+          subject is less than the chosen{" "}
+          <span style={{ fontWeight: "bold" }}>certainty</span>, the subject
+          will be marked as Admixed!
         </label>
       </div>
     );
@@ -109,5 +131,6 @@ AdmixOptions.propTypes = {
   name: PropTypes.string,
   description: PropTypes.string,
   disabled: PropTypes.bool,
+  mode: PropTypes.number,
 };
 export default AdmixOptions;
