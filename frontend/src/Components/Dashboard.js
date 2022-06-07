@@ -2180,10 +2180,7 @@ class App extends Component {
             </div>
           </div>
 
-          <div
-            className="block-example border border-light"
-            style={styles.rightPane}
-          >
+          <div className="block-example" style={styles.rightPane}>
             {this.state.isLoading && (
               <ProgressBarTime
                 totalTime={this.state.ProgressBarTimeInterval}
@@ -2571,7 +2568,6 @@ const styles = {
     marginRight: "10px",
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: 10,
   },
   radioButtons: {
     display: "flex",
@@ -2584,8 +2580,8 @@ const styles = {
     top: "8%",
     overflow_x: "hidden",
     left: 0,
-    marginLeft: "23%",
-    width: "55%",
+    marginLeft: "21%",
+    width: "57%",
     display: "flex",
     flexDirection: "row",
     padding: "10px",
@@ -2599,7 +2595,7 @@ const styles = {
   },
 
   dropDown: {
-    width: "23%",
+    width: "21%",
     marginLeft: "2%",
   },
   describingColumnDropDown: {
@@ -2624,8 +2620,8 @@ const styles = {
     top: 0,
     left: 0,
     marginTop: "10%",
-    marginLeft: "23%",
-    width: "50%",
+    marginLeft: "21%",
+    width: "52%",
   },
   littleUpload: {
     display: "flex",

@@ -397,8 +397,8 @@ const styles = {
     overflow_x: "hidden",
     left: 0,
     marginTop: "13%",
-    marginLeft: "23%",
-    width: "55%",
+    marginLeft: "21%",
+    width: "57%",
     height: "74%",
   },
 };
