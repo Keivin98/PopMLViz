@@ -79,6 +79,11 @@ class App extends Component {
     multiValue: [],
     describingValues: [],
     selectedDescribingColumn: { value: "None", label: "None" },
+    sampleDatasets: [
+      { value: 0, label: "1000 Genomes Project (1KG)" },
+      { value: 1, label: "Human Genome Diversity Project (HGDP)" },
+    ],
+    sampleDatasetValue: 0,
     selectedClusterMethod: null,
     OutlierData: [],
     showOutputOptions: false,
@@ -1164,6 +1169,11 @@ class App extends Component {
   handleMetaDataUpload = (e) => {
     this.handleFileUpload(e, 3);
   };
+  handleSampleDataset = (option) => {
+    this.setState({
+      sampleDatasetValue: option.value,
+    });
+  };
   handleSelectXChange = (value) => {
     this.setState({
       selectedColumns: [
@@ -1527,7 +1537,7 @@ class App extends Component {
     });
     axios
       .get(
-        `${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}${process.env.REACT_APP_PORT}/api/samplePCA/`,
+        `${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}${process.env.REACT_APP_PORT}/api/samplePCA/${this.state.sampleDatasetValue}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -1553,44 +1563,6 @@ class App extends Component {
       });
   };
 
-  sampleAdmixDataset = () => {
-    this.setState({
-      isLoading: true,
-      ProgressBarType: "Loader",
-      OutlierData: [],
-      cluster_names: {},
-      clusterColors: [],
-      distributionData: [],
-      dendrogramPath: "",
-    });
-    axios
-      .get(
-        `${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}${process.env.REACT_APP_PORT}/api/sampleAdmix/`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            "Access-Control-Allow-Origin": "*",
-          },
-        }
-      )
-      .then((r) => {
-        this.setState({
-          isLoading: false,
-          distributionData: [],
-          selectedDescribingColumn: { value: "None", label: "None" },
-        });
-        this.processData(r.data, false, 2);
-      })
-      .catch(() => {
-        this.setState({
-          isLoading: false,
-        });
-        alert(
-          "Server error! Please check the input and try again. If the error persists, refer to the docs! "
-        );
-      });
-  };
-
   samplePCAAdmixDataset = () => {
     this.setState({
       isLoading: true,
@@ -1602,7 +1574,7 @@ class App extends Component {
     });
     axios
       .get(
-        `${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}${process.env.REACT_APP_PORT}/api/samplePCAAdmixDataset/`,
+        `${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}${process.env.REACT_APP_PORT}/api/samplePCAAdmixDataset/${this.state.sampleDatasetValue}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -1660,14 +1632,19 @@ class App extends Component {
         .then((r) => {
           this.setState({
             isLoading: false,
-            selectedUploadOption: "PCA",
+            selectedUploadOption: this.state.selectedUploadOption.includes(
+              "t-SNE"
+            )
+              ? "PCA"
+              : this.state.selectedUploadOption,
           });
           this.processData(r.data, true);
         })
-        .catch(() => {
+        .catch((e) => {
           this.setState({
             isLoading: false,
           });
+          console.log(e);
           alert(
             "Server error! Please check the input and try again. If the error persists, refer to the docs! "
           );
@@ -2030,38 +2007,37 @@ class App extends Component {
                     disabled={this.state.selectedUploadOption === null}
                     onChange={this.handleFileUpload}
                   />
-                  <Button
-                    variant="outlined"
-                    style={{
-                      backgroundColor: "#ebeff7",
-                      marginTop: "2%",
-                    }}
-                    onClick={this.samplePCADataset}
-                  >
-                    {" "}
-                    Load Sample Dataset
-                  </Button>
-                </div>
-              )}
-              {this.state.selectedUploadOption === "admixture" && (
-                <div>
-                  <input
-                    type="file"
-                    accept=".Q"
-                    disabled={this.state.selectedUploadOption === null}
-                    onChange={this.handleAdmixFileUpload2}
-                  />
-                  <Button
-                    variant="outlined"
-                    style={{
-                      backgroundColor: "#ebeff7",
-                      marginTop: "2%",
-                    }}
-                    onClick={this.sampleAdmixDataset}
-                  >
-                    {" "}
-                    Load Sample Dataset
-                  </Button>
+                  <div style={{ display: "flex", flexDirection: "row" }}>
+                    <div
+                      style={{
+                        color: "black",
+                        width: "50%",
+                        marginTop: 10,
+                        marginRight: 10,
+                      }}
+                    >
+                      <Select
+                        value={
+                          this.state.sampleDatasets[
+                            this.state.sampleDatasetValue
+                          ]
+                        }
+                        options={this.state.sampleDatasets}
+                        onChange={this.handleSampleDataset}
+                      />
+                    </div>
+                    <Button
+                      variant="outlined"
+                      style={{
+                        backgroundColor: "#ebeff7",
+                        marginTop: "2%",
+                      }}
+                      onClick={this.samplePCADataset}
+                    >
+                      {" "}
+                      Load Data
+                    </Button>
+                  </div>
                 </div>
               )}
               {this.state.selectedUploadOption === "pcairandadmixture" && (
@@ -2088,26 +2064,37 @@ class App extends Component {
                       onChange={this.handleAdmixFileUpload2}
                     />
                   </div>
-                  <Button
-                    variant="outlined"
-                    style={{
-                      backgroundColor: "#ebeff7",
-                      marginTop: "2%",
-                    }}
-                    onClick={this.samplePCAAdmixDataset}
-                  >
-                    {" "}
-                    Load Sample Dataset
-                  </Button>
-                  {this.state.loading && (
-                    <Loader
-                      type="TailSpin"
-                      color="#00BFFF"
-                      height="30"
-                      width="30"
-                      style={{ marginTop: "2%", marginLeft: "20%" }}
-                    />
-                  )}
+                  <div style={{ display: "flex", flexDirection: "row" }}>
+                    <div
+                      style={{
+                        color: "black",
+                        width: "25%",
+                        marginTop: 10,
+                        marginRight: 10,
+                      }}
+                    >
+                      <Select
+                        value={
+                          this.state.sampleDatasets[
+                            this.state.sampleDatasetValue
+                          ]
+                        }
+                        options={this.state.sampleDatasets}
+                        onChange={this.handleSampleDataset}
+                      />
+                    </div>
+                    <Button
+                      variant="outlined"
+                      style={{
+                        backgroundColor: "#ebeff7",
+                        marginTop: "2%",
+                      }}
+                      onClick={this.samplePCAAdmixDataset}
+                    >
+                      {" "}
+                      Load Data
+                    </Button>
+                  </div>
                 </div>
               )}
             </form>
@@ -2472,6 +2459,9 @@ class App extends Component {
                             clusterColors={this.state.clusterColors}
                             OutlierData={this.state.OutlierData}
                             clusterNames={this.state.cluster_names}
+                            admixData={this.state.admix}
+                            alphaVal={this.state.alphaVal}
+                            certaintyVal={this.state.certaintyVal}
                           />
                         )}
                       </TabPanel>
@@ -2516,6 +2506,9 @@ class App extends Component {
                           OutlierData={this.state.OutlierData}
                           columnRange={this.state.columnRange}
                           clusterNames={this.state.cluster_names}
+                          admixData={this.state.admix}
+                          alphaVal={this.state.alphaVal}
+                          certaintyVal={this.state.certaintyVal}
                         />
                       )}
                     </TabPanel>

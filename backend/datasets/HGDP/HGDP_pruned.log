@@ -1,0 +1,29 @@
+PLINK v1.90b6.3 64-bit (17 Jul 2018)
+Options in effect:
+  --bfile /export/cse/msaad/HGDP/HGDP
+  --extract /export/cse/msaad/HGDP/plink.prune.in
+  --make-bed
+  --out HGDP_pruned
+
+Hostname: crimv3srv007
+Working directory: /export/cse02/msaad/VIZ_TOOL_PCA/FOR_Elshrif/HGDP
+Start time: Wed Jun  1 13:18:10 2022
+
+Random number seed: 1654078690
+257715 MB RAM detected; reserving 128857 MB for main workspace.
+Allocated 40770 MB successfully, after larger attempt(s) failed.
+660755 variants loaded from .bim file.
+1043 people (1043 males, 0 females) loaded from .fam.
+1043 phenotype values loaded from .fam.
+--extract: 205724 variants remaining.
+Using 1 thread (no multithreaded calculations invoked).
+Before main variant filters, 1043 founders and 0 nonfounders present.
+Calculating allele frequencies... done.
+Warning: 414019 het. haploid genotypes present (see HGDP_pruned.hh ); many
+commands treat these as missing.
+Total genotyping rate is 0.999066.
+205724 variants and 1043 people pass filters and QC.
+Among remaining phenotypes, 0 are cases and 1043 are controls.
+--make-bed to HGDP_pruned.bed + HGDP_pruned.bim + HGDP_pruned.fam ... done.
+
+End time: Wed Jun  1 13:18:13 2022

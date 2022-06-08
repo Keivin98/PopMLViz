@@ -77,7 +77,6 @@ def runHC():
 	plt.xticks([])
 	filename = random_string(12)
 	plt.savefig('./data/dendrogram/%s.png' % (filename))
-	# filename = "Ok6GVLmq7xbU"
 	return {
 		'result': list(map(lambda x : int(x), hc)), 
 		'filename' : filename + ".png"
@@ -217,14 +216,9 @@ def runPCAIR():
 		genoData <- GenotypeData(geno)
 		
 		IDs <- read.table("./data/test_docs/%s.fam", header = FALSE)
-		kinship <- diag(2504)
-
 		IDs_col <- IDs[,1]
 
-		colnames(kinship) <- IDs_col
-		rownames(kinship) <- IDs_col
-
-		pcair_result_nokin <- pcair(gdsobj = genoData, kinobj = kinship, divobj = kinship, div.thresh= -2^(-9/2),kin.thresh=2^(-9/2), num.cores = 32)  ## Normal PCA
+		pcair_result_nokin <- pcair(gdsobj = genoData, kinobj = NULL, divobj = NULL, num.cores = 32)  ## Normal PCA
 
 		pc_vectors_nokin <- as.data.frame(pcair_result_nokin$vectors[,c(1:20)])
 		pc_vectors_nokin$IID <- as.character(IDs$V1)
@@ -345,9 +339,12 @@ def detectoutliers():
 	change_to_binary = apply_combineType.apply(binary)
 	return change_to_binary.to_csv()
 
-@app.route("/api/samplePCA", methods=["GET"], strict_slashes=False)
-def samplePCA():
-	pca_sample = pd.read_csv("./datasets/KG_PCS.csv")
+@app.route("/api/samplePCA/<sample_id>", methods=["GET"], strict_slashes=False)
+def samplePCA(sample_id):
+	if int(sample_id) == 0:
+		pca_sample = pd.read_csv("./datasets/KG_PCS.csv")
+	else:
+		pca_sample = pd.read_csv("./datasets/HGDP/hgdp.csv")
 	return pca_sample.to_csv()
 
 @app.route("/api/sampleAdmix", methods=["GET"], strict_slashes=False)
@@ -355,10 +352,14 @@ def sampleAdmix():
 	admix_sample = pd.read_csv("./datasets/admix_KG.5.Q", sep=' ')
 	return admix_sample.to_csv(index=False, sep=' ')
 
-@app.route("/api/samplePCAAdmixDataset", methods=["GET"], strict_slashes=False)
-def samplePCAAdmixDataset():
-	pca_sample = pd.read_csv("./datasets/KG_PCS.csv")
-	admix_sample = pd.read_csv("./datasets/admix_KG.5.Q", sep=' ')
+@app.route("/api/samplePCAAdmixDataset/<sample_id>", methods=["GET"], strict_slashes=False)
+def samplePCAAdmixDataset(sample_id):
+	if int(sample_id) == 0:
+		pca_sample = pd.read_csv("./datasets/KG_PCS.csv")
+		admix_sample = pd.read_csv("./datasets/admix_KG.5.Q", sep=' ')
+	else:
+		pca_sample = pd.read_csv("./datasets/HGDP/hgdp.csv")
+		admix_sample = pd.read_csv("./datasets/HGDP/hgdp.Q", sep=' ')
 	return {
 		"pca": pca_sample.to_csv(), 
 		"admix" : admix_sample.to_csv(index=False, sep=' ')
