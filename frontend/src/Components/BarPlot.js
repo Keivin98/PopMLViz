@@ -39,7 +39,7 @@ class BarPlot extends Component {
       return parseFloat(a);
     });
     const rowDescending = [...parsedRow].sort((a, b) => b - a);
-    if (rowDescending[0] - rowDescending[1] < this.props.alphaVal / 100) {
+    if (rowDescending[0] < this.props.alphaVal / 100) {
       return parsedRow.length;
     } else {
       return parsedRow.indexOf(rowDescending[0]);
@@ -52,7 +52,7 @@ class BarPlot extends Component {
       return parseFloat(a);
     });
     const rowDescending = [...parsedRow].sort((a, b) => b - a);
-    if (rowDescending[0] < this.props.certaintyVal / 100.0) {
+    if (rowDescending[0] - rowDescending[1] < this.props.certaintyVal / 100.0) {
       return parsedRow.length;
     } else {
       return parsedRow.indexOf(rowDescending[0]);

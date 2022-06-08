@@ -1685,6 +1685,7 @@ class App extends Component {
           PCAdata={this.state.data}
           AdmixData={this.state.admix}
           alphaVal={this.state.alphaVal}
+          certaintyVal={this.state.certaintyVal}
           outlierData={outlierData}
           x={this.state.selectedColumns[0]}
           y={this.state.selectedColumns[1]}
@@ -1696,6 +1697,7 @@ class App extends Component {
           picHeight={Number(this.state.picHeight)}
           picFormat={this.state.picFormat}
           markerSize={this.state.markerSize}
+          admixMode={this.state.admixMode}
         />
       );
     } else {

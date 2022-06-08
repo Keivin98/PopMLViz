@@ -24,7 +24,9 @@ class ScatterAdmix extends Component {
     clusterNames: [],
     PCAdata: [],
     alphaVal: 1,
+    certaintyVal: 1,
     markerSize: 4,
+    admixMode: 0,
   };
 
   range = (start, end) => {
@@ -34,7 +36,7 @@ class ScatterAdmix extends Component {
     for (let i = 0; i < len; i++) a[i] = start + i;
     return a;
   };
-  assignClusterToRow = (row) => {
+  assignClusterToRow1 = (row) => {
     // returns index of maximum value
     // unless max and second max are less than 0.2 apart
     var parsedRow = Object.values(row).map((a) => {
@@ -47,11 +49,27 @@ class ScatterAdmix extends Component {
       return parsedRow.indexOf(rowDescending[0]);
     }
   };
-
+  assignClusterToRow2 = (row) => {
+    // returns index of maximum value
+    // unless max and second max are less than 0.2 apart
+    var parsedRow = Object.values(row).map((a) => {
+      return parseFloat(a);
+    });
+    const rowDescending = [...parsedRow].sort((a, b) => b - a);
+    if (rowDescending[0] < this.props.certaintyVal / 100.0) {
+      return parsedRow.length;
+    } else {
+      return parsedRow.indexOf(rowDescending[0]);
+    }
+  };
   componentDidMount() {
     //Split the data between pca and admix
     if (this.props.data !== null) {
-      this.setState({ alphaVal: this.props.alphaVal });
+      this.setState({
+        alphaVal: this.props.alphaVal,
+        certaintyVal: this.props.certaintyVal,
+        admixMode: this.props.admixMode,
+      });
       this.splitPCAandADMIX();
       this.ScatterAdmixFromData();
       this.setState({ markerSize: this.props.markerSize });
@@ -60,9 +78,14 @@ class ScatterAdmix extends Component {
   componentDidUpdate(prevProps) {
     if (
       prevProps.alphaVal !== this.props.alphaVal ||
-      prevProps.outlierData !== this.props.outlierData
+      prevProps.certaintyVal !== this.props.certaintyVal ||
+      prevProps.outlierData !== this.props.outlierData ||
+      prevProps.admixMode !== this.props.admixMode
     ) {
-      this.splitPCAandADMIX();
+      // console.log(this.props.certaintyVal);
+      this.setState({ admixMode: this.props.admixMode }, () =>
+        this.splitPCAandADMIX()
+      );
     }
     if (
       JSON.stringify(prevProps.clusterNames) !==
@@ -70,10 +93,14 @@ class ScatterAdmix extends Component {
     ) {
       this.setState({ clusterNames: this.props.clusterNames });
     }
-    this.ScatterAdmixFromData();
+
     if (prevProps.markerSize !== this.props.markerSize) {
       this.setState({ markerSize: this.props.markerSize });
     }
+    // if (prevProps.admixMode !== this.props.admixMode) {
+    //   this.setState({ admixMode: this.props.admixMode });
+    // }
+    this.ScatterAdmixFromData();
   }
   scatterWithClusters(DIM, x, y, z, outliers, outlierData) {
     let num_clusters =
@@ -300,7 +327,11 @@ class ScatterAdmix extends Component {
   }
   splitPCAandADMIX = () => {
     let clusterColors = this.props.AdmixData.map((row) => {
-      return this.assignClusterToRow(row);
+      if (this.state.admixMode === 0) {
+        return this.assignClusterToRow1(row);
+      } else {
+        return this.assignClusterToRow2(row);
+      }
     });
     let clusterNames =
       Object.values(this.props.clusterNames).length > 0
@@ -312,11 +343,13 @@ class ScatterAdmix extends Component {
                 : "Admixed Cluster";
             }
           );
+    console.log(this.props.certaintyVal, this.props.admixMode);
     this.setState(
       {
         clusterNames: clusterNames,
         clusterColors: clusterColors,
         alphaval: this.props.alphaVal,
+        certaintyVal: this.props.certaintyVal,
         numClusters: Object.values(this.props.AdmixData[0]).length,
       },
       () => {
@@ -379,6 +412,7 @@ ScatterAdmix.propTypes = {
   PCAdata: PropTypes.array,
   AdmixData: PropTypes.array,
   alphaVal: PropTypes.number,
+  certaintyVal: PropTypes.number,
   x: PropTypes.string,
   y: PropTypes.string,
   z: PropTypes.string,
