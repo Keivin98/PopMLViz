@@ -112,13 +112,17 @@ class DownloadData extends Component {
     }
   };
   mergeData = (allData, additionalColumn) => {
+    console.log(this.props.clusterNames);
     const undefiendValue = Math.max(...additionalColumn);
     return [...allData].map((elem, index) => {
       return Object.assign({}, elem, {
         admixCluster:
           additionalColumn[index] === undefiendValue
             ? "undefined"
-            : additionalColumn[index],
+            : this.props.clusterNames[Number(additionalColumn[index])] ===
+              undefined
+            ? additionalColumn[index]
+            : this.props.clusterNames[additionalColumn[index]],
       });
     });
   };
