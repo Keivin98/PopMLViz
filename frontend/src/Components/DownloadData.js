@@ -19,10 +19,16 @@ class DownloadData extends Component {
     this.setState({ columnRange: newValue });
   };
   componentDidMount = () => {
-    this.setState({ admix: this.props.admixData });
+    this.setState({
+      admix: this.props.admixData,
+      downloadableData: this.props.data,
+    });
   };
-  componentDidUpdate = () => {
+  componentDidUpdate = (prevProps) => {
     // this.setState({ admix: this.props.admixData });
+    if (JSON.stringify(this.props.data) !== JSON.stringify(prevProps.data)) {
+      this.setState({ downloadableData: this.props.data });
+    }
   };
 
   removeOutliers = () => {

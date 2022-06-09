@@ -1102,10 +1102,28 @@ class App extends Component {
   mergeDataWithMetaData = () => {
     if (this.state.data.length !== this.state.metaData.length) {
       alert("The dimensions do not match!");
-      this.setState({ metaData: [], metaDataColumns: [] });
+      // this.setState({ metaData: [], metaDataColumns: [] });
     }
+    console.log(this.state.metaData);
     var mergedData = this.state.data.map((elem, index) => {
-      return Object.assign({}, elem, this.state.metaData[index]);
+      var ID = elem["IID"];
+      var result = this.state.metaData.filter((elem) => {
+        return elem["IID"] === ID;
+      });
+      if (result.length > 0) {
+        console.log(result);
+        return Object.assign({}, elem, result[0]);
+      } else {
+        var columns = Object.keys(this.state.metaData[0]);
+        var no_match = {};
+        for (var i = 0; i < columns.length; i++) {
+          if (columns[i] !== "IID") {
+            no_match[columns[i]] = "";
+          }
+        }
+
+        return Object.assign({}, elem, no_match);
+      }
     });
     var mergedColumns = [...this.state.columns, ...this.state.metaDataColumns];
     this.setColumns(mergedColumns);
