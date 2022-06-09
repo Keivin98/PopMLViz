@@ -89,9 +89,13 @@ class ScatterAdmix extends Component {
     }
     if (
       JSON.stringify(prevProps.clusterNames) !==
-      JSON.stringify(this.props.clusterNames)
+        JSON.stringify(this.props.clusterNames) ||
+      JSON.stringify(prevProps.AdmixData) !==
+        JSON.stringify(this.props.AdmixData)
     ) {
-      this.setState({ clusterNames: this.props.clusterNames });
+      this.setState({ clusterNames: this.props.clusterNames }, () =>
+        this.splitPCAandADMIX()
+      );
     }
 
     if (prevProps.markerSize !== this.props.markerSize) {

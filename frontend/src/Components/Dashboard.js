@@ -1145,8 +1145,6 @@ class App extends Component {
           if (type === 3) {
             return this.mergeDataWithMetaData();
           }
-          if (this.state.selectedUploadOption === "admixture") {
-          }
           if (this.state.selectedUploadOption === "PCA") {
           } else if (this.state.selectedUploadOption === "t-SNE 2D") {
             this.runTSNE2d();
