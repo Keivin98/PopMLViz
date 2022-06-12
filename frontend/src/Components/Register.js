@@ -8,10 +8,10 @@ import ContactUS from "./ContactUS";
 
 function Register() {
   return (
-    <div className="rowC">
+    <section id="register" className="rowC">
       <ContactUS />
       <Email />
-    </div>
+    </section>
   );
 }
 

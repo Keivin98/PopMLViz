@@ -28,8 +28,10 @@ const CSS = {
     flexDirection: "row",
     justifyContent: "space-evenly",
     width: "100%",
-    marginBottom: "5%",
+    marginTop: "1%",
+    marginBottom: "2%",
     fontSize: "2rem",
+    fontWeight: "300",
   },
 };
 

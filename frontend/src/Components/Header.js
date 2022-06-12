@@ -53,10 +53,9 @@ function Header(props) {
               fontSize: 24,
               backgroundColor: "rgba(255,255,255,0.7)",
               color: "black",
-              // opacity: 0.8,
             }}
           >
-            {bio}.
+            {bio}
           </mark>
           <hr />
 
@@ -66,25 +65,25 @@ function Header(props) {
               className="button btn project-btn"
               onClick={() => gaEventTracker("Live")}
             >
-              <FaPlayCircle /> Live
-            </a>
-            <a
-              href={"https://github.com/qcri/QCAI-PopMLVis"}
-              className="button btn github-btn"
-              style={{ color: "white" }}
-              onClick={() => gaEventTracker("Github")}
-            >
-              <FaGithub />
-              Github
+              <FaPlayCircle /> Online
             </a>
             <a
               href={PopMLvis}
-              className="button btn project-btn"
-              style={{ marginLeft: 50 }}
+              className="button btn github-btn"
+              style={{ color: "white" }}
               onClick={() => gaEventTracker("Docs")}
             >
-              <FaBook />
+              <FaBook style={{ marginRight: 10 }} />
               Docs
+            </a>
+            <a
+              className="button btn project-btn"
+              style={{ marginLeft: 50 }}
+              href={"https://github.com/qcri/QCAI-PopMLVis"}
+              onClick={() => gaEventTracker("Github")}
+            >
+              <FaGithub style={{ marginRight: 10 }} />
+              Github
             </a>
           </ul>
         </div>
