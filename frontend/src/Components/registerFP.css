@@ -1,6 +1,11 @@
 /* ------------------------------------------------------------------ */
 /* e. Register Section
 /* ------------------------------------------------------------------ */
+.rowC {
+  display: flex;
+  flex-direction: row;
+}
+
 .form {
   background-color: rgb(255, 255, 255);
   border-radius: 51px;
@@ -43,4 +48,23 @@
   border: 1px solid lightgray;
   border-radius: 10px;
   padding: 20px;
+}
+
+.Email {
+  background-color: rgb(255, 255, 255);
+  border-radius: 51px;
+  width: 550px;
+  margin: 20px auto;
+  padding: 20px;
+  justify-content: center;
+  align-items: center;
+  /* height: 600px; */
+}
+.newsbox {
+  text-align: left;
+  padding: 10px 60px 50px;
+}
+
+.newsbox > * {
+  padding: 5px;
 }
