@@ -53,12 +53,11 @@
 .Email {
   background-color: rgb(255, 255, 255);
   border-radius: 51px;
-  width: 550px;
+  width: 35%;
   margin: 20px auto;
   padding: 20px;
   justify-content: center;
   align-items: center;
-  /* height: 600px; */
 }
 .newsbox {
   text-align: left;
