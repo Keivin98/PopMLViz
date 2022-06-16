@@ -56,7 +56,7 @@ class ScatterAdmix extends Component {
       return parseFloat(a);
     });
     const rowDescending = [...parsedRow].sort((a, b) => b - a);
-    if (rowDescending[0] < this.props.certaintyVal / 100.0) {
+    if (rowDescending[0] - rowDescending[1] < this.props.certaintyVal / 100.0) {
       return parsedRow.length;
     } else {
       return parsedRow.indexOf(rowDescending[0]);
@@ -331,7 +331,7 @@ class ScatterAdmix extends Component {
   }
   splitPCAandADMIX = () => {
     let clusterColors = this.props.AdmixData.map((row) => {
-      if (this.state.admixMode === 0) {
+      if (this.props.admixMode === 0) {
         return this.assignClusterToRow1(row);
       } else {
         return this.assignClusterToRow2(row);

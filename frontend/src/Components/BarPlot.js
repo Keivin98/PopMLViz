@@ -99,7 +99,7 @@ class BarPlot extends Component {
       }
       let sortedValues = [];
       let positionOfUndefined = -1;
-      if (this.state.method == 0) {
+      if (this.props.admixMode == 0) {
         sortedValues = [...this.props.data].sort((a, b) => {
           return this.assignClusterToRow1(a) > this.assignClusterToRow1(b)
             ? 1
