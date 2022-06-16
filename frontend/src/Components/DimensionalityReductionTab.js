@@ -85,6 +85,10 @@ class UploadAndVisualizeTab extends Component {
       kinshipName: st.kinshipName,
     });
   };
+  onInputClick = (event) => {
+    event.target.value = "";
+    event.target.label = "";
+  };
   render() {
     return (
       <div>

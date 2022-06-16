@@ -182,21 +182,40 @@ class PCAir extends Component {
         );
       });
   };
+  onInputClick = (event) => {
+    event.target.value = "";
+    event.target.label = "";
+  };
   render() {
     return (
       <div style={styles.pcair}>
         <label>Upload necessary files for PC-AiR</label>
         <div style={styles.uploads}>
           <label style={{ marginRight: "10%" }}>.bed</label>
-          <input type="file" accept=".bed" onChange={this.handleBedRequest} />
+          <input
+            type="file"
+            accept=".bed"
+            onChange={this.handleBedRequest}
+            onClick={this.onInputClick}
+          />
         </div>
         <div style={styles.uploads}>
           <label style={{ marginRight: "10%" }}>.bim</label>
-          <input type="file" accept=".bim" onChange={this.handleBimRequest} />
+          <input
+            type="file"
+            accept=".bim"
+            onChange={this.handleBimRequest}
+            onClick={this.onInputClick}
+          />
         </div>
         <div style={styles.uploads}>
           <label style={{ marginRight: "10%" }}>.fam</label>
-          <input type="file" accept=".fam" onChange={this.handleFamRequest} />
+          <input
+            type="file"
+            accept=".fam"
+            onChange={this.handleFamRequest}
+            onClick={this.onInputClick}
+          />
         </div>
         <div style={styles.uploads}>
           <label style={{ marginRight: "3%" }}>Kinship</label>

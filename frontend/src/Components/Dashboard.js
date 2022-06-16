@@ -2041,6 +2041,7 @@ class App extends Component {
                     accept=".csv,.xlsx,.xls,.txt"
                     disabled={this.state.selectedUploadOption === null}
                     onChange={this.handleFileUpload}
+                    onClick={this.onInputMetadataClick}
                   />
                   <div style={{ display: "flex", flexDirection: "row" }}>
                     <div
@@ -2089,6 +2090,7 @@ class App extends Component {
                       type="file"
                       accept=".csv,.xlsx,.xls,.txt"
                       onChange={this.handleAdmixFileUpload1}
+                      onClick={this.onInputMetadataClick}
                     />
                   </div>
                   <div style={styles.littleUpload}>
@@ -2097,6 +2099,7 @@ class App extends Component {
                       type="file"
                       accept=".Q"
                       onChange={this.handleAdmixFileUpload2}
+                      onClick={this.onInputMetadataClick}
                     />
                   </div>
                   <div style={{ display: "flex", flexDirection: "row" }}>
@@ -2152,6 +2155,7 @@ class App extends Component {
                 accept=".csv,.xlsx,.xls,.Q,.txt,.pkl"
                 disabled={this.state.selectedUploadOption === null}
                 onChange={this.handleFileUpload}
+                onClick={this.onInputMetadataClick}
               />
             )}
             <hr
