@@ -1111,8 +1111,9 @@ class App extends Component {
         return elem["IID"] === ID;
       });
       if (result.length > 0) {
-        console.log(result);
-        return Object.assign({}, elem, result[0]);
+        var { IID, ...extraData } = result[0];
+        console.log(result[0], extraData);
+        return Object.assign({}, elem, extraData);
       } else {
         var columns = Object.keys(this.state.metaData[0]);
         var no_match = {};
@@ -1125,8 +1126,24 @@ class App extends Component {
         return Object.assign({}, elem, no_match);
       }
     });
-    var mergedColumns = [...this.state.columns, ...this.state.metaDataColumns];
-    this.setColumns(mergedColumns);
+    const uniqueIds = [];
+    const mergedColumns = [
+      ...this.state.columns,
+      ...this.state.metaDataColumns,
+    ];
+    const mergedColumnsFiltered = mergedColumns.filter((element) => {
+      const isDuplicate = uniqueIds.includes(element.name);
+
+      if (!isDuplicate) {
+        uniqueIds.push(element.name);
+        return true;
+      }
+
+      return false;
+    });
+
+    console.log(mergedColumnsFiltered);
+    this.setColumns(mergedColumnsFiltered);
     this.setState({ data: mergedData, metaData: [] });
   };
 

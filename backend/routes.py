@@ -119,14 +119,21 @@ def cmtsne2d():
 	pca_df = pd.json_normalize(request_df)
 	try:
 		pca_cols = [x for x in pca_df.columns if 'PC' in x or 'TSNE' in x]
+		other_cols = [x for x in pca_df.columns if 'PC' not in x and 'TSNE' not in x]
+		if not pca_cols:
+			pca_cols = pca_df.columns
+			other_cols = []
+	
 	except:
 		pca_cols = pca_df.columns
-	if not pca_cols:
-		pca_cols = pca_df.columns
+	
 	tsne_visualization = TSNE(random_state=123).fit_transform(pca_df[pca_cols])
 	tsne_df = pd.DataFrame(tsne_visualization)
 	tsne_df.columns = ["TSNE-1", "TSNE-2"]
-	return tsne_df.to_csv()
+
+	results_df = pd.concat([tsne_df, pca_df[other_cols]], axis=1)
+		
+	return results_df.to_csv()
 
 @app.route("/api/cmtsne3d", methods=["POST"], strict_slashes=False)
 def cmtsne3d():
@@ -134,14 +141,18 @@ def cmtsne3d():
 	pca_df = pd.json_normalize(request_df)
 	try:
 		pca_cols = [x for x in pca_df.columns if 'PC' in x or 'TSNE' in x]
+		other_cols = [x for x in pca_df.columns if 'PC' not in x and 'TSNE' not in x]
+		if not pca_cols:
+			pca_cols = pca_df.columns
+			other_cols = []
 	except:
-		pca_cols = pca_df.columns
-	if not pca_cols:
 		pca_cols = pca_df.columns
 	tsne_visualization = TSNE(n_components=3, random_state=123).fit_transform(pca_df[pca_cols])
 	tsne_df = pd.DataFrame(tsne_visualization)
 	tsne_df.columns = ["TSNE-1", "TSNE-2", "TSNE-3"]
-	return tsne_df.to_csv()
+	results_df = pd.concat([tsne_df, pca_df[other_cols]], axis=1)
+		
+	return results_df.to_csv()
 
 @app.route("/api/uploadCM", methods=["POST"], strict_slashes=False)
 def uploadCM():
