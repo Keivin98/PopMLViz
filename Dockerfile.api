@@ -1,0 +1,9 @@
+FROM python:3.9
+WORKDIR /backend
+
+COPY backend/requirements.txt backend/routes.py backend/flaskenv/ ./
+RUN pip install -r ./requirements.txt
+ENV FLASK_ENV production
+
+EXPOSE 5000
+CMD ["./run"]
