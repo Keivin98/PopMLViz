@@ -2501,6 +2501,7 @@ class App extends Component {
                             admixData={this.state.admix}
                             alphaVal={this.state.alphaVal}
                             certaintyVal={this.state.certaintyVal}
+                            admixMode={this.state.admixMode}
                           />
                         )}
                       </TabPanel>
@@ -2548,6 +2549,7 @@ class App extends Component {
                           admixData={this.state.admix}
                           alphaVal={this.state.alphaVal}
                           certaintyVal={this.state.certaintyVal}
+                          admixMode={this.state.admixMode}
                         />
                       )}
                     </TabPanel>

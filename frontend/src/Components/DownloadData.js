@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { CSVLink } from "react-csv";
 import PropTypes from "prop-types";
 import { Button } from "@material-ui/core";
-import { FaThumbsDown } from "react-icons/fa";
 class DownloadData extends Component {
   state = {
     outlierCheck: false,
@@ -13,6 +12,8 @@ class DownloadData extends Component {
     data: this.props.data,
     pressed: -1,
     admix: [],
+    alphaVal: 40,
+    certaintyVal: 40,
   };
 
   rangeSelector = (event, newValue) => {
@@ -22,12 +23,26 @@ class DownloadData extends Component {
     this.setState({
       admix: this.props.admixData,
       downloadableData: this.props.data,
+      alphaVal: this.props.alphaVal,
+      certaintyVal: this.props.certaintyVal,
+      admixMode: this.props.admixMode,
     });
   };
   componentDidUpdate = (prevProps) => {
     // this.setState({ admix: this.props.admixData });
     if (JSON.stringify(this.props.data) !== JSON.stringify(prevProps.data)) {
       this.setState({ downloadableData: this.props.data });
+    }
+    if (
+      prevProps.alphaVal !== this.props.alphaVal ||
+      prevProps.certaintyVal !== this.props.certaintyVal ||
+      prevProps.admixMode !== this.props.admixMode
+    ) {
+      this.setState({
+        admixMode: this.props.admixMode,
+        alphaVal: this.props.alphaVal,
+        certaintyVal: this.props.certaintyVal,
+      });
     }
   };
 
@@ -92,8 +107,8 @@ class DownloadData extends Component {
       return parseFloat(a);
     });
     const rowDescending = [...parsedRow].sort((a, b) => b - a);
-    if (rowDescending[0] - rowDescending[1] < this.props.alphaVal / 100) {
-      return parsedRow.length;
+    if (rowDescending[0] < this.props.alphaVal / 100) {
+      return -1;
     } else {
       return parsedRow.indexOf(rowDescending[0]);
     }
@@ -105,15 +120,16 @@ class DownloadData extends Component {
       return parseFloat(a);
     });
     const rowDescending = [...parsedRow].sort((a, b) => b - a);
-    if (rowDescending[0] < this.props.certaintyVal / 100.0) {
-      return parsedRow.length;
+    if (rowDescending[0] - rowDescending[1] < this.props.certaintyVal / 100.0) {
+      return -1;
     } else {
       return parsedRow.indexOf(rowDescending[0]);
     }
   };
+
   mergeData = (allData, additionalColumn) => {
-    console.log(this.props.clusterNames);
-    const undefiendValue = Math.max(...additionalColumn);
+    // console.log(this.props.clusterNames, additionalColumn);
+    const undefiendValue = -1;
     return [...allData].map((elem, index) => {
       return Object.assign({}, elem, {
         admixCluster:
@@ -136,7 +152,11 @@ class DownloadData extends Component {
       var clusters = [];
       for (var i = 0; i < this.props.admixData.length; i++) {
         var row_i = this.props.admixData[i];
-        var cluster = this.assignClusterToRow1(row_i);
+        if (this.props.admixMode === 0) {
+          var cluster = this.assignClusterToRow1(row_i);
+        } else {
+          var cluster = this.assignClusterToRow2(row_i);
+        }
         clusters.push(cluster);
       }
       var mergedData =
@@ -191,6 +211,7 @@ class DownloadData extends Component {
                   ? this.state.data
                   : this.state.downloadableData
               }
+              filename={"popmlvis_analysis.csv"}
               onClick={() => {
                 this.setState({
                   clusterCheck: false,
@@ -213,6 +234,9 @@ DownloadData.propTypes = {
   clusterColors: PropTypes.array,
   clusterNames: PropTypes.object,
   admixData: PropTypes.array,
+  alphaVal: PropTypes.number,
+  certaintyVal: PropTypes.number,
+  admixMode: PropTypes.number,
 };
 
 const styles = {
