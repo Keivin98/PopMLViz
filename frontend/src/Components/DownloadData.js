@@ -29,7 +29,6 @@ class DownloadData extends Component {
     });
   };
   componentDidUpdate = (prevProps) => {
-    // this.setState({ admix: this.props.admixData });
     if (JSON.stringify(this.props.data) !== JSON.stringify(prevProps.data)) {
       this.setState({ downloadableData: this.props.data });
     }
