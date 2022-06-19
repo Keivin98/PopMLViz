@@ -215,6 +215,17 @@ class App extends Component {
     var uniqueTags = [];
     var layout = {};
     var data_new = [];
+    var mapping_id = this.state.mappingIDColumn !== "";
+    var hoverTemplate2D =
+      this.state.mappingIDColumn === ""
+        ? "<i>(%{x}, %{y:.4f}) </i>"
+        : "<i>(%{x}, %{y:.4f}) </i>" + "<br><b>Mapping ID</b>:%{text}</b></br>";
+    var hoverTemplate3D =
+      this.state.mappingIDColumn === ""
+        ? "<i>(%{x}, %{y:.4f}, %{z:.4f}) </i>"
+        : "<i>(%{x}, %{y:.4f}), %{z:.4f}) </i>" +
+          "<br><b>Mapping ID</b>:%{text}</b></br>";
+
     if (categoricalData != null) {
       // find unique values
       for (var catID = 0; catID < categoricalData.length; catID++) {
@@ -232,6 +243,7 @@ class App extends Component {
 
       for (var colID = 0; colID < uniqueTags.length; colID++) {
         data_new.push({});
+
         if (DIM === 2) {
           if (this.state.selectedColorShape === "0") {
             data_new[colID] = {
@@ -246,8 +258,8 @@ class App extends Component {
                 symbol: randomShapes[0],
                 size: this.state.markerSize,
               },
-              text: "",
-              hovertemplate: "<i>(%{x:.4f}, %{y:.4f}), %{z:.4f}) </i>",
+              text: [],
+              hovertemplate: hoverTemplate3D,
             };
           } else {
             data_new[colID] = {
@@ -262,8 +274,8 @@ class App extends Component {
                 symbol: randomShapes[colID],
                 size: this.state.markerSize,
               },
-              text: "",
-              hovertemplate: "<i>(%{x:.4f}, %{y:.4f}) </i>",
+              text: [],
+              hovertemplate: hoverTemplate3D,
             };
           }
         } else {
@@ -278,8 +290,8 @@ class App extends Component {
                 symbol: randomShapes[0],
                 size: this.state.markerSize,
               },
-              text: "",
-              hovertemplate: "<i>(%{x:.4f}, %{y:.4f}) </i>",
+              text: [],
+              hovertemplate: hoverTemplate2D,
             };
           } else {
             data_new[colID] = {
@@ -292,8 +304,8 @@ class App extends Component {
                 symbol: randomShapes[colID],
                 size: this.state.markerSize,
               },
-              text: "",
-              hovertemplate: "<i>(%{x:.4f}, %{y:.4f}) </i>",
+              text: [],
+              hovertemplate: hoverTemplate2D,
             };
           }
         }
@@ -314,13 +326,13 @@ class App extends Component {
           data_new[categoryID].y.push(this.state.data[i][y]);
           data_new[categoryID].z.push(this.state.data[i][z]);
         }
-        cluster_texts.push(this.state.data[i][x]);
+        if (mapping_id) {
+          data_new[categoryID].text.push(
+            this.state.data[i][this.state.mappingIDColumn]
+          );
+        }
       }
     }
-    for (colID = 0; colID < uniqueTags.length; colID++) {
-      data_new.text = cluster_texts;
-    }
-
     var plot_title = this.state.plotTitle;
 
     if (DIM === 0) {
@@ -643,7 +655,6 @@ class App extends Component {
     var uniqueTags = [];
     var layout = {};
     var mapping_id = this.state.mappingIDColumn !== "";
-
     if (categoricalData != null) {
       // find unique values
       for (var catID = 0; catID < categoricalData.length; catID++) {
@@ -696,6 +707,7 @@ class App extends Component {
             ? "<i>(%{x:.4f}, %{y:.4f}</i>"
             : "<i>(%{x:.4f}, %{y:.4f}</i>" +
               "<br><b>Mapping ID</b>:%{text}</b></br>";
+          console.log(hoverTemplate);
           data_new.push({
             name: title,
             x: [],
@@ -1104,7 +1116,7 @@ class App extends Component {
       alert("The dimensions do not match!");
       // this.setState({ metaData: [], metaDataColumns: [] });
     }
-    console.log(this.state.metaData);
+    // console.log(this.state.metaData);
     var mergedData = this.state.data.map((elem, index) => {
       var ID = elem["IID"];
       var result = this.state.metaData.filter((elem) => {
@@ -1112,14 +1124,14 @@ class App extends Component {
       });
       if (result.length > 0) {
         var { IID, ...extraData } = result[0];
-        console.log(result[0], extraData);
+        // console.log(result[0], extraData);
         return Object.assign({}, elem, extraData);
       } else {
         var columns = Object.keys(this.state.metaData[0]);
         var no_match = {};
         for (var i = 0; i < columns.length; i++) {
           if (columns[i] !== "IID") {
-            no_match[columns[i]] = "";
+            no_match[columns[i]] = "No match";
           }
         }
 
@@ -1142,7 +1154,6 @@ class App extends Component {
       return false;
     });
 
-    console.log(mergedColumnsFiltered);
     this.setColumns(mergedColumnsFiltered);
     this.setState({ data: mergedData, metaData: [] });
   };
