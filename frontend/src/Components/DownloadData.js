@@ -151,10 +151,11 @@ class DownloadData extends Component {
       var clusters = [];
       for (var i = 0; i < this.props.admixData.length; i++) {
         var row_i = this.props.admixData[i];
+        var cluster = -1;
         if (this.props.admixMode === 0) {
-          var cluster = this.assignClusterToRow1(row_i);
+          cluster = this.assignClusterToRow1(row_i);
         } else {
-          var cluster = this.assignClusterToRow2(row_i);
+          cluster = this.assignClusterToRow2(row_i);
         }
         clusters.push(cluster);
       }

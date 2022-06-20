@@ -20,7 +20,6 @@ import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
-import Loader from "react-loader-spinner";
 import "react-tabs/style/react-tabs.css";
 import AdmixOptions from "./AdmixOptions";
 import Navbar from "react-bootstrap/Navbar";
@@ -94,7 +93,6 @@ class App extends Component {
     mappingIDColumn: "",
     picHeight: 600,
     picWidth: 800,
-    plotTitle: "",
     picFormat: "png",
     metaData: [],
     metaDataColumns: [],
@@ -171,6 +169,7 @@ class App extends Component {
     var y1 = [];
     var cluster_texts = [];
     var mapping_id = this.state.mappingIDColumn !== "";
+    // eslint-disable-next-line
     var hoverTemplate =
       this.state.mappingIDColumn === ""
         ? "<i>(%{x}, %{y:.4f}) </i>"
@@ -211,15 +210,16 @@ class App extends Component {
     );
   };
   scatterCategorical = (DIM, x, y, z, categoricalData) => {
-    var cluster_texts = [];
     var uniqueTags = [];
     var layout = {};
     var data_new = [];
     var mapping_id = this.state.mappingIDColumn !== "";
+    // eslint-disable-next-line
     var hoverTemplate2D =
       this.state.mappingIDColumn === ""
         ? "<i>(%{x}, %{y:.4f}) </i>"
         : "<i>(%{x}, %{y:.4f}) </i>" + "<br><b>Mapping ID</b>:%{text}</b></br>";
+    // eslint-disable-next-line
     var hoverTemplate3D =
       this.state.mappingIDColumn === ""
         ? "<i>(%{x}, %{y:.4f}, %{z:.4f}) </i>"
@@ -420,17 +420,21 @@ class App extends Component {
     var x_clusters = [];
     var y_clusters = [];
     var layout = {};
+    var hoverTemplate = "";
+    var mapping_id = false;
     if (DIM === 2) {
       var z_clusters = [];
-      var mapping_id = this.state.mappingIDColumn !== "";
-      var hoverTemplate =
+      mapping_id = this.state.mappingIDColumn !== "";
+      // eslint-disable-next-line
+      hoverTemplate =
         this.state.mappingIDColumn === ""
           ? "<i>(%{x:.4f}, %{y:.4f} %{z:.4f}) </i>"
           : "<i>(%{x:.4f}, %{y:.4f} %{z:.4f}) </i>" +
             "<br><b>Mapping ID</b>:%{text}</b></br>";
     } else {
-      var mapping_id = this.state.mappingIDColumn !== "";
-      var hoverTemplate =
+      mapping_id = this.state.mappingIDColumn !== "";
+      // eslint-disable-next-line
+      hoverTemplate =
         this.state.mappingIDColumn === ""
           ? "<i>(%{x:.4f}, %{y:.4f}) </i>"
           : "<i>(%{x:.4f}, %{y:.4f}) </i>" +
@@ -655,6 +659,7 @@ class App extends Component {
     var uniqueTags = [];
     var layout = {};
     var mapping_id = this.state.mappingIDColumn !== "";
+    var hoverTemplate = "";
     if (categoricalData != null) {
       // find unique values
       for (var catID = 0; catID < categoricalData.length; catID++) {
@@ -669,7 +674,8 @@ class App extends Component {
         var title = outliersOnly ? "0" : uniqueTags[colID];
 
         if (DIM === 2) {
-          var hoverTemplate = !mapping_id
+          // eslint-disable-next-line
+          hoverTemplate = !mapping_id
             ? "<i>(%{x:.4f}, %{y:.4f} %{z}, %{z:.4f}) </i>"
             : "<i>(%{x:.4f}, %{y:.4f} %{z}, %{z:.4f}) </i>" +
               "<br><b>Mapping ID</b>:%{text}</b></br>";
@@ -703,11 +709,11 @@ class App extends Component {
             hovertemplate: hoverTemplate,
           });
         } else {
-          var hoverTemplate = !mapping_id
+          // eslint-disable-next-line
+          hoverTemplate = !mapping_id
             ? "<i>(%{x:.4f}, %{y:.4f}</i>"
             : "<i>(%{x:.4f}, %{y:.4f}</i>" +
               "<br><b>Mapping ID</b>:%{text}</b></br>";
-          console.log(hoverTemplate);
           data_new.push({
             name: title,
             x: [],
@@ -887,6 +893,7 @@ class App extends Component {
     var y1 = [];
     var cluster_texts = [];
     var mapping_id = this.state.mappingIDColumn !== "";
+    // eslint-disable-next-line
     var hoverTemplate = !mapping_id
       ? "<i>(%{x}, %{y:.4f}) </i>"
       : "<i>(%{x}, %{y:.4f}) </i>" + "<br><b>Mapping ID</b>:%{text}</b></br>";
@@ -934,6 +941,7 @@ class App extends Component {
     var cluster_texts = [];
 
     var mapping_id = this.state.mappingIDColumn !== "";
+    // eslint-disable-next-line
     var hoverTemplate = !mapping_id
       ? "<i>(%{x:.4f}, %{y:.4f} %{z}, %{z:.4f}) </i>"
       : "<i>(%{x:.4f}, %{y:.4f} %{z}, %{z:.4f}) </i>" +
@@ -1114,9 +1122,7 @@ class App extends Component {
   mergeDataWithMetaData = () => {
     if (this.state.data.length !== this.state.metaData.length) {
       alert("The dimensions do not match!");
-      // this.setState({ metaData: [], metaDataColumns: [] });
     }
-    // console.log(this.state.metaData);
     var mergedData = this.state.data.map((elem, index) => {
       var ID = elem["IID"];
       var result = this.state.metaData.filter((elem) => {
@@ -1328,8 +1334,7 @@ class App extends Component {
   runCluster = (s) => {
     if (s.selectedClusterMethod === 0) {
       this.runKmeans(s.num_clusters);
-    }
-    if (s.selectedClusterMethod === 1) {
+    } else if (s.selectedClusterMethod === 1) {
       this.runHC(s.num_clusters);
     } else {
       this.runFuzzy(s.num_clusters);
@@ -1515,7 +1520,6 @@ class App extends Component {
           OutlierData: [],
           cluster_names: {},
           clusterColors: [],
-          distributionData: [],
         });
         this.processData(r.data, false);
       })
@@ -1556,7 +1560,6 @@ class App extends Component {
           OutlierData: [],
           cluster_names: {},
           clusterColors: [],
-          distributionData: [],
         });
         this.processData(r.data, false);
       })
@@ -1966,7 +1969,7 @@ class App extends Component {
       picHeight: outputState.height,
       picFormat: outputState.selectedColumn,
       markerSize:
-        outputState.markerSize == undefined
+        outputState.markerSize === undefined
           ? this.state.markerSize
           : outputState.markerSize,
     });
@@ -1975,7 +1978,7 @@ class App extends Component {
     this.setState({
       alphaVal: state.initialAlpha,
       certaintyVal: state.initialCertainty,
-      admixMode: state.mode == "Alpha" ? 0 : 1,
+      admixMode: state.mode === "Alpha" ? 0 : 1,
     });
   };
 
@@ -2012,7 +2015,6 @@ class App extends Component {
       mappingIDColumn: "",
       picHeight: 600,
       picWidth: 800,
-      plotTitle: "",
       picFormat: "png",
       metaData: [],
       metaDataColumns: [],
@@ -2036,6 +2038,7 @@ class App extends Component {
             <img
               src="./logo.jpeg"
               style={{ width: "6%", position: "fixed", left: "7%", top: "1%" }}
+              alt=""
             />
           </Navbar.Brand>
         </Navbar>
@@ -2547,7 +2550,7 @@ class App extends Component {
                           }
                           parentCallback={this.handleAdmixOptionsCallback}
                           mode={this.state.admixMode}
-                          disabled={this.state.admix.length == 0}
+                          disabled={this.state.admix.length === 0}
                         />
                       </div>
                       {this.state.data !== null && (

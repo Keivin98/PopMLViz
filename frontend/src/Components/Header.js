@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import ParticlesBg from "particles-bg";
 // import Fade from "react-reveal";
 import useAnalyticsEventTracker from "./useAnalyticsEventTracker";

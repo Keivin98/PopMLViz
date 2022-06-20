@@ -1,22 +1,16 @@
 from flask import jsonify,request,send_file
 # from pandas.core.reshape.tile import cut
 from app import create_app
-import io
 import pandas as pd
 from sklearn.decomposition import PCA
-import csv, random, string
-import numpy as np
+import random, string
 from common import runKmeans
 from sklearn.cluster import KMeans
 from sklearn.manifold import TSNE
 import os
-import subprocess
 import string
 import rpy2.robjects as robjects
 import random
-from rpy2.robjects.vectors import StrVector
-from rpy2.robjects.packages import importr
-import rpy2.robjects.packages as rpackages
 from fcmeans import FCM
 from sklearn.ensemble import IsolationForest
 import pickle

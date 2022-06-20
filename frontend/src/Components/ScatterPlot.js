@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import Plot from "react-plotly.js";
 import PropTypes from "prop-types";
 import * as Plotly from "plotly.js";
 

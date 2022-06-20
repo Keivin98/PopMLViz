@@ -99,7 +99,7 @@ class BarPlot extends Component {
       }
       let sortedValues = [];
       let positionOfUndefined = -1;
-      if (this.props.admixMode == 0) {
+      if (this.props.admixMode === 0) {
         sortedValues = [...this.props.data].sort((a, b) => {
           return this.assignClusterToRow1(a) > this.assignClusterToRow1(b)
             ? 1
@@ -122,7 +122,7 @@ class BarPlot extends Component {
 
       for (let n = 1; n < numClusters + 1; n += 1) {
         var name = !(n - 1 in this.props.clusterNames)
-          ? n - 1 == numClusters
+          ? n - 1 === numClusters
             ? "Undefined Cluster"
             : "Cluster " + (n - 1)
           : this.props.clusterNames[n - 1];

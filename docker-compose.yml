@@ -1,0 +1,18 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile.api
+    image: react-flask-app-api
+    ports:
+      - "5000:5000"
+  client:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile.client
+    image: react-flask-app-frontend
+    stdin_open: true # docker run -i
+    tty: true # docker run -t
+    ports:
+      - "3000:3000"
+    command: npm start
