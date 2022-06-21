@@ -2,15 +2,15 @@ services:
   api:
     build:
       context: .
-      dockerfile: backend/Dockerfile.api
-    image: react-flask-app-api
+      dockerfile: Dockerfile.api
+    image: popmlvis-api
     ports:
       - "5000:5000"
   client:
     build:
       context: .
-      dockerfile: frontend/Dockerfile.client
-    image: react-flask-app-frontend
+      dockerfile: Dockerfile.client
+    image: popmlvis-ui
     stdin_open: true # docker run -i
     tty: true # docker run -t
     ports:
