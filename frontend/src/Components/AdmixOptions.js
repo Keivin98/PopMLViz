@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Typography from "@material-ui/core/Typography";
 import Slider from "@material-ui/core/Slider";
-import { Button, Checkbox } from "@material-ui/core";
+import { Button } from "@material-ui/core";
 import PropTypes from "prop-types";
 
 class AdmixOptions extends Component {
@@ -15,7 +15,7 @@ class AdmixOptions extends Component {
   componentDidMount = () => {
     this.setState({
       initialVal: this.props.initialVal,
-      mode: this.props.mode == 0 ? "Alpha" : "Certainty",
+      mode: this.props.mode === 0 ? "Alpha" : "Certainty",
     });
   };
   rangeSelectorAlpha = (event, newValue) => {
@@ -105,7 +105,7 @@ class AdmixOptions extends Component {
         </div>
         <label>
           <span style={{ fontWeight: "bold" }}> {this.state.mode} </span> :{" "}
-          {this.state.mode == "Certainty"
+          {this.state.mode === "Certainty"
             ? this.state.initialCertainty
             : this.state.initialAlpha}{" "}
           %

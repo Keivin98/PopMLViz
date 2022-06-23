@@ -28,9 +28,9 @@ class ProgressBarTime extends Component {
     dots: "..",
   };
   increaseDots = () => {
-    if (this.state.dots.length == 1) {
+    if (this.state.dots.length === 1) {
       this.setState({ dots: ".." });
-    } else if (this.state.dots.length == 2) {
+    } else if (this.state.dots.length === 2) {
       this.setState({ dots: "..." });
     } else {
       this.setState({ dots: "." });

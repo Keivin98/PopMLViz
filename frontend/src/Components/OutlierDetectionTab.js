@@ -2,10 +2,11 @@ import React, { Component } from "react";
 import Select from "react-select";
 import Collapse from "react-bootstrap/Collapse";
 import { AiFillCaretDown } from "react-icons/ai";
-import { Button } from "@material-ui/core";
+import { Button, IconButton } from "@material-ui/core";
 import OutlierBlock from "./OutlierBlock";
 import Switch from "./Switch";
 import { FcMindMap } from "react-icons/fc";
+import { AiFillDelete } from "react-icons/ai";
 import PropTypes from "prop-types";
 
 class OutlierDetectionTab extends Component {
@@ -211,6 +212,19 @@ class OutlierDetectionTab extends Component {
               >
                 Detect Outliers
               </Button>
+              <IconButton
+                variant="outlined"
+                aria-label="delete"
+                size="large"
+                style={{
+                  color: "red",
+                  backgroundColor: "transparent",
+                  marginTop: 10,
+                }}
+                onClick={this.props.removeOutliers}
+              >
+                <AiFillDelete />
+              </IconButton>
             </div>
           </div>
         </Collapse>
@@ -221,7 +235,8 @@ class OutlierDetectionTab extends Component {
 
 OutlierDetectionTab.propTypes = {
   numFeatures: PropTypes.number,
-  // allActions: PropTypes.array,
+  removeOutliers: PropTypes.func,
+  allActions: PropTypes.array,
 };
 
 export default OutlierDetectionTab;

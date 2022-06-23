@@ -181,7 +181,7 @@ class ScatterAdmix extends Component {
       var data_new = [];
       for (var k = 0; k < num_clusters + 1; k += 1) {
         var name = !(k in this.state.clusterNames)
-          ? k == num_clusters
+          ? k === num_clusters
             ? "Admixed Cluster"
             : "Cluster " + k
           : this.state.clusterNames[k];

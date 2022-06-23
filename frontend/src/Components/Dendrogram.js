@@ -20,6 +20,7 @@ class Dendrogram extends Component {
           <img
             src={`${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}${process.env.REACT_APP_PORT}/api/dendrogram/${this.state.image}`}
             style={styles.image}
+            alt=""
           />
         )}
       </div>

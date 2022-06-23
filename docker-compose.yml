@@ -1,0 +1,22 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile.api
+    image: popmlvis-api
+    ports:
+      - "5000:5000"
+    volumes:
+      - "./backend:/backend"
+  client:
+    build:
+      context: .
+      dockerfile: Dockerfile.client
+    image: popmlvis-ui
+    stdin_open: true # docker run -i
+    tty: true # docker run -t
+    ports:
+      - "3000:3000"
+    command: npm start
+    volumes:
+      - "./frontend/src:/frontend/src"
