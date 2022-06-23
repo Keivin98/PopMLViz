@@ -6,6 +6,8 @@ services:
     image: popmlvis-api
     ports:
       - "5000:5000"
+    volumes:
+      - "./backend:/backend"
   client:
     build:
       context: .
@@ -16,3 +18,5 @@ services:
     ports:
       - "3000:3000"
     command: npm start
+    volumes:
+      - "./frontend/src:/frontend/src"

@@ -50,7 +50,16 @@ const randomShapes = [
   "star",
   "triangle-up",
   "bowtie",
+  "pentagon",
+  "hexagon",
+  "star-diamond",
+  "circle-cross",
+  "hash",
+  "y-up",
+  "line-ew",
+  "arrow-down",
 ];
+
 Chart.register(...registerables);
 class App extends Component {
   state = {
@@ -62,7 +71,8 @@ class App extends Component {
     imageURL: "",
     columns: null,
     data: null,
-    distributionData: [],
+    coloredData: [],
+    shapedData: [],
     pressed: false,
     cluster_names: {},
     alphaVal: 40,
@@ -77,7 +87,8 @@ class App extends Component {
     show: true,
     multiValue: [],
     describingValues: [],
-    selectedDescribingColumn: { value: "None", label: "None" },
+    selectedDescribingColumnColor: { value: "None", label: "None" },
+    selectedDescribingColumnShape: { value: "None", label: "None" },
     sampleDatasets: [
       { value: 0, label: "1000 Genomes Project (1KG)" },
       { value: 1, label: "Human Genome Diversity Project (HGDP)" },
@@ -209,7 +220,10 @@ class App extends Component {
       />
     );
   };
-  scatterCategorical = (DIM, x, y, z, categoricalData) => {
+  scatterCategorical = (DIM, x, y, z, categoricalData, colorOrShape) => {
+    if (this.state.selectedColorShape === 2) {
+      return this.scatterCategorical2(DIM, x, y, z);
+    }
     var uniqueTags = [];
     var layout = {};
     var data_new = [];
@@ -235,17 +249,26 @@ class App extends Component {
       }
       if (uniqueTags.length > 20) {
         alert("There are too many unique values! Check the categorical data!");
-        this.setState({
-          distributionData: [],
-          selectedDescribingColumn: null,
-        });
+        if (colorOrShape === 0) {
+          this.setState({
+            coloredData: [],
+            selectedDescribingColumnColor: null,
+          });
+        } else {
+          this.setState({
+            coloredData: [],
+            selectedDescribingColumnShape: null,
+          });
+        }
+
+        return;
       }
 
       for (var colID = 0; colID < uniqueTags.length; colID++) {
         data_new.push({});
 
         if (DIM === 2) {
-          if (this.state.selectedColorShape === "0") {
+          if (this.state.selectedColorShape === 0) {
             data_new[colID] = {
               name: uniqueTags[colID],
               x: [],
@@ -279,7 +302,7 @@ class App extends Component {
             };
           }
         } else {
-          if (this.state.selectedColorShape === "0") {
+          if (this.state.selectedColorShape === 0) {
             data_new[colID] = {
               name: uniqueTags[colID],
               x: [],
@@ -416,7 +439,194 @@ class App extends Component {
     );
   };
 
-  scatterWithClusters(DIM, x, y, z, outliers, distributionData) {
+  scatterCategorical2 = (DIM, x, y, z) => {
+    var uniqueTags1 = [];
+    var uniqueTags2 = [];
+    var layout = {};
+    var data_new = [];
+    var mapping_id = this.state.mappingIDColumn !== "";
+    var hoverTemplate2D =
+      this.state.mappingIDColumn === ""
+        ? "<i>(%{x}, %{y:.4f}) </i>"
+        : "<i>(%{x}, %{y:.4f}) </i>" + "<br><b>Mapping ID</b>:%{text}</b></br>";
+    var hoverTemplate3D =
+      this.state.mappingIDColumn === ""
+        ? "<i>(%{x}, %{y:.4f}, %{z:.4f}) </i>"
+        : "<i>(%{x}, %{y:.4f}), %{z:.4f}) </i>" +
+          "<br><b>Mapping ID</b>:%{text}</b></br>";
+
+    // find unique values
+    for (var catID = 0; catID < this.state.coloredData.length; catID++) {
+      if (uniqueTags1.indexOf(this.state.coloredData[catID]) === -1) {
+        uniqueTags1.push(this.state.coloredData[catID]);
+      }
+    }
+    for (catID = 0; catID < this.state.shapedData.length; catID++) {
+      if (uniqueTags2.indexOf(this.state.shapedData[catID]) === -1) {
+        uniqueTags2.push(this.state.shapedData[catID]);
+      }
+    }
+    if (uniqueTags1.length > 20 || uniqueTags2.length > 20) {
+      alert("There are too many unique values! Check the categorical data!");
+      this.setState({
+        coloredData: [],
+        selectedDescribingColumn: null,
+      });
+      return;
+    }
+
+    for (var colID1 = 0; colID1 < uniqueTags1.length; colID1++) {
+      for (var colID2 = 0; colID2 < uniqueTags2.length; colID2++) {
+        data_new.push({});
+        var colID = colID1 * uniqueTags2.length + colID2;
+        if (DIM === 2) {
+          data_new[colID] = {
+            name: uniqueTags1[colID1] + " " + uniqueTags2[colID2],
+            x: [],
+            y: [],
+            z: [],
+            type: "scatter3d",
+            mode: "markers",
+            marker: {
+              color: randomColors[colID1],
+              symbol: randomShapes[colID2],
+              size: this.state.markerSize,
+            },
+            text: [],
+            hovertemplate: hoverTemplate3D,
+          };
+        } else {
+          data_new[colID] = {
+            name: uniqueTags1[colID1] + " " + uniqueTags2[colID2],
+            x: [],
+            y: [],
+            mode: "markers",
+            marker: {
+              color: randomColors[colID1],
+              symbol: randomShapes[colID2],
+              size: this.state.markerSize,
+            },
+            text: [],
+            hovertemplate: hoverTemplate2D,
+          };
+        }
+      }
+    }
+    if (this.state.data != null) {
+      for (var i = 0; i < this.state.data.length; i++) {
+        var categoryID1 = uniqueTags1.indexOf(this.state.coloredData[i]);
+        var categoryID2 = uniqueTags2.indexOf(this.state.shapedData[i]);
+
+        var categoryID = categoryID1 * uniqueTags2.length + categoryID2;
+        console.log(
+          categoryID1,
+          categoryID2,
+          uniqueTags2,
+          this.state.shapedData[i],
+          categoryID,
+          data_new.length
+        );
+        if (DIM === 0) {
+          data_new[categoryID].x.push(i);
+          data_new[categoryID].y.push(this.state.data[i][x]);
+        } else if (DIM === 1) {
+          data_new[categoryID].x.push(this.state.data[i][x]);
+          data_new[categoryID].y.push(this.state.data[i][y]);
+        } else {
+          data_new[categoryID].x.push(this.state.data[i][x]);
+          data_new[categoryID].y.push(this.state.data[i][y]);
+          data_new[categoryID].z.push(this.state.data[i][z]);
+        }
+        if (mapping_id) {
+          data_new[categoryID].text.push(
+            this.state.data[i][this.state.mappingIDColumn]
+          );
+        }
+      }
+    }
+    var plot_title = this.state.plotTitle;
+
+    if (DIM === 0) {
+      layout = {
+        title: plot_title,
+        xaxis: { title: "ID" },
+        yaxis: { title: y },
+      };
+    } else if (DIM === 1) {
+      layout = {
+        title: plot_title,
+        xaxis: { title: x },
+        yaxis: { title: y },
+      };
+    } else {
+      layout = {
+        legend: {
+          yanchor: "top",
+          y: 0.89,
+          xanchor: "right",
+          x: 0.99,
+        },
+        margin: {
+          l: 0,
+          r: 0,
+          b: 0,
+          t: 0,
+        },
+        scene: {
+          aspectratio: {
+            x: 1,
+            y: 1,
+            z: 1,
+          },
+          camera: {
+            center: {
+              x: 0,
+              y: 0,
+              z: 0,
+            },
+            eye: {
+              x: 1.25,
+              y: 1.25,
+              z: 1.25,
+            },
+            up: {
+              x: 0,
+              y: 0,
+              z: 1,
+            },
+          },
+          xaxis: {
+            type: "linear",
+            zeroline: false,
+            title: x,
+          },
+          yaxis: {
+            type: "linear",
+            zeroline: false,
+            title: y,
+          },
+          zaxis: {
+            type: "linear",
+            zeroline: false,
+            title: z,
+          },
+        },
+        title: plot_title,
+      };
+    }
+
+    return (
+      <ScatterPlot
+        data={data_new}
+        layout={layout}
+        picWidth={this.state.picWidth}
+        picHeight={this.state.picHeight}
+        picFormat={this.state.picFormat}
+        plotTitle={this.state.plotTitle}
+      />
+    );
+  };
+  scatterWithClusters(DIM, x, y, z, outliers, coloredData) {
     var x_clusters = [];
     var y_clusters = [];
     var layout = {};
@@ -474,7 +684,7 @@ class App extends Component {
     if (this.state.data != null) {
       for (var i = 0; i < this.state.data.length; i++) {
         let rowCol = this.state.clusterColors[i];
-        if (outliers && distributionData[i]) {
+        if (outliers && coloredData[i]) {
           if (DIM === 0) {
             x_clusters_outliers[rowCol].push(i);
             y_clusters_outliers[rowCol].push(this.state.data[i][x]);
@@ -652,7 +862,7 @@ class App extends Component {
     y,
     z,
     categoricalData,
-    distributionData,
+    coloredData,
     outliersOnly
   ) => {
     var cluster_texts = [];
@@ -747,7 +957,7 @@ class App extends Component {
       for (var i = 0; i < this.state.data.length; i++) {
         var categoryID = uniqueTags.indexOf(categoricalData[i]);
         if (DIM === 0) {
-          if (distributionData[i]) {
+          if (coloredData[i]) {
             data_new[2 * categoryID + 1].x.push(i);
             data_new[2 * categoryID + 1].y.push(this.state.data[i][x]);
             if (mapping_id) {
@@ -765,7 +975,7 @@ class App extends Component {
             }
           }
         } else if (DIM === 1) {
-          if (distributionData[i]) {
+          if (coloredData[i]) {
             data_new[2 * categoryID + 1].x.push(this.state.data[i][x]);
             data_new[2 * categoryID + 1].y.push(this.state.data[i][y]);
             if (mapping_id) {
@@ -783,7 +993,7 @@ class App extends Component {
             }
           }
         } else {
-          if (distributionData[i]) {
+          if (coloredData[i]) {
             data_new[2 * categoryID + 1].x.push(this.state.data[i][x]);
             data_new[2 * categoryID + 1].y.push(this.state.data[i][y]);
             data_new[2 * categoryID + 1].z.push(this.state.data[i][z]);
@@ -1121,7 +1331,9 @@ class App extends Component {
 
   mergeDataWithMetaData = () => {
     if (this.state.data.length !== this.state.metaData.length) {
-      alert("The dimensions do not match!");
+      alert(
+        "The dimensions do not match! Only the available metadata will be matched."
+      );
     }
     var mergedData = this.state.data.map((elem, index) => {
       var ID = elem["IID"];
@@ -1178,7 +1390,7 @@ class App extends Component {
         selectedFile: e.target.files[0],
         isLoading: false,
         outlierData: [],
-        distributionData: [],
+        coloredData: [],
         clusterNames: [],
         clusterColors: [],
       });
@@ -1352,6 +1564,11 @@ class App extends Component {
       inputFormat
     );
   };
+
+  removeOutliers = () => {
+    this.setState({ OutlierData: [] });
+  };
+
   runKmeans = (num_clusters) => {
     const formData = {
       df: this.state.data,
@@ -1385,7 +1602,7 @@ class App extends Component {
           clusterColors: r.data,
           cluster_names: cluster_names,
           showOutputOptions: true,
-          distributionData: [],
+          coloredData: [],
           selectedDescribingColumn: { value: "None", label: "None" },
           num_clusters: num_clusters,
         });
@@ -1431,7 +1648,7 @@ class App extends Component {
           dendrogramPath: r.data.filename,
           cluster_names: cluster_names,
           showOutputOptions: true,
-          distributionData: [],
+          coloredData: [],
           selectedDescribingColumn: { value: "None", label: "None" },
           num_clusters: num_clusters,
         });
@@ -1477,7 +1694,7 @@ class App extends Component {
           clusterColors: r.data,
           cluster_names: cluster_names,
           showOutputOptions: true,
-          distributionData: [],
+          coloredData: [],
           selectedDescribingColumn: { value: "None", label: "None" },
           num_clusters: num_clusters,
         });
@@ -1515,7 +1732,7 @@ class App extends Component {
       .then((r) => {
         this.setState({
           isLoading: false,
-          distributionData: [],
+          coloredData: [],
           selectedDescribingColumn: { value: "None", label: "None" },
           OutlierData: [],
           cluster_names: {},
@@ -1555,7 +1772,7 @@ class App extends Component {
       .then((r) => {
         this.setState({
           isLoading: false,
-          distributionData: [],
+          coloredData: [],
           selectedDescribingColumn: { value: "None", label: "None" },
           OutlierData: [],
           cluster_names: {},
@@ -1579,7 +1796,7 @@ class App extends Component {
       OutlierData: [],
       cluster_names: {},
       clusterColors: [],
-      distributionData: [],
+      coloredData: [],
       dendrogramPath: "",
     });
     axios
@@ -1595,7 +1812,7 @@ class App extends Component {
       .then((r) => {
         this.setState({
           isLoading: false,
-          distributionData: [],
+          coloredData: [],
           selectedDescribingColumn: { value: "None", label: "None" },
         });
         this.processData(r.data, false);
@@ -1632,7 +1849,7 @@ class App extends Component {
       .then((r) => {
         this.setState({
           isLoading: false,
-          distributionData: [],
+          coloredData: [],
           selectedDescribingColumn: { value: "None", label: "None" },
         });
         this.processData(r.data.pca, false, 1);
@@ -1684,6 +1901,7 @@ class App extends Component {
             )
               ? "PCA"
               : this.state.selectedUploadOption,
+            selectedColorShape: 0, // keep it always to zero, because we do not need the shaped data
           });
           this.processData(r.data, true);
         })
@@ -1699,24 +1917,67 @@ class App extends Component {
     }
   };
 
-  handleSpecificColumns = (event) => {
+  handleColoredColumns = (event) => {
     this.setState({
-      distributionData:
+      coloredData:
         event.label === "None"
           ? []
           : this.state.data.map((elem) => elem[event.label]),
-      selectedDescribingColumn: event,
+      selectedDescribingColumnColor: event,
+      selectedDescribingColumnShape:
+        this.state.selectedDescribingColumnShape.value === event.value
+          ? { value: "None", label: "None" }
+          : this.state.selectedDescribingColumnShape,
       showOutputOptions: false,
+      selectedColorShape:
+        this.state.selectedDescribingColumnShape.value === event.value ||
+        this.state.selectedDescribingColumnShape.value === "None"
+          ? 0 //only color
+          : 2, //both shape and color
       cluster_names: [],
       clusterColors: [],
     });
+    this.showScatterPlot();
+  };
+
+  handleShapeColumns = (event) => {
+    this.setState({
+      shapedData:
+        event.label === "None"
+          ? []
+          : this.state.data.map((elem) => elem[event.label]),
+      coloredData:
+        this.state.selectedDescribingColumnColor === event
+          ? []
+          : this.state.coloredData,
+      selectedDescribingColumnShape: event,
+      selectedDescribingColumnColor:
+        this.state.selectedDescribingColumnColor.value === event.value
+          ? { value: "None", label: "None" }
+          : this.state.selectedDescribingColumnColor,
+      showOutputOptions: false,
+      selectedColorShape:
+        this.state.selectedDescribingColumnColor.value === event.value ||
+        this.state.selectedDescribingColumnColor.value === "None"
+          ? 1 //only shape
+          : 2, //both shape and color
+      cluster_names: [],
+      clusterColors: [],
+      OutlierData: [],
+    });
+    this.showScatterPlot();
   };
 
   showScatterPlot = () => {
     const x = this.state.selectedColumns[0];
     const y = this.state.selectedColumns[1];
     const z = this.state.selectedColumns[2];
-    const distributionData = this.state.distributionData;
+    var categoricalData = [];
+    if (this.state.selectedColorShape === 0) {
+      categoricalData = this.state.coloredData;
+    } else {
+      categoricalData = this.state.shapedData;
+    }
     const outlierData = this.state.OutlierData;
     const ONE_DIM = 0;
     const TWO_DIM = 1;
@@ -1768,7 +2029,7 @@ class App extends Component {
       ) {
         if (
           this.state.clusterColors.length > 0 ||
-          distributionData.length > 0 ||
+          categoricalData.length > 0 ||
           outlierData.length > 0
         ) {
           if (outlierData.length > 0) {
@@ -1781,13 +2042,13 @@ class App extends Component {
                 true,
                 outlierData
               );
-            } else if (distributionData.length > 0) {
+            } else if (categoricalData.length > 0) {
               return this.scatterCategoricalandOutliers(
                 ONE_DIM,
                 x,
                 null,
                 null,
-                distributionData,
+                categoricalData,
                 outlierData,
                 false
               );
@@ -1802,13 +2063,13 @@ class App extends Component {
                 true
               );
             }
-          } else if (distributionData.length > 0) {
+          } else if (categoricalData.length > 0) {
             return this.scatterCategorical(
               ONE_DIM,
               x,
               null,
               null,
-              distributionData,
+              categoricalData,
               false
             );
           } else {
@@ -1820,7 +2081,7 @@ class App extends Component {
       } else if (this.state.selectedColumns[2] === null) {
         if (
           this.state.clusterColors.length > 0 ||
-          distributionData.length > 0 ||
+          categoricalData.length > 0 ||
           outlierData.length > 0
         ) {
           if (outlierData.length > 0) {
@@ -1833,13 +2094,13 @@ class App extends Component {
                 true,
                 outlierData
               );
-            } else if (distributionData.length > 0) {
+            } else if (categoricalData.length > 0) {
               return this.scatterCategoricalandOutliers(
                 TWO_DIM,
                 x,
                 y,
                 null,
-                distributionData,
+                categoricalData,
                 outlierData,
                 false
               );
@@ -1854,8 +2115,8 @@ class App extends Component {
                 true
               );
             }
-          } else if (distributionData.length > 0) {
-            return this.scatterCategorical(TWO_DIM, x, y, z, distributionData);
+          } else if (categoricalData.length > 0) {
+            return this.scatterCategorical(TWO_DIM, x, y, z, categoricalData);
           } else {
             return this.scatterWithClusters(
               TWO_DIM,
@@ -1873,7 +2134,7 @@ class App extends Component {
       } else {
         if (
           this.state.clusterColors.length > 0 ||
-          distributionData.length > 0 ||
+          categoricalData.length > 0 ||
           outlierData.length > 0
         ) {
           if (outlierData.length > 0) {
@@ -1886,13 +2147,13 @@ class App extends Component {
                 true,
                 outlierData
               );
-            } else if (distributionData.length > 0) {
+            } else if (categoricalData.length > 0) {
               return this.scatterCategoricalandOutliers(
                 THREE_DIM,
                 x,
                 y,
                 z,
-                distributionData,
+                categoricalData,
                 outlierData,
                 false
               );
@@ -1907,14 +2168,8 @@ class App extends Component {
                 true
               );
             }
-          } else if (distributionData.length > 0) {
-            return this.scatterCategorical(
-              THREE_DIM,
-              x,
-              y,
-              z,
-              distributionData
-            );
+          } else if (categoricalData.length > 0) {
+            return this.scatterCategorical(THREE_DIM, x, y, z, categoricalData);
           } else {
             return this.scatterWithClusters(
               THREE_DIM,
@@ -1991,7 +2246,7 @@ class App extends Component {
       imageURL: "",
       columns: null,
       data: null,
-      distributionData: [],
+      coloredData: [],
       pressed: false,
       cluster_names: {},
       alphaVal: 40,
@@ -2201,6 +2456,7 @@ class App extends Component {
                 }).length
               }
               allActions={this.state.allActions}
+              removeOutliers={this.removeOutliers}
             />
 
             <div style={{ marginTop: "20%" }}>
@@ -2398,7 +2654,6 @@ class App extends Component {
                                 padding: "2%",
                               }}
                             >
-                              {" "}
                               Describing Columns
                             </label>
                             <Select
@@ -2413,52 +2668,48 @@ class App extends Component {
                             />
                           </div>
                           {this.state.multiValue.length > 0 && (
-                            <div style={styles.describingColumnDropDown}>
-                              <label
-                                style={{
-                                  fontWeight: "300",
-                                  fontSize: 18,
-                                  padding: "2%",
-                                }}
-                              >
-                                Choose Describing Column
-                              </label>
-                              <div>
-                                <Select
-                                  value={this.state.selectedDescribingColumn}
-                                  options={this.state.multiValue}
-                                  onChange={this.handleSpecificColumns}
-                                />
-                              </div>
-                              <FormControl
-                                style={{ marginLeft: "2%", marginTop: "2%" }}
-                              >
-                                <FormLabel id="describingColumn-row-radio-buttons-group-label">
-                                  Identify by:{" "}
-                                </FormLabel>
-                                <RadioGroup
-                                  row
-                                  aria-labelledby="describingColumn-row-radio-buttons-group-label"
-                                  name="row-radio-buttons-group"
-                                  onChange={this.onValueChangeColorShape}
-                                  style={{ marginLeft: "2%", marginTop: "2%" }}
+                            <div>
+                              <div style={styles.describingColumnDropDown}>
+                                <label
+                                  style={{
+                                    fontSize: 14,
+                                    padding: "2%",
+                                    width: "30%",
+                                  }}
                                 >
-                                  <FormControlLabel
-                                    value={0}
-                                    control={
-                                      <Radio color="success" size="small" />
+                                  Identify by Colors
+                                </label>
+                                <div style={{ width: "62%", marginTop: "1%" }}>
+                                  <Select
+                                    value={
+                                      this.state.selectedDescribingColumnColor
                                     }
-                                    label="Color"
+                                    options={this.state.multiValue}
+                                    onChange={this.handleColoredColumns}
                                   />
-                                  <FormControlLabel
-                                    value={1}
-                                    control={
-                                      <Radio color="success" size="small" />
+                                </div>
+                              </div>
+                              <div style={styles.describingColumnDropDown}>
+                                <label
+                                  style={{
+                                    fontSize: 14,
+                                    padding: "2%",
+                                    width: "30%",
+                                  }}
+                                >
+                                  Identify by Shape
+                                </label>
+                                <div style={{ width: "62%", marginTop: "1%" }}>
+                                  <Select
+                                    value={
+                                      this.state.selectedDescribingColumnShape
                                     }
-                                    label="Shape"
+                                    disabled={this.state.OutlierData.length > 0}
+                                    options={this.state.multiValue}
+                                    onChange={this.handleShapeColumns}
                                   />
-                                </RadioGroup>
-                              </FormControl>
+                                </div>
+                              </div>
                             </div>
                           )}
                         </div>
@@ -2647,8 +2898,10 @@ const styles = {
     marginLeft: "2%",
   },
   describingColumnDropDown: {
-    width: "90%",
     marginLeft: "3%",
+    display: "flex",
+    flexDirection: "row",
+    marginTop: "2%",
   },
   optionsContainer: {
     position: "fixed",
