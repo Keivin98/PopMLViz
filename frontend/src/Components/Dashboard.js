@@ -180,11 +180,12 @@ class App extends Component {
     var y1 = [];
     var cluster_texts = [];
     var mapping_id = this.state.mappingIDColumn !== "";
-    // eslint-disable-next-line
+
     var hoverTemplate =
       this.state.mappingIDColumn === ""
         ? "<i>(%{x}, %{y:.4f}) </i>"
-        : "<i>(%{x}, %{y:.4f}) </i>" + "<br><b>Mapping ID</b>:%{text}</b></br>";
+        : // eslint-disable-next-line
+          "<i>(%{x}, %{y:.4f}) </i>" + "<br><b>Mapping ID</b>:%{text}</b></br>";
     if (this.state.data != null && y != null) {
       for (var i = 0; i < this.state.data.length; i++) {
         x1.push(i);
@@ -228,16 +229,18 @@ class App extends Component {
     var layout = {};
     var data_new = [];
     var mapping_id = this.state.mappingIDColumn !== "";
-    // eslint-disable-next-line
+
     var hoverTemplate2D =
       this.state.mappingIDColumn === ""
         ? "<i>(%{x}, %{y:.4f}) </i>"
-        : "<i>(%{x}, %{y:.4f}) </i>" + "<br><b>Mapping ID</b>:%{text}</b></br>";
-    // eslint-disable-next-line
+        : // eslint-disable-next-line
+          "<i>(%{x}, %{y:.4f}) </i>" + "<br><b>Mapping ID</b>:%{text}</b></br>";
+
     var hoverTemplate3D =
       this.state.mappingIDColumn === ""
         ? "<i>(%{x}, %{y:.4f}, %{z:.4f}) </i>"
-        : "<i>(%{x}, %{y:.4f}), %{z:.4f}) </i>" +
+        : // eslint-disable-next-line
+          "<i>(%{x}, %{y:.4f}), %{z:.4f}) </i>" +
           "<br><b>Mapping ID</b>:%{text}</b></br>";
 
     if (categoricalData != null) {
@@ -448,11 +451,13 @@ class App extends Component {
     var hoverTemplate2D =
       this.state.mappingIDColumn === ""
         ? "<i>(%{x}, %{y:.4f}) </i>"
-        : "<i>(%{x}, %{y:.4f}) </i>" + "<br><b>Mapping ID</b>:%{text}</b></br>";
+        : // eslint-disable-next-line
+          "<i>(%{x}, %{y:.4f}) </i>" + "<br><b>Mapping ID</b>:%{text}</b></br>";
     var hoverTemplate3D =
       this.state.mappingIDColumn === ""
         ? "<i>(%{x}, %{y:.4f}, %{z:.4f}) </i>"
-        : "<i>(%{x}, %{y:.4f}), %{z:.4f}) </i>" +
+        : // eslint-disable-next-line
+          "<i>(%{x}, %{y:.4f}), %{z:.4f}) </i>" +
           "<br><b>Mapping ID</b>:%{text}</b></br>";
 
     // find unique values
@@ -1103,10 +1108,11 @@ class App extends Component {
     var y1 = [];
     var cluster_texts = [];
     var mapping_id = this.state.mappingIDColumn !== "";
-    // eslint-disable-next-line
+
     var hoverTemplate = !mapping_id
       ? "<i>(%{x}, %{y:.4f}) </i>"
-      : "<i>(%{x}, %{y:.4f}) </i>" + "<br><b>Mapping ID</b>:%{text}</b></br>";
+      : // eslint-disable-next-line
+        "<i>(%{x}, %{y:.4f}) </i>" + "<br><b>Mapping ID</b>:%{text}</b></br>";
 
     if (this.state.data != null && x != null && y != null) {
       for (var i = 0; i < this.state.data.length; i++) {
@@ -1594,6 +1600,7 @@ class App extends Component {
       )
       .then((r) => {
         var cluster_names = {};
+        // eslint-disable-next-line
         [...Array(num_clusters)].map((x, index) => {
           cluster_names[index] = index;
         });
@@ -1639,6 +1646,7 @@ class App extends Component {
       )
       .then((r) => {
         var cluster_names = {};
+        // eslint-disable-next-line
         [...Array(num_clusters)].map((x, index) => {
           cluster_names[index] = index;
         });
@@ -1686,6 +1694,7 @@ class App extends Component {
       )
       .then((r) => {
         var cluster_names = {};
+        // eslint-disable-next-line
         [...Array(num_clusters)].map((x, index) => {
           cluster_names[index] = index;
         });
