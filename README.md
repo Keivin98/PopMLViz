@@ -36,38 +36,48 @@ The documentation and funcionality is reported at https://popmlvis.qcri.org/stat
     - PCA
     	○ It accepts both comma separated and space separated files.
     	○ The input should have headers.
-    	○ Each PCA column needs to be named PC*(or TSNE*, but not both!) where * can be any string of alphanumeric values.
-    	○ The rest of the columns also need to be named, but the naming need not be specific.
-    	○ Make sure to have a column named IID, in order for the "Merge Metadata" functionality to correctly map the subjects.
+    	○ Each PCA column needs to be named PC*(or TSNE*, but not both!)
+          where * can be any string of alphanumeric values.
+    	○ The rest of the columns also need to be named, but the naming
+          need not be specific.
+    	○ Make sure to have a column named IID, in order for the "Merge Metadata"
+          functionality to correctly map the subjects.
 
     - PCA and Admixture
     	○ The PCA input file should have the above structure.
     	○ It accepts files with .Q extension
     	○ The content of the .Q file:
-    		§ Should not have headers.
-    		§ Should be space delimited.
-    	○ NOTE : For the correct visualization of the Scatter Plot with the admix clustering information, the ordering of the data should be the same in the PCA and Admix input.
+    		○ Should not have headers.
+    		○ Should be space delimited.
+    	○ NOTE : For the correct visualization of the Scatter Plot with the admix
+          clustering information, the ordering of the data should be the same in the
+          PCA and Admix input.
 
 ### DIMENSIONALITY REDUCTION
 
     - PCA
     	○ It accepts a correlation matrix.
-    	○ The input can be a comma separated, space delimited or a pickle file containing the correlation matrix.
+    	○ The input can be a comma separated, space delimited or a pickle file
+          containing the correlation matrix.
     	○ The input need not have headers or indices.
     - PC-AiR
     	○ It accepts .bed, .bim, .fam files.
     	○ The kinship can be comma or space delimited.
-    	○ If we detect that the files do not have a similar structure (ex. Same number of subjects etc.), an error will be thrown.
+    	○ If we detect that the files do not have a similar structure
+          (ex. Same number of subjects etc.), an error will be thrown.
     - t-SNE 2D/3D
     	○ It will work with both PCA/PC-AiR data or Correlation Matrix data.
-    	○ If the number of columns is relatively large (eg. > 50), make sure to use another dimensionality reduction method first.
+    	○ If the number of columns is relatively large (eg. > 50), make sure
+          to use another dimensionality reduction method first.
 
 ### ADD METADATA
 
     - The input file should consist of headers.
     - It can be comma or space delimited.
     - It should have a column called IID that stores the ids of the subjects.
-    - NOTE: If the number of subjects in the metadata do not match that of the initial file input, then an error screen will appear. However, the matching will still be done based on the IIDs that appear in both the input file and the metadata file.
+    - NOTE: If the number of subjects in the metadata do not match that of the initial
+      file input, then an error screen will appear. However, the matching will still be
+      done based on the IIDs that appear in both the input file and the metadata file.
 
 ## RESULT
 
