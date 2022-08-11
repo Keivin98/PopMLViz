@@ -1,13 +1,6 @@
-FROM python:3.9
-WORKDIR backend/
+FROM kisufaj/popmlvis-api:latest
 
-RUN apt-get update \
-    && apt-get --assume-yes install r-base-core
-    
 COPY backend/app.py backend/routes.py backend/flask_req.txt backend/common.py backend/r_req.r backend/gunicorn_local.conf ./
-RUN pip install -r ./flask_req.txt
-ENV FLASK_ENV production
-RUN Rscript r_req.r
 RUN mkdir data data/test_docs data/dendrogram datasets datasets/HGDP gunicorn_logs
 
 COPY backend/datasets/KG_PCS.csv datasets/
