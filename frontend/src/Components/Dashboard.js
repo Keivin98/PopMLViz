@@ -2298,7 +2298,7 @@ class App extends Component {
           }}
         >
           <Navbar.Brand style={{ color: "white", fontSize: 24 }}>
-            PopMLViz
+            PopMLVis
             <img
               src="./logo.jpeg"
               style={{ width: "6%", position: "fixed", left: "7%", top: "1%" }}
