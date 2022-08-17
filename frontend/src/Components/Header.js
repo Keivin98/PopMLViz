@@ -65,7 +65,7 @@ function Header(props) {
               className="button btn project-btn"
               onClick={() => gaEventTracker("Live")}
             >
-              <FaPlayCircle /> Online
+              <FaPlayCircle /> Dashboard
             </a>
             <a
               href={PopMLvis}

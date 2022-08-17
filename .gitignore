@@ -3,7 +3,8 @@
 /add_random_values_to_ds.py
 /frontend/.env
 /frontend/build/
-/backend/data/
+/backend/data/test_docs/*
+/backend/data/dendrogram/*
 <<<<<<< HEAD
 /backend/gunicorn_logs/
 /backend/logs/
@@ -18,7 +19,6 @@ backend/logs/
 >>>>>>> parent of b66d9d5... Removed all files that are in the .gitignore
 /backend/node_modules/
 /backend/venv
-data/
 /node_modules
 /backend/requirements.txt
 /backend/q.txt
