@@ -3,8 +3,6 @@
 /add_random_values_to_ds.py
 /frontend/.env
 /frontend/build/
-/backend/data/test_docs/*
-/backend/data/dendrogram/*
 <<<<<<< HEAD
 /backend/gunicorn_logs/
 /backend/logs/
