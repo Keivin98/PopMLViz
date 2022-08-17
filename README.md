@@ -20,7 +20,7 @@ If cloning the repository, install git-lfs. (https://github.com/git-lfs/git-lfs/
 
 Download the source code by either cloning the repository (`git clone https://github.com/qcri/QCAI-PopMLVis.git`) or Download Zip as following.
 
-![1](https://github.com/Keivin98/PopMLViz/blob/main/4.png?raw=true)
+<img src="https://github.com/Keivin98/PopMLViz/blob/main/4.png?raw=true" width="300">
 
 There are two configuration files, backend/gunicorn_local.conf, and frontend/envfile. Modify them only if you want to change the configuration of the backend or frontend.
 
