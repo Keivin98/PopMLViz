@@ -14,9 +14,16 @@ In order to run this container you'll need docker installed.
 - [OS X](https://docs.docker.com/mac/started/)
 - [Linux](https://docs.docker.com/linux/started/)
 
+If cloning the repository, install git-lfs. (https://github.com/git-lfs/git-lfs/blob/main/README.md)
+
 ## Usage
 
-There are two configuration files, backend/gunicorn_local.conf, and frontend/envfile that you need to change if you want to make changes to the configuration.  
+Download the source code by either cloning the repository (`git clone https://github.com/qcri/QCAI-PopMLVis.git`) or Download Zip as following.
+
+![1](https://github.com/Keivin98/PopMLViz/blob/main/4.png?raw=true)
+
+There are two configuration files, backend/gunicorn_local.conf, and frontend/envfile. Modify them only if you want to change the configuration of the backend or frontend.
+
 After that, run
 
 ```shell
@@ -81,5 +88,5 @@ The documentation and funcionality is reported at https://popmlvis.qcri.org/stat
 
 ## RESULT
 
-![2](https://github.com/Keivin98/VisualizePlots/blob/main/2.png?raw=true)
-![3](https://github.com/Keivin98/VisualizePlots/blob/main/3.png?raw=true)
+![2](https://github.com/Keivin98/PopMLViz/blob/main/2.png?raw=true)
+![3](https://github.com/Keivin98/PopMLViz/blob/main/3.png?raw=true)
