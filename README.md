@@ -24,7 +24,7 @@ Download the source code by either cloning the repository (`git clone https://gi
 
 There are two configuration files, backend/gunicorn_local.conf, and frontend/envfile. Modify them only if you want to change the configuration of the backend or frontend.
 
-After that, run
+After that, in your command line, navigate to the folder you downloaded/cloned and run:
 
 ```shell
 docker-compose up
