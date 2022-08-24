@@ -1336,11 +1336,18 @@ class App extends Component {
   };
 
   mergeDataWithMetaData = () => {
-    if (this.state.data.length !== this.state.metaData.length) {
+    if (!("IID" in this.state.data[0])) {
+      alert("Dataset does not include IID.");
+      return;
+    } else if (!("IID" in this.state.metaData[0])) {
+      alert("MetaData does not include IID.");
+      return;
+    } else if (this.state.data.length !== this.state.metaData.length) {
       alert(
         "The dimensions do not match! Only the available metadata will be matched."
       );
     }
+
     var mergedData = this.state.data.map((elem, index) => {
       var ID = elem["IID"];
       var result = this.state.metaData.filter((elem) => {
@@ -2756,7 +2763,7 @@ class App extends Component {
                             Add Metadata
                             <input
                               type="file"
-                              accept=".csv,.xlsx,.xls"
+                              accept=".csv,.xlsx,.xls,.txt"
                               onChange={this.handleMetaDataUpload}
                               onClick={this.onInputMetadataClick}
                               disabled={
