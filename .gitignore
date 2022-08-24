@@ -7,8 +7,8 @@
 /backend/gunicorn_logs/
 /backend/logs/
 ||||||| b66d9d5... Removed all files that are in the .gitignore
-/backend/gunicorn_logs/
-/backend/logs/
+backend/gunicorn_logs/access.log
+backend/gunicorn_logs/eror.log
 /backend/__pycache__/
 =======
 backend/gunicorn_logs/
