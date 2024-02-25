@@ -5,7 +5,7 @@ services:
       dockerfile: Dockerfile.api
     image: popmlvis-api
     ports:
-      - "5000:5000"
+      - "5001:5001"
     volumes:
       - "./backend:/backend"
   client:

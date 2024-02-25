@@ -1,6 +1,6 @@
 import axios from "axios";
-import React, { Component } from "react";
-import { Chart, registerables } from "chart.js";
+import React, {Component} from "react";
+import {Chart, registerables} from "chart.js";
 import * as XLSX from "xlsx";
 import Select from "react-select";
 import ScatterPlot from "./ScatterPlot";
@@ -12,8 +12,8 @@ import DownloadData from "./DownloadData";
 import ClusteringAlgorithmsTab from "./ClusteringAlgorithmsTab";
 import OutlierDetectionTab from "./OutlierDetectionTab";
 import ProgressBarTime from "./ProgressBarTime";
-import { Button } from "@material-ui/core";
-import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
+import {Button} from "@material-ui/core";
+import {Tab, Tabs, TabList, TabPanel} from "react-tabs";
 import TabOutputOptions from "./TabOutputOptions";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
@@ -87,11 +87,11 @@ class App extends Component {
     show: true,
     multiValue: [],
     describingValues: [],
-    selectedDescribingColumnColor: { value: "None", label: "None" },
-    selectedDescribingColumnShape: { value: "None", label: "None" },
+    selectedDescribingColumnColor: {value: "None", label: "None"},
+    selectedDescribingColumnShape: {value: "None", label: "None"},
     sampleDatasets: [
-      { value: 0, label: "1000 Genomes Project (1KG)" },
-      { value: 1, label: "Human Genome Diversity Project (HGDP)" },
+      {value: 0, label: "1000 Genomes Project (1KG)"},
+      {value: 1, label: "Human Genome Diversity Project (HGDP)"},
     ],
     sampleDatasetValue: 0,
     selectedClusterMethod: null,
@@ -110,6 +110,9 @@ class App extends Component {
     dendrogramPath: "",
     markerSize: 4,
     admixMode: 0,
+    chosenInitialColor: "#f44336",
+    chosenInitialShape: "diamond",
+
   };
   handleMultiChange = (option) => {
     let act = [];
@@ -120,7 +123,7 @@ class App extends Component {
       });
     }
     this.setState({
-      multiValue: [{ value: "None", label: "None" }, ...option],
+      multiValue: [{value: "None", label: "None"}, ...option],
       selectActions: act.filter((elem) => {
         return option.indexOf(elem) < 0;
       }),
@@ -135,17 +138,17 @@ class App extends Component {
         label: columns[i]["name"],
       });
     }
-    this.setState({ columns: columns, selectActions: act, allActions: act });
+    this.setState({columns: columns, selectActions: act, allActions: act});
   };
 
   setData = (data) => {
-    this.setState({ data: data });
+    this.setState({data: data});
   };
   setAdmix = (data) => {
-    this.setState({ admix: data });
+    this.setState({admix: data});
   };
   setMetaData = (data) => {
-    this.setState({ metaData: data });
+    this.setState({metaData: data});
   };
   setMetaDataColumns = (columns) => {
     let act = [];
@@ -172,7 +175,7 @@ class App extends Component {
   // On file select (from the pop up)
   onFileChange = (event) => {
     // Update the state
-    this.setState({ selectedFile: event.target.files[0] });
+    this.setState({selectedFile: event.target.files[0]});
   };
 
   scatter1d = (y) => {
@@ -185,7 +188,7 @@ class App extends Component {
       this.state.mappingIDColumn === ""
         ? "<i>(%{x}, %{y:.4f}) </i>"
         : // eslint-disable-next-line
-          "<i>(%{x}, %{y:.4f}) </i>" + "<br><b>Mapping ID</b>:%{text}</b></br>";
+        "<i>(%{x}, %{y:.4f}) </i>" + "<br><b>Mapping ID</b>:%{text}</b></br>";
     if (this.state.data != null && y != null) {
       for (var i = 0; i < this.state.data.length; i++) {
         x1.push(i);
@@ -203,7 +206,7 @@ class App extends Component {
           mode: "markers",
           text: cluster_texts,
           hovertemplate: hoverTemplate,
-          marker: { color: randomColors[0], size: this.state.markerSize },
+          marker: {color: this.state.chosenInitialColor, size: this.state.markerSize, symbol: this.state.chosenInitialShape},
         },
       ];
     }
@@ -212,7 +215,7 @@ class App extends Component {
         data={data_new}
         layout={{
           title: this.state.plotTitle,
-          yaxis: { title: y },
+          yaxis: {title: y},
         }}
         picWidth={Number(this.state.picWidth)}
         picHeight={Number(this.state.picHeight)}
@@ -234,14 +237,14 @@ class App extends Component {
       this.state.mappingIDColumn === ""
         ? "<i>(%{x}, %{y:.4f}) </i>"
         : // eslint-disable-next-line
-          "<i>(%{x}, %{y:.4f}) </i>" + "<br><b>Mapping ID</b>:%{text}</b></br>";
+        "<i>(%{x}, %{y:.4f}) </i>" + "<br><b>Mapping ID</b>:%{text}</b></br>";
 
     var hoverTemplate3D =
       this.state.mappingIDColumn === ""
         ? "<i>(%{x}, %{y:.4f}, %{z:.4f}) </i>"
         : // eslint-disable-next-line
-          "<i>(%{x}, %{y:.4f}), %{z:.4f}) </i>" +
-          "<br><b>Mapping ID</b>:%{text}</b></br>";
+        "<i>(%{x}, %{y:.4f}), %{z:.4f}) </i>" +
+        "<br><b>Mapping ID</b>:%{text}</b></br>";
 
     if (categoricalData != null) {
       // find unique values
@@ -281,7 +284,7 @@ class App extends Component {
               mode: "markers",
               marker: {
                 color: randomColors[colID],
-                symbol: randomShapes[0],
+                symbol: this.state.chosenInitialShape,
                 size: this.state.markerSize,
               },
               text: [],
@@ -296,7 +299,7 @@ class App extends Component {
               type: "scatter3d",
               mode: "markers",
               marker: {
-                color: randomColors[0],
+                color: this.state.chosenInitialColor,
                 symbol: randomShapes[colID],
                 size: this.state.markerSize,
               },
@@ -313,7 +316,7 @@ class App extends Component {
               mode: "markers",
               marker: {
                 color: randomColors[colID],
-                symbol: randomShapes[0],
+                symbol: this.state.chosenInitialShape,
                 size: this.state.markerSize,
               },
               text: [],
@@ -326,7 +329,7 @@ class App extends Component {
               y: [],
               mode: "markers",
               marker: {
-                color: randomColors[0],
+                color: this.state.chosenInitialColor,
                 symbol: randomShapes[colID],
                 size: this.state.markerSize,
               },
@@ -364,14 +367,14 @@ class App extends Component {
     if (DIM === 0) {
       layout = {
         title: plot_title,
-        xaxis: { title: "ID" },
-        yaxis: { title: y },
+        xaxis: {title: "ID"},
+        yaxis: {title: y},
       };
     } else if (DIM === 1) {
       layout = {
         title: plot_title,
-        xaxis: { title: x },
-        yaxis: { title: y },
+        xaxis: {title: x},
+        yaxis: {title: y},
       };
     } else {
       layout = {
@@ -452,13 +455,13 @@ class App extends Component {
       this.state.mappingIDColumn === ""
         ? "<i>(%{x}, %{y:.4f}) </i>"
         : // eslint-disable-next-line
-          "<i>(%{x}, %{y:.4f}) </i>" + "<br><b>Mapping ID</b>:%{text}</b></br>";
+        "<i>(%{x}, %{y:.4f}) </i>" + "<br><b>Mapping ID</b>:%{text}</b></br>";
     var hoverTemplate3D =
       this.state.mappingIDColumn === ""
         ? "<i>(%{x}, %{y:.4f}, %{z:.4f}) </i>"
         : // eslint-disable-next-line
-          "<i>(%{x}, %{y:.4f}), %{z:.4f}) </i>" +
-          "<br><b>Mapping ID</b>:%{text}</b></br>";
+        "<i>(%{x}, %{y:.4f}), %{z:.4f}) </i>" +
+        "<br><b>Mapping ID</b>:%{text}</b></br>";
 
     // find unique values
     for (var catID = 0; catID < this.state.coloredData.length; catID++) {
@@ -554,14 +557,14 @@ class App extends Component {
     if (DIM === 0) {
       layout = {
         title: plot_title,
-        xaxis: { title: "ID" },
-        yaxis: { title: y },
+        xaxis: {title: "ID"},
+        yaxis: {title: y},
       };
     } else if (DIM === 1) {
       layout = {
         title: plot_title,
-        xaxis: { title: x },
-        yaxis: { title: y },
+        xaxis: {title: x},
+        yaxis: {title: y},
       };
     } else {
       layout = {
@@ -645,7 +648,7 @@ class App extends Component {
         this.state.mappingIDColumn === ""
           ? "<i>(%{x:.4f}, %{y:.4f} %{z:.4f}) </i>"
           : "<i>(%{x:.4f}, %{y:.4f} %{z:.4f}) </i>" +
-            "<br><b>Mapping ID</b>:%{text}</b></br>";
+          "<br><b>Mapping ID</b>:%{text}</b></br>";
     } else {
       mapping_id = this.state.mappingIDColumn !== "";
       // eslint-disable-next-line
@@ -653,7 +656,7 @@ class App extends Component {
         this.state.mappingIDColumn === ""
           ? "<i>(%{x:.4f}, %{y:.4f}) </i>"
           : "<i>(%{x:.4f}, %{y:.4f}) </i>" +
-            "<br><b>Mapping ID</b>:%{text}</b></br>";
+          "<br><b>Mapping ID</b>:%{text}</b></br>";
     }
     var cluster_texts = [];
 
@@ -768,7 +771,7 @@ class App extends Component {
             z: z_clusters[k],
             mode: "markers",
             type: "scatter3d",
-            marker: { color: colors[k], size: this.state.markerSize },
+            marker: {color: colors[k], size: this.state.markerSize},
             text: cluster_texts[k],
             hovertemplate: hoverTemplate,
           });
@@ -778,7 +781,7 @@ class App extends Component {
             x: x_clusters[k],
             y: y_clusters[k],
             mode: "markers",
-            marker: { color: colors[k], size: this.state.markerSize },
+            marker: {color: colors[k], size: this.state.markerSize},
             text: cluster_texts[k],
             hovertemplate: hoverTemplate,
           });
@@ -845,8 +848,8 @@ class App extends Component {
     } else {
       layout = {
         title: plot_title,
-        xaxis: { title: x },
-        yaxis: { title: y },
+        xaxis: {title: x},
+        yaxis: {title: y},
       };
     }
     return (
@@ -885,7 +888,7 @@ class App extends Component {
       var data_new = [];
       for (var colID = 0; colID < uniqueTags.length; colID++) {
         var outlierColor = outliersOnly ? "grey" : randomColors[colID];
-        var otherColor = outliersOnly ? randomColors[0] : randomColors[colID];
+        var otherColor = outliersOnly ? this.state.chosenInitialColor : randomColors[colID];
         var title = outliersOnly ? "0" : uniqueTags[colID];
 
         if (DIM === 2) {
@@ -893,7 +896,7 @@ class App extends Component {
           hoverTemplate = !mapping_id
             ? "<i>(%{x:.4f}, %{y:.4f} %{z}, %{z:.4f}) </i>"
             : "<i>(%{x:.4f}, %{y:.4f} %{z}, %{z:.4f}) </i>" +
-              "<br><b>Mapping ID</b>:%{text}</b></br>";
+            "<br><b>Mapping ID</b>:%{text}</b></br>";
           // actual data
           data_new.push({
             name: title,
@@ -902,7 +905,7 @@ class App extends Component {
             z: [],
             type: "scatter3d",
             mode: "markers",
-            marker: { color: otherColor, size: this.state.markerSize },
+            marker: {color: otherColor, size: this.state.markerSize},
             text: [],
             hovertemplate: hoverTemplate,
           });
@@ -928,13 +931,13 @@ class App extends Component {
           hoverTemplate = !mapping_id
             ? "<i>(%{x:.4f}, %{y:.4f}</i>"
             : "<i>(%{x:.4f}, %{y:.4f}</i>" +
-              "<br><b>Mapping ID</b>:%{text}</b></br>";
+            "<br><b>Mapping ID</b>:%{text}</b></br>";
           data_new.push({
             name: title,
             x: [],
             y: [],
             mode: "markers",
-            marker: { color: otherColor, size: this.state.markerSize },
+            marker: {color: otherColor, size: this.state.markerSize},
             text: [],
             hovertemplate: hoverTemplate,
           });
@@ -1026,13 +1029,13 @@ class App extends Component {
     if (DIM === 0) {
       layout = {
         title: plot_title,
-        yaxis: { title: y },
+        yaxis: {title: y},
       };
     } else if (DIM === 1) {
       layout = {
         title: plot_title,
-        xaxis: { title: x },
-        yaxis: { title: y },
+        xaxis: {title: x},
+        yaxis: {title: y},
       };
     } else {
       layout = {
@@ -1112,7 +1115,7 @@ class App extends Component {
     var hoverTemplate = !mapping_id
       ? "<i>(%{x}, %{y:.4f}) </i>"
       : // eslint-disable-next-line
-        "<i>(%{x}, %{y:.4f}) </i>" + "<br><b>Mapping ID</b>:%{text}</b></br>";
+      "<i>(%{x}, %{y:.4f}) </i>" + "<br><b>Mapping ID</b>:%{text}</b></br>";
 
     if (this.state.data != null && x != null && y != null) {
       for (var i = 0; i < this.state.data.length; i++) {
@@ -1130,7 +1133,7 @@ class App extends Component {
           mode: "markers",
           text: cluster_texts,
           hovertemplate: hoverTemplate,
-          marker: { color: randomColors[0], size: this.state.markerSize },
+          marker: {color: this.state.chosenInitialColor, size: this.state.markerSize, symbol: this.state.chosenInitialShape},
         },
       ];
     }
@@ -1139,8 +1142,8 @@ class App extends Component {
         data={data_new}
         layout={{
           title: this.state.plotTitle,
-          xaxis: { title: x },
-          yaxis: { title: y },
+          xaxis: {title: x},
+          yaxis: {title: y},
         }}
         picWidth={this.state.picWidth}
         picHeight={this.state.picHeight}
@@ -1161,7 +1164,7 @@ class App extends Component {
     var hoverTemplate = !mapping_id
       ? "<i>(%{x:.4f}, %{y:.4f} %{z}, %{z:.4f}) </i>"
       : "<i>(%{x:.4f}, %{y:.4f} %{z}, %{z:.4f}) </i>" +
-        "<br><b>Mapping ID</b>:%{text}</b></br>";
+      "<br><b>Mapping ID</b>:%{text}</b></br>";
     if (this.state.data != null && x != null && y != null && z != null) {
       for (var i = 0; i < this.state.data.length; i++) {
         x1.push(this.state.data[i][x]);
@@ -1181,7 +1184,7 @@ class App extends Component {
           type: "scatter3d",
           text: cluster_texts,
           hovertemplate: hoverTemplate,
-          marker: { color: randomColors[0], size: this.state.markerSize },
+          marker: {color: this.state.chosenInitialColor, size: this.state.markerSize, symbol: this.state.chosenInitialShape},
         },
       ];
       var layout = {
@@ -1354,7 +1357,7 @@ class App extends Component {
         return elem["IID"] === ID;
       });
       if (result.length > 0) {
-        var { IID, ...extraData } = result[0];
+        var {IID, ...extraData} = result[0];
         // console.log(result[0], extraData);
         return Object.assign({}, elem, extraData);
       } else {
@@ -1386,7 +1389,7 @@ class App extends Component {
     });
 
     this.setColumns(mergedColumnsFiltered);
-    this.setState({ data: mergedData, metaData: [] });
+    this.setState({data: mergedData, metaData: []});
   };
 
   //  handle file upload
@@ -1412,12 +1415,12 @@ class App extends Component {
       reader.onload = (evt) => {
         /* Parse data */
         const bstr = evt.target.result;
-        const wb = XLSX.read(bstr, { type: "binary" });
+        const wb = XLSX.read(bstr, {type: "binary"});
         /* Get first worksheet */
         const wsname = wb.SheetNames[0];
         const ws = wb.Sheets[wsname];
         /* Convert array of arrays */
-        const data = XLSX.utils.sheet_to_csv(ws, { header: 1 });
+        const data = XLSX.utils.sheet_to_csv(ws, {header: 1});
         this.processData(data, false, type).then(() => {
           if (type === 3) {
             return this.mergeDataWithMetaData();
@@ -1544,7 +1547,7 @@ class App extends Component {
         }
       )
       .then((response) => {
-        this.setState({ isLoading: false, selectedUploadOption: "PCA" });
+        this.setState({isLoading: false, selectedUploadOption: "PCA"});
         this.processData(response.data, false);
       })
       .catch(() => {
@@ -1579,7 +1582,7 @@ class App extends Component {
   };
 
   removeOutliers = () => {
-    this.setState({ OutlierData: [] });
+    this.setState({OutlierData: []});
   };
 
   runKmeans = (num_clusters) => {
@@ -1617,7 +1620,7 @@ class App extends Component {
           cluster_names: cluster_names,
           showOutputOptions: true,
           coloredData: [],
-          selectedDescribingColumn: { value: "None", label: "None" },
+          selectedDescribingColumn: {value: "None", label: "None"},
           num_clusters: num_clusters,
         });
       })
@@ -1639,7 +1642,7 @@ class App extends Component {
       num_clusters: num_clusters,
     };
 
-    this.setState({ isLoading: true, ProgressBarType: "Loader" });
+    this.setState({isLoading: true, ProgressBarType: "Loader"});
 
     axios
       .post(
@@ -1664,7 +1667,7 @@ class App extends Component {
           cluster_names: cluster_names,
           showOutputOptions: true,
           coloredData: [],
-          selectedDescribingColumn: { value: "None", label: "None" },
+          selectedDescribingColumn: {value: "None", label: "None"},
           num_clusters: num_clusters,
         });
       })
@@ -1686,7 +1689,7 @@ class App extends Component {
       selectedUploadOption: "PCA",
     };
 
-    this.setState({ isLoading: true, ProgressBarType: "Loader" });
+    this.setState({isLoading: true, ProgressBarType: "Loader"});
 
     axios
       .post(
@@ -1711,7 +1714,7 @@ class App extends Component {
           cluster_names: cluster_names,
           showOutputOptions: true,
           coloredData: [],
-          selectedDescribingColumn: { value: "None", label: "None" },
+          selectedDescribingColumn: {value: "None", label: "None"},
           num_clusters: num_clusters,
         });
       })
@@ -1749,7 +1752,7 @@ class App extends Component {
         this.setState({
           isLoading: false,
           coloredData: [],
-          selectedDescribingColumn: { value: "None", label: "None" },
+          selectedDescribingColumn: {value: "None", label: "None"},
           OutlierData: [],
           cluster_names: {},
           clusterColors: [],
@@ -1789,7 +1792,7 @@ class App extends Component {
         this.setState({
           isLoading: false,
           coloredData: [],
-          selectedDescribingColumn: { value: "None", label: "None" },
+          selectedDescribingColumn: {value: "None", label: "None"},
           OutlierData: [],
           cluster_names: {},
           clusterColors: [],
@@ -1829,7 +1832,7 @@ class App extends Component {
         this.setState({
           isLoading: false,
           coloredData: [],
-          selectedDescribingColumn: { value: "None", label: "None" },
+          selectedDescribingColumn: {value: "None", label: "None"},
         });
         this.processData(r.data, false);
       })
@@ -1866,7 +1869,7 @@ class App extends Component {
         this.setState({
           isLoading: false,
           coloredData: [],
-          selectedDescribingColumn: { value: "None", label: "None" },
+          selectedDescribingColumn: {value: "None", label: "None"},
         });
         this.processData(r.data.pca, false, 1);
         this.processData(r.data.admix, false, 2);
@@ -1897,7 +1900,7 @@ class App extends Component {
         combineType: pressed,
         inputFormat: inputFormat,
       };
-      this.setState({ isLoading: true, ProgressBarType: "Loader" });
+      this.setState({isLoading: true, ProgressBarType: "Loader"});
       axios
         .post(
           `${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}${process.env.REACT_APP_PORT}/api/detectoutliers/`,
@@ -1942,12 +1945,12 @@ class App extends Component {
       selectedDescribingColumnColor: event,
       selectedDescribingColumnShape:
         this.state.selectedDescribingColumnShape.value === event.value
-          ? { value: "None", label: "None" }
+          ? {value: "None", label: "None"}
           : this.state.selectedDescribingColumnShape,
       showOutputOptions: false,
       selectedColorShape:
         this.state.selectedDescribingColumnShape.value === event.value ||
-        this.state.selectedDescribingColumnShape.value === "None"
+          this.state.selectedDescribingColumnShape.value === "None"
           ? 0 //only color
           : 2, //both shape and color
       cluster_names: [],
@@ -1969,12 +1972,12 @@ class App extends Component {
       selectedDescribingColumnShape: event,
       selectedDescribingColumnColor:
         this.state.selectedDescribingColumnColor.value === event.value
-          ? { value: "None", label: "None" }
+          ? {value: "None", label: "None"}
           : this.state.selectedDescribingColumnColor,
       showOutputOptions: false,
       selectedColorShape:
         this.state.selectedDescribingColumnColor.value === event.value ||
-        this.state.selectedDescribingColumnColor.value === "None"
+          this.state.selectedDescribingColumnColor.value === "None"
           ? 1 //only shape
           : 2, //both shape and color
       cluster_names: [],
@@ -2217,7 +2220,7 @@ class App extends Component {
   };
 
   clusterNumberChange = (data) => {
-    this.setState({ num_clusters: data.numClusters });
+    this.setState({num_clusters: data.numClusters});
   };
   UploadTabChange = (data) => {
     if (data.selectedUploadOption === "pcairandadmixture") {
@@ -2239,6 +2242,8 @@ class App extends Component {
       picWidth: outputState.width,
       picHeight: outputState.height,
       picFormat: outputState.selectedColumn,
+      chosenInitialColor: outputState.chosenInitialColor,
+      chosenInitialShape: outputState.selectedInitialShape.label,
       markerSize:
         outputState.markerSize === undefined
           ? this.state.markerSize
@@ -2275,7 +2280,7 @@ class App extends Component {
       show: true,
       multiValue: [],
       describingValues: [],
-      selectedDescribingColumn: { value: "None", label: "None" },
+      selectedDescribingColumn: {value: "None", label: "None"},
       selectedClusterMethod: null,
       OutlierData: [],
       showOutputOptions: false,
@@ -2304,11 +2309,11 @@ class App extends Component {
             backgroundColor: "#3b3f4e",
           }}
         >
-          <Navbar.Brand style={{ color: "white", fontSize: 24 }}>
+          <Navbar.Brand style={{color: "white", fontSize: 24}}>
             PopMLVis
             <img
               src="./logo.jpeg"
-              style={{ width: "6%", position: "fixed", left: "7%", top: "1%" }}
+              style={{width: "6%", position: "fixed", left: "7%", top: "1%"}}
               alt=""
             />
           </Navbar.Brand>
@@ -2316,7 +2321,7 @@ class App extends Component {
 
         <div style={styles.splitScreen}>
           <div class="leftpane" style={styles.leftPane}>
-            <form style={{ marginTop: "1%" }}>
+            <form style={{marginTop: "1%"}}>
               <UploadAndVisualizeTab onChange={this.UploadTabChange} />
 
               {this.state.selectedUploadOption === "PCA" && (
@@ -2328,7 +2333,7 @@ class App extends Component {
                     onChange={this.handleFileUpload}
                     onClick={this.onInputMetadataClick}
                   />
-                  <div style={{ display: "flex", flexDirection: "row" }}>
+                  <div style={{display: "flex", flexDirection: "row"}}>
                     <div
                       style={{
                         color: "black",
@@ -2340,7 +2345,7 @@ class App extends Component {
                       <Select
                         value={
                           this.state.sampleDatasets[
-                            this.state.sampleDatasetValue
+                          this.state.sampleDatasetValue
                           ]
                         }
                         options={this.state.sampleDatasets}
@@ -2370,7 +2375,7 @@ class App extends Component {
                   }}
                 >
                   <div style={styles.littleUpload}>
-                    <label style={{ marginRight: "3%" }}>PCA</label>
+                    <label style={{marginRight: "3%"}}>PCA</label>
                     <input
                       type="file"
                       accept=".csv,.xlsx,.xls,.txt"
@@ -2379,7 +2384,7 @@ class App extends Component {
                     />
                   </div>
                   <div style={styles.littleUpload}>
-                    <label style={{ marginRight: "4.5%" }}>Admix</label>
+                    <label style={{marginRight: "4.5%"}}>Admix</label>
                     <input
                       type="file"
                       accept=".Q"
@@ -2387,7 +2392,7 @@ class App extends Component {
                       onClick={this.onInputMetadataClick}
                     />
                   </div>
-                  <div style={{ display: "flex", flexDirection: "row" }}>
+                  <div style={{display: "flex", flexDirection: "row"}}>
                     <div
                       style={{
                         color: "black",
@@ -2399,7 +2404,7 @@ class App extends Component {
                       <Select
                         value={
                           this.state.sampleDatasets[
-                            this.state.sampleDatasetValue
+                          this.state.sampleDatasetValue
                           ]
                         }
                         options={this.state.sampleDatasets}
@@ -2435,14 +2440,14 @@ class App extends Component {
             {(this.state.selectedUploadOption === "Correlation Matrix" ||
               this.state.selectedUploadOption === "t-SNE 2D" ||
               this.state.selectedUploadOption === "t-SNE 3D") && (
-              <input
-                type="file"
-                accept=".csv,.xlsx,.xls,.Q,.txt,.pkl"
-                disabled={this.state.selectedUploadOption === null}
-                onChange={this.handleFileUpload}
-                onClick={this.onInputMetadataClick}
-              />
-            )}
+                <input
+                  type="file"
+                  accept=".csv,.xlsx,.xls,.Q,.txt,.pkl"
+                  disabled={this.state.selectedUploadOption === null}
+                  onChange={this.handleFileUpload}
+                  onClick={this.onInputMetadataClick}
+                />
+              )}
             <hr
               style={{
                 backgroundColor: "white",
@@ -2475,7 +2480,7 @@ class App extends Component {
               removeOutliers={this.removeOutliers}
             />
 
-            <div style={{ marginTop: "20%" }}>
+            <div style={{marginTop: "20%"}}>
               <Button
                 variant="outlined"
                 style={{
@@ -2508,7 +2513,7 @@ class App extends Component {
                     {this.state.dendrogramPath !== "" && <Tab>Dendrogram</Tab>}
                     {this.state.admix.length > 0 &&
                       this.state.selectedUploadOption ===
-                        "pcairandadmixture" && <Tab>Admixture</Tab>}
+                      "pcairandadmixture" && <Tab>Admixture</Tab>}
                   </TabList>
                   <TabPanel>{this.showScatterPlot()}</TabPanel>
                   {this.state.dendrogramPath !== "" && (
@@ -2521,7 +2526,7 @@ class App extends Component {
                       data={this.state.admix}
                       alphaVal={this.state.alphaVal}
                       certaintyVal={this.state.certaintyVal}
-                      clusterNames={{ ...this.state.cluster_names }}
+                      clusterNames={{...this.state.cluster_names}}
                       onChange={this.clusterNumberChange}
                       AdmixOptionsLabelCheck={this.state.AdmixOptionsLabelCheck}
                       plotTitle={this.state.plotTitle}
@@ -2536,7 +2541,7 @@ class App extends Component {
             )}
             <div>
               <div className="radio" style={styles.dimensions}>
-                <FormControl style={{ marginLeft: "2%", marginTop: "1%" }}>
+                <FormControl style={{marginLeft: "2%", marginTop: "1%"}}>
                   <FormLabel id="demo-row-radio-buttons-group-label">
                     Plot
                   </FormLabel>
@@ -2568,10 +2573,10 @@ class App extends Component {
                   </RadioGroup>
                 </FormControl>
                 <div style={styles.dropDown}>
-                  <label style={{ width: "25%", marginLeft: "12%" }}>
+                  <label style={{width: "25%", marginLeft: "12%"}}>
                     <h6 style={{}}> X-axis </h6>
                   </label>
-                  <div style={{ width: "75%" }}>
+                  <div style={{width: "75%"}}>
                     <Select
                       value={{
                         value:
@@ -2593,10 +2598,10 @@ class App extends Component {
                 </div>
 
                 <div style={styles.dropDown}>
-                  <label style={{ width: "25%", marginLeft: "12%" }}>
+                  <label style={{width: "25%", marginLeft: "12%"}}>
                     <h6 style={{}}> Y-axis </h6>
                   </label>
-                  <div style={{ width: "75%" }}>
+                  <div style={{width: "75%"}}>
                     <Select
                       value={{
                         value:
@@ -2619,10 +2624,10 @@ class App extends Component {
                   </div>
                 </div>
                 <div style={styles.dropDown}>
-                  <label style={{ width: "25%", marginLeft: "12%" }}>
+                  <label style={{width: "25%", marginLeft: "12%"}}>
                     <h6 style={{}}> Z-axis </h6>
                   </label>
-                  <div style={{ width: "75%" }}>
+                  <div style={{width: "75%"}}>
                     <Select
                       value={{
                         value:
@@ -2656,6 +2661,7 @@ class App extends Component {
                       <TabPanel>
                         <div className="row">
                           <div className="row-md-8"></div>
+
                           <div
                             style={{
                               width: "90%",
@@ -2695,7 +2701,7 @@ class App extends Component {
                                 >
                                   Identify by Colors
                                 </label>
-                                <div style={{ width: "62%", marginTop: "1%" }}>
+                                <div style={{width: "62%", marginTop: "1%"}}>
                                   <Select
                                     value={
                                       this.state.selectedDescribingColumnColor
@@ -2715,7 +2721,7 @@ class App extends Component {
                                 >
                                   Identify by Shape
                                 </label>
-                                <div style={{ width: "62%", marginTop: "1%" }}>
+                                <div style={{width: "62%", marginTop: "1%"}}>
                                   <Select
                                     value={
                                       this.state.selectedDescribingColumnShape
@@ -2749,7 +2755,7 @@ class App extends Component {
                             placeholder="Mapping ID"
                             options={this.state.allActions}
                             onChange={(option) => {
-                              this.setState({ mappingIDColumn: option.label });
+                              this.setState({mappingIDColumn: option.label});
                             }}
                           />
                           <label
@@ -2798,52 +2804,52 @@ class App extends Component {
                   )}
                 {(this.state.selectedUploadOption === "pcairandadmixture" ||
                   this.state.selectedUploadOption === "admixture") && (
-                  <div>
-                    <TabPanel>
-                      <div
-                        style={{
-                          width: "90%",
-                          marginLeft: "3%",
-                        }}
-                      >
-                        <AdmixOptions
-                          initialAlpha={this.state.alphaVal}
-                          initialCertainty={this.state.certaintyVal}
-                          name={
-                            this.state.selectedUploadOption ===
-                            "pcairandadmixture"
-                              ? "Alpha"
-                              : "Certainty"
-                          }
-                          parentCallback={this.handleAdmixOptionsCallback}
-                          mode={this.state.admixMode}
-                          disabled={this.state.admix.length === 0}
+                    <div>
+                      <TabPanel>
+                        <div
+                          style={{
+                            width: "90%",
+                            marginLeft: "3%",
+                          }}
+                        >
+                          <AdmixOptions
+                            initialAlpha={this.state.alphaVal}
+                            initialCertainty={this.state.certaintyVal}
+                            name={
+                              this.state.selectedUploadOption ===
+                                "pcairandadmixture"
+                                ? "Alpha"
+                                : "Certainty"
+                            }
+                            parentCallback={this.handleAdmixOptionsCallback}
+                            mode={this.state.admixMode}
+                            disabled={this.state.admix.length === 0}
+                          />
+                        </div>
+                        {this.state.data !== null && (
+                          <DownloadData
+                            data={this.state.data}
+                            clusterColors={this.state.clusterColors}
+                            OutlierData={this.state.OutlierData}
+                            columnRange={this.state.columnRange}
+                            clusterNames={this.state.cluster_names}
+                            admixData={this.state.admix}
+                            alphaVal={this.state.alphaVal}
+                            certaintyVal={this.state.certaintyVal}
+                            admixMode={this.state.admixMode}
+                          />
+                        )}
+                      </TabPanel>
+                      <TabPanel style={styles.outputSettings}>
+                        <TabOutputOptions
+                          uniqueClusters={this.state.num_clusters}
+                          parentCallback={this.handleTabOutputCallback}
+                          showClusters={this.state.showOutputOptions}
+                          markerSize={this.state.markerSize}
                         />
-                      </div>
-                      {this.state.data !== null && (
-                        <DownloadData
-                          data={this.state.data}
-                          clusterColors={this.state.clusterColors}
-                          OutlierData={this.state.OutlierData}
-                          columnRange={this.state.columnRange}
-                          clusterNames={this.state.cluster_names}
-                          admixData={this.state.admix}
-                          alphaVal={this.state.alphaVal}
-                          certaintyVal={this.state.certaintyVal}
-                          admixMode={this.state.admixMode}
-                        />
-                      )}
-                    </TabPanel>
-                    <TabPanel style={styles.outputSettings}>
-                      <TabOutputOptions
-                        uniqueClusters={this.state.num_clusters}
-                        parentCallback={this.handleTabOutputCallback}
-                        showClusters={this.state.showOutputOptions}
-                        markerSize={this.state.markerSize}
-                      />
-                    </TabPanel>
-                  </div>
-                )}
+                      </TabPanel>
+                    </div>
+                  )}
               </Tabs>
             </div>
           </div>
