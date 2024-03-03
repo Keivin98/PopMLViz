@@ -2645,7 +2645,7 @@ class App extends Component {
                 opacity: 1,
               }}
             />
-            <DimensionalityReductionTab
+            {/* <DimensionalityReductionTab
               onChange={this.DRTabChange}
               processData={this.processData}
             />
@@ -2659,14 +2659,14 @@ class App extends Component {
                   onChange={this.handleFileUpload}
                   onClick={this.onInputMetadataClick}
                 />
-              )}
-            <hr
+              )} */}
+            {/* <hr
               style={{
                 backgroundColor: "white",
                 height: 3,
                 opacity: 1,
               }}
-            />
+            /> */}
             <ClusteringAlgorithmsTab onChange={this.runCluster} />
 
             <hr

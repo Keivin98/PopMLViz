@@ -19,6 +19,9 @@ const useStyles = makeStyles({
         borderColor: 'white !important',
         borderWidth: 1,
         textTransform: 'none !important',
+        width: 150,
+        marginLeft: '20px !important',
+
         '&:hover': {
             backgroundColor: 'rgba(255, 255, 255, 0.5) !important',
         },
