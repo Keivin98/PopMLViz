@@ -210,7 +210,7 @@ function DataUploadModal({samplePCAAdmixDataset, processedPCA, processedAdmix, u
     };
 
     const handlePCAirFiles = async () => {
-        let newFilenames = [];
+        let newFilenames = {};
         const uploadTasks = [".bed", ".bim", ".fam", "Kinship"].map(async filename => {
             const data = new FormData();
             data.append("file", files[filename]);
@@ -228,7 +228,8 @@ function DataUploadModal({samplePCAAdmixDataset, processedPCA, processedAdmix, u
                     throw new Error("Network response was not ok");
                 }
                 const responseData = await response.json();
-                newFilenames.push(responseData.filename);
+                newFilenames[filename] = (responseData.filename);
+                console.log(filename, responseData.filename)
                 return responseData;
             } catch (error) {
                 console.error("Upload failed for " + filename, error);
@@ -239,7 +240,7 @@ function DataUploadModal({samplePCAAdmixDataset, processedPCA, processedAdmix, u
 
         Promise.all(uploadTasks).then(() => {
             handleClose();
-            runPCAir(newFilenames[0], newFilenames[1], newFilenames[2], newFilenames[3]);
+            runPCAir(newFilenames[".bed"], newFilenames[".bim"], newFilenames[".fam"], newFilenames["Kinship"]);
         }).catch(error => {
             console.error("An error occurred during the upload: ", error);
         });
