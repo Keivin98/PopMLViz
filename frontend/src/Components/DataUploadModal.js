@@ -25,7 +25,7 @@ const useStyles = makeStyles({
     },
 });
 
-function DataUploadModal({samplePCAAdmixDataset, processedPCA, processedAdmix, unprocessedPCA}) {
+function DataUploadModal({samplePCAAdmixDataset, processedPCA, processedAdmix, unprocessedPCA, tsne2d, tsne3d, runPCAir}) {
     const classes = useStyles();
 
     const [modalOpen, setModalOpen] = useState(false);
@@ -206,7 +206,42 @@ function DataUploadModal({samplePCAAdmixDataset, processedPCA, processedAdmix, u
         setDragOver(newDragOverState);
     };
 
+    const handlePCAirFiles = async () => {
+        let newFilenames = []
+        const uploadTasks = [".bim", ".bed", ".fam", "Kinship"].map(async filename => {
+            const data = new FormData();
+            data.append("file", files[filename]);
+            data.append("filename", files[filename].name);
 
+            return fetch(
+                `${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}${process.env.REACT_APP_PORT}/api/uploadPCAIR`,
+                {
+                    method: "POST",
+                    body: data,
+                }
+            )
+                .then((response) => {
+                    console.log("done with ", filename);
+                    newFilenames.push(response.json().filename);
+                    return response; // Return the response for further chaining if necessary
+                })
+                .catch(() => {
+                    alert(
+                        "Server error! Please check the input and try again. If the error persists, refer to the docs! "
+                    );
+                    throw new Error("Upload failed for " + filename); // Throw an error to break Promise.all on failure
+                });
+        });
+
+
+        Promise.all(uploadTasks).then(() => {
+            // This function will run after all files have been uploaded
+            handleClose();
+            runPCAir(newFilenames[0], newFilenames[1], newFilenames[2], newFilenames[3]);
+        }).catch(error => {
+            console.error("An error occurred during the upload: ", error);
+        });
+    }
 
     const renderDragDropArea = (type) => {
         let toDisplay = ""
@@ -308,6 +343,7 @@ function DataUploadModal({samplePCAAdmixDataset, processedPCA, processedAdmix, u
                     </div>
                 );
             case 'PCA':
+            case 'PCA (using Correlation Matrix)':
                 let text;
                 if (dataProcessed) {
                     text = "Expected: PCA data"
@@ -362,7 +398,7 @@ function DataUploadModal({samplePCAAdmixDataset, processedPCA, processedAdmix, u
                         </div>
                     </div>
                 );
-            case 'PC-AiR':
+            case 'PC-AiR (using PLINK files and Kinship) ':
                 return (
                     <div>
                         <Typography variant="h6" gutterBottom>
@@ -378,14 +414,13 @@ function DataUploadModal({samplePCAAdmixDataset, processedPCA, processedAdmix, u
                             <Button
                                 variant="contained"
                                 style={{marginTop: '20px', backgroundColor: green[500], color: 'white'}}
-                                onClick={() => console.log('Submit')}>
+                                onClick={async () => await handlePCAirFiles()}>
                                 Submit
                             </Button>
                         </div>
                     </div>
                 );
-            case 'TSNE2d':
-            case 'TSNE3D':
+            case 't-SNE 2D (using PCA data)':
                 return (
                     <div>
                         <Typography variant="h6" gutterBottom>
@@ -396,7 +431,30 @@ function DataUploadModal({samplePCAAdmixDataset, processedPCA, processedAdmix, u
                             <Button
                                 variant="contained"
                                 style={{marginTop: '20px', backgroundColor: green[500], color: 'white'}}
-                                onClick={() => console.log('Submit')}>
+                                onClick={() => {
+                                    tsne2d(files.PCA.unprocessed)
+                                    handleClose()
+                                }}>
+                                Submit
+                            </Button>
+                        </div>
+                    </div>
+                );
+            case 't-SNE 3D (using PCA data)':
+                return (
+                    <div>
+                        <Typography variant="h6" gutterBottom>
+                            Expected: PCA data
+                        </Typography>
+                        {renderDragDropArea("PCA")}
+                        <div style={{display: 'flex', justifyContent: 'center'}}>
+                            <Button
+                                variant="contained"
+                                style={{marginTop: '20px', backgroundColor: green[500], color: 'white'}}
+                                onClick={() => {
+                                    tsne3d(files.PCA.unprocessed)
+                                    handleClose()
+                                }}>
                                 Submit
                             </Button>
                         </div>
@@ -432,7 +490,7 @@ function DataUploadModal({samplePCAAdmixDataset, processedPCA, processedAdmix, u
                 const options =
                     dataSelectionStep === 'exampleData' ? ['Example: PCA', 'Example: Admixed PCA'] :
                         dataProcessed ? ['PCA', 'Admixed PCA'] :
-                            ['PCA', 'PC-AiR', 'TSNE2d', 'TSNE3D'];
+                            ['PCA (using Correlation Matrix)', 'PC-AiR (using PLINK files and Kinship) ', 't-SNE 2D (using PCA data)', 't-SNE 3D (using PCA data)'];
 
                 return (
                     <div style={{display: 'flex', flexDirection: 'column', gap: '10px'}}>

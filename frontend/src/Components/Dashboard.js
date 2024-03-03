@@ -1500,6 +1500,20 @@ class App extends Component {
     })
   };
 
+  handleTSNE2D = (file) => {
+    this.setState({
+      selectedUploadOption: "t-SNE 2D"
+    }, () => {
+      this.handleFileUploadNew(file)
+    })
+  };
+  handleTSNE3D = (file) => {
+    this.setState({
+      selectedUploadOption: "t-SNE 3D"
+    }, () => {
+      this.handleFileUploadNew(file)
+    })
+  };
   handleAdmixFileUpload1 = (e) => {
     this.handleFileUpload(e, 1);
   };
@@ -1912,6 +1926,51 @@ class App extends Component {
         );
       });
   };
+
+  runPCAir = (bedName, bimName, famName, kinshipName) => {
+    this.setState(
+      {
+        isLoading: true,
+        ProgressBarType: "ProgressBar",
+        ProgressBarTimeInterval: 80,
+      }
+    );
+    const formData = {
+      bedName: bedName,
+      bimName: bimName,
+      famName: famName,
+      kinshipName: kinshipName,
+    };
+
+
+    axios
+      .post(
+        `${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}${process.env.REACT_APP_PORT}/api/runPCAIR`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*",
+          },
+        }
+      )
+      .then((r) => {
+        this.setState({
+          isLoading: false,
+        });
+        this.processData(r.data, false);
+      })
+      .catch(() => {
+        this.setState({
+          isLoading: false,
+        });
+        alert(
+          "Server error! Please check the input and try again. If the error persists, refer to the docs! "
+        );
+      });
+  };
+
+
   samplePCADataset = () => {
     this.setState({
       isLoading: true,
@@ -2472,6 +2531,9 @@ class App extends Component {
                 processedPCA={this.handleProcessedPCA} // this.handleFileUpload
                 processedAdmix={this.handleProcessedAdmix} // this.handleAdmixFileUpload1
                 unprocessedPCA={this.handleUnprocessedPCA}
+                tsne2d={this.handleTSNE2D}
+                tsne3d={this.handleTSNE3D}
+                runPCAir={this.runPCAir}
               />
 
               {/* {this.state.selectedUploadOption === "PCA" && (

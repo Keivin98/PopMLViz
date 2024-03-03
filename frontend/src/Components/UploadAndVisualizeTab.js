@@ -55,6 +55,9 @@ class UploadAndVisualizeTab extends Component {
               processedPCA={this.props.processedPCA}
               processedAdmix={this.props.processedAdmix}
               unprocessedPCA={this.props.unprocessedPCA}
+              tsne2d={this.props.tsne2d}
+              tsne3d={this.props.tsne3d}
+              runPCAir={this.props.runPCAir}
             />
           </div>
           {/* <AiFillCaretDown style={{marginTop: "3%"}} /> */}
@@ -70,6 +73,9 @@ UploadAndVisualizeTab.propTypes = {
   processedPCA: PropTypes.func,
   processedAdmix: PropTypes.func,
   unprocessedPCA: PropTypes.func,
+  tsne2d: PropTypes.func,
+  tsne3d: PropTypes.func,
+  runPCAir: PropTypes.func,
 };
 
 export default UploadAndVisualizeTab;
