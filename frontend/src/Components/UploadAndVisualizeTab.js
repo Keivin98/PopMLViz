@@ -1,16 +1,18 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 import PropTypes from "prop-types";
 import Collapse from "react-bootstrap/Collapse";
-import { AiFillCaretDown } from "react-icons/ai";
-import { FcScatterPlot } from "react-icons/fc";
-class DimensionalityReductionTab extends Component {
+import {AiFillCaretDown} from "react-icons/ai";
+import {FcScatterPlot} from "react-icons/fc";
+import DataUploadModal from "./DataUploadModal";
+
+class UploadAndVisualizeTab extends Component {
   state = {
     selectedUploadOption: null,
     selectedFile: null,
     open: false,
   };
   setOpen = (open) => {
-    this.setState({ open: open });
+    this.setState({open: open});
   };
   onUploadValueChange = (event) => {
     this.setState(
@@ -45,14 +47,35 @@ class DimensionalityReductionTab extends Component {
           >
             <FcScatterPlot
               size={30}
-              style={{ marginRight: "3%", opacity: 0.5 }}
+              style={{marginRight: "3%", opacity: 0.5}}
             />
-            <label>Upload and Visualize </label>
+            {/* <label> Upload and Preprocess </label> */}
+            <DataUploadModal
+              samplePCAAdmixDataset={this.props.samplePCAAdmixDataset}
+              processedPCA={this.props.processedPCA}
+              processedAdmix={this.props.processedAdmix}
+              unprocessedPCA={this.props.unprocessedPCA}
+            />
           </div>
-          <AiFillCaretDown style={{ marginTop: "3%" }} />
+          {/* <AiFillCaretDown style={{marginTop: "3%"}} /> */}
         </div>
+      </div>
+    );
+  }
+}
 
-        <Collapse in={this.state.open}>
+UploadAndVisualizeTab.propTypes = {
+  data: PropTypes.array,
+  samplePCAAdmixDataset: PropTypes.func,
+  processedPCA: PropTypes.func,
+  processedAdmix: PropTypes.func,
+  unprocessedPCA: PropTypes.func,
+};
+
+export default UploadAndVisualizeTab;
+
+
+{/* <Collapse in={this.state.open}>
           <div id="example-collapse-text">
             <div className="radio">
               <input
@@ -61,10 +84,10 @@ class DimensionalityReductionTab extends Component {
                 checked={this.state.selectedUploadOption === "PCA"}
                 onChange={this.onUploadValueChange}
               />
-              <label style={{ paddingLeft: "10px" }}> PCA</label>
-            </div>
+              <label style={{paddingLeft: "10px"}}> PCA</label>
+            </div> */}
 
-            {/* <div className="radio">
+{/* <div className="radio">
               <input
                 type="radio"
                 value="admixture"
@@ -74,26 +97,16 @@ class DimensionalityReductionTab extends Component {
               <label style={{ paddingLeft: "10px" }}> Admixture</label>
             </div> */}
 
-            <div className="radio">
-              <input
-                type="radio"
-                value="pcairandadmixture"
-                checked={
-                  this.state.selectedUploadOption === "pcairandadmixture"
-                }
-                onChange={this.onUploadValueChange}
-              />
-              <label style={{ paddingLeft: "10px" }}> PCA and Admixture</label>
-            </div>
-          </div>
-        </Collapse>
-      </div>
-    );
-  }
-}
-
-DimensionalityReductionTab.propTypes = {
-  data: PropTypes.array,
-};
-
-export default DimensionalityReductionTab;
+//     <div className="radio">
+//       <input
+//         type="radio"
+//         value="pcairandadmixture"
+//         checked={
+//           this.state.selectedUploadOption === "pcairandadmixture"
+//         }
+//         onChange={this.onUploadValueChange}
+//       />
+//       <label style={{paddingLeft: "10px"}}> PCA and Admixture</label>
+//     </div>
+//   </div>
+// </Collapse>

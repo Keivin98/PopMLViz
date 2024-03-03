@@ -1,12 +1,13 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 import PropTypes from "prop-types";
 import Collapse from "react-bootstrap/Collapse";
 import Button from "react-bootstrap/Button";
-import { AiFillCaretDown } from "react-icons/ai";
+import {AiFillCaretDown} from "react-icons/ai";
 import PCAir from "./PCAir";
-import { VscTypeHierarchy } from "react-icons/vsc";
+import {VscTypeHierarchy} from "react-icons/vsc";
 import axios from "axios";
-class UploadAndVisualizeTab extends Component {
+
+class DimensionalityReductionTab extends Component {
   state = {
     selectedUploadOption: null,
     selectedFile: null,
@@ -16,7 +17,7 @@ class UploadAndVisualizeTab extends Component {
     ProgressBarTimeInterval: 80,
   };
   setOpen = (open) => {
-    this.setState({ open: open });
+    this.setState({open: open});
   };
   onUploadValueChange = (event) => {
     this.setState(
@@ -118,7 +119,7 @@ class UploadAndVisualizeTab extends Component {
             />
             <label>Dimensionality Reduction</label>
           </div>
-          <AiFillCaretDown style={{ marginTop: "3%" }} />
+          <AiFillCaretDown style={{marginTop: "3%"}} />
         </div>
         <Collapse in={this.state.open}>
           <div id="example-collapse-text">
@@ -131,7 +132,7 @@ class UploadAndVisualizeTab extends Component {
                 }
                 onChange={this.onUploadValueChange}
               />
-              <label style={{ paddingLeft: "10px" }}>PCA</label>
+              <label style={{paddingLeft: "10px"}}>PCA</label>
             </div>
             <div className="radio">
               <input
@@ -140,7 +141,7 @@ class UploadAndVisualizeTab extends Component {
                 checked={this.state.selectedUploadOption === "PC-AiR"}
                 onChange={this.onUploadValueChange}
               />
-              <label style={{ paddingLeft: "10px" }}> PC-AiR</label>
+              <label style={{paddingLeft: "10px"}}> PC-AiR</label>
             </div>
             <div>
               <input
@@ -149,7 +150,7 @@ class UploadAndVisualizeTab extends Component {
                 checked={this.state.selectedUploadOption === "t-SNE 2D"}
                 onChange={this.onUploadValueChange}
               />
-              <label style={{ paddingLeft: "10px" }}> t-SNE 2D</label>
+              <label style={{paddingLeft: "10px"}}> t-SNE 2D</label>
             </div>
             <div>
               <input
@@ -158,7 +159,7 @@ class UploadAndVisualizeTab extends Component {
                 checked={this.state.selectedUploadOption === "t-SNE 3D"}
                 onChange={this.onUploadValueChange}
               />
-              <label style={{ paddingLeft: "10px" }}> t-SNE 3D</label>
+              <label style={{paddingLeft: "10px"}}> t-SNE 3D</label>
             </div>
 
             <div>
@@ -170,25 +171,25 @@ class UploadAndVisualizeTab extends Component {
                     paddingBottom: "20px",
                   }}
                 >
-                  <label style={{ fontStyle: "italic" }}>
+                  <label style={{fontStyle: "italic"}}>
                     expected: Correlation Matrix.
                   </label>
                 </div>
               )}
               {(this.state.selectedUploadOption === "t-SNE 2D" ||
                 this.state.selectedUploadOption === "t-SNE 3D") && (
-                <div
-                  style={{
-                    width: "300px",
-                    paddingTop: "20px",
-                    paddingBottom: "20px",
-                  }}
-                >
-                  <label style={{ fontStyle: "italic" }}>
-                    expected: PCA Data.
-                  </label>
-                </div>
-              )}
+                  <div
+                    style={{
+                      width: "300px",
+                      paddingTop: "20px",
+                      paddingBottom: "20px",
+                    }}
+                  >
+                    <label style={{fontStyle: "italic"}}>
+                      expected: PCA Data.
+                    </label>
+                  </div>
+                )}
 
               {this.state.selectedUploadOption === "PC-AiR" && (
                 <div>
@@ -216,7 +217,7 @@ class UploadAndVisualizeTab extends Component {
     );
   }
 }
-UploadAndVisualizeTab.propTypes = {
+DimensionalityReductionTab.propTypes = {
   runPCAir: PropTypes.func,
   bedName: PropTypes.string,
   bimName: PropTypes.string,
@@ -224,4 +225,4 @@ UploadAndVisualizeTab.propTypes = {
   kinshipName: PropTypes.string,
 };
 
-export default UploadAndVisualizeTab;
+export default DimensionalityReductionTab;

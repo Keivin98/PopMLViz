@@ -54,9 +54,9 @@ const randomShapes = [
   "hexagon",
   "star-diamond",
   "circle-cross",
-  "hash",
-  "y-up",
-  "line-ew",
+  // "hash",
+  // "y-up",
+  // "line-ew",
   "arrow-down",
 ];
 
@@ -245,204 +245,207 @@ class App extends Component {
         : // eslint-disable-next-line
         "<i>(%{x}, %{y:.4f}), %{z:.4f}) </i>" +
         "<br><b>Mapping ID</b>:%{text}</b></br>";
-
+    let tooManyUniqueValues = false;
     if (categoricalData != null) {
       // find unique values
-      for (var catID = 0; catID < categoricalData.length; catID++) {
-        if (uniqueTags.indexOf(categoricalData[catID]) === -1) {
-          uniqueTags.push(categoricalData[catID]);
-        }
-      }
-      if (uniqueTags.length > 20) {
-        alert("There are too many unique values! Check the categorical data!");
-        if (colorOrShape === 0) {
+      let uniqueTags = new Set();
+
+      for (let catID = 0; catID < categoricalData.length; catID++) {
+        uniqueTags.add(categoricalData[catID]);
+
+        if (uniqueTags.size > 20) {
+          tooManyUniqueValues = true; // Set the flag
+
+          alert("There are too many unique values! Check the categorical data!");
+          // Handle the state update if needed
           this.setState({
             coloredData: [],
-            selectedDescribingColumnColor: null,
+            selectedDescribingColumnColor: {value: "None", label: "None"},
+            selectedDescribingColumnShape: {value: "None", label: "None"},
           });
-        } else {
-          this.setState({
-            coloredData: [],
-            selectedDescribingColumnShape: null,
-          });
-        }
 
-        return;
-      }
-
-      for (var colID = 0; colID < uniqueTags.length; colID++) {
-        data_new.push({});
-
-        if (DIM === 2) {
-          if (this.state.selectedColorShape === 0) {
-            data_new[colID] = {
-              name: uniqueTags[colID],
-              x: [],
-              y: [],
-              z: [],
-              type: "scatter3d",
-              mode: "markers",
-              marker: {
-                color: randomColors[colID],
-                symbol: this.state.chosenInitialShape,
-                size: this.state.markerSize,
-              },
-              text: [],
-              hovertemplate: hoverTemplate3D,
-            };
-          } else {
-            data_new[colID] = {
-              name: uniqueTags[colID],
-              x: [],
-              y: [],
-              z: [],
-              type: "scatter3d",
-              mode: "markers",
-              marker: {
-                color: this.state.chosenInitialColor,
-                symbol: randomShapes[colID],
-                size: this.state.markerSize,
-              },
-              text: [],
-              hovertemplate: hoverTemplate3D,
-            };
-          }
-        } else {
-          if (this.state.selectedColorShape === 0) {
-            data_new[colID] = {
-              name: uniqueTags[colID],
-              x: [],
-              y: [],
-              mode: "markers",
-              marker: {
-                color: randomColors[colID],
-                symbol: this.state.chosenInitialShape,
-                size: this.state.markerSize,
-              },
-              text: [],
-              hovertemplate: hoverTemplate2D,
-            };
-          } else {
-            data_new[colID] = {
-              name: uniqueTags[colID],
-              x: [],
-              y: [],
-              mode: "markers",
-              marker: {
-                color: this.state.chosenInitialColor,
-                symbol: randomShapes[colID],
-                size: this.state.markerSize,
-              },
-              text: [],
-              hovertemplate: hoverTemplate2D,
-            };
-          }
+          break; // Break out of the loop;
         }
       }
-    }
+      if (!tooManyUniqueValues) {
+        uniqueTags = [...Array.from(uniqueTags)];
 
-    if (this.state.data != null) {
-      for (var i = 0; i < this.state.data.length; i++) {
-        var categoryID = uniqueTags.indexOf(categoricalData[i]);
+        for (var colID = 0; colID < uniqueTags.length; colID++) {
+          data_new.push({});
+
+          if (DIM === 2) {
+            if (this.state.selectedColorShape === 0) {
+              data_new[colID] = {
+                name: uniqueTags[colID],
+                x: [],
+                y: [],
+                z: [],
+                type: "scatter3d",
+                mode: "markers",
+                marker: {
+                  color: randomColors[colID],
+                  symbol: this.state.chosenInitialShape,
+                  size: this.state.markerSize,
+                },
+                text: [],
+                hovertemplate: hoverTemplate3D,
+              };
+            } else {
+              data_new[colID] = {
+                name: uniqueTags[colID],
+                x: [],
+                y: [],
+                z: [],
+                type: "scatter3d",
+                mode: "markers",
+                marker: {
+                  color: this.state.chosenInitialColor,
+                  symbol: randomShapes[colID],
+                  size: this.state.markerSize,
+                },
+                text: [],
+                hovertemplate: hoverTemplate3D,
+              };
+            }
+          } else {
+            if (this.state.selectedColorShape === 0) {
+              data_new[colID] = {
+                name: uniqueTags[colID],
+                x: [],
+                y: [],
+                mode: "markers",
+                marker: {
+                  color: randomColors[colID],
+                  symbol: this.state.chosenInitialShape,
+                  size: this.state.markerSize,
+                },
+                text: [],
+                hovertemplate: hoverTemplate2D,
+              };
+            } else {
+              data_new[colID] = {
+                name: uniqueTags[colID],
+                x: [],
+                y: [],
+                mode: "markers",
+                marker: {
+                  color: this.state.chosenInitialColor,
+                  symbol: randomShapes[colID],
+                  size: this.state.markerSize,
+                },
+                text: [],
+                hovertemplate: hoverTemplate2D,
+              };
+            }
+          }
+        }
+
+
+        if (this.state.data != null) {
+          for (var i = 0; i < this.state.data.length; i++) {
+            var categoryID = uniqueTags.indexOf(categoricalData[i]);
+            if (DIM === 0) {
+              data_new[categoryID].x.push(i);
+              data_new[categoryID].y.push(this.state.data[i][x]);
+            } else if (DIM === 1) {
+              data_new[categoryID].x.push(this.state.data[i][x]);
+              data_new[categoryID].y.push(this.state.data[i][y]);
+            } else {
+              data_new[categoryID].x.push(this.state.data[i][x]);
+              data_new[categoryID].y.push(this.state.data[i][y]);
+              data_new[categoryID].z.push(this.state.data[i][z]);
+            }
+            if (mapping_id) {
+              data_new[categoryID].text.push(
+                this.state.data[i][this.state.mappingIDColumn]
+              );
+            }
+          }
+        }
+        var plot_title = this.state.plotTitle;
+
         if (DIM === 0) {
-          data_new[categoryID].x.push(i);
-          data_new[categoryID].y.push(this.state.data[i][x]);
+          layout = {
+            title: plot_title,
+            xaxis: {title: "ID"},
+            yaxis: {title: y},
+          };
         } else if (DIM === 1) {
-          data_new[categoryID].x.push(this.state.data[i][x]);
-          data_new[categoryID].y.push(this.state.data[i][y]);
+          layout = {
+            title: plot_title,
+            xaxis: {title: x},
+            yaxis: {title: y},
+          };
         } else {
-          data_new[categoryID].x.push(this.state.data[i][x]);
-          data_new[categoryID].y.push(this.state.data[i][y]);
-          data_new[categoryID].z.push(this.state.data[i][z]);
+          layout = {
+            legend: {
+              yanchor: "top",
+              y: 0.89,
+              xanchor: "right",
+              x: 0.99,
+            },
+            margin: {
+              l: 0,
+              r: 0,
+              b: 0,
+              t: 0,
+            },
+            scene: {
+              aspectratio: {
+                x: 1,
+                y: 1,
+                z: 1,
+              },
+              camera: {
+                center: {
+                  x: 0,
+                  y: 0,
+                  z: 0,
+                },
+                eye: {
+                  x: 1.25,
+                  y: 1.25,
+                  z: 1.25,
+                },
+                up: {
+                  x: 0,
+                  y: 0,
+                  z: 1,
+                },
+              },
+              xaxis: {
+                type: "linear",
+                zeroline: false,
+                title: x,
+              },
+              yaxis: {
+                type: "linear",
+                zeroline: false,
+                title: y,
+              },
+              zaxis: {
+                type: "linear",
+                zeroline: false,
+                title: z,
+              },
+            },
+            title: plot_title,
+          };
         }
-        if (mapping_id) {
-          data_new[categoryID].text.push(
-            this.state.data[i][this.state.mappingIDColumn]
-          );
-        }
+
+        return (
+          <ScatterPlot
+            data={data_new}
+            layout={layout}
+            picWidth={this.state.picWidth}
+            picHeight={this.state.picHeight}
+            picFormat={this.state.picFormat}
+            plotTitle={this.state.plotTitle}
+          />
+        );
       }
     }
-    var plot_title = this.state.plotTitle;
 
-    if (DIM === 0) {
-      layout = {
-        title: plot_title,
-        xaxis: {title: "ID"},
-        yaxis: {title: y},
-      };
-    } else if (DIM === 1) {
-      layout = {
-        title: plot_title,
-        xaxis: {title: x},
-        yaxis: {title: y},
-      };
-    } else {
-      layout = {
-        legend: {
-          yanchor: "top",
-          y: 0.89,
-          xanchor: "right",
-          x: 0.99,
-        },
-        margin: {
-          l: 0,
-          r: 0,
-          b: 0,
-          t: 0,
-        },
-        scene: {
-          aspectratio: {
-            x: 1,
-            y: 1,
-            z: 1,
-          },
-          camera: {
-            center: {
-              x: 0,
-              y: 0,
-              z: 0,
-            },
-            eye: {
-              x: 1.25,
-              y: 1.25,
-              z: 1.25,
-            },
-            up: {
-              x: 0,
-              y: 0,
-              z: 1,
-            },
-          },
-          xaxis: {
-            type: "linear",
-            zeroline: false,
-            title: x,
-          },
-          yaxis: {
-            type: "linear",
-            zeroline: false,
-            title: y,
-          },
-          zaxis: {
-            type: "linear",
-            zeroline: false,
-            title: z,
-          },
-        },
-        title: plot_title,
-      };
-    }
-
-    return (
-      <ScatterPlot
-        data={data_new}
-        layout={layout}
-        picWidth={this.state.picWidth}
-        picHeight={this.state.picHeight}
-        picFormat={this.state.picFormat}
-        plotTitle={this.state.plotTitle}
-      />
-    );
   };
 
   scatterCategorical2 = (DIM, x, y, z) => {
@@ -1437,6 +1440,66 @@ class App extends Component {
     }
   };
 
+  handleFileUploadNew = (file, type) => {
+    if (this.state.selectedUploadOption === "Correlation Matrix") {
+      this.UploadCMDatasetNew(file, type);
+    } else {
+      this.setState({
+        selectedFile: file,
+        isLoading: false,
+        outlierData: [],
+        coloredData: [],
+        clusterNames: [],
+        clusterColors: [],
+      });
+      // const file = e.target.files[0];
+      const reader = new FileReader();
+      reader.onload = (evt) => {
+        /* Parse data */
+        const bstr = evt.target.result;
+        const wb = XLSX.read(bstr, {type: "binary"});
+        /* Get first worksheet */
+        const wsname = wb.SheetNames[0];
+        const ws = wb.Sheets[wsname];
+        /* Convert array of arrays */
+        const data = XLSX.utils.sheet_to_csv(ws, {header: 1});
+        this.processData(data, false, type).then(() => {
+          if (type === 3) {
+            return this.mergeDataWithMetaData();
+          }
+          if (this.state.selectedUploadOption === "PCA") {
+          } else if (this.state.selectedUploadOption === "t-SNE 2D") {
+            this.runTSNE2d();
+          } else if (this.state.selectedUploadOption === "t-SNE 3D") {
+            this.runTSNE3d();
+          }
+        });
+      };
+      reader.readAsBinaryString(file);
+    }
+  };
+
+  handleProcessedPCA = (file) => {
+    this.setState({
+      selectedUploadOption: "PCA"
+    }, () => this.handleFileUploadNew(file))
+  };
+
+  handleUnprocessedPCA = (file, name) => {
+    this.setState({
+      selectedUploadOption: "Correlation Matrix"
+    }, () => this.handleFileUploadNew(file, name))
+  }
+
+  handleProcessedAdmix = (files) => {
+    this.setState({
+      selectedUploadOption: "pcairandadmixture"
+    }, () => {
+      this.handleFileUploadNew(files[0], 1)
+      this.handleFileUploadNew(files[1], 2)
+    })
+  };
+
   handleAdmixFileUpload1 = (e) => {
     this.handleFileUpload(e, 1);
   };
@@ -1559,6 +1622,47 @@ class App extends Component {
         );
       });
   };
+
+
+  UploadCMDatasetNew = (file, name) => {
+    this.setState({
+      isLoading: true,
+      ProgressBarType: "ProgressBar",
+      ProgressBarTimeInterval: 150,
+    });
+    // Create an object of formData
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("filename", name);
+    this.setState({
+      loading: true,
+    });
+
+    axios
+      .post(
+        `${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}${process.env.REACT_APP_PORT}/api/uploadCM/`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*",
+          },
+        }
+      )
+      .then((response) => {
+        this.setState({isLoading: false, selectedUploadOption: "PCA"});
+        this.processData(response.data, false);
+      })
+      .catch(() => {
+        this.setState({
+          isLoading: false,
+        });
+        alert(
+          "Server error! Please check the input and try again. If the error persists, refer to the docs! "
+        );
+      });
+  };
+
   runCluster = (s) => {
     if (s.selectedClusterMethod === 0) {
       this.runKmeans(s.num_clusters);
@@ -1858,6 +1962,46 @@ class App extends Component {
     axios
       .get(
         `${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}${process.env.REACT_APP_PORT}/api/samplePCAAdmixDataset/${this.state.sampleDatasetValue}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*",
+          },
+        }
+      )
+      .then((r) => {
+        this.setState({
+          isLoading: false,
+          coloredData: [],
+          selectedDescribingColumn: {value: "None", label: "None"},
+        });
+        this.processData(r.data.pca, false, 1);
+        this.processData(r.data.admix, false, 2);
+      })
+      .catch(() => {
+        this.setState({
+          isLoading: false,
+        });
+        alert(
+          "Server error! Please check the input and try again. If the error persists, refer to the docs! "
+        );
+      });
+  };
+
+
+  samplePCAAdmixDataset2 = (dstype, sampleDatasetValue) => {
+    this.setState({
+      isLoading: true,
+      ProgressBarType: "Loader",
+      OutlierData: [],
+      cluster_names: {},
+      clusterColors: [],
+      dendrogramPath: "",
+      selectedUploadOption: dstype == 0 ? "PCA" : "pcairandadmixture",
+    });
+    axios
+      .get(
+        `${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}${process.env.REACT_APP_PORT}/api/samplePCAAdmixDataset/${sampleDatasetValue}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -2322,9 +2466,15 @@ class App extends Component {
         <div style={styles.splitScreen}>
           <div class="leftpane" style={styles.leftPane}>
             <form style={{marginTop: "1%"}}>
-              <UploadAndVisualizeTab onChange={this.UploadTabChange} />
+              <UploadAndVisualizeTab
+                onChange={this.UploadTabChange}
+                samplePCAAdmixDataset={this.samplePCAAdmixDataset2}
+                processedPCA={this.handleProcessedPCA} // this.handleFileUpload
+                processedAdmix={this.handleProcessedAdmix} // this.handleAdmixFileUpload1
+                unprocessedPCA={this.handleUnprocessedPCA}
+              />
 
-              {this.state.selectedUploadOption === "PCA" && (
+              {/* {this.state.selectedUploadOption === "PCA" && (
                 <div>
                   <input
                     type="file"
@@ -2365,8 +2515,8 @@ class App extends Component {
                     </Button>
                   </div>
                 </div>
-              )}
-              {this.state.selectedUploadOption === "pcairandadmixture" && (
+              )} */}
+              {/* {this.state.selectedUploadOption === "pcairandadmixture" && (
                 <div
                   style={{
                     width: "200%",
@@ -2424,7 +2574,7 @@ class App extends Component {
                     </Button>
                   </div>
                 </div>
-              )}
+              )} */}
             </form>
             <hr
               style={{

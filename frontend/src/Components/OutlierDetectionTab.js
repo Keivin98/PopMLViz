@@ -1,12 +1,12 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 import Select from "react-select";
 import Collapse from "react-bootstrap/Collapse";
-import { AiFillCaretDown } from "react-icons/ai";
-import { Button, IconButton } from "@material-ui/core";
+import {AiFillCaretDown} from "react-icons/ai";
+import {Button, IconButton} from "@material-ui/core";
 import OutlierBlock from "./OutlierBlock";
 import Switch from "./Switch";
-import { FcMindMap } from "react-icons/fc";
-import { AiFillDelete } from "react-icons/ai";
+import {FcMindMap} from "react-icons/fc";
+import {AiFillDelete} from "react-icons/ai";
 import PropTypes from "prop-types";
 
 class OutlierDetectionTab extends Component {
@@ -56,7 +56,7 @@ class OutlierDetectionTab extends Component {
     allActions: [],
   };
   setOpen = (open) => {
-    this.setState({ open: open });
+    this.setState({open: open});
   };
   findName = (allActions) => {
     if (
@@ -95,14 +95,14 @@ class OutlierDetectionTab extends Component {
   };
   handleChangeSwitch = (e) => {
     const pressed = e.target.checked;
-    this.setState({ pressed });
+    this.setState({pressed});
   };
 
   handleOutlierColumnChange = (data) => {
-    this.setState({ columnRange: data.columnRange });
+    this.setState({columnRange: data.columnRange});
   };
   handleOutlierChange = (option) => {
-    this.setState({ selectedOutlierMethod: option.value });
+    this.setState({selectedOutlierMethod: option.value});
   };
 
   runOutliers = () => {
@@ -127,11 +127,11 @@ class OutlierDetectionTab extends Component {
               width: "80%",
             }}
           >
-            <FcMindMap size={30} style={{ marginRight: "3%", opacity: 0.5 }} />
+            <FcMindMap size={30} style={{marginRight: "3%", opacity: 0.5}} />
             <label>Outlier Detection </label>
           </div>
 
-          <AiFillCaretDown style={{ marginTop: "3%" }} />
+          <AiFillCaretDown style={{marginTop: "3%"}} />
         </div>
 
         <Collapse in={this.state.open}>
@@ -215,7 +215,7 @@ class OutlierDetectionTab extends Component {
               <IconButton
                 variant="outlined"
                 aria-label="delete"
-                size="large"
+                size="medium"
                 style={{
                   color: "red",
                   backgroundColor: "transparent",
