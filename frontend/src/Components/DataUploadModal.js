@@ -211,7 +211,7 @@ function DataUploadModal({samplePCAAdmixDataset, processedPCA, processedAdmix, u
 
     const handlePCAirFiles = async () => {
         let newFilenames = [];
-        const uploadTasks = [".bim", ".bed", ".fam", "Kinship"].map(async filename => {
+        const uploadTasks = [".bed", ".bim", ".fam", "Kinship"].map(async filename => {
             const data = new FormData();
             data.append("file", files[filename]);
             data.append("filename", files[filename].name);
