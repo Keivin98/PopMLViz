@@ -210,41 +210,41 @@ function DataUploadModal({samplePCAAdmixDataset, processedPCA, processedAdmix, u
     };
 
     const handlePCAirFiles = async () => {
-        let newFilenames = []
+        let newFilenames = [];
         const uploadTasks = [".bim", ".bed", ".fam", "Kinship"].map(async filename => {
             const data = new FormData();
             data.append("file", files[filename]);
             data.append("filename", files[filename].name);
 
-            return fetch(
-                `${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}${process.env.REACT_APP_PORT}/api/uploadPCAIR`,
-                {
-                    method: "POST",
-                    body: data,
+            try {
+                const response = await fetch(
+                    `${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}${process.env.REACT_APP_PORT}/api/uploadPCAIR`,
+                    {
+                        method: "POST",
+                        body: data,
+                    }
+                );
+                if (!response.ok) {
+                    throw new Error("Network response was not ok");
                 }
-            )
-                .then((response) => {
-                    console.log("done with ", filename);
-                    newFilenames.push(response.json().filename);
-                    return response; // Return the response for further chaining if necessary
-                })
-                .catch(() => {
-                    alert(
-                        "Server error! Please check the input and try again. If the error persists, refer to the docs! "
-                    );
-                    throw new Error("Upload failed for " + filename); // Throw an error to break Promise.all on failure
-                });
+                const responseData = await response.json();
+                newFilenames.push(responseData.filename);
+                return responseData;
+            } catch (error) {
+                console.error("Upload failed for " + filename, error);
+                alert("Server error! Please check the input and try again. If the error persists, refer to the docs!");
+                throw error; // Propagate the error to be caught in Promise.all
+            }
         });
 
-
         Promise.all(uploadTasks).then(() => {
-            // This function will run after all files have been uploaded
             handleClose();
             runPCAir(newFilenames[0], newFilenames[1], newFilenames[2], newFilenames[3]);
         }).catch(error => {
             console.error("An error occurred during the upload: ", error);
         });
-    }
+    };
+
 
     const renderDragDropArea = (type) => {
         let toDisplay = ""

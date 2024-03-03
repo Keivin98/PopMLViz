@@ -1935,6 +1935,15 @@ class App extends Component {
         ProgressBarTimeInterval: 80,
       }
     );
+
+    console.log({
+      bedName: bedName,
+      bimName: bimName,
+      famName: famName,
+      kinshipName: kinshipName,
+    });
+
+
     const formData = {
       bedName: bedName,
       bimName: bimName,
