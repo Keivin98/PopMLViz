@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { database } from "./firebase";
+import { database } from "../Components/firebase";
 import { ref, push, child, update } from "firebase/database";
 import "./registerFP.css";
 // import validator from 'validator';
@@ -42,11 +42,7 @@ function ContactUS() {
       </h1>
       <div className="form-body" style={{ justifyContent: "center" }}>
         <div className="username">
-          <label
-            className="form__label"
-            style={{ fontWeight: "300" }}
-            for="Name"
-          >
+          <label className="form__label" style={{ fontWeight: "300" }} for="Name">
             Name{" "}
           </label>
           <input
@@ -59,11 +55,7 @@ function ContactUS() {
           />
         </div>
         <div className="email">
-          <label
-            className="form__label"
-            style={{ fontWeight: "300" }}
-            for="email"
-          >
+          <label className="form__label" style={{ fontWeight: "300" }} for="email">
             Email{" "}
           </label>
           <input
@@ -76,11 +68,7 @@ function ContactUS() {
           />
         </div>
         <div className="institution">
-          <label
-            className="form__label"
-            style={{ fontWeight: "300" }}
-            for="institution"
-          >
+          <label className="form__label" style={{ fontWeight: "300" }} for="institution">
             Institution
           </label>
           <input
@@ -99,9 +87,7 @@ function ContactUS() {
           Register
         </button>
       </div>
-      <label style={{ marginLeft: "30%", marginTop: "5%" }}>
-        {registerText}
-      </label>
+      <label style={{ marginLeft: "30%", marginTop: "5%" }}>{registerText}</label>
     </div>
   );
 }

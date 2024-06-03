@@ -1,7 +1,7 @@
 import React from "react";
 import ParticlesBg from "particles-bg";
 // import Fade from "react-reveal";
-import useAnalyticsEventTracker from "./useAnalyticsEventTracker";
+import useAnalyticsEventTracker from "../Components/useAnalyticsEventTracker";
 import { FaBook, FaGithub, FaPlayCircle } from "react-icons/fa";
 import "./headerFP.css";
 import PopMLvis from "../assets/PopMLvis.pdf";

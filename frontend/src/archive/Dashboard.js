@@ -1,29 +1,29 @@
 import axios from "axios";
-import React, {Component} from "react";
-import {Chart, registerables} from "chart.js";
+import React, { Component } from "react";
+import { Chart, registerables } from "chart.js";
 import * as XLSX from "xlsx";
 import Select from "react-select";
-import ScatterPlot from "./ScatterPlot";
-import BarPlot from "./BarPlot";
-import UploadAndVisualizeTab from "./UploadAndVisualizeTab";
-import DimensionalityReductionTab from "./DimensionalityReductionTab";
-import ScatterAdmix from "./ScatterAdmix";
-import DownloadData from "./DownloadData";
-import ClusteringAlgorithmsTab from "./ClusteringAlgorithmsTab";
-import OutlierDetectionTab from "./OutlierDetectionTab";
-import ProgressBarTime from "./ProgressBarTime";
-import {Button} from "@material-ui/core";
-import {Tab, Tabs, TabList, TabPanel} from "react-tabs";
-import TabOutputOptions from "./TabOutputOptions";
+import ScatterPlot from "../Components/ScatterPlot";
+import BarPlot from "../Components/BarPlot";
+import UploadAndVisualizeTab from "../Components/UploadAndVisualizeTab";
+import DimensionalityReductionTab from "../Components/DimensionalityReductionTab";
+import ScatterAdmix from "../Components/ScatterAdmix";
+import DownloadData from "../Components/DownloadData";
+import ClusteringAlgorithmsTab from "../Components/ClusteringAlgorithmsTab";
+import OutlierDetectionTab from "../Components/OutlierDetectionTab";
+import ProgressBarTime from "../Components/ProgressBarTime";
+import { Button } from "@material-ui/core";
+import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
+import TabOutputOptions from "../Components/TabOutputOptions";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
 import "react-tabs/style/react-tabs.css";
-import AdmixOptions from "./AdmixOptions";
+import AdmixOptions from "../Components/AdmixOptions";
 import Navbar from "react-bootstrap/Navbar";
-import Dendrogram from "./Dendrogram";
+import Dendrogram from "../Components/Dendrogram";
 
 require("dotenv").config();
 const randomColors = [
@@ -87,11 +87,11 @@ class App extends Component {
     show: true,
     multiValue: [],
     describingValues: [],
-    selectedDescribingColumnColor: {value: "None", label: "None"},
-    selectedDescribingColumnShape: {value: "None", label: "None"},
+    selectedDescribingColumnColor: { value: "None", label: "None" },
+    selectedDescribingColumnShape: { value: "None", label: "None" },
     sampleDatasets: [
-      {value: 0, label: "1000 Genomes Project (1KG)"},
-      {value: 1, label: "Human Genome Diversity Project (HGDP)"},
+      { value: 0, label: "1000 Genomes Project (1KG)" },
+      { value: 1, label: "Human Genome Diversity Project (HGDP)" },
     ],
     sampleDatasetValue: 0,
     selectedClusterMethod: null,
@@ -112,7 +112,6 @@ class App extends Component {
     admixMode: 0,
     chosenInitialColor: "#f44336",
     chosenInitialShape: "diamond",
-
   };
   handleMultiChange = (option) => {
     let act = [];
@@ -123,7 +122,7 @@ class App extends Component {
       });
     }
     this.setState({
-      multiValue: [{value: "None", label: "None"}, ...option],
+      multiValue: [{ value: "None", label: "None" }, ...option],
       selectActions: act.filter((elem) => {
         return option.indexOf(elem) < 0;
       }),
@@ -138,17 +137,17 @@ class App extends Component {
         label: columns[i]["name"],
       });
     }
-    this.setState({columns: columns, selectActions: act, allActions: act});
+    this.setState({ columns: columns, selectActions: act, allActions: act });
   };
 
   setData = (data) => {
-    this.setState({data: data});
+    this.setState({ data: data });
   };
   setAdmix = (data) => {
-    this.setState({admix: data});
+    this.setState({ admix: data });
   };
   setMetaData = (data) => {
-    this.setState({metaData: data});
+    this.setState({ metaData: data });
   };
   setMetaDataColumns = (columns) => {
     let act = [];
@@ -175,7 +174,7 @@ class App extends Component {
   // On file select (from the pop up)
   onFileChange = (event) => {
     // Update the state
-    this.setState({selectedFile: event.target.files[0]});
+    this.setState({ selectedFile: event.target.files[0] });
   };
 
   scatter1d = (y) => {
@@ -188,7 +187,7 @@ class App extends Component {
       this.state.mappingIDColumn === ""
         ? "<i>(%{x}, %{y:.4f}) </i>"
         : // eslint-disable-next-line
-        "<i>(%{x}, %{y:.4f}) </i>" + "<br><b>Mapping ID</b>:%{text}</b></br>";
+          "<i>(%{x}, %{y:.4f}) </i>" + "<br><b>Mapping ID</b>:%{text}</b></br>";
     if (this.state.data != null && y != null) {
       for (var i = 0; i < this.state.data.length; i++) {
         x1.push(i);
@@ -206,7 +205,11 @@ class App extends Component {
           mode: "markers",
           text: cluster_texts,
           hovertemplate: hoverTemplate,
-          marker: {color: this.state.chosenInitialColor, size: this.state.markerSize, symbol: this.state.chosenInitialShape},
+          marker: {
+            color: this.state.chosenInitialColor,
+            size: this.state.markerSize,
+            symbol: this.state.chosenInitialShape,
+          },
         },
       ];
     }
@@ -215,7 +218,7 @@ class App extends Component {
         data={data_new}
         layout={{
           title: this.state.plotTitle,
-          yaxis: {title: y},
+          yaxis: { title: y },
         }}
         picWidth={Number(this.state.picWidth)}
         picHeight={Number(this.state.picHeight)}
@@ -237,14 +240,13 @@ class App extends Component {
       this.state.mappingIDColumn === ""
         ? "<i>(%{x}, %{y:.4f}) </i>"
         : // eslint-disable-next-line
-        "<i>(%{x}, %{y:.4f}) </i>" + "<br><b>Mapping ID</b>:%{text}</b></br>";
+          "<i>(%{x}, %{y:.4f}) </i>" + "<br><b>Mapping ID</b>:%{text}</b></br>";
 
     var hoverTemplate3D =
       this.state.mappingIDColumn === ""
         ? "<i>(%{x}, %{y:.4f}, %{z:.4f}) </i>"
         : // eslint-disable-next-line
-        "<i>(%{x}, %{y:.4f}), %{z:.4f}) </i>" +
-        "<br><b>Mapping ID</b>:%{text}</b></br>";
+          "<i>(%{x}, %{y:.4f}), %{z:.4f}) </i>" + "<br><b>Mapping ID</b>:%{text}</b></br>";
     let tooManyUniqueValues = false;
     if (categoricalData != null) {
       // find unique values
@@ -260,8 +262,8 @@ class App extends Component {
           // Handle the state update if needed
           this.setState({
             coloredData: [],
-            selectedDescribingColumnColor: {value: "None", label: "None"},
-            selectedDescribingColumnShape: {value: "None", label: "None"},
+            selectedDescribingColumnColor: { value: "None", label: "None" },
+            selectedDescribingColumnShape: { value: "None", label: "None" },
           });
 
           break; // Break out of the loop;
@@ -340,7 +342,6 @@ class App extends Component {
           }
         }
 
-
         if (this.state.data != null) {
           for (var i = 0; i < this.state.data.length; i++) {
             var categoryID = uniqueTags.indexOf(categoricalData[i]);
@@ -356,9 +357,7 @@ class App extends Component {
               data_new[categoryID].z.push(this.state.data[i][z]);
             }
             if (mapping_id) {
-              data_new[categoryID].text.push(
-                this.state.data[i][this.state.mappingIDColumn]
-              );
+              data_new[categoryID].text.push(this.state.data[i][this.state.mappingIDColumn]);
             }
           }
         }
@@ -367,14 +366,14 @@ class App extends Component {
         if (DIM === 0) {
           layout = {
             title: plot_title,
-            xaxis: {title: "ID"},
-            yaxis: {title: y},
+            xaxis: { title: "ID" },
+            yaxis: { title: y },
           };
         } else if (DIM === 1) {
           layout = {
             title: plot_title,
-            xaxis: {title: x},
-            yaxis: {title: y},
+            xaxis: { title: x },
+            yaxis: { title: y },
           };
         } else {
           layout = {
@@ -445,7 +444,6 @@ class App extends Component {
         );
       }
     }
-
   };
 
   scatterCategorical2 = (DIM, x, y, z) => {
@@ -458,13 +456,12 @@ class App extends Component {
       this.state.mappingIDColumn === ""
         ? "<i>(%{x}, %{y:.4f}) </i>"
         : // eslint-disable-next-line
-        "<i>(%{x}, %{y:.4f}) </i>" + "<br><b>Mapping ID</b>:%{text}</b></br>";
+          "<i>(%{x}, %{y:.4f}) </i>" + "<br><b>Mapping ID</b>:%{text}</b></br>";
     var hoverTemplate3D =
       this.state.mappingIDColumn === ""
         ? "<i>(%{x}, %{y:.4f}, %{z:.4f}) </i>"
         : // eslint-disable-next-line
-        "<i>(%{x}, %{y:.4f}), %{z:.4f}) </i>" +
-        "<br><b>Mapping ID</b>:%{text}</b></br>";
+          "<i>(%{x}, %{y:.4f}), %{z:.4f}) </i>" + "<br><b>Mapping ID</b>:%{text}</b></br>";
 
     // find unique values
     for (var catID = 0; catID < this.state.coloredData.length; catID++) {
@@ -529,14 +526,7 @@ class App extends Component {
         var categoryID2 = uniqueTags2.indexOf(this.state.shapedData[i]);
 
         var categoryID = categoryID1 * uniqueTags2.length + categoryID2;
-        console.log(
-          categoryID1,
-          categoryID2,
-          uniqueTags2,
-          this.state.shapedData[i],
-          categoryID,
-          data_new.length
-        );
+        console.log(categoryID1, categoryID2, uniqueTags2, this.state.shapedData[i], categoryID, data_new.length);
         if (DIM === 0) {
           data_new[categoryID].x.push(i);
           data_new[categoryID].y.push(this.state.data[i][x]);
@@ -549,9 +539,7 @@ class App extends Component {
           data_new[categoryID].z.push(this.state.data[i][z]);
         }
         if (mapping_id) {
-          data_new[categoryID].text.push(
-            this.state.data[i][this.state.mappingIDColumn]
-          );
+          data_new[categoryID].text.push(this.state.data[i][this.state.mappingIDColumn]);
         }
       }
     }
@@ -560,14 +548,14 @@ class App extends Component {
     if (DIM === 0) {
       layout = {
         title: plot_title,
-        xaxis: {title: "ID"},
-        yaxis: {title: y},
+        xaxis: { title: "ID" },
+        yaxis: { title: y },
       };
     } else if (DIM === 1) {
       layout = {
         title: plot_title,
-        xaxis: {title: x},
-        yaxis: {title: y},
+        xaxis: { title: x },
+        yaxis: { title: y },
       };
     } else {
       layout = {
@@ -650,16 +638,14 @@ class App extends Component {
       hoverTemplate =
         this.state.mappingIDColumn === ""
           ? "<i>(%{x:.4f}, %{y:.4f} %{z:.4f}) </i>"
-          : "<i>(%{x:.4f}, %{y:.4f} %{z:.4f}) </i>" +
-          "<br><b>Mapping ID</b>:%{text}</b></br>";
+          : "<i>(%{x:.4f}, %{y:.4f} %{z:.4f}) </i>" + "<br><b>Mapping ID</b>:%{text}</b></br>";
     } else {
       mapping_id = this.state.mappingIDColumn !== "";
       // eslint-disable-next-line
       hoverTemplate =
         this.state.mappingIDColumn === ""
           ? "<i>(%{x:.4f}, %{y:.4f}) </i>"
-          : "<i>(%{x:.4f}, %{y:.4f}) </i>" +
-          "<br><b>Mapping ID</b>:%{text}</b></br>";
+          : "<i>(%{x:.4f}, %{y:.4f}) </i>" + "<br><b>Mapping ID</b>:%{text}</b></br>";
     }
     var cluster_texts = [];
 
@@ -721,9 +707,7 @@ class App extends Component {
           }
         }
         if (mapping_id) {
-          cluster_texts[rowCol].push(
-            this.state.data[i][this.state.mappingIDColumn]
-          );
+          cluster_texts[rowCol].push(this.state.data[i][this.state.mappingIDColumn]);
         }
       }
       var data_new = [];
@@ -774,7 +758,7 @@ class App extends Component {
             z: z_clusters[k],
             mode: "markers",
             type: "scatter3d",
-            marker: {color: colors[k], size: this.state.markerSize},
+            marker: { color: colors[k], size: this.state.markerSize },
             text: cluster_texts[k],
             hovertemplate: hoverTemplate,
           });
@@ -784,7 +768,7 @@ class App extends Component {
             x: x_clusters[k],
             y: y_clusters[k],
             mode: "markers",
-            marker: {color: colors[k], size: this.state.markerSize},
+            marker: { color: colors[k], size: this.state.markerSize },
             text: cluster_texts[k],
             hovertemplate: hoverTemplate,
           });
@@ -851,8 +835,8 @@ class App extends Component {
     } else {
       layout = {
         title: plot_title,
-        xaxis: {title: x},
-        yaxis: {title: y},
+        xaxis: { title: x },
+        yaxis: { title: y },
       };
     }
     return (
@@ -867,15 +851,7 @@ class App extends Component {
     );
   }
 
-  scatterCategoricalandOutliers = (
-    DIM,
-    x,
-    y,
-    z,
-    categoricalData,
-    coloredData,
-    outliersOnly
-  ) => {
+  scatterCategoricalandOutliers = (DIM, x, y, z, categoricalData, coloredData, outliersOnly) => {
     var cluster_texts = [];
     var uniqueTags = [];
     var layout = {};
@@ -898,8 +874,7 @@ class App extends Component {
           // eslint-disable-next-line
           hoverTemplate = !mapping_id
             ? "<i>(%{x:.4f}, %{y:.4f} %{z}, %{z:.4f}) </i>"
-            : "<i>(%{x:.4f}, %{y:.4f} %{z}, %{z:.4f}) </i>" +
-            "<br><b>Mapping ID</b>:%{text}</b></br>";
+            : "<i>(%{x:.4f}, %{y:.4f} %{z}, %{z:.4f}) </i>" + "<br><b>Mapping ID</b>:%{text}</b></br>";
           // actual data
           data_new.push({
             name: title,
@@ -908,7 +883,7 @@ class App extends Component {
             z: [],
             type: "scatter3d",
             mode: "markers",
-            marker: {color: otherColor, size: this.state.markerSize},
+            marker: { color: otherColor, size: this.state.markerSize },
             text: [],
             hovertemplate: hoverTemplate,
           });
@@ -933,14 +908,13 @@ class App extends Component {
           // eslint-disable-next-line
           hoverTemplate = !mapping_id
             ? "<i>(%{x:.4f}, %{y:.4f}</i>"
-            : "<i>(%{x:.4f}, %{y:.4f}</i>" +
-            "<br><b>Mapping ID</b>:%{text}</b></br>";
+            : "<i>(%{x:.4f}, %{y:.4f}</i>" + "<br><b>Mapping ID</b>:%{text}</b></br>";
           data_new.push({
             name: title,
             x: [],
             y: [],
             mode: "markers",
-            marker: {color: otherColor, size: this.state.markerSize},
+            marker: { color: otherColor, size: this.state.markerSize },
             text: [],
             hovertemplate: hoverTemplate,
           });
@@ -972,17 +946,13 @@ class App extends Component {
             data_new[2 * categoryID + 1].x.push(i);
             data_new[2 * categoryID + 1].y.push(this.state.data[i][x]);
             if (mapping_id) {
-              data_new[2 * categoryID + 1].text.push(
-                this.state.data[i][this.state.mappingIDColumn]
-              );
+              data_new[2 * categoryID + 1].text.push(this.state.data[i][this.state.mappingIDColumn]);
             }
           } else {
             data_new[2 * categoryID].x.push(i);
             data_new[2 * categoryID].y.push(this.state.data[i][x]);
             if (mapping_id) {
-              data_new[2 * categoryID].text.push(
-                this.state.data[i][this.state.mappingIDColumn]
-              );
+              data_new[2 * categoryID].text.push(this.state.data[i][this.state.mappingIDColumn]);
             }
           }
         } else if (DIM === 1) {
@@ -990,17 +960,13 @@ class App extends Component {
             data_new[2 * categoryID + 1].x.push(this.state.data[i][x]);
             data_new[2 * categoryID + 1].y.push(this.state.data[i][y]);
             if (mapping_id) {
-              data_new[2 * categoryID + 1].text.push(
-                this.state.data[i][this.state.mappingIDColumn]
-              );
+              data_new[2 * categoryID + 1].text.push(this.state.data[i][this.state.mappingIDColumn]);
             }
           } else {
             data_new[2 * categoryID].x.push(this.state.data[i][x]);
             data_new[2 * categoryID].y.push(this.state.data[i][y]);
             if (mapping_id) {
-              data_new[2 * categoryID].text.push(
-                this.state.data[i][this.state.mappingIDColumn]
-              );
+              data_new[2 * categoryID].text.push(this.state.data[i][this.state.mappingIDColumn]);
             }
           }
         } else {
@@ -1009,18 +975,14 @@ class App extends Component {
             data_new[2 * categoryID + 1].y.push(this.state.data[i][y]);
             data_new[2 * categoryID + 1].z.push(this.state.data[i][z]);
             if (mapping_id) {
-              data_new[2 * categoryID + 1].text.push(
-                this.state.data[i][this.state.mappingIDColumn]
-              );
+              data_new[2 * categoryID + 1].text.push(this.state.data[i][this.state.mappingIDColumn]);
             }
           } else {
             data_new[2 * categoryID].x.push(this.state.data[i][x]);
             data_new[2 * categoryID].y.push(this.state.data[i][y]);
             data_new[2 * categoryID].z.push(this.state.data[i][z]);
             if (mapping_id) {
-              data_new[2 * categoryID].text.push(
-                this.state.data[i][this.state.mappingIDColumn]
-              );
+              data_new[2 * categoryID].text.push(this.state.data[i][this.state.mappingIDColumn]);
             }
           }
         }
@@ -1032,13 +994,13 @@ class App extends Component {
     if (DIM === 0) {
       layout = {
         title: plot_title,
-        yaxis: {title: y},
+        yaxis: { title: y },
       };
     } else if (DIM === 1) {
       layout = {
         title: plot_title,
-        xaxis: {title: x},
-        yaxis: {title: y},
+        xaxis: { title: x },
+        yaxis: { title: y },
       };
     } else {
       layout = {
@@ -1118,7 +1080,7 @@ class App extends Component {
     var hoverTemplate = !mapping_id
       ? "<i>(%{x}, %{y:.4f}) </i>"
       : // eslint-disable-next-line
-      "<i>(%{x}, %{y:.4f}) </i>" + "<br><b>Mapping ID</b>:%{text}</b></br>";
+        "<i>(%{x}, %{y:.4f}) </i>" + "<br><b>Mapping ID</b>:%{text}</b></br>";
 
     if (this.state.data != null && x != null && y != null) {
       for (var i = 0; i < this.state.data.length; i++) {
@@ -1136,7 +1098,11 @@ class App extends Component {
           mode: "markers",
           text: cluster_texts,
           hovertemplate: hoverTemplate,
-          marker: {color: this.state.chosenInitialColor, size: this.state.markerSize, symbol: this.state.chosenInitialShape},
+          marker: {
+            color: this.state.chosenInitialColor,
+            size: this.state.markerSize,
+            symbol: this.state.chosenInitialShape,
+          },
         },
       ];
     }
@@ -1145,8 +1111,8 @@ class App extends Component {
         data={data_new}
         layout={{
           title: this.state.plotTitle,
-          xaxis: {title: x},
-          yaxis: {title: y},
+          xaxis: { title: x },
+          yaxis: { title: y },
         }}
         picWidth={this.state.picWidth}
         picHeight={this.state.picHeight}
@@ -1166,8 +1132,7 @@ class App extends Component {
     // eslint-disable-next-line
     var hoverTemplate = !mapping_id
       ? "<i>(%{x:.4f}, %{y:.4f} %{z}, %{z:.4f}) </i>"
-      : "<i>(%{x:.4f}, %{y:.4f} %{z}, %{z:.4f}) </i>" +
-      "<br><b>Mapping ID</b>:%{text}</b></br>";
+      : "<i>(%{x:.4f}, %{y:.4f} %{z}, %{z:.4f}) </i>" + "<br><b>Mapping ID</b>:%{text}</b></br>";
     if (this.state.data != null && x != null && y != null && z != null) {
       for (var i = 0; i < this.state.data.length; i++) {
         x1.push(this.state.data[i][x]);
@@ -1187,7 +1152,11 @@ class App extends Component {
           type: "scatter3d",
           text: cluster_texts,
           hovertemplate: hoverTemplate,
-          marker: {color: this.state.chosenInitialColor, size: this.state.markerSize, symbol: this.state.chosenInitialShape},
+          marker: {
+            color: this.state.chosenInitialColor,
+            size: this.state.markerSize,
+            symbol: this.state.chosenInitialShape,
+          },
         },
       ];
       var layout = {
@@ -1262,15 +1231,11 @@ class App extends Component {
     var selectedUploadOption = this.state.selectedUploadOption;
     var headers = [];
     if (selectedUploadOption === "typeture" || type === 2) {
-      headers = [...Array(dataStringLines[0].split(" ").length)].map(
-        (x, index) => {
-          return "v" + (index + 1);
-        }
-      );
+      headers = [...Array(dataStringLines[0].split(" ").length)].map((x, index) => {
+        return "v" + (index + 1);
+      });
     } else {
-      var headersCommaDelim = dataStringLines[0].split(
-        /,(?![^"]*"(?:(?:[^"]*"){2})*[^"]*$)/
-      );
+      var headersCommaDelim = dataStringLines[0].split(/,(?![^"]*"(?:(?:[^"]*"){2})*[^"]*$)/);
       var headersSpaceDelim = dataStringLines[0].split(" ");
       if (headersCommaDelim.length > headersSpaceDelim.length) {
         headers = headersCommaDelim;
@@ -1284,9 +1249,7 @@ class App extends Component {
       if (selectedUploadOption === "typeture" || type === 2) {
         row = dataStringLines[i - 1].split(" ");
       } else {
-        var rowCommaDelim = dataStringLines[i].split(
-          /,(?![^"]*"(?:(?:[^"]*"){2})*[^"]*$)/
-        );
+        var rowCommaDelim = dataStringLines[i].split(/,(?![^"]*"(?:(?:[^"]*"){2})*[^"]*$)/);
         var rowSpaceDelim = dataStringLines[i].split(" ");
         if (rowCommaDelim.length > rowSpaceDelim.length) {
           row = rowCommaDelim;
@@ -1349,9 +1312,7 @@ class App extends Component {
       alert("MetaData does not include IID.");
       return;
     } else if (this.state.data.length !== this.state.metaData.length) {
-      alert(
-        "The dimensions do not match! Only the available metadata will be matched."
-      );
+      alert("The dimensions do not match! Only the available metadata will be matched.");
     }
 
     var mergedData = this.state.data.map((elem, index) => {
@@ -1360,7 +1321,7 @@ class App extends Component {
         return elem["IID"] === ID;
       });
       if (result.length > 0) {
-        var {IID, ...extraData} = result[0];
+        var { IID, ...extraData } = result[0];
         // console.log(result[0], extraData);
         return Object.assign({}, elem, extraData);
       } else {
@@ -1376,10 +1337,7 @@ class App extends Component {
       }
     });
     const uniqueIds = [];
-    const mergedColumns = [
-      ...this.state.columns,
-      ...this.state.metaDataColumns,
-    ];
+    const mergedColumns = [...this.state.columns, ...this.state.metaDataColumns];
     const mergedColumnsFiltered = mergedColumns.filter((element) => {
       const isDuplicate = uniqueIds.includes(element.name);
 
@@ -1392,7 +1350,7 @@ class App extends Component {
     });
 
     this.setColumns(mergedColumnsFiltered);
-    this.setState({data: mergedData, metaData: []});
+    this.setState({ data: mergedData, metaData: [] });
   };
 
   //  handle file upload
@@ -1418,12 +1376,12 @@ class App extends Component {
       reader.onload = (evt) => {
         /* Parse data */
         const bstr = evt.target.result;
-        const wb = XLSX.read(bstr, {type: "binary"});
+        const wb = XLSX.read(bstr, { type: "binary" });
         /* Get first worksheet */
         const wsname = wb.SheetNames[0];
         const ws = wb.Sheets[wsname];
         /* Convert array of arrays */
-        const data = XLSX.utils.sheet_to_csv(ws, {header: 1});
+        const data = XLSX.utils.sheet_to_csv(ws, { header: 1 });
         this.processData(data, false, type).then(() => {
           if (type === 3) {
             return this.mergeDataWithMetaData();
@@ -1457,12 +1415,12 @@ class App extends Component {
       reader.onload = (evt) => {
         /* Parse data */
         const bstr = evt.target.result;
-        const wb = XLSX.read(bstr, {type: "binary"});
+        const wb = XLSX.read(bstr, { type: "binary" });
         /* Get first worksheet */
         const wsname = wb.SheetNames[0];
         const ws = wb.Sheets[wsname];
         /* Convert array of arrays */
-        const data = XLSX.utils.sheet_to_csv(ws, {header: 1});
+        const data = XLSX.utils.sheet_to_csv(ws, { header: 1 });
         this.processData(data, false, type).then(() => {
           if (type === 3) {
             return this.mergeDataWithMetaData();
@@ -1480,39 +1438,54 @@ class App extends Component {
   };
 
   handleProcessedPCA = (file) => {
-    this.setState({
-      selectedUploadOption: "PCA"
-    }, () => this.handleFileUploadNew(file))
+    this.setState(
+      {
+        selectedUploadOption: "PCA",
+      },
+      () => this.handleFileUploadNew(file)
+    );
   };
 
   handleUnprocessedPCA = (file, name) => {
-    this.setState({
-      selectedUploadOption: "Correlation Matrix"
-    }, () => this.handleFileUploadNew(file, name))
-  }
+    this.setState(
+      {
+        selectedUploadOption: "Correlation Matrix",
+      },
+      () => this.handleFileUploadNew(file, name)
+    );
+  };
 
   handleProcessedAdmix = (files) => {
-    this.setState({
-      selectedUploadOption: "pcairandadmixture"
-    }, () => {
-      this.handleFileUploadNew(files[0], 1)
-      this.handleFileUploadNew(files[1], 2)
-    })
+    this.setState(
+      {
+        selectedUploadOption: "pcairandadmixture",
+      },
+      () => {
+        this.handleFileUploadNew(files[0], 1);
+        this.handleFileUploadNew(files[1], 2);
+      }
+    );
   };
 
   handleTSNE2D = (file) => {
-    this.setState({
-      selectedUploadOption: "t-SNE 2D"
-    }, () => {
-      this.handleFileUploadNew(file)
-    })
+    this.setState(
+      {
+        selectedUploadOption: "t-SNE 2D",
+      },
+      () => {
+        this.handleFileUploadNew(file);
+      }
+    );
   };
   handleTSNE3D = (file) => {
-    this.setState({
-      selectedUploadOption: "t-SNE 3D"
-    }, () => {
-      this.handleFileUploadNew(file)
-    })
+    this.setState(
+      {
+        selectedUploadOption: "t-SNE 3D",
+      },
+      () => {
+        this.handleFileUploadNew(file);
+      }
+    );
   };
   handleAdmixFileUpload1 = (e) => {
     this.handleFileUpload(e, 1);
@@ -1531,30 +1504,18 @@ class App extends Component {
   };
   handleSelectXChange = (value) => {
     this.setState({
-      selectedColumns: [
-        value.label,
-        this.state.selectedColumns[1],
-        this.state.selectedColumns[2],
-      ],
+      selectedColumns: [value.label, this.state.selectedColumns[1], this.state.selectedColumns[2]],
     });
   };
 
   handleSelectYChange = (value) => {
     this.setState({
-      selectedColumns: [
-        this.state.selectedColumns[0],
-        value.label,
-        this.state.selectedColumns[2],
-      ],
+      selectedColumns: [this.state.selectedColumns[0], value.label, this.state.selectedColumns[2]],
     });
   };
   handleSelectZChange = (value) => {
     this.setState({
-      selectedColumns: [
-        this.state.selectedColumns[0],
-        this.state.selectedColumns[1],
-        value.label,
-      ],
+      selectedColumns: [this.state.selectedColumns[0], this.state.selectedColumns[1], value.label],
     });
   };
 
@@ -1624,19 +1585,16 @@ class App extends Component {
         }
       )
       .then((response) => {
-        this.setState({isLoading: false, selectedUploadOption: "PCA"});
+        this.setState({ isLoading: false, selectedUploadOption: "PCA" });
         this.processData(response.data, false);
       })
       .catch(() => {
         this.setState({
           isLoading: false,
         });
-        alert(
-          "Server error! Please check the input and try again. If the error persists, refer to the docs! "
-        );
+        alert("Server error! Please check the input and try again. If the error persists, refer to the docs! ");
       });
   };
-
 
   UploadCMDatasetNew = (file, name) => {
     this.setState({
@@ -1664,16 +1622,14 @@ class App extends Component {
         }
       )
       .then((response) => {
-        this.setState({isLoading: false, selectedUploadOption: "PCA"});
+        this.setState({ isLoading: false, selectedUploadOption: "PCA" });
         this.processData(response.data, false);
       })
       .catch(() => {
         this.setState({
           isLoading: false,
         });
-        alert(
-          "Server error! Please check the input and try again. If the error persists, refer to the docs! "
-        );
+        alert("Server error! Please check the input and try again. If the error persists, refer to the docs! ");
       });
   };
 
@@ -1688,19 +1644,12 @@ class App extends Component {
   };
 
   runOutliers = (s) => {
-    const inputFormat = this.state.selectedUploadOption.includes("t-SNE")
-      ? "tsne"
-      : "pca";
-    this.detectOutliers(
-      s.selectedOutlierMethod,
-      s.columnRange,
-      s.pressed,
-      inputFormat
-    );
+    const inputFormat = this.state.selectedUploadOption.includes("t-SNE") ? "tsne" : "pca";
+    this.detectOutliers(s.selectedOutlierMethod, s.columnRange, s.pressed, inputFormat);
   };
 
   removeOutliers = () => {
-    this.setState({OutlierData: []});
+    this.setState({ OutlierData: [] });
   };
 
   runKmeans = (num_clusters) => {
@@ -1738,7 +1687,7 @@ class App extends Component {
           cluster_names: cluster_names,
           showOutputOptions: true,
           coloredData: [],
-          selectedDescribingColumn: {value: "None", label: "None"},
+          selectedDescribingColumn: { value: "None", label: "None" },
           num_clusters: num_clusters,
         });
       })
@@ -1746,9 +1695,7 @@ class App extends Component {
         this.setState({
           isLoading: false,
         });
-        alert(
-          "Server error! Please check the input and try again. If the error persists, refer to the docs! "
-        );
+        alert("Server error! Please check the input and try again. If the error persists, refer to the docs! ");
       });
   };
   //////////////////////////////////////////////////////////////////
@@ -1760,7 +1707,7 @@ class App extends Component {
       num_clusters: num_clusters,
     };
 
-    this.setState({isLoading: true, ProgressBarType: "Loader"});
+    this.setState({ isLoading: true, ProgressBarType: "Loader" });
 
     axios
       .post(
@@ -1785,7 +1732,7 @@ class App extends Component {
           cluster_names: cluster_names,
           showOutputOptions: true,
           coloredData: [],
-          selectedDescribingColumn: {value: "None", label: "None"},
+          selectedDescribingColumn: { value: "None", label: "None" },
           num_clusters: num_clusters,
         });
       })
@@ -1807,7 +1754,7 @@ class App extends Component {
       selectedUploadOption: "PCA",
     };
 
-    this.setState({isLoading: true, ProgressBarType: "Loader"});
+    this.setState({ isLoading: true, ProgressBarType: "Loader" });
 
     axios
       .post(
@@ -1832,7 +1779,7 @@ class App extends Component {
           cluster_names: cluster_names,
           showOutputOptions: true,
           coloredData: [],
-          selectedDescribingColumn: {value: "None", label: "None"},
+          selectedDescribingColumn: { value: "None", label: "None" },
           num_clusters: num_clusters,
         });
       })
@@ -1840,9 +1787,7 @@ class App extends Component {
         this.setState({
           isLoading: false,
         });
-        alert(
-          "Server error! Please check the input and try again. If the error persists, refer to the docs! "
-        );
+        alert("Server error! Please check the input and try again. If the error persists, refer to the docs! ");
       });
   };
 
@@ -1870,7 +1815,7 @@ class App extends Component {
         this.setState({
           isLoading: false,
           coloredData: [],
-          selectedDescribingColumn: {value: "None", label: "None"},
+          selectedDescribingColumn: { value: "None", label: "None" },
           OutlierData: [],
           cluster_names: {},
           clusterColors: [],
@@ -1881,9 +1826,7 @@ class App extends Component {
         this.setState({
           isLoading: false,
         });
-        alert(
-          "Server error! Please check the input and try again. If the error persists, refer to the docs! "
-        );
+        alert("Server error! Please check the input and try again. If the error persists, refer to the docs! ");
       });
   };
   runTSNE3d = () => {
@@ -1910,7 +1853,7 @@ class App extends Component {
         this.setState({
           isLoading: false,
           coloredData: [],
-          selectedDescribingColumn: {value: "None", label: "None"},
+          selectedDescribingColumn: { value: "None", label: "None" },
           OutlierData: [],
           cluster_names: {},
           clusterColors: [],
@@ -1921,20 +1864,16 @@ class App extends Component {
         this.setState({
           isLoading: false,
         });
-        alert(
-          "Server error! Please check the input and try again. If the error persists, refer to the docs! "
-        );
+        alert("Server error! Please check the input and try again. If the error persists, refer to the docs! ");
       });
   };
 
   runPCAir = (bedName, bimName, famName, kinshipName) => {
-    this.setState(
-      {
-        isLoading: true,
-        ProgressBarType: "ProgressBar",
-        ProgressBarTimeInterval: 80,
-      }
-    );
+    this.setState({
+      isLoading: true,
+      ProgressBarType: "ProgressBar",
+      ProgressBarTimeInterval: 80,
+    });
 
     console.log({
       bedName: bedName,
@@ -1943,14 +1882,12 @@ class App extends Component {
       kinshipName: kinshipName,
     });
 
-
     const formData = {
       bedName: bedName,
       bimName: bimName,
       famName: famName,
       kinshipName: kinshipName,
     };
-
 
     axios
       .post(
@@ -1973,12 +1910,9 @@ class App extends Component {
         this.setState({
           isLoading: false,
         });
-        alert(
-          "Server error! Please check the input and try again. If the error persists, refer to the docs! "
-        );
+        alert("Server error! Please check the input and try again. If the error persists, refer to the docs! ");
       });
   };
-
 
   samplePCADataset = () => {
     this.setState({
@@ -2004,7 +1938,7 @@ class App extends Component {
         this.setState({
           isLoading: false,
           coloredData: [],
-          selectedDescribingColumn: {value: "None", label: "None"},
+          selectedDescribingColumn: { value: "None", label: "None" },
         });
         this.processData(r.data, false);
       })
@@ -2012,9 +1946,7 @@ class App extends Component {
         this.setState({
           isLoading: false,
         });
-        alert(
-          "Server error! Please check the input and try again. If the error persists, refer to the docs! "
-        );
+        alert("Server error! Please check the input and try again. If the error persists, refer to the docs! ");
       });
   };
 
@@ -2041,7 +1973,7 @@ class App extends Component {
         this.setState({
           isLoading: false,
           coloredData: [],
-          selectedDescribingColumn: {value: "None", label: "None"},
+          selectedDescribingColumn: { value: "None", label: "None" },
         });
         this.processData(r.data.pca, false, 1);
         this.processData(r.data.admix, false, 2);
@@ -2050,12 +1982,9 @@ class App extends Component {
         this.setState({
           isLoading: false,
         });
-        alert(
-          "Server error! Please check the input and try again. If the error persists, refer to the docs! "
-        );
+        alert("Server error! Please check the input and try again. If the error persists, refer to the docs! ");
       });
   };
-
 
   samplePCAAdmixDataset2 = (dstype, sampleDatasetValue) => {
     this.setState({
@@ -2081,7 +2010,7 @@ class App extends Component {
         this.setState({
           isLoading: false,
           coloredData: [],
-          selectedDescribingColumn: {value: "None", label: "None"},
+          selectedDescribingColumn: { value: "None", label: "None" },
         });
         this.processData(r.data.pca, false, 1);
         this.processData(r.data.admix, false, 2);
@@ -2090,18 +2019,11 @@ class App extends Component {
         this.setState({
           isLoading: false,
         });
-        alert(
-          "Server error! Please check the input and try again. If the error persists, refer to the docs! "
-        );
+        alert("Server error! Please check the input and try again. If the error persists, refer to the docs! ");
       });
   };
 
-  detectOutliers = (
-    selectedOutlierMethod,
-    columnRange,
-    pressed,
-    inputFormat
-  ) => {
+  detectOutliers = (selectedOutlierMethod, columnRange, pressed, inputFormat) => {
     if (selectedOutlierMethod === 0) {
       this.setOutlierData([]);
     } else {
@@ -2112,7 +2034,7 @@ class App extends Component {
         combineType: pressed,
         inputFormat: inputFormat,
       };
-      this.setState({isLoading: true, ProgressBarType: "Loader"});
+      this.setState({ isLoading: true, ProgressBarType: "Loader" });
       axios
         .post(
           `${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}${process.env.REACT_APP_PORT}/api/detectoutliers/`,
@@ -2127,9 +2049,7 @@ class App extends Component {
         .then((r) => {
           this.setState({
             isLoading: false,
-            selectedUploadOption: this.state.selectedUploadOption.includes(
-              "t-SNE"
-            )
+            selectedUploadOption: this.state.selectedUploadOption.includes("t-SNE")
               ? "PCA"
               : this.state.selectedUploadOption,
             selectedColorShape: 0, // keep it always to zero, because we do not need the shaped data
@@ -2141,28 +2061,23 @@ class App extends Component {
             isLoading: false,
           });
           console.log(e);
-          alert(
-            "Server error! Please check the input and try again. If the error persists, refer to the docs! "
-          );
+          alert("Server error! Please check the input and try again. If the error persists, refer to the docs! ");
         });
     }
   };
 
   handleColoredColumns = (event) => {
     this.setState({
-      coloredData:
-        event.label === "None"
-          ? []
-          : this.state.data.map((elem) => elem[event.label]),
+      coloredData: event.label === "None" ? [] : this.state.data.map((elem) => elem[event.label]),
       selectedDescribingColumnColor: event,
       selectedDescribingColumnShape:
         this.state.selectedDescribingColumnShape.value === event.value
-          ? {value: "None", label: "None"}
+          ? { value: "None", label: "None" }
           : this.state.selectedDescribingColumnShape,
       showOutputOptions: false,
       selectedColorShape:
         this.state.selectedDescribingColumnShape.value === event.value ||
-          this.state.selectedDescribingColumnShape.value === "None"
+        this.state.selectedDescribingColumnShape.value === "None"
           ? 0 //only color
           : 2, //both shape and color
       cluster_names: [],
@@ -2173,23 +2088,17 @@ class App extends Component {
 
   handleShapeColumns = (event) => {
     this.setState({
-      shapedData:
-        event.label === "None"
-          ? []
-          : this.state.data.map((elem) => elem[event.label]),
-      coloredData:
-        this.state.selectedDescribingColumnColor === event
-          ? []
-          : this.state.coloredData,
+      shapedData: event.label === "None" ? [] : this.state.data.map((elem) => elem[event.label]),
+      coloredData: this.state.selectedDescribingColumnColor === event ? [] : this.state.coloredData,
       selectedDescribingColumnShape: event,
       selectedDescribingColumnColor:
         this.state.selectedDescribingColumnColor.value === event.value
-          ? {value: "None", label: "None"}
+          ? { value: "None", label: "None" }
           : this.state.selectedDescribingColumnColor,
       showOutputOptions: false,
       selectedColorShape:
         this.state.selectedDescribingColumnColor.value === event.value ||
-          this.state.selectedDescribingColumnColor.value === "None"
+        this.state.selectedDescribingColumnColor.value === "None"
           ? 1 //only shape
           : 2, //both shape and color
       cluster_names: [],
@@ -2254,55 +2163,18 @@ class App extends Component {
             plotTitle={this.state.plotTitle}
           />
         );
-      } else if (
-        this.state.selectedColumns[1] === null &&
-        this.state.selectedColumns[2] === null
-      ) {
-        if (
-          this.state.clusterColors.length > 0 ||
-          categoricalData.length > 0 ||
-          outlierData.length > 0
-        ) {
+      } else if (this.state.selectedColumns[1] === null && this.state.selectedColumns[2] === null) {
+        if (this.state.clusterColors.length > 0 || categoricalData.length > 0 || outlierData.length > 0) {
           if (outlierData.length > 0) {
             if (this.state.clusterColors.length > 0) {
-              return this.scatterWithClusters(
-                ONE_DIM,
-                x,
-                null,
-                null,
-                true,
-                outlierData
-              );
+              return this.scatterWithClusters(ONE_DIM, x, null, null, true, outlierData);
             } else if (categoricalData.length > 0) {
-              return this.scatterCategoricalandOutliers(
-                ONE_DIM,
-                x,
-                null,
-                null,
-                categoricalData,
-                outlierData,
-                false
-              );
+              return this.scatterCategoricalandOutliers(ONE_DIM, x, null, null, categoricalData, outlierData, false);
             } else {
-              return this.scatterCategoricalandOutliers(
-                ONE_DIM,
-                x,
-                null,
-                null,
-                outlierData,
-                outlierData,
-                true
-              );
+              return this.scatterCategoricalandOutliers(ONE_DIM, x, null, null, outlierData, outlierData, true);
             }
           } else if (categoricalData.length > 0) {
-            return this.scatterCategorical(
-              ONE_DIM,
-              x,
-              null,
-              null,
-              categoricalData,
-              false
-            );
+            return this.scatterCategorical(ONE_DIM, x, null, null, categoricalData, false);
           } else {
             return this.scatterWithClusters(ONE_DIM, x, null, null, false);
           }
@@ -2310,107 +2182,37 @@ class App extends Component {
           return this.scatter1d(x);
         }
       } else if (this.state.selectedColumns[2] === null) {
-        if (
-          this.state.clusterColors.length > 0 ||
-          categoricalData.length > 0 ||
-          outlierData.length > 0
-        ) {
+        if (this.state.clusterColors.length > 0 || categoricalData.length > 0 || outlierData.length > 0) {
           if (outlierData.length > 0) {
             if (this.state.clusterColors.length > 0) {
-              return this.scatterWithClusters(
-                TWO_DIM,
-                x,
-                y,
-                null,
-                true,
-                outlierData
-              );
+              return this.scatterWithClusters(TWO_DIM, x, y, null, true, outlierData);
             } else if (categoricalData.length > 0) {
-              return this.scatterCategoricalandOutliers(
-                TWO_DIM,
-                x,
-                y,
-                null,
-                categoricalData,
-                outlierData,
-                false
-              );
+              return this.scatterCategoricalandOutliers(TWO_DIM, x, y, null, categoricalData, outlierData, false);
             } else {
-              return this.scatterCategoricalandOutliers(
-                TWO_DIM,
-                x,
-                y,
-                null,
-                outlierData,
-                outlierData,
-                true
-              );
+              return this.scatterCategoricalandOutliers(TWO_DIM, x, y, null, outlierData, outlierData, true);
             }
           } else if (categoricalData.length > 0) {
             return this.scatterCategorical(TWO_DIM, x, y, z, categoricalData);
           } else {
-            return this.scatterWithClusters(
-              TWO_DIM,
-              x,
-              y,
-              null,
-              false,
-              null,
-              null
-            );
+            return this.scatterWithClusters(TWO_DIM, x, y, null, false, null, null);
           }
         } else {
           return this.scatter2d(x, y);
         }
       } else {
-        if (
-          this.state.clusterColors.length > 0 ||
-          categoricalData.length > 0 ||
-          outlierData.length > 0
-        ) {
+        if (this.state.clusterColors.length > 0 || categoricalData.length > 0 || outlierData.length > 0) {
           if (outlierData.length > 0) {
             if (this.state.clusterColors.length > 0) {
-              return this.scatterWithClusters(
-                THREE_DIM,
-                x,
-                y,
-                z,
-                true,
-                outlierData
-              );
+              return this.scatterWithClusters(THREE_DIM, x, y, z, true, outlierData);
             } else if (categoricalData.length > 0) {
-              return this.scatterCategoricalandOutliers(
-                THREE_DIM,
-                x,
-                y,
-                z,
-                categoricalData,
-                outlierData,
-                false
-              );
+              return this.scatterCategoricalandOutliers(THREE_DIM, x, y, z, categoricalData, outlierData, false);
             } else {
-              return this.scatterCategoricalandOutliers(
-                THREE_DIM,
-                x,
-                y,
-                z,
-                outlierData,
-                outlierData,
-                true
-              );
+              return this.scatterCategoricalandOutliers(THREE_DIM, x, y, z, outlierData, outlierData, true);
             }
           } else if (categoricalData.length > 0) {
             return this.scatterCategorical(THREE_DIM, x, y, z, categoricalData);
           } else {
-            return this.scatterWithClusters(
-              THREE_DIM,
-              x,
-              y,
-              z,
-              false,
-              null,
-              null
-            );
+            return this.scatterWithClusters(THREE_DIM, x, y, z, false, null, null);
           }
         } else {
           return this.scatter3d(x, y, z);
@@ -2432,7 +2234,7 @@ class App extends Component {
   };
 
   clusterNumberChange = (data) => {
-    this.setState({num_clusters: data.numClusters});
+    this.setState({ num_clusters: data.numClusters });
   };
   UploadTabChange = (data) => {
     if (data.selectedUploadOption === "pcairandadmixture") {
@@ -2456,10 +2258,7 @@ class App extends Component {
       picFormat: outputState.selectedColumn,
       chosenInitialColor: outputState.chosenInitialColor,
       chosenInitialShape: outputState.selectedInitialShape.label,
-      markerSize:
-        outputState.markerSize === undefined
-          ? this.state.markerSize
-          : outputState.markerSize,
+      markerSize: outputState.markerSize === undefined ? this.state.markerSize : outputState.markerSize,
     });
   };
   handleAdmixOptionsCallback = (state) => {
@@ -2492,7 +2291,7 @@ class App extends Component {
       show: true,
       multiValue: [],
       describingValues: [],
-      selectedDescribingColumn: {value: "None", label: "None"},
+      selectedDescribingColumn: { value: "None", label: "None" },
       selectedClusterMethod: null,
       OutlierData: [],
       showOutputOptions: false,
@@ -2521,19 +2320,15 @@ class App extends Component {
             backgroundColor: "#3b3f4e",
           }}
         >
-          <Navbar.Brand style={{color: "white", fontSize: 24}}>
+          <Navbar.Brand style={{ color: "white", fontSize: 24 }}>
             PopMLVis
-            <img
-              src="./logo.jpeg"
-              style={{width: "6%", position: "fixed", left: "7%", top: "1%"}}
-              alt=""
-            />
+            <img src="./logo.jpeg" style={{ width: "6%", position: "fixed", left: "7%", top: "1%" }} alt="" />
           </Navbar.Brand>
         </Navbar>
 
         <div style={styles.splitScreen}>
           <div class="leftpane" style={styles.leftPane}>
-            <form style={{marginTop: "1%"}}>
+            <form style={{ marginTop: "1%" }}>
               <UploadAndVisualizeTab
                 onChange={this.UploadTabChange}
                 samplePCAAdmixDataset={this.samplePCAAdmixDataset2}
@@ -2690,18 +2485,14 @@ class App extends Component {
               onChange={this.runOutliers}
               numFeatures={
                 this.state.allActions.filter((elem) => {
-                  return (
-                    Array.isArray(elem) ||
-                    elem.label.includes("PC") ||
-                    elem.label.includes("TSNE")
-                  );
+                  return Array.isArray(elem) || elem.label.includes("PC") || elem.label.includes("TSNE");
                 }).length
               }
               allActions={this.state.allActions}
               removeOutliers={this.removeOutliers}
             />
 
-            <div style={{marginTop: "20%"}}>
+            <div style={{ marginTop: "20%" }}>
               <Button
                 variant="outlined"
                 style={{
@@ -2732,9 +2523,9 @@ class App extends Component {
                   <TabList>
                     <Tab>Scatter Plot</Tab>
                     {this.state.dendrogramPath !== "" && <Tab>Dendrogram</Tab>}
-                    {this.state.admix.length > 0 &&
-                      this.state.selectedUploadOption ===
-                      "pcairandadmixture" && <Tab>Admixture</Tab>}
+                    {this.state.admix.length > 0 && this.state.selectedUploadOption === "pcairandadmixture" && (
+                      <Tab>Admixture</Tab>
+                    )}
                   </TabList>
                   <TabPanel>{this.showScatterPlot()}</TabPanel>
                   {this.state.dendrogramPath !== "" && (
@@ -2747,7 +2538,7 @@ class App extends Component {
                       data={this.state.admix}
                       alphaVal={this.state.alphaVal}
                       certaintyVal={this.state.certaintyVal}
-                      clusterNames={{...this.state.cluster_names}}
+                      clusterNames={{ ...this.state.cluster_names }}
                       onChange={this.clusterNumberChange}
                       AdmixOptionsLabelCheck={this.state.AdmixOptionsLabelCheck}
                       plotTitle={this.state.plotTitle}
@@ -2762,10 +2553,8 @@ class App extends Component {
             )}
             <div>
               <div className="radio" style={styles.dimensions}>
-                <FormControl style={{marginLeft: "2%", marginTop: "1%"}}>
-                  <FormLabel id="demo-row-radio-buttons-group-label">
-                    Plot
-                  </FormLabel>
+                <FormControl style={{ marginLeft: "2%", marginTop: "1%" }}>
+                  <FormLabel id="demo-row-radio-buttons-group-label">Plot</FormLabel>
                   <RadioGroup
                     row
                     aria-labelledby="demo-row-radio-buttons-group-label"
@@ -2794,78 +2583,54 @@ class App extends Component {
                   </RadioGroup>
                 </FormControl>
                 <div style={styles.dropDown}>
-                  <label style={{width: "25%", marginLeft: "12%"}}>
+                  <label style={{ width: "25%", marginLeft: "12%" }}>
                     <h6 style={{}}> X-axis </h6>
                   </label>
-                  <div style={{width: "75%"}}>
+                  <div style={{ width: "75%" }}>
                     <Select
                       value={{
-                        value:
-                          this.state.selectedColumns[0] == null
-                            ? "None"
-                            : this.state.selectedColumns[0],
-                        label:
-                          this.state.selectedColumns[0] == null
-                            ? "None"
-                            : this.state.selectedColumns[0],
+                        value: this.state.selectedColumns[0] == null ? "None" : this.state.selectedColumns[0],
+                        label: this.state.selectedColumns[0] == null ? "None" : this.state.selectedColumns[0],
                       }}
                       options={this.state.selectActions}
                       onChange={this.handleSelectXChange}
-                      isDisabled={
-                        this.state.selectedUploadOption === "admixture"
-                      }
+                      isDisabled={this.state.selectedUploadOption === "admixture"}
                     />
                   </div>
                 </div>
 
                 <div style={styles.dropDown}>
-                  <label style={{width: "25%", marginLeft: "12%"}}>
+                  <label style={{ width: "25%", marginLeft: "12%" }}>
                     <h6 style={{}}> Y-axis </h6>
                   </label>
-                  <div style={{width: "75%"}}>
+                  <div style={{ width: "75%" }}>
                     <Select
                       value={{
-                        value:
-                          this.state.selectedColumns[1] == null
-                            ? "None"
-                            : this.state.selectedColumns[1],
-                        label:
-                          this.state.selectedColumns[1] == null
-                            ? "None"
-                            : this.state.selectedColumns[1],
+                        value: this.state.selectedColumns[1] == null ? "None" : this.state.selectedColumns[1],
+                        label: this.state.selectedColumns[1] == null ? "None" : this.state.selectedColumns[1],
                       }}
                       options={this.state.selectActions}
                       onChange={this.handleSelectYChange}
                       isDisabled={
-                        (this.state.selectedOption !== "3D" &&
-                          this.state.selectedOption !== "2D") ||
+                        (this.state.selectedOption !== "3D" && this.state.selectedOption !== "2D") ||
                         this.state.selectedUploadOption === "admixture"
                       }
                     />
                   </div>
                 </div>
                 <div style={styles.dropDown}>
-                  <label style={{width: "25%", marginLeft: "12%"}}>
+                  <label style={{ width: "25%", marginLeft: "12%" }}>
                     <h6 style={{}}> Z-axis </h6>
                   </label>
-                  <div style={{width: "75%"}}>
+                  <div style={{ width: "75%" }}>
                     <Select
                       value={{
-                        value:
-                          this.state.selectedColumns[2] == null
-                            ? "None"
-                            : this.state.selectedColumns[2],
-                        label:
-                          this.state.selectedColumns[2] == null
-                            ? "None"
-                            : this.state.selectedColumns[2],
+                        value: this.state.selectedColumns[2] == null ? "None" : this.state.selectedColumns[2],
+                        label: this.state.selectedColumns[2] == null ? "None" : this.state.selectedColumns[2],
                       }}
                       options={this.state.selectActions}
                       onChange={this.handleSelectZChange}
-                      isDisabled={
-                        this.state.selectedOption !== "3D" ||
-                        this.state.selectedUploadOption === "admixture"
-                      }
+                      isDisabled={this.state.selectedOption !== "3D" || this.state.selectedUploadOption === "admixture"}
                     />
                   </div>
                 </div>
@@ -2922,11 +2687,9 @@ class App extends Component {
                                 >
                                   Identify by Colors
                                 </label>
-                                <div style={{width: "62%", marginTop: "1%"}}>
+                                <div style={{ width: "62%", marginTop: "1%" }}>
                                   <Select
-                                    value={
-                                      this.state.selectedDescribingColumnColor
-                                    }
+                                    value={this.state.selectedDescribingColumnColor}
                                     options={this.state.multiValue}
                                     onChange={this.handleColoredColumns}
                                   />
@@ -2942,11 +2705,9 @@ class App extends Component {
                                 >
                                   Identify by Shape
                                 </label>
-                                <div style={{width: "62%", marginTop: "1%"}}>
+                                <div style={{ width: "62%", marginTop: "1%" }}>
                                   <Select
-                                    value={
-                                      this.state.selectedDescribingColumnShape
-                                    }
+                                    value={this.state.selectedDescribingColumnShape}
                                     disabled={this.state.OutlierData.length > 0}
                                     options={this.state.multiValue}
                                     onChange={this.handleShapeColumns}
@@ -2976,7 +2737,7 @@ class App extends Component {
                             placeholder="Mapping ID"
                             options={this.state.allActions}
                             onChange={(option) => {
-                              this.setState({mappingIDColumn: option.label});
+                              this.setState({ mappingIDColumn: option.label });
                             }}
                           />
                           <label
@@ -2993,10 +2754,7 @@ class App extends Component {
                               accept=".csv,.xlsx,.xls,.txt"
                               onChange={this.handleMetaDataUpload}
                               onClick={this.onInputMetadataClick}
-                              disabled={
-                                this.state.data == null ||
-                                this.state.data.length === 0
-                              }
+                              disabled={this.state.data == null || this.state.data.length === 0}
                             />
                           </label>
                         </div>
@@ -3025,52 +2783,47 @@ class App extends Component {
                   )}
                 {(this.state.selectedUploadOption === "pcairandadmixture" ||
                   this.state.selectedUploadOption === "admixture") && (
-                    <div>
-                      <TabPanel>
-                        <div
-                          style={{
-                            width: "90%",
-                            marginLeft: "3%",
-                          }}
-                        >
-                          <AdmixOptions
-                            initialAlpha={this.state.alphaVal}
-                            initialCertainty={this.state.certaintyVal}
-                            name={
-                              this.state.selectedUploadOption ===
-                                "pcairandadmixture"
-                                ? "Alpha"
-                                : "Certainty"
-                            }
-                            parentCallback={this.handleAdmixOptionsCallback}
-                            mode={this.state.admixMode}
-                            disabled={this.state.admix.length === 0}
-                          />
-                        </div>
-                        {this.state.data !== null && (
-                          <DownloadData
-                            data={this.state.data}
-                            clusterColors={this.state.clusterColors}
-                            OutlierData={this.state.OutlierData}
-                            columnRange={this.state.columnRange}
-                            clusterNames={this.state.cluster_names}
-                            admixData={this.state.admix}
-                            alphaVal={this.state.alphaVal}
-                            certaintyVal={this.state.certaintyVal}
-                            admixMode={this.state.admixMode}
-                          />
-                        )}
-                      </TabPanel>
-                      <TabPanel style={styles.outputSettings}>
-                        <TabOutputOptions
-                          uniqueClusters={this.state.num_clusters}
-                          parentCallback={this.handleTabOutputCallback}
-                          showClusters={this.state.showOutputOptions}
-                          markerSize={this.state.markerSize}
+                  <div>
+                    <TabPanel>
+                      <div
+                        style={{
+                          width: "90%",
+                          marginLeft: "3%",
+                        }}
+                      >
+                        <AdmixOptions
+                          initialAlpha={this.state.alphaVal}
+                          initialCertainty={this.state.certaintyVal}
+                          name={this.state.selectedUploadOption === "pcairandadmixture" ? "Alpha" : "Certainty"}
+                          parentCallback={this.handleAdmixOptionsCallback}
+                          mode={this.state.admixMode}
+                          disabled={this.state.admix.length === 0}
                         />
-                      </TabPanel>
-                    </div>
-                  )}
+                      </div>
+                      {this.state.data !== null && (
+                        <DownloadData
+                          data={this.state.data}
+                          clusterColors={this.state.clusterColors}
+                          OutlierData={this.state.OutlierData}
+                          columnRange={this.state.columnRange}
+                          clusterNames={this.state.cluster_names}
+                          admixData={this.state.admix}
+                          alphaVal={this.state.alphaVal}
+                          certaintyVal={this.state.certaintyVal}
+                          admixMode={this.state.admixMode}
+                        />
+                      )}
+                    </TabPanel>
+                    <TabPanel style={styles.outputSettings}>
+                      <TabOutputOptions
+                        uniqueClusters={this.state.num_clusters}
+                        parentCallback={this.handleTabOutputCallback}
+                        showClusters={this.state.showOutputOptions}
+                        markerSize={this.state.markerSize}
+                      />
+                    </TabPanel>
+                  </div>
+                )}
               </Tabs>
             </div>
           </div>
