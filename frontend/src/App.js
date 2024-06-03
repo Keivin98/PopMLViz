@@ -1,6 +1,8 @@
 import "./App.css";
 import Dashboard from "./Components/Dashboard";
-import LandingPage from "./Components/LandingPage";
+import LandingPage from "./Components/landingPage/LandingPage";
+import Login from "../src/Components/Authentication/Login"
+import Register from "../src/Components/Authentication/Register"
 import ReactGA from "react-ga";
 import {
   BrowserRouter,
@@ -20,6 +22,8 @@ function App() {
         <Routes>
           <Route path="/" element={<LandingPage/>} />
           <Route path="/Dashboard" element={<Dashboard/>} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register></Register>} />
         </Routes>
       </BrowserRouter>
 

@@ -1,0 +1,58 @@
+/* Register Section */
+.form {
+  background-color: rgb(255, 255, 255);
+  border-radius: 10px;
+  width: 100%;
+  max-width: 500px;
+  margin: 20px auto;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  text-align: left;
+}
+
+.form-body {
+  text-align: left;
+  padding: 10px 0;
+}
+
+.form-body > * {
+  padding: 10px 0;
+}
+
+.form__label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 300;
+}
+
+.form__input {
+  width: calc(100% - 20px);
+  padding: 8px 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.btn {
+  display: inline-block;
+  text-align: center;
+  vertical-align: middle;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 4px;
+  background-color: #428bca;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+  background: #3276b1;
+}
+
+.msg {
+  border: 1px solid lightgray;
+  border-radius: 10px;
+  padding: 20px;
+}
