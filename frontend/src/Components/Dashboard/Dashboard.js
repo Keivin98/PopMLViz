@@ -5,12 +5,12 @@ import * as XLSX from "xlsx";
 import Select from "react-select";
 import ScatterPlot from "../ScatterPlot";
 import BarPlot from "../BarPlot";
-import UploadAndVisualizeTab from "../UploadAndVisualizeTab";
+import UploadAndVisualizeTab from "./leftPane/UploadAndVisualizeTab";
 import DimensionalityReductionTab from "../DimensionalityReductionTab";
 import ScatterAdmix from "../ScatterAdmix";
 import DownloadData from "../DownloadData";
-import ClusteringAlgorithmsTab from "../ClusteringAlgorithmsTab";
-import OutlierDetectionTab from "../OutlierDetectionTab";
+import ClusteringAlgorithmsTab from "./leftPane/ClusteringAlgorithmsTab";
+import OutlierDetectionTab from "./leftPane/OutlierDetectionTab";
 import ProgressBarTime from "../ProgressBarTime";
 import { Button } from "@material-ui/core";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
@@ -25,6 +25,7 @@ import AdmixOptions from "../AdmixOptions";
 import Navbar from "react-bootstrap/Navbar";
 import Dendrogram from "../Dendrogram";
 import NavigationBar from "./NavigationBar";
+import LeftPane from "./leftPane/LeftPane";
 
 require("dotenv").config();
 const randomColors = [
@@ -88,7 +89,7 @@ const App = () => {
   const [show, setShow] = useState(true);
   const [multiValue, setMultiValue] = useState([]);
   const [describingValues, setDescribingValues] = useState([]);
-  const [selectedDescribingColumn,setSelectedDescribingColumn]= useState(); //this state never been used,but it is added idk why
+  const [selectedDescribingColumn, setSelectedDescribingColumn] = useState(); //this state never been used,but it is added idk why
   const [selectedDescribingColumnColor, setSelectedDescribingColumnColor] = useState({ value: "None", label: "None" });
   const [selectedDescribingColumnShape, setSelectedDescribingColumnShape] = useState({ value: "None", label: "None" });
   const [sampleDatasets, setSampleDatasets] = useState([
@@ -125,11 +126,13 @@ const App = () => {
       });
     }
     setMultiValue([{ value: "None", label: "None" }, ...option]);
-    setSelectActions(act.filter((elem) => {
-      return option.indexOf(elem) < 0;
-    }));
+    setSelectActions(
+      act.filter((elem) => {
+        return option.indexOf(elem) < 0;
+      })
+    );
   };
-  
+
   const setColumnsState = (columns) => {
     let act = [];
     for (var i = 0; i < columns.length; i++) {
@@ -142,19 +145,19 @@ const App = () => {
     setSelectActions(act);
     setAllActions(act);
   };
-  
+
   const updateData = (data) => {
     setData(data);
   };
-  
+
   const updateAdmix = (data) => {
     setAdmix(data);
   };
-  
+
   const updateMetaData = (data) => {
     setMetaData(data);
   };
-  
+
   const setMetaDataColumnsFunction = (columns) => {
     let act = [];
     for (var i = 0; i < columns.length; i++) {
@@ -167,23 +170,25 @@ const App = () => {
     setSelectActions([...selectActions, act]);
     setAllActions([...allActions, act]);
   };
-  
+
   const updateOutlierData = (data) => {
-    setOutlierData(data.map((elem) => {
-      return parseInt(elem[0], 10);
-    }));
+    setOutlierData(
+      data.map((elem) => {
+        return parseInt(elem[0], 10);
+      })
+    );
   };
-  
+
   const handleFileChange = (event) => {
     setSelectedFile(event.target.files[0]);
   };
-  
+
   const scatter1d = (y) => {
     var x1 = [];
     var y1 = [];
     var cluster_texts = [];
     var mapping_id = mappingIDColumn !== "";
-  
+
     var hoverTemplate =
       mappingIDColumn === ""
         ? "<i>(%{x}, %{y:.4f}) </i>"
@@ -192,7 +197,7 @@ const App = () => {
       for (var i = 0; i < data.length; i++) {
         x1.push(i);
         y1.push(data[i][y]);
-  
+
         if (mapping_id) {
           cluster_texts.push(data[i][mappingIDColumn]);
         }
@@ -236,12 +241,12 @@ const App = () => {
     var layout = {};
     var data_new = [];
     var mapping_id = mappingIDColumn !== "";
-  
+
     var hoverTemplate2D =
       mappingIDColumn === ""
         ? "<i>(%{x}, %{y:.4f}) </i>"
         : "<i>(%{x}, %{y:.4f}) </i>" + "<br><b>Mapping ID</b>:%{text}</b></br>";
-  
+
     var hoverTemplate3D =
       mappingIDColumn === ""
         ? "<i>(%{x}, %{y:.4f}, %{z:.4f}) </i>"
@@ -250,28 +255,28 @@ const App = () => {
     if (categoricalData != null) {
       // find unique values
       let uniqueTags = new Set();
-  
+
       for (let catID = 0; catID < categoricalData.length; catID++) {
         uniqueTags.add(categoricalData[catID]);
-  
+
         if (uniqueTags.size > 20) {
           tooManyUniqueValues = true; // Set the flag
-  
+
           alert("There are too many unique values! Check the categorical data!");
           // Handle the state update if needed
           setColoredData([]);
           setSelectedDescribingColumnColor({ value: "None", label: "None" });
           setSelectedDescribingColumnShape({ value: "None", label: "None" });
-  
+
           break; // Break out of the loop;
         }
       }
       if (!tooManyUniqueValues) {
         uniqueTags = [...Array.from(uniqueTags)];
-  
+
         for (var colID = 0; colID < uniqueTags.length; colID++) {
           data_new.push({});
-  
+
           if (DIM === 2) {
             if (selectedColorShape === 0) {
               data_new[colID] = {
@@ -338,7 +343,7 @@ const App = () => {
             }
           }
         }
-  
+
         if (data != null) {
           for (var i = 0; i < data.length; i++) {
             var categoryID = uniqueTags.indexOf(categoricalData[i]);
@@ -359,7 +364,7 @@ const App = () => {
           }
         }
         var plot_title = plotTitle;
-  
+
         if (DIM === 0) {
           layout = {
             title: plot_title,
@@ -428,7 +433,7 @@ const App = () => {
             title: plot_title,
           };
         }
-  
+
         return (
           <ScatterPlot
             data={data_new}
@@ -442,7 +447,7 @@ const App = () => {
       }
     }
   };
-  
+
   const scatterCategorical2 = (DIM, x, y, z) => {
     var uniqueTags1 = [];
     var uniqueTags2 = [];
@@ -457,7 +462,7 @@ const App = () => {
       mappingIDColumn === ""
         ? "<i>(%{x}, %{y:.4f}, %{z:.4f}) </i>"
         : "<i>(%{x}, %{y:.4f}), %{z:.4f}) </i>" + "<br><b>Mapping ID</b>:%{text}</b></br>";
-  
+
     // find unique values
     for (var catID = 0; catID < coloredData.length; catID++) {
       if (uniqueTags1.indexOf(coloredData[catID]) === -1) {
@@ -475,7 +480,7 @@ const App = () => {
       setSelectedDescribingColumn(null);
       return;
     }
-  
+
     for (var colID1 = 0; colID1 < uniqueTags1.length; colID1++) {
       for (var colID2 = 0; colID2 < uniqueTags2.length; colID2++) {
         data_new.push({});
@@ -517,7 +522,7 @@ const App = () => {
       for (var i = 0; i < data.length; i++) {
         var categoryID1 = uniqueTags1.indexOf(coloredData[i]);
         var categoryID2 = uniqueTags2.indexOf(shapedData[i]);
-  
+
         var categoryID = categoryID1 * uniqueTags2.length + categoryID2;
         console.log(categoryID1, categoryID2, uniqueTags2, shapedData[i], categoryID, data_new.length);
         if (DIM === 0) {
@@ -537,7 +542,7 @@ const App = () => {
       }
     }
     var plot_title = plotTitle;
-  
+
     if (DIM === 0) {
       layout = {
         title: plot_title,
@@ -606,7 +611,7 @@ const App = () => {
         title: plot_title,
       };
     }
-  
+
     return (
       <ScatterPlot
         data={data_new}
@@ -640,7 +645,7 @@ const App = () => {
           : "<i>(%{x:.4f}, %{y:.4f}) </i>" + "<br><b>Mapping ID</b>:%{text}</b></br>";
     }
     var cluster_texts = [];
-  
+
     if (outliers) {
       var x_clusters_outliers = [];
       var y_clusters_outliers = [];
@@ -663,13 +668,13 @@ const App = () => {
       }
       cluster_texts.push([]);
     }
-  
+
     var colors = [];
-  
+
     for (let j = 0; j < numClusters; j += 1) {
       colors.push(randomColors[j]);
     }
-  
+
     if (data != null) {
       for (var i = 0; i < data.length; i++) {
         let rowCol = clusterColors[i];
@@ -739,9 +744,7 @@ const App = () => {
             });
           }
         }
-        var name = isNaN(clusterNames[k])
-          ? clusterNames[k]
-          : "Cluster " + clusterNames[k];
+        var name = isNaN(clusterNames[k]) ? clusterNames[k] : "Cluster " + clusterNames[k];
         if (DIM === 2) {
           data_new.push({
             name: name,
@@ -768,7 +771,7 @@ const App = () => {
       }
     }
     var plot_title = plotTitle;
-  
+
     if (DIM === 2) {
       layout = {
         legend: {
@@ -842,7 +845,7 @@ const App = () => {
       />
     );
   };
-  
+
   const scatterCategoricalandOutliers = (DIM, x, y, z, categoricalData, coloredData, outliersOnly) => {
     var cluster_texts = [];
     var uniqueTags = [];
@@ -861,7 +864,7 @@ const App = () => {
         var outlierColor = outliersOnly ? "grey" : randomColors[colID];
         var otherColor = outliersOnly ? chosenInitialColor : randomColors[colID];
         var title = outliersOnly ? "0" : uniqueTags[colID];
-  
+
         if (DIM === 2) {
           hoverTemplate = !mapping_id
             ? "<i>(%{x:.4f}, %{y:.4f} %{z}, %{z:.4f}) </i>"
@@ -927,7 +930,7 @@ const App = () => {
         cluster_texts.push([]);
       }
     }
-  
+
     if (data != null) {
       for (var i = 0; i < data.length; i++) {
         var categoryID = uniqueTags.indexOf(categoricalData[i]);
@@ -978,9 +981,9 @@ const App = () => {
         }
       }
     }
-  
+
     var plot_title = plotTitle;
-  
+
     if (DIM === 0) {
       layout = {
         title: plot_title,
@@ -1048,7 +1051,7 @@ const App = () => {
         title: plot_title,
       };
     }
-  
+
     return (
       <ScatterPlot
         data={data_new}
@@ -1065,11 +1068,11 @@ const App = () => {
     var y1 = [];
     var cluster_texts = [];
     var mapping_id = mappingIDColumn !== "";
-  
+
     var hoverTemplate = !mapping_id
       ? "<i>(%{x}, %{y:.4f}) </i>"
       : "<i>(%{x}, %{y:.4f}) </i>" + "<br><b>Mapping ID</b>:%{text}</b></br>";
-  
+
     if (data != null && x != null && y != null) {
       for (var i = 0; i < data.length; i++) {
         x1.push(data[i][x]);
@@ -1109,13 +1112,13 @@ const App = () => {
       />
     );
   };
-  
+
   const scatter3d = (x, y, z) => {
     var x1 = [];
     var z1 = [];
     var y1 = [];
     var cluster_texts = [];
-  
+
     var mapping_id = mappingIDColumn !== "";
     var hoverTemplate = !mapping_id
       ? "<i>(%{x:.4f}, %{y:.4f} %{z}, %{z:.4f}) </i>"
@@ -1212,7 +1215,7 @@ const App = () => {
       />
     );
   };
-  
+
   const processData = async (dataString, outliers, type) => {
     const dataStringLines = dataString.split(/\r\n|\n/);
     var selectedUploadOption = selectedUploadOption;
@@ -1256,14 +1259,14 @@ const App = () => {
             obj[headers[j]] = d;
           }
         }
-  
+
         // remove the blank rows
         if (Object.values(obj).filter((x) => x).length > 0) {
           list.push(obj);
         }
       }
     }
-  
+
     // prepare columns list from headers
     const columns = headers.map((c) => ({
       name: c,
@@ -1300,7 +1303,7 @@ const App = () => {
     } else if (data.length !== metaData.length) {
       alert("The dimensions do not match! Only the available metadata will be matched.");
     }
-  
+
     var mergedData = data.map((elem, index) => {
       var ID = elem["IID"];
       var result = metaData.filter((elem) => {
@@ -1320,7 +1323,7 @@ const App = () => {
         return Object.assign({}, elem, no_match);
       }
     });
-  
+
     const uniqueIds = [];
     const mergedColumns = [...columns, ...metaDataColumns];
     const mergedColumnsFiltered = mergedColumns.filter((element) => {
@@ -1331,12 +1334,12 @@ const App = () => {
       }
       return false;
     });
-  
+
     setColumnsState(mergedColumnsFiltered);
     setData(mergedData);
     setMetaData([]);
   };
-  
+
   const handleFileUpload = (e, type) => {
     if (selectedUploadOption === "Correlation Matrix") {
       UploadCMDataset(e);
@@ -1373,7 +1376,7 @@ const App = () => {
       reader.readAsBinaryString(file);
     }
   };
-  
+
   const handleFileUploadNew = (file, type) => {
     if (selectedUploadOption === "Correlation Matrix") {
       UploadCMDatasetNew(file, type);
@@ -1409,17 +1412,17 @@ const App = () => {
       reader.readAsBinaryString(file);
     }
   };
-  
+
   const handleProcessedPCA = (file) => {
     setSelectedUploadOption("PCA");
     handleFileUploadNew(file);
   };
-  
+
   const handleUnprocessedPCA = (file, name) => {
     setSelectedUploadOption("Correlation Matrix");
     handleFileUploadNew(file, name);
   };
-  
+
   const handleProcessedAdmix = (files) => {
     setSelectedUploadOption("pcairandadmixture");
     handleFileUploadNew(files[0], 1);
@@ -1430,44 +1433,44 @@ const App = () => {
     setSelectedUploadOption("t-SNE 2D");
     handleFileUploadNew(file);
   };
-  
+
   const handleTSNE3D = (file) => {
     setSelectedUploadOption("t-SNE 3D");
     handleFileUploadNew(file);
   };
-  
+
   const handleAdmixFileUpload1 = (e) => {
     handleFileUpload(e, 1);
   };
-  
+
   const handleAdmixFileUpload2 = (e) => {
     handleFileUpload(e, 2);
   };
-  
+
   const handleMetaDataUpload = (e) => {
     handleFileUpload(e, 3);
   };
-  
+
   const handleSampleDataset = (option) => {
     setSampleDatasetValue(option.value);
   };
-  
+
   const handleSelectXChange = (value) => {
     setSelectedColumns([value.label, selectedColumns[1], selectedColumns[2]]);
   };
-  
+
   const handleSelectYChange = (value) => {
     setSelectedColumns([selectedColumns[0], value.label, selectedColumns[2]]);
   };
-  
+
   const handleSelectZChange = (value) => {
     setSelectedColumns([selectedColumns[0], selectedColumns[1], value.label]);
   };
-  
+
   const onUploadValueChange = (event) => {
     setSelectedUploadOption(event.target.value);
   };
-  
+
   const onValueChangeDims = (event) => {
     var value = event.target.value;
     var newSelected = [];
@@ -1484,27 +1487,27 @@ const App = () => {
       setSelectedOption(value);
     }
   };
-  
+
   const onValueChangeColorShape = (event) => {
     setSelectedColorShape(event.target.value);
     showScatterPlot();
   };
-  
+
   const formSubmit = (event) => {
     event.preventDefault();
   };
-  
+
   const UploadCMDataset = (e) => {
     setIsLoading(true);
     setProgressBarType("ProgressBar");
     setProgressBarTimeInterval(150);
-  
+
     // Create an object of formData
     const formData = new FormData();
     formData.append("file", e.target.files[0]);
     formData.append("filename", e.target.value);
     setIsLoading(true);
-  
+
     axios
       .post(
         `${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}${process.env.REACT_APP_PORT}/api/uploadCM/`,
@@ -1531,13 +1534,13 @@ const App = () => {
     setIsLoading(true);
     setProgressBarType("ProgressBar");
     setProgressBarTimeInterval(150);
-  
+
     // Create an object of formData
     const formData = new FormData();
     formData.append("file", file);
     formData.append("filename", name);
     setIsLoading(true);
-  
+
     axios
       .post(
         `${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}${process.env.REACT_APP_PORT}/api/uploadCM/`,
@@ -1559,7 +1562,7 @@ const App = () => {
         alert("Server error! Please check the input and try again. If the error persists, refer to the docs! ");
       });
   };
-  
+
   const runCluster = (s) => {
     if (s.selectedClusterMethod === 0) {
       runKmeans(s.num_clusters);
@@ -1569,27 +1572,27 @@ const App = () => {
       runFuzzy(s.num_clusters);
     }
   };
-  
+
   const runOutliers = (s) => {
     const inputFormat = selectedUploadOption.includes("t-SNE") ? "tsne" : "pca";
     detectOutliers(s.selectedOutlierMethod, s.columnRange, s.pressed, inputFormat);
   };
-  
+
   const removeOutliers = () => {
     setOutlierData([]);
   };
-  
+
   const runKmeans = (num_clusters) => {
     const formData = {
       df: data,
       num_clusters: num_clusters,
     };
-  
+
     setIsLoading(true);
     setProgressBarType("Loader");
     setAdmix([]);
     setSelectedUploadOption("PCA");
-  
+
     axios
       .post(
         `${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}${process.env.REACT_APP_PORT}/api/runkmeans/`,
@@ -1618,16 +1621,16 @@ const App = () => {
         alert("Server error! Please check the input and try again. If the error persists, refer to the docs! ");
       });
   };
-  
+
   const runHC = (num_clusters) => {
     const formData = {
       df: data,
       num_clusters: num_clusters,
     };
-  
+
     setIsLoading(true);
     setProgressBarType("Loader");
-  
+
     axios
       .post(
         `${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}${process.env.REACT_APP_PORT}/api/runhc/`,
@@ -1657,7 +1660,7 @@ const App = () => {
         alert("Network error! Please check the request or try again.");
       });
   };
-  
+
   const runFuzzy = (num_clusters) => {
     const formData = {
       df: data,
@@ -1665,10 +1668,10 @@ const App = () => {
       admix: [],
       selectedUploadOption: "PCA",
     };
-  
+
     setIsLoading(true);
     setProgressBarType("Loader");
-  
+
     axios
       .post(
         `${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}${process.env.REACT_APP_PORT}/api/runfuzzy/`,
@@ -1706,7 +1709,7 @@ const App = () => {
     setIsLoading(true);
     setProgressBarType("ProgressBar");
     setProgressBarTimeInterval(70);
-  
+
     axios
       .post(
         `${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}${process.env.REACT_APP_PORT}/api/cmtsne2d/`,
@@ -1732,7 +1735,7 @@ const App = () => {
         alert("Server error! Please check the input and try again. If the error persists, refer to the docs! ");
       });
   };
-  
+
   const runTSNE3d = () => {
     const formData = {
       df: data,
@@ -1740,7 +1743,7 @@ const App = () => {
     setIsLoading(true);
     setProgressBarType("ProgressBar");
     setProgressBarTimeInterval(70);
-  
+
     axios
       .post(
         `${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}${process.env.REACT_APP_PORT}/api/cmtsne3d/`,
@@ -1766,26 +1769,26 @@ const App = () => {
         alert("Server error! Please check the input and try again. If the error persists, refer to the docs! ");
       });
   };
-  
+
   const runPCAir = (bedName, bimName, famName, kinshipName) => {
     setIsLoading(true);
     setProgressBarType("ProgressBar");
     setProgressBarTimeInterval(80);
-  
+
     console.log({
       bedName: bedName,
       bimName: bimName,
       famName: famName,
       kinshipName: kinshipName,
     });
-  
+
     const formData = {
       bedName: bedName,
       bimName: bimName,
       famName: famName,
       kinshipName: kinshipName,
     };
-  
+
     axios
       .post(
         `${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}${process.env.REACT_APP_PORT}/api/runPCAIR`,
@@ -1806,7 +1809,7 @@ const App = () => {
         alert("Server error! Please check the input and try again. If the error persists, refer to the docs! ");
       });
   };
-  
+
   const samplePCADataset = () => {
     setIsLoading(true);
     setProgressBarType("Loader");
@@ -1815,7 +1818,7 @@ const App = () => {
     setClusterColors([]);
     setColoredData([]);
     setDendrogramPath("");
-  
+
     axios
       .get(
         `${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}${process.env.REACT_APP_PORT}/api/samplePCA/${sampleDatasetValue}`,
@@ -1845,7 +1848,7 @@ const App = () => {
     setClusterNames({});
     setClusterColors([]);
     setDendrogramPath("");
-  
+
     axios
       .get(
         `${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}${process.env.REACT_APP_PORT}/api/samplePCAAdmixDataset/${sampleDatasetValue}`,
@@ -1868,7 +1871,7 @@ const App = () => {
         alert("Server error! Please check the input and try again. If the error persists, refer to the docs! ");
       });
   };
-  
+
   const samplePCAAdmixDataset2 = (dstype, sampleDatasetValue) => {
     setIsLoading(true);
     setProgressBarType("Loader");
@@ -1877,7 +1880,7 @@ const App = () => {
     setClusterColors([]);
     setDendrogramPath("");
     setSelectedUploadOption(dstype == 0 ? "PCA" : "pcairandadmixture");
-  
+
     axios
       .get(
         `${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}${process.env.REACT_APP_PORT}/api/samplePCAAdmixDataset/${sampleDatasetValue}`,
@@ -1900,7 +1903,7 @@ const App = () => {
         alert("Server error! Please check the input and try again. If the error persists, refer to the docs! ");
       });
   };
-  
+
   const detectOutliers = (selectedOutlierMethod, columnRange, pressed, inputFormat) => {
     if (selectedOutlierMethod === 0) {
       updateOutlierData([]);
@@ -1914,7 +1917,7 @@ const App = () => {
       };
       setIsLoading(true);
       setProgressBarType("Loader");
-  
+
       axios
         .post(
           `${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}${process.env.REACT_APP_PORT}/api/detectoutliers/`,
@@ -1939,7 +1942,7 @@ const App = () => {
         });
     }
   };
-  
+
   const handleColoredColumns = (event) => {
     setColoredData(event.label === "None" ? [] : data.map((elem) => elem[event.label]));
     setSelectedDescribingColumnColor(event);
@@ -1958,7 +1961,7 @@ const App = () => {
     setClusterColors([]);
     showScatterPlot();
   };
-  
+
   const handleShapeColumns = (event) => {
     setShapedData(event.label === "None" ? [] : data.map((elem) => elem[event.label]));
     setColoredData(selectedDescribingColumnColor === event ? [] : coloredData);
@@ -1994,12 +1997,8 @@ const App = () => {
     const ONE_DIM = 0;
     const TWO_DIM = 1;
     const THREE_DIM = 2;
-  
-    if (
-      selectedUploadOption === "pcairandadmixture" &&
-      data != null &&
-      admix.length > 0
-    ) {
+
+    if (selectedUploadOption === "pcairandadmixture" && data != null && admix.length > 0) {
       return (
         <ScatterAdmix
           PCAdata={data}
@@ -2021,11 +2020,7 @@ const App = () => {
         />
       );
     } else {
-      if (
-        selectedColumns[0] === null &&
-        selectedColumns[1] === null &&
-        selectedColumns[2] === null
-      ) {
+      if (selectedColumns[0] === null && selectedColumns[1] === null && selectedColumns[2] === null) {
         return (
           <ScatterPlot
             data={[]}
@@ -2092,23 +2087,23 @@ const App = () => {
       }
     }
   };
-  
+
   const onInputMetadataClick = (event) => {
     event.target.value = "";
     event.target.label = "";
   };
-  
+
   const DRTabChange = (data) => {
     setSelectedUploadOption(data.selectedUploadOption);
     setIsLoading(data.isLoading);
     setProgressBarType(data.ProgressBarType);
     setProgressBarTimeInterval(data.ProgressBarTimeInterval);
   };
-  
+
   const clusterNumberChange = (data) => {
     setNumClusters(data.numClusters);
   };
-  
+
   const UploadTabChange = (data) => {
     if (data.selectedUploadOption === "pcairandadmixture") {
       setSelectedUploadOption(data.selectedUploadOption);
@@ -2128,13 +2123,13 @@ const App = () => {
     setChosenInitialShape(outputState.selectedInitialShape.label);
     setMarkerSize(outputState.markerSize === undefined ? markerSize : outputState.markerSize);
   };
-  
+
   const handleAdmixOptionsCallback = (state) => {
     setAlphaVal(state.initialAlpha);
     setCertaintyVal(state.initialCertainty);
     setAdmixMode(state.mode === "Alpha" ? 0 : 1);
   };
-  
+
   const onPressReset = () => {
     setNumClusters(2);
     setProgressBarType("Loader");
@@ -2172,12 +2167,12 @@ const App = () => {
     setMetaDataColumns([]);
   };
 
-    return (
-      <div>
-        <NavigationBar></NavigationBar>
-  
-        <div style={styles.splitScreen}>
-          <div className="leftpane" style={styles.leftPane}>
+  return (
+    <div>
+      <NavigationBar></NavigationBar>
+
+      <div style={styles.splitScreen}>
+        {/* <div className="leftpane" style={styles.leftPane}>
             <form style={{ marginTop: "1%" }}>
               <UploadAndVisualizeTab
                 onChange={UploadTabChange}
@@ -2231,329 +2226,337 @@ const App = () => {
                 RESET
               </Button>
             </div>
-          </div>
-  
-          <div className="block-example" style={styles.rightPane}>
-            {isLoading && (
-              <ProgressBarTime
-                totalTime={ProgressBarTimeInterval}
-                type={ProgressBarType}
-                isLoading={isLoading}
-              />
-            )}
-            {!isLoading && (
-              <div>
-                <Tabs style={styles.dendrogramTabs}>
-                  <TabList>
-                    <Tab>Scatter Plot</Tab>
-                    {dendrogramPath !== "" && <Tab>Dendrogram</Tab>}
-                    {admix.length > 0 && selectedUploadOption === "pcairandadmixture" && (
-                      <Tab>Admixture</Tab>
-                    )}
-                  </TabList>
-                  <TabPanel>{showScatterPlot()}</TabPanel>
-                  {dendrogramPath !== "" && (
-                    <TabPanel>
-                      <Dendrogram dendrogramPath={dendrogramPath} />
-                    </TabPanel>
-                  )}
-                  <TabPanel>
-                    <BarPlot
-                      data={admix}
-                      alphaVal={alphaVal}
-                      certaintyVal={certaintyVal}
-                      clusterNames={{ ...clusterNames }}
-                      onChange={clusterNumberChange}
-                      AdmixOptionsLabelCheck={admixOptionsLabelCheck}
-                      plotTitle={plotTitle}
-                      picWidth={Number(picWidth)}
-                      picHeight={Number(picHeight)}
-                      picFormat={picFormat}
-                      admixMode={admixMode}
-                    />
-                  </TabPanel>
-                </Tabs>
-              </div>
-            )}
+          </div> */}
+
+        <LeftPane
+          UploadTabChange={UploadTabChange}
+          samplePCAAdmixDataset2={samplePCAAdmixDataset2}
+          handleProcessedPCA={handleProcessedPCA}
+          handleProcessedAdmix={handleProcessedAdmix}
+          handleUnprocessedPCA={handleUnprocessedPCA}
+          handleTSNE2D={handleTSNE2D}
+          handleTSNE3D={handleTSNE3D}
+          runPCAir={runPCAir}
+          runCluster={runCluster}
+          runOutliers={runOutliers}
+          allActions={allActions}
+          removeOutliers={removeOutliers}
+          onPressReset={onPressReset}
+          styles={styles}
+        />
+
+        <div className="block-example" style={styles.rightPane}>
+          {isLoading && (
+            <ProgressBarTime totalTime={ProgressBarTimeInterval} type={ProgressBarType} isLoading={isLoading} />
+          )}
+          {!isLoading && (
             <div>
-              <div className="radio" style={styles.dimensions}>
-                <FormControl style={{ marginLeft: "2%", marginTop: "1%" }}>
-                  <FormLabel id="demo-row-radio-buttons-group-label">Plot</FormLabel>
-                  <RadioGroup
-                    row
-                    aria-labelledby="demo-row-radio-buttons-group-label"
-                    name="row-radio-buttons-group"
-                    value={selectedOption}
-                    onChange={onValueChangeDims}
-                  >
-                    <FormControlLabel
-                      value="1D"
-                      disabled={selectedUploadOption === "admixture"}
-                      control={<Radio color="success" size="small" />}
-                      label="1D"
-                    />
-                    <FormControlLabel
-                      value="2D"
-                      disabled={selectedUploadOption === "admixture"}
-                      control={<Radio color="success" size="small" />}
-                      label="2D"
-                    />
-                    <FormControlLabel
-                      value="3D"
-                      disabled={selectedUploadOption === "admixture"}
-                      control={<Radio color="success" size="small" />}
-                      label="3D"
-                    />
-                  </RadioGroup>
-                </FormControl>
-                <div style={styles.dropDown}>
-                  <label style={{ width: "25%", marginLeft: "12%" }}>
-                    <h6> X-axis </h6>
-                  </label>
-                  <div style={{ width: "75%" }}>
-                    <Select
-                      value={{
-                        value: selectedColumns[0] == null ? "None" : selectedColumns[0],
-                        label: selectedColumns[0] == null ? "None" : selectedColumns[0],
-                      }}
-                      options={selectActions}
-                      onChange={handleSelectXChange}
-                      isDisabled={selectedUploadOption === "admixture"}
-                    />
-                  </div>
-                </div>
-  
-                <div style={styles.dropDown}>
-                  <label style={{ width: "25%", marginLeft: "12%" }}>
-                    <h6> Y-axis </h6>
-                  </label>
-                  <div style={{ width: "75%" }}>
-                    <Select
-                      value={{
-                        value: selectedColumns[1] == null ? "None" : selectedColumns[1],
-                        label: selectedColumns[1] == null ? "None" : selectedColumns[1],
-                      }}
-                      options={selectActions}
-                      onChange={handleSelectYChange}
-                      isDisabled={
-                        (selectedOption !== "3D" && selectedOption !== "2D") ||
-                        selectedUploadOption === "admixture"
-                      }
-                    />
-                  </div>
-                </div>
-                <div style={styles.dropDown}>
-                  <label style={{ width: "25%", marginLeft: "12%" }}>
-                    <h6> Z-axis </h6>
-                  </label>
-                  <div style={{ width: "75%" }}>
-                    <Select
-                      value={{
-                        value: selectedColumns[2] == null ? "None" : selectedColumns[2],
-                        label: selectedColumns[2] == null ? "None" : selectedColumns[2],
-                      }}
-                      options={selectActions}
-                      onChange={handleSelectZChange}
-                      isDisabled={selectedOption !== "3D" || selectedUploadOption === "admixture"}
-                    />
-                  </div>
+              <Tabs style={styles.dendrogramTabs}>
+                <TabList>
+                  <Tab>Scatter Plot</Tab>
+                  {dendrogramPath !== "" && <Tab>Dendrogram</Tab>}
+                  {admix.length > 0 && selectedUploadOption === "pcairandadmixture" && <Tab>Admixture</Tab>}
+                </TabList>
+                <TabPanel>{showScatterPlot()}</TabPanel>
+                {dendrogramPath !== "" && (
+                  <TabPanel>
+                    <Dendrogram dendrogramPath={dendrogramPath} />
+                  </TabPanel>
+                )}
+                <TabPanel>
+                  <BarPlot
+                    data={admix}
+                    alphaVal={alphaVal}
+                    certaintyVal={certaintyVal}
+                    clusterNames={{ ...clusterNames }}
+                    onChange={clusterNumberChange}
+                    AdmixOptionsLabelCheck={admixOptionsLabelCheck}
+                    plotTitle={plotTitle}
+                    picWidth={Number(picWidth)}
+                    picHeight={Number(picHeight)}
+                    picFormat={picFormat}
+                    admixMode={admixMode}
+                  />
+                </TabPanel>
+              </Tabs>
+            </div>
+          )}
+          <div>
+            <div className="radio" style={styles.dimensions}>
+              <FormControl style={{ marginLeft: "2%", marginTop: "1%" }}>
+                <FormLabel id="demo-row-radio-buttons-group-label">Plot</FormLabel>
+                <RadioGroup
+                  row
+                  aria-labelledby="demo-row-radio-buttons-group-label"
+                  name="row-radio-buttons-group"
+                  value={selectedOption}
+                  onChange={onValueChangeDims}
+                >
+                  <FormControlLabel
+                    value="1D"
+                    disabled={selectedUploadOption === "admixture"}
+                    control={<Radio color="success" size="small" />}
+                    label="1D"
+                  />
+                  <FormControlLabel
+                    value="2D"
+                    disabled={selectedUploadOption === "admixture"}
+                    control={<Radio color="success" size="small" />}
+                    label="2D"
+                  />
+                  <FormControlLabel
+                    value="3D"
+                    disabled={selectedUploadOption === "admixture"}
+                    control={<Radio color="success" size="small" />}
+                    label="3D"
+                  />
+                </RadioGroup>
+              </FormControl>
+              <div style={styles.dropDown}>
+                <label style={{ width: "25%", marginLeft: "12%" }}>
+                  <h6> X-axis </h6>
+                </label>
+                <div style={{ width: "75%" }}>
+                  <Select
+                    value={{
+                      value: selectedColumns[0] == null ? "None" : selectedColumns[0],
+                      label: selectedColumns[0] == null ? "None" : selectedColumns[0],
+                    }}
+                    options={selectActions}
+                    onChange={handleSelectXChange}
+                    isDisabled={selectedUploadOption === "admixture"}
+                  />
                 </div>
               </div>
-              <Tabs style={styles.optionsContainer}>
-                <TabList>
-                  <Tab>Settings</Tab>
-                  <Tab>Output Options</Tab>
-                </TabList>
-                {selectedUploadOption !== "admixture" &&
-                  selectedUploadOption !== "pcairandadmixture" && (
-                    <div>
-                      {" "}
-                      <TabPanel>
-                        <div className="row">
-                          <div className="row-md-8"></div>
-  
-                          <div
-                            style={{
-                              width: "90%",
-                              marginTop: "3%",
-                              marginLeft: "3%",
-                            }}
-                          >
-                            <label
-                              style={{
-                                fontWeight: "300",
-                                fontSize: 18,
-                                padding: "2%",
-                              }}
-                            >
-                              Describing Columns
-                            </label>
-                            <Select
-                              name="filters"
-                              placeholder="Filters"
-                              value={multiValue.filter((elem) => {
-                                return elem.label !== "None";
-                              })}
-                              options={selectActions}
-                              onChange={handleMultiChange}
-                              isMulti
-                            />
-                          </div>
-                          {multiValue.length > 0 && (
-                            <div>
-                              <div style={styles.describingColumnDropDown}>
-                                <label
-                                  style={{
-                                    fontSize: 14,
-                                    padding: "2%",
-                                    width: "30%",
-                                  }}
-                                >
-                                  Identify by Colors
-                                </label>
-                                <div style={{ width: "62%", marginTop: "1%" }}>
-                                  <Select
-                                    value={selectedDescribingColumnColor}
-                                    options={multiValue}
-                                    onChange={handleColoredColumns}
-                                  />
-                                </div>
-                              </div>
-                              <div style={styles.describingColumnDropDown}>
-                                <label
-                                  style={{
-                                    fontSize: 14,
-                                    padding: "2%",
-                                    width: "30%",
-                                  }}
-                                >
-                                  Identify by Shape
-                                </label>
-                                <div style={{ width: "62%", marginTop: "1%" }}>
-                                  <Select
-                                    value={selectedDescribingColumnShape}
-                                    disabled={OutlierData.length > 0}
-                                    options={multiValue}
-                                    onChange={handleShapeColumns}
-                                  />
-                                </div>
-                              </div>
-                            </div>
-                          )}
-                        </div>
-                        <div
-                          style={{
-                            width: "90%",
-                            marginTop: "10%",
-                            marginLeft: "3%",
-                          }}
-                        >
-                          <label
-                            style={{
-                              fontWeight: "300",
-                              fontSize: 18,
-                              padding: "2%",
-                            }}
-                          >
-                            Mapping ID Column
-                          </label>
-                          <Select
-                            placeholder="Mapping ID"
-                            options={allActions}
-                            onChange={(option) => {
-                              setMappingIDColumn(option.label);
-                            }}
-                          />
-                          <label
-                            style={{
-                              fontWeight: "300",
-                              padding: "2%",
-                              fontSize: 18,
-                              marginTop: "10%",
-                            }}
-                          >
-                            Add Metadata
-                            <input
-                              type="file"
-                              accept=".csv,.xlsx,.xls,.txt"
-                              onChange={handleMetaDataUpload}
-                              onClick={onInputMetadataClick}
-                              disabled={data == null || data.length === 0}
-                            />
-                          </label>
-                        </div>
-                        {data !== null && (
-                          <DownloadData
-                            data={data}
-                            clusterColors={clusterColors}
-                            OutlierData={OutlierData}
-                            clusterNames={clusterNames}
-                            admixData={admix}
-                            alphaVal={alphaVal}
-                            certaintyVal={certaintyVal}
-                            admixMode={admixMode}
-                          />
-                        )}
-                      </TabPanel>
-                      <TabPanel style={styles.outputSettings}>
-                        <TabOutputOptions
-                          uniqueClusters={numClusters}
-                          parentCallback={handleTabOutputCallback}
-                          showClusters={showOutputOptions}
-                          markerSize={markerSize}
-                        />
-                      </TabPanel>
-                    </div>
-                  )}
-                {(selectedUploadOption === "pcairandadmixture" ||
-                  selectedUploadOption === "admixture") && (
-                  <div>
-                    <TabPanel>
+
+              <div style={styles.dropDown}>
+                <label style={{ width: "25%", marginLeft: "12%" }}>
+                  <h6> Y-axis </h6>
+                </label>
+                <div style={{ width: "75%" }}>
+                  <Select
+                    value={{
+                      value: selectedColumns[1] == null ? "None" : selectedColumns[1],
+                      label: selectedColumns[1] == null ? "None" : selectedColumns[1],
+                    }}
+                    options={selectActions}
+                    onChange={handleSelectYChange}
+                    isDisabled={
+                      (selectedOption !== "3D" && selectedOption !== "2D") || selectedUploadOption === "admixture"
+                    }
+                  />
+                </div>
+              </div>
+              <div style={styles.dropDown}>
+                <label style={{ width: "25%", marginLeft: "12%" }}>
+                  <h6> Z-axis </h6>
+                </label>
+                <div style={{ width: "75%" }}>
+                  <Select
+                    value={{
+                      value: selectedColumns[2] == null ? "None" : selectedColumns[2],
+                      label: selectedColumns[2] == null ? "None" : selectedColumns[2],
+                    }}
+                    options={selectActions}
+                    onChange={handleSelectZChange}
+                    isDisabled={selectedOption !== "3D" || selectedUploadOption === "admixture"}
+                  />
+                </div>
+              </div>
+            </div>
+            <Tabs style={styles.optionsContainer}>
+              <TabList>
+                <Tab>Settings</Tab>
+                <Tab>Output Options</Tab>
+              </TabList>
+              {selectedUploadOption !== "admixture" && selectedUploadOption !== "pcairandadmixture" && (
+                <div>
+                  {" "}
+                  <TabPanel>
+                    <div className="row">
+                      <div className="row-md-8"></div>
+
                       <div
                         style={{
                           width: "90%",
+                          marginTop: "3%",
                           marginLeft: "3%",
                         }}
                       >
-                        <AdmixOptions
-                          initialAlpha={alphaVal}
-                          initialCertainty={certaintyVal}
-                          name={selectedUploadOption === "pcairandadmixture" ? "Alpha" : "Certainty"}
-                          parentCallback={handleAdmixOptionsCallback}
-                          mode={admixMode}
-                          disabled={admix.length === 0}
+                        <label
+                          style={{
+                            fontWeight: "300",
+                            fontSize: 18,
+                            padding: "2%",
+                          }}
+                        >
+                          Describing Columns
+                        </label>
+                        <Select
+                          name="filters"
+                          placeholder="Filters"
+                          value={multiValue.filter((elem) => {
+                            return elem.label !== "None";
+                          })}
+                          options={selectActions}
+                          onChange={handleMultiChange}
+                          isMulti
                         />
                       </div>
-                      {data !== null && (
-                        <DownloadData
-                          data={data}
-                          clusterColors={clusterColors}
-                          OutlierData={OutlierData}
-                          columnRange={columnRange}
-                          clusterNames={clusterNames}
-                          admixData={admix}
-                          alphaVal={alphaVal}
-                          certaintyVal={certaintyVal}
-                          admixMode={admixMode}
-                        />
+                      {multiValue.length > 0 && (
+                        <div>
+                          <div style={styles.describingColumnDropDown}>
+                            <label
+                              style={{
+                                fontSize: 14,
+                                padding: "2%",
+                                width: "30%",
+                              }}
+                            >
+                              Identify by Colors
+                            </label>
+                            <div style={{ width: "62%", marginTop: "1%" }}>
+                              <Select
+                                value={selectedDescribingColumnColor}
+                                options={multiValue}
+                                onChange={handleColoredColumns}
+                              />
+                            </div>
+                          </div>
+                          <div style={styles.describingColumnDropDown}>
+                            <label
+                              style={{
+                                fontSize: 14,
+                                padding: "2%",
+                                width: "30%",
+                              }}
+                            >
+                              Identify by Shape
+                            </label>
+                            <div style={{ width: "62%", marginTop: "1%" }}>
+                              <Select
+                                value={selectedDescribingColumnShape}
+                                disabled={OutlierData.length > 0}
+                                options={multiValue}
+                                onChange={handleShapeColumns}
+                              />
+                            </div>
+                          </div>
+                        </div>
                       )}
-                    </TabPanel>
-                    <TabPanel style={styles.outputSettings}>
-                      <TabOutputOptions
-                        uniqueClusters={numClusters}
-                        parentCallback={handleTabOutputCallback}
-                        showClusters={showOutputOptions}
-                        markerSize={markerSize}
+                    </div>
+                    <div
+                      style={{
+                        width: "90%",
+                        marginTop: "10%",
+                        marginLeft: "3%",
+                      }}
+                    >
+                      <label
+                        style={{
+                          fontWeight: "300",
+                          fontSize: 18,
+                          padding: "2%",
+                        }}
+                      >
+                        Mapping ID Column
+                      </label>
+                      <Select
+                        placeholder="Mapping ID"
+                        options={allActions}
+                        onChange={(option) => {
+                          setMappingIDColumn(option.label);
+                        }}
                       />
-                    </TabPanel>
-                  </div>
-                )}
-              </Tabs>
-            </div>
+                      <label
+                        style={{
+                          fontWeight: "300",
+                          padding: "2%",
+                          fontSize: 18,
+                          marginTop: "10%",
+                        }}
+                      >
+                        Add Metadata
+                        <input
+                          type="file"
+                          accept=".csv,.xlsx,.xls,.txt"
+                          onChange={handleMetaDataUpload}
+                          onClick={onInputMetadataClick}
+                          disabled={data == null || data.length === 0}
+                        />
+                      </label>
+                    </div>
+                    {data !== null && (
+                      <DownloadData
+                        data={data}
+                        clusterColors={clusterColors}
+                        OutlierData={OutlierData}
+                        clusterNames={clusterNames}
+                        admixData={admix}
+                        alphaVal={alphaVal}
+                        certaintyVal={certaintyVal}
+                        admixMode={admixMode}
+                      />
+                    )}
+                  </TabPanel>
+                  <TabPanel style={styles.outputSettings}>
+                    <TabOutputOptions
+                      uniqueClusters={numClusters}
+                      parentCallback={handleTabOutputCallback}
+                      showClusters={showOutputOptions}
+                      markerSize={markerSize}
+                    />
+                  </TabPanel>
+                </div>
+              )}
+              {(selectedUploadOption === "pcairandadmixture" || selectedUploadOption === "admixture") && (
+                <div>
+                  <TabPanel>
+                    <div
+                      style={{
+                        width: "90%",
+                        marginLeft: "3%",
+                      }}
+                    >
+                      <AdmixOptions
+                        initialAlpha={alphaVal}
+                        initialCertainty={certaintyVal}
+                        name={selectedUploadOption === "pcairandadmixture" ? "Alpha" : "Certainty"}
+                        parentCallback={handleAdmixOptionsCallback}
+                        mode={admixMode}
+                        disabled={admix.length === 0}
+                      />
+                    </div>
+                    {data !== null && (
+                      <DownloadData
+                        data={data}
+                        clusterColors={clusterColors}
+                        OutlierData={OutlierData}
+                        columnRange={columnRange}
+                        clusterNames={clusterNames}
+                        admixData={admix}
+                        alphaVal={alphaVal}
+                        certaintyVal={certaintyVal}
+                        admixMode={admixMode}
+                      />
+                    )}
+                  </TabPanel>
+                  <TabPanel style={styles.outputSettings}>
+                    <TabOutputOptions
+                      uniqueClusters={numClusters}
+                      parentCallback={handleTabOutputCallback}
+                      showClusters={showOutputOptions}
+                      markerSize={markerSize}
+                    />
+                  </TabPanel>
+                </div>
+              )}
+            </Tabs>
           </div>
         </div>
       </div>
-    );
+    </div>
+  );
 };
 
 const styles = {
