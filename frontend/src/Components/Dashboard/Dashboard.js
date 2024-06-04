@@ -2564,19 +2564,7 @@ const styles = {
     display: "flex",
     flexDirection: "column",
   },
-  leftPane: {
-    height: "130%",
-    position: "absolute",
-    top: 0,
-    overflow_x: "hidden",
-    padding_top: "20px",
-    left: 0,
-    width: "20%",
-    marginTop: "3%",
-    color: "white",
-    padding: "2%",
-    backgroundColor: "#3b3f4e",
-  },
+ 
   rightPane: {
     height: "91%",
     position: "fixed",

@@ -25,10 +25,11 @@ function UploadAndVisualizeTab(prop) {
     <div>
       <div
         style={{
-          marginBottom: "5%",
-          justifyContent: "space-between",
           display: "flex",
-          flexDirection: "row",
+          marginBottom: "5%",
+          justifyContent: "center",
+          alignItems: "center",
+          // flexDirection: "row",
         }}
         onClick={() => setOpen(!open)}
       >
@@ -36,10 +37,10 @@ function UploadAndVisualizeTab(prop) {
           style={{
             display: "flex",
             flexDirection: "row",
-            width: "80%",
+            // width: "80%",
           }}
         >
-          <FcScatterPlot size={30} style={{ marginRight: "3%", opacity: 0.5 }} />
+          {/* <FcScatterPlot size={30} style={{ marginRight: "3%", opacity: 0.5 }} /> */}
           {/* <label> Upload and Preprocess </label> */}
           <DataUploadModal
             samplePCAAdmixDataset={samplePCAAdmixDataset}

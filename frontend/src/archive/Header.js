@@ -5,6 +5,7 @@ import useAnalyticsEventTracker from "../Components/useAnalyticsEventTracker";
 import { FaBook, FaGithub, FaPlayCircle } from "react-icons/fa";
 import "./headerFP.css";
 import PopMLvis from "../assets/PopMLvis.pdf";
+import colors from "../config/colors";
 
 function Header(props) {
   const gaEventTracker = useAnalyticsEventTracker("social");
@@ -42,7 +43,7 @@ function Header(props) {
             className="responsive-headline"
             style={{
               fontFamily: "Arial Black",
-              color: "#071b52",
+              color: colors.primary,
             }}
           >
             {name}
@@ -60,11 +61,7 @@ function Header(props) {
           <hr />
 
           <ul className="social">
-            <a
-              href={"/Dashboard"}
-              className="button btn project-btn"
-              onClick={() => gaEventTracker("Live")}
-            >
+            <a href={"/Dashboard"} className="button btn project-btn" onClick={() => gaEventTracker("Live")}>
               <FaPlayCircle /> Start Now
             </a>
             <a

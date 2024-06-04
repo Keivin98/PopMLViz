@@ -1,8 +1,9 @@
-import React from 'react';
+import React from "react";
 import { Button } from "@material-ui/core";
 import UploadAndVisualizeTab from "./UploadAndVisualizeTab";
 import ClusteringAlgorithmsTab from "./ClusteringAlgorithmsTab";
 import OutlierDetectionTab from "./OutlierDetectionTab";
+import colors from "../../../config/colors";
 
 const LeftPane = ({
   UploadTabChange,
@@ -18,7 +19,6 @@ const LeftPane = ({
   allActions,
   removeOutliers,
   onPressReset,
-  styles
 }) => {
   return (
     <div className="leftpane" style={styles.leftPane}>
@@ -39,9 +39,11 @@ const LeftPane = ({
       <hr style={{ backgroundColor: "white", height: 3, opacity: 1 }} />
       <OutlierDetectionTab
         onChange={runOutliers}
-        numFeatures={allActions.filter((elem) => {
-          return Array.isArray(elem) || elem.label.includes("PC") || elem.label.includes("TSNE");
-        }).length}
+        numFeatures={
+          allActions.filter((elem) => {
+            return Array.isArray(elem) || elem.label.includes("PC") || elem.label.includes("TSNE");
+          }).length
+        }
         allActions={allActions}
         removeOutliers={removeOutliers}
       />
@@ -62,6 +64,22 @@ const LeftPane = ({
       </div>
     </div>
   );
+};
+
+const styles = {
+  leftPane: {
+    height: "130%",
+    position: "absolute",
+    top: 0,
+    overflow_x: "hidden",
+    padding_top: "20px",
+    left: 0,
+    width: "20%",
+    marginTop: "3%",
+    color: "white",
+    padding: "2%",
+    backgroundColor:"rgb(245, 246, 247)",
+  },
 };
 
 export default LeftPane;

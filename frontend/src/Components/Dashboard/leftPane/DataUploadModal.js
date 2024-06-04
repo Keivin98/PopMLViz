@@ -19,7 +19,7 @@ const useStyles = makeStyles({
     borderWidth: 1,
     textTransform: "none !important",
     width: 150,
-    marginLeft: "20px !important",
+    // marginLeft: "20px !important",
 
     "&:hover": {
       backgroundColor: "rgba(255, 255, 255, 0.5) !important",
@@ -589,11 +589,23 @@ function DataUploadModal({
     >
       <div style={{ display: "flex", justifyContent: "start", marginBottom: "20px" }}>
         {dataSelectionStep !== "initial" && (
-          <div onClick={handleBack} style={{display: "flex",borderRadius: 50, width: 40, height: 40, backgroundColor: "#EEE", justifyContent: 'center', alignItems: 'center', marginRight: 30, }}>
-            <ArrowBackIcon style={{ cursor: "pointer",  }}  />
+          <div
+            onClick={handleBack}
+            style={{
+              display: "flex",
+              borderRadius: 50,
+              width: 40,
+              height: 40,
+              backgroundColor: "#EEE",
+              justifyContent: "center",
+              alignItems: "center",
+              marginRight: 30,
+            }}
+          >
+            <ArrowBackIcon style={{ cursor: "pointer" }} />
           </div>
         )}
-        <h2 style={{marginBottom: 0}}>{getTitle()}</h2>
+        <h2 style={{ marginBottom: 0 }}>{getTitle()}</h2>
       </div>
       {renderOptions()}
     </Box>
@@ -602,9 +614,11 @@ function DataUploadModal({
   console.log(files);
   return (
     <div>
-      <Button variant="outlined" className={classes.customButton} onClick={handleOpen}>
-        Choose Data
-      </Button>
+      <div style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <Button variant="outlined" className={classes.customButton} onClick={handleOpen}>
+          Choose Data
+        </Button>
+      </div>
       <Modal open={modalOpen} onClose={handleClose}>
         {modalBody}
       </Modal>
