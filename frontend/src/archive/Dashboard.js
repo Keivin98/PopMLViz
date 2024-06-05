@@ -4,7 +4,7 @@ import { Chart, registerables } from "chart.js";
 import * as XLSX from "xlsx";
 import Select from "react-select";
 import ScatterPlot from "../Components/ScatterPlot";
-import BarPlot from "../Components/BarPlot";
+import BarPlot from "../Components/Dashboard/centralPane/BarPlot";
 import UploadAndVisualizeTab from "../Components/Dashboard/leftPane/UploadAndVisualizeTab";
 import DimensionalityReductionTab from "../Components/DimensionalityReductionTab";
 import ScatterAdmix from "../Components/ScatterAdmix";
@@ -23,7 +23,7 @@ import FormLabel from "@mui/material/FormLabel";
 import "react-tabs/style/react-tabs.css";
 import AdmixOptions from "../Components/Dashboard/rightPane/AdmixOptions";
 import Navbar from "react-bootstrap/Navbar";
-import Dendrogram from "../Components/Dendrogram";
+import Dendrogram from "../Components/Dashboard/centralPane/Dendrogram";
 
 require("dotenv").config();
 const randomColors = [

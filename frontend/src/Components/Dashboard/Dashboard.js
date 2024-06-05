@@ -4,7 +4,7 @@ import { Chart, registerables } from "chart.js";
 import * as XLSX from "xlsx";
 import Select from "react-select";
 import ScatterPlot from "../ScatterPlot";
-import BarPlot from "../BarPlot";
+import BarPlot from "./centralPane/BarPlot";
 import UploadAndVisualizeTab from "./leftPane/UploadAndVisualizeTab";
 import DimensionalityReductionTab from "../DimensionalityReductionTab";
 import ScatterAdmix from "../ScatterAdmix";
@@ -23,10 +23,12 @@ import FormLabel from "@mui/material/FormLabel";
 import "react-tabs/style/react-tabs.css";
 import AdmixOptions from "./rightPane/AdmixOptions";
 import Navbar from "react-bootstrap/Navbar";
-import Dendrogram from "../Dendrogram";
+import Dendrogram from "./centralPane/Dendrogram";
 import NavigationBar from "./NavigationBar";
 import LeftPane from "./leftPane/LeftPane";
 import RightPane from "./rightPane/RightPane";
+import UpperPane from "./UpperPane";
+import CentralPane from "./centralPane/CentralPane";
 
 require("dotenv").config();
 const randomColors = [
@@ -2251,39 +2253,56 @@ const App = () => {
             <ProgressBarTime totalTime={ProgressBarTimeInterval} type={ProgressBarType} isLoading={isLoading} />
           )}
           {!isLoading && (
-            <div>
-              <Tabs style={styles.dendrogramTabs}>
-                <TabList>
-                  <Tab>Scatter Plot</Tab>
-                  {dendrogramPath !== "" && <Tab>Dendrogram</Tab>}
-                  {admix.length > 0 && selectedUploadOption === "pcairandadmixture" && <Tab>Admixture</Tab>}
-                </TabList>
-                <TabPanel>{showScatterPlot()}</TabPanel>
-                {dendrogramPath !== "" && (
-                  <TabPanel>
-                    <Dendrogram dendrogramPath={dendrogramPath} />
-                  </TabPanel>
-                )}
-                <TabPanel>
-                  <BarPlot
-                    data={admix}
-                    alphaVal={alphaVal}
-                    certaintyVal={certaintyVal}
-                    clusterNames={{ ...clusterNames }}
-                    onChange={clusterNumberChange}
-                    AdmixOptionsLabelCheck={admixOptionsLabelCheck}
-                    plotTitle={plotTitle}
-                    picWidth={Number(picWidth)}
-                    picHeight={Number(picHeight)}
-                    picFormat={picFormat}
-                    admixMode={admixMode}
-                  />
-                </TabPanel>
-              </Tabs>
-            </div>
+            <CentralPane
+              showScatterPlot={showScatterPlot}
+              dendrogramPath={dendrogramPath}
+              admix={admix}
+              selectedUploadOption={selectedUploadOption}
+              alphaVal={alphaVal}
+              certaintyVal={certaintyVal}
+              clusterNames={clusterNames}
+              clusterNumberChange={clusterNumberChange}
+              admixOptionsLabelCheck={admixOptionsLabelCheck}
+              plotTitle={plotTitle}
+              picWidth={picWidth}
+              picHeight={picHeight}
+              picFormat={picFormat}
+              admixMode={admixMode}
+            />
+
+            // <div>
+            //   <Tabs style={styles.dendrogramTabs}>
+            //     <TabList>
+            //       <Tab>Scatter Plot</Tab>
+            //       {dendrogramPath !== "" && <Tab>Dendrogram</Tab>}
+            //       {admix.length > 0 && selectedUploadOption === "pcairandadmixture" && <Tab>Admixture</Tab>}
+            //     </TabList>
+            //     <TabPanel>{showScatterPlot()}</TabPanel>
+            //     {dendrogramPath !== "" && (
+            //       <TabPanel>
+            //         <Dendrogram dendrogramPath={dendrogramPath} />
+            //       </TabPanel>
+            //     )}
+            //     <TabPanel>
+            //       <BarPlot
+            //         data={admix}
+            //         alphaVal={alphaVal}
+            //         certaintyVal={certaintyVal}
+            //         clusterNames={{ ...clusterNames }}
+            //         onChange={clusterNumberChange}
+            //         AdmixOptionsLabelCheck={admixOptionsLabelCheck}
+            //         plotTitle={plotTitle}
+            //         picWidth={Number(picWidth)}
+            //         picHeight={Number(picHeight)}
+            //         picFormat={picFormat}
+            //         admixMode={admixMode}
+            //       />
+            //     </TabPanel>
+            //   </Tabs>
+            // </div>
           )}
           <div>
-            <div className="radio" style={styles.dimensions}>
+            {/* <div className="radio" style={styles.dimensions}>
               <FormControl style={{ marginLeft: "2%", marginTop: "1%" }}>
                 <FormLabel id="demo-row-radio-buttons-group-label">Plot</FormLabel>
                 <RadioGroup
@@ -2364,7 +2383,18 @@ const App = () => {
                   />
                 </div>
               </div>
-            </div>
+            </div> */}
+            <UpperPane
+              selectedOption={selectedOption}
+              onValueChangeDims={onValueChangeDims}
+              selectedColumns={selectedColumns}
+              selectActions={selectActions}
+              handleSelectXChange={handleSelectXChange}
+              handleSelectYChange={handleSelectYChange}
+              handleSelectZChange={handleSelectZChange}
+              selectedUploadOption={selectedUploadOption}
+            />
+
             <RightPane
               selectedUploadOption={selectedUploadOption}
               selectActions={selectActions}
