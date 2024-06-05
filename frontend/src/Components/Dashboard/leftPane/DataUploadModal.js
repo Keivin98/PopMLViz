@@ -27,6 +27,25 @@ const useStyles = makeStyles({
   },
 });
 
+// const useStyles = makeStyles({
+//     customButton: {
+//       backgroundColor: "#1abc9c !important",
+//       color: "white !important",
+//       borderColor: "white !important",
+//       borderWidth: 1,
+//       textTransform: "none !important",
+//       width: 150,
+//       // marginLeft: "20px !important",
+  
+//       "&:hover": {
+//         backgroundColor: "rgb(245, 246, 247) !important",
+//         color: "#1abc9c !important",
+//         borderColor: "#1abc9c !important",
+  
+//       },
+//     },
+//   });
+
 function DataUploadModal({
   samplePCAAdmixDataset,
   processedPCA,

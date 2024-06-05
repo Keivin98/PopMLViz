@@ -34,9 +34,9 @@ const LeftPane = ({
           runPCAir={runPCAir}
         />
       </form>
-      <hr style={{ backgroundColor: "white", height: 3, opacity: 1 }} />
+      <hr style={{ backgroundColor: "white", height: 2, opacity: 1 }} />
       <ClusteringAlgorithmsTab onChange={runCluster} />
-      <hr style={{ backgroundColor: "white", height: 3, opacity: 1 }} />
+      <hr style={{ backgroundColor: "white", height: 2, opacity: 1 }} />
       <OutlierDetectionTab
         onChange={runOutliers}
         numFeatures={
@@ -61,6 +61,7 @@ const LeftPane = ({
         >
           RESET
         </Button>
+        {/* <div style={{height: 1000}}></div> */}
       </div>
     </div>
   );
@@ -78,7 +79,10 @@ const styles = {
     marginTop: "3%",
     color: "white",
     padding: "2%",
-    backgroundColor:"rgb(245, 246, 247)",
+    // backgroundColor:"rgb(245, 246, 247)",
+    backgroundColor: colors.gray,
+    overflow_x: "hidden", 
+    overflow: "scroll"
   },
 };
 

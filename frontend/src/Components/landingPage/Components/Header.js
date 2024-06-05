@@ -85,7 +85,7 @@ function Header(props) {
           <hr />
 
           <ul className="social">
-            <a href={"/Dashboard"} className="button btn project-btn" onClick={() => gaEventTracker("Live")}>
+            <a href={"/Dashboard"} style={{}} className="button btn project-btn" onClick={() => gaEventTracker("Live")}>
               <FaPlayCircle /> Start Visualizing
             </a>
           </ul>

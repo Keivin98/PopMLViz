@@ -8,24 +8,25 @@ import BarPlot from "../BarPlot";
 import UploadAndVisualizeTab from "./leftPane/UploadAndVisualizeTab";
 import DimensionalityReductionTab from "../DimensionalityReductionTab";
 import ScatterAdmix from "../ScatterAdmix";
-import DownloadData from "../DownloadData";
+import DownloadData from "./rightPane/DownloadData";
 import ClusteringAlgorithmsTab from "./leftPane/ClusteringAlgorithmsTab";
 import OutlierDetectionTab from "./leftPane/OutlierDetectionTab";
 import ProgressBarTime from "../ProgressBarTime";
 import { Button } from "@material-ui/core";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
-import TabOutputOptions from "../TabOutputOptions";
+import TabOutputOptions from "./rightPane/TabOutputOptions";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
 import "react-tabs/style/react-tabs.css";
-import AdmixOptions from "../AdmixOptions";
+import AdmixOptions from "./rightPane/AdmixOptions";
 import Navbar from "react-bootstrap/Navbar";
 import Dendrogram from "../Dendrogram";
 import NavigationBar from "./NavigationBar";
 import LeftPane from "./leftPane/LeftPane";
+import RightPane from "./rightPane/RightPane";
 
 require("dotenv").config();
 const randomColors = [
@@ -2364,7 +2365,35 @@ const App = () => {
                 </div>
               </div>
             </div>
-            <Tabs style={styles.optionsContainer}>
+            <RightPane
+              selectedUploadOption={selectedUploadOption}
+              selectActions={selectActions}
+              multiValue={multiValue}
+              handleMultiChange={handleMultiChange}
+              selectedDescribingColumnColor={selectedDescribingColumnColor}
+              handleColoredColumns={handleColoredColumns}
+              selectedDescribingColumnShape={selectedDescribingColumnShape}
+              handleShapeColumns={handleShapeColumns}
+              OutlierData={OutlierData}
+              data={data}
+              handleMetaDataUpload={handleMetaDataUpload}
+              onInputMetadataClick={onInputMetadataClick}
+              allActions={allActions}
+              setMappingIDColumn={setMappingIDColumn}
+              alphaVal={alphaVal}
+              certaintyVal={certaintyVal}
+              admixMode={admixMode}
+              admix={admix}
+              handleAdmixOptionsCallback={handleAdmixOptionsCallback}
+              columnRange={columnRange}
+              clusterColors={clusterColors}
+              clusterNames={clusterNames}
+              numClusters={numClusters}
+              markerSize={markerSize}
+              handleTabOutputCallback={handleTabOutputCallback}
+              showOutputOptions={showOutputOptions}
+            />
+            {/* <Tabs style={styles.optionsContainer}>
               <TabList>
                 <Tab>Settings</Tab>
                 <Tab>Output Options</Tab>
@@ -2551,7 +2580,7 @@ const App = () => {
                   </TabPanel>
                 </div>
               )}
-            </Tabs>
+            </Tabs> */}
           </div>
         </div>
       </div>
@@ -2564,7 +2593,7 @@ const styles = {
     display: "flex",
     flexDirection: "column",
   },
- 
+
   rightPane: {
     height: "91%",
     position: "fixed",
