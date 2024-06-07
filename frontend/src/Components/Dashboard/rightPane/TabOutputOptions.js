@@ -86,10 +86,11 @@ const TabOutputOptions = ({
           </div>
         </div>
 
-        <div style={{ display: "flex", flexDirection: "row" }}>
+        <div style={{}}>
           <h6 style={{ paddingTop: "2%", marginBottom: "10%" }}>Marker Color:</h6>
-          <div style={{ width: "50%", paddingBottom: "10%", paddingLeft: "2%" }}>
+          <div style={{ paddingBottom: "10%", paddingLeft: "2%", width: '100px'}}>
             <CirclePicker
+              width="200px"
               circleSize={20}
               onChangeComplete={(color) => setChosenInitialColor(color.hex)}
             />

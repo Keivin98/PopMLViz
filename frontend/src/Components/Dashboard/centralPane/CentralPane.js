@@ -20,7 +20,7 @@ const CentralPane = ({
   picFormat,
   admixMode
 }) => (
-  <div>
+  <div style={{}}>
     <Tabs style={styles.dendrogramTabs}>
       <TabList>
         <Tab>Scatter Plot</Tab>

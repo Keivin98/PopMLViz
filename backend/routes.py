@@ -48,6 +48,11 @@ def runKmeans():
 	kmeans = KMeans(n_clusters=num_clusters, random_state=123).fit_predict(pca_df[pca_cols])
 	return jsonify(list(map(lambda x : int(x), kmeans)))
 
+
+@app.route("/", methods=["GET"], strict_slashes=False)
+def runHC():
+	return "Hello World"
+
 @app.route("/api/runhc", methods=["POST"], strict_slashes=False)
 def runHC():
 	request_df = request.get_json()['df']
@@ -128,6 +133,11 @@ def cmtsne2d():
 	results_df = pd.concat([tsne_df, pca_df[other_cols]], axis=1)
 		
 	return results_df.to_csv()
+
+
+@app.route("/api/bruh", methods=["GET"],strict_slashes=False) #dummy route
+def dendrogramImage():
+	return "hello man"
 
 @app.route("/api/cmtsne3d", methods=["POST"], strict_slashes=False)
 def cmtsne3d():
@@ -375,4 +385,4 @@ def hello():
 	return "<h1 style='color:blue'>Hello There!</h1>"
 
 if __name__ == "__main__":
-	app.run(host='0.0.0.0', port=5001, debug=True)
+	app.run(host='127.0.0.1', port=5001, debug=True)

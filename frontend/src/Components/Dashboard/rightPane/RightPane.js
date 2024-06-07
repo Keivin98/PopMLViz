@@ -241,6 +241,8 @@ const styles = {
     marginTop: "4.5%",
     backgroundColor: "#f5f6f7",
     borderRadius: 10,
+    overflow_x: "hidden", 
+    overflow: "scroll"
   },
   describingColumnDropDown: {
     marginLeft: "3%",

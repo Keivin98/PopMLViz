@@ -72,7 +72,6 @@ const styles = {
     height: "130%",
     position: "absolute",
     top: 0,
-    overflow_x: "hidden",
     padding_top: "20px",
     left: 0,
     width: "20%",
