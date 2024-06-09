@@ -1,17 +1,34 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Chart, registerables } from "chart.js";
 import * as XLSX from "xlsx";
+import Select from "react-select";
 import ScatterPlot from "../ScatterPlot";
+import BarPlot from "./centralPane/BarPlot";
+import UploadAndVisualizeTab from "./leftPane/UploadAndVisualizeTab";
+import DimensionalityReductionTab from "../DimensionalityReductionTab";
 import ScatterAdmix from "../ScatterAdmix";
+import DownloadData from "./rightPane/DownloadData";
+import ClusteringAlgorithmsTab from "./leftPane/ClusteringAlgorithmsTab";
+import OutlierDetectionTab from "./leftPane/OutlierDetectionTab";
 import ProgressBarTime from "../ProgressBarTime";
+import { Button } from "@material-ui/core";
+import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
+import TabOutputOptions from "./rightPane/TabOutputOptions";
+import Radio from "@mui/material/Radio";
+import RadioGroup from "@mui/material/RadioGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import FormControl from "@mui/material/FormControl";
+import FormLabel from "@mui/material/FormLabel";
 import "react-tabs/style/react-tabs.css";
+import AdmixOptions from "./rightPane/AdmixOptions";
+import Navbar from "react-bootstrap/Navbar";
+import Dendrogram from "./centralPane/Dendrogram";
 import NavigationBar from "./NavigationBar";
 import LeftPane from "./leftPane/LeftPane";
 import RightPane from "./rightPane/RightPane";
 import UpperPane from "./UpperPane";
 import CentralPane from "./centralPane/CentralPane";
-import colors from "../../config/colors"
 
 require("dotenv").config();
 const randomColors = [
@@ -2155,26 +2172,81 @@ const App = () => {
 
   return (
     <div>
-      {/* <NavigationBar></NavigationBar> */}
+      <NavigationBar></NavigationBar>
 
       <div style={styles.splitScreen}>
+        {/* <div className="leftpane" style={styles.leftPane}>
+            <form style={{ marginTop: "1%" }}>
+              <UploadAndVisualizeTab
+                onChange={UploadTabChange}
+                samplePCAAdmixDataset={samplePCAAdmixDataset2}
+                processedPCA={handleProcessedPCA} // handleFileUpload
+                processedAdmix={handleProcessedAdmix} // handleAdmixFileUpload1
+                unprocessedPCA={handleUnprocessedPCA}
+                tsne2d={handleTSNE2D}
+                tsne3d={handleTSNE3D}
+                runPCAir={runPCAir}
+              />
+            </form>
+            <hr
+              style={{
+                backgroundColor: "white",
+                height: 3,
+                opacity: 1,
+              }}
+            />
+            <ClusteringAlgorithmsTab onChange={runCluster} />
+  
+            <hr
+              style={{
+                backgroundColor: "white",
+                height: 3,
+                opacity: 1,
+              }}
+            />
+  
+            <OutlierDetectionTab
+              onChange={runOutliers}
+              numFeatures={allActions.filter((elem) => {
+                return Array.isArray(elem) || elem.label.includes("PC") || elem.label.includes("TSNE");
+              }).length}
+              allActions={allActions}
+              removeOutliers={removeOutliers}
+            />
+  
+            <div style={{ marginTop: "20%" }}>
+              <Button
+                variant="outlined"
+                style={{
+                  color: "red",
+                  fontWeight: "bold",
+                  fontStyle: "italic",
+                  backgroundColor: "#ebeff7",
+                  marginLeft: "32%",
+                }}
+                onClick={onPressReset}
+              >
+                RESET
+              </Button>
+            </div>
+          </div> */}
 
-          <LeftPane
-            UploadTabChange={UploadTabChange}
-            samplePCAAdmixDataset2={samplePCAAdmixDataset2}
-            handleProcessedPCA={handleProcessedPCA}
-            handleProcessedAdmix={handleProcessedAdmix}
-            handleUnprocessedPCA={handleUnprocessedPCA}
-            handleTSNE2D={handleTSNE2D}
-            handleTSNE3D={handleTSNE3D}
-            runPCAir={runPCAir}
-            runCluster={runCluster}
-            runOutliers={runOutliers}
-            allActions={allActions}
-            removeOutliers={removeOutliers}
-            onPressReset={onPressReset}
-            styles={styles}
-          />
+        <LeftPane
+          UploadTabChange={UploadTabChange}
+          samplePCAAdmixDataset2={samplePCAAdmixDataset2}
+          handleProcessedPCA={handleProcessedPCA}
+          handleProcessedAdmix={handleProcessedAdmix}
+          handleUnprocessedPCA={handleUnprocessedPCA}
+          handleTSNE2D={handleTSNE2D}
+          handleTSNE3D={handleTSNE3D}
+          runPCAir={runPCAir}
+          runCluster={runCluster}
+          runOutliers={runOutliers}
+          allActions={allActions}
+          removeOutliers={removeOutliers}
+          onPressReset={onPressReset}
+          styles={styles}
+        />
 
         <div className="block-example" style={styles.rightPane}>
           {isLoading && (
@@ -2197,8 +2269,121 @@ const App = () => {
               picFormat={picFormat}
               admixMode={admixMode}
             />
+
+            // <div>
+            //   <Tabs style={styles.dendrogramTabs}>
+            //     <TabList>
+            //       <Tab>Scatter Plot</Tab>
+            //       {dendrogramPath !== "" && <Tab>Dendrogram</Tab>}
+            //       {admix.length > 0 && selectedUploadOption === "pcairandadmixture" && <Tab>Admixture</Tab>}
+            //     </TabList>
+            //     <TabPanel>{showScatterPlot()}</TabPanel>
+            //     {dendrogramPath !== "" && (
+            //       <TabPanel>
+            //         <Dendrogram dendrogramPath={dendrogramPath} />
+            //       </TabPanel>
+            //     )}
+            //     <TabPanel>
+            //       <BarPlot
+            //         data={admix}
+            //         alphaVal={alphaVal}
+            //         certaintyVal={certaintyVal}
+            //         clusterNames={{ ...clusterNames }}
+            //         onChange={clusterNumberChange}
+            //         AdmixOptionsLabelCheck={admixOptionsLabelCheck}
+            //         plotTitle={plotTitle}
+            //         picWidth={Number(picWidth)}
+            //         picHeight={Number(picHeight)}
+            //         picFormat={picFormat}
+            //         admixMode={admixMode}
+            //       />
+            //     </TabPanel>
+            //   </Tabs>
+            // </div>
           )}
           <div>
+            {/* <div className="radio" style={styles.dimensions}>
+              <FormControl style={{ marginLeft: "2%", marginTop: "1%" }}>
+                <FormLabel id="demo-row-radio-buttons-group-label">Plot</FormLabel>
+                <RadioGroup
+                  row
+                  aria-labelledby="demo-row-radio-buttons-group-label"
+                  name="row-radio-buttons-group"
+                  value={selectedOption}
+                  onChange={onValueChangeDims}
+                >
+                  <FormControlLabel
+                    value="1D"
+                    disabled={selectedUploadOption === "admixture"}
+                    control={<Radio color="success" size="small" />}
+                    label="1D"
+                  />
+                  <FormControlLabel
+                    value="2D"
+                    disabled={selectedUploadOption === "admixture"}
+                    control={<Radio color="success" size="small" />}
+                    label="2D"
+                  />
+                  <FormControlLabel
+                    value="3D"
+                    disabled={selectedUploadOption === "admixture"}
+                    control={<Radio color="success" size="small" />}
+                    label="3D"
+                  />
+                </RadioGroup>
+              </FormControl>
+              <div style={styles.dropDown}>
+                <label style={{ width: "25%", marginLeft: "12%" }}>
+                  <h6> X-axis </h6>
+                </label>
+                <div style={{ width: "75%" }}>
+                  <Select
+                    value={{
+                      value: selectedColumns[0] == null ? "None" : selectedColumns[0],
+                      label: selectedColumns[0] == null ? "None" : selectedColumns[0],
+                    }}
+                    options={selectActions}
+                    onChange={handleSelectXChange}
+                    isDisabled={selectedUploadOption === "admixture"}
+                  />
+                </div>
+              </div>
+
+              <div style={styles.dropDown}>
+                <label style={{ width: "25%", marginLeft: "12%" }}>
+                  <h6> Y-axis </h6>
+                </label>
+                <div style={{ width: "75%" }}>
+                  <Select
+                    value={{
+                      value: selectedColumns[1] == null ? "None" : selectedColumns[1],
+                      label: selectedColumns[1] == null ? "None" : selectedColumns[1],
+                    }}
+                    options={selectActions}
+                    onChange={handleSelectYChange}
+                    isDisabled={
+                      (selectedOption !== "3D" && selectedOption !== "2D") || selectedUploadOption === "admixture"
+                    }
+                  />
+                </div>
+              </div>
+              <div style={styles.dropDown}>
+                <label style={{ width: "25%", marginLeft: "12%" }}>
+                  <h6> Z-axis </h6>
+                </label>
+                <div style={{ width: "75%" }}>
+                  <Select
+                    value={{
+                      value: selectedColumns[2] == null ? "None" : selectedColumns[2],
+                      label: selectedColumns[2] == null ? "None" : selectedColumns[2],
+                    }}
+                    options={selectActions}
+                    onChange={handleSelectZChange}
+                    isDisabled={selectedOption !== "3D" || selectedUploadOption === "admixture"}
+                  />
+                </div>
+              </div>
+            </div> */}
             <UpperPane
               selectedOption={selectedOption}
               onValueChangeDims={onValueChangeDims}
@@ -2238,6 +2423,194 @@ const App = () => {
               handleTabOutputCallback={handleTabOutputCallback}
               showOutputOptions={showOutputOptions}
             />
+            {/* <Tabs style={styles.optionsContainer}>
+              <TabList>
+                <Tab>Settings</Tab>
+                <Tab>Output Options</Tab>
+              </TabList>
+              {selectedUploadOption !== "admixture" && selectedUploadOption !== "pcairandadmixture" && (
+                <div>
+                  {" "}
+                  <TabPanel>
+                    <div className="row">
+                      <div className="row-md-8"></div>
+
+                      <div
+                        style={{
+                          width: "90%",
+                          marginTop: "3%",
+                          marginLeft: "3%",
+                        }}
+                      >
+                        <label
+                          style={{
+                            fontWeight: "300",
+                            fontSize: 18,
+                            padding: "2%",
+                          }}
+                        >
+                          Describing Columns
+                        </label>
+                        <Select
+                          name="filters"
+                          placeholder="Filters"
+                          value={multiValue.filter((elem) => {
+                            return elem.label !== "None";
+                          })}
+                          options={selectActions}
+                          onChange={handleMultiChange}
+                          isMulti
+                        />
+                      </div>
+                      {multiValue.length > 0 && (
+                        <div>
+                          <div style={styles.describingColumnDropDown}>
+                            <label
+                              style={{
+                                fontSize: 14,
+                                padding: "2%",
+                                width: "30%",
+                              }}
+                            >
+                              Identify by Colors
+                            </label>
+                            <div style={{ width: "62%", marginTop: "1%" }}>
+                              <Select
+                                value={selectedDescribingColumnColor}
+                                options={multiValue}
+                                onChange={handleColoredColumns}
+                              />
+                            </div>
+                          </div>
+                          <div style={styles.describingColumnDropDown}>
+                            <label
+                              style={{
+                                fontSize: 14,
+                                padding: "2%",
+                                width: "30%",
+                              }}
+                            >
+                              Identify by Shape
+                            </label>
+                            <div style={{ width: "62%", marginTop: "1%" }}>
+                              <Select
+                                value={selectedDescribingColumnShape}
+                                disabled={OutlierData.length > 0}
+                                options={multiValue}
+                                onChange={handleShapeColumns}
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                    <div
+                      style={{
+                        width: "90%",
+                        marginTop: "10%",
+                        marginLeft: "3%",
+                      }}
+                    >
+                      <label
+                        style={{
+                          fontWeight: "300",
+                          fontSize: 18,
+                          padding: "2%",
+                        }}
+                      >
+                        Mapping ID Column
+                      </label>
+                      <Select
+                        placeholder="Mapping ID"
+                        options={allActions}
+                        onChange={(option) => {
+                          setMappingIDColumn(option.label);
+                        }}
+                      />
+                      <label
+                        style={{
+                          fontWeight: "300",
+                          padding: "2%",
+                          fontSize: 18,
+                          marginTop: "10%",
+                        }}
+                      >
+                        Add Metadata
+                        <input
+                          type="file"
+                          accept=".csv,.xlsx,.xls,.txt"
+                          onChange={handleMetaDataUpload}
+                          onClick={onInputMetadataClick}
+                          disabled={data == null || data.length === 0}
+                        />
+                      </label>
+                    </div>
+                    {data !== null && (
+                      <DownloadData
+                        data={data}
+                        clusterColors={clusterColors}
+                        OutlierData={OutlierData}
+                        clusterNames={clusterNames}
+                        admixData={admix}
+                        alphaVal={alphaVal}
+                        certaintyVal={certaintyVal}
+                        admixMode={admixMode}
+                      />
+                    )}
+                  </TabPanel>
+                  <TabPanel style={styles.outputSettings}>
+                    <TabOutputOptions
+                      uniqueClusters={numClusters}
+                      parentCallback={handleTabOutputCallback}
+                      showClusters={showOutputOptions}
+                      markerSize={markerSize}
+                    />
+                  </TabPanel>
+                </div>
+              )}
+              {(selectedUploadOption === "pcairandadmixture" || selectedUploadOption === "admixture") && (
+                <div>
+                  <TabPanel>
+                    <div
+                      style={{
+                        width: "90%",
+                        marginLeft: "3%",
+                      }}
+                    >
+                      <AdmixOptions
+                        initialAlpha={alphaVal}
+                        initialCertainty={certaintyVal}
+                        name={selectedUploadOption === "pcairandadmixture" ? "Alpha" : "Certainty"}
+                        parentCallback={handleAdmixOptionsCallback}
+                        mode={admixMode}
+                        disabled={admix.length === 0}
+                      />
+                    </div>
+                    {data !== null && (
+                      <DownloadData
+                        data={data}
+                        clusterColors={clusterColors}
+                        OutlierData={OutlierData}
+                        columnRange={columnRange}
+                        clusterNames={clusterNames}
+                        admixData={admix}
+                        alphaVal={alphaVal}
+                        certaintyVal={certaintyVal}
+                        admixMode={admixMode}
+                      />
+                    )}
+                  </TabPanel>
+                  <TabPanel style={styles.outputSettings}>
+                    <TabOutputOptions
+                      uniqueClusters={numClusters}
+                      parentCallback={handleTabOutputCallback}
+                      showClusters={showOutputOptions}
+                      markerSize={markerSize}
+                    />
+                  </TabPanel>
+                </div>
+              )}
+            </Tabs> */}
           </div>
         </div>
       </div>
@@ -2246,19 +2619,9 @@ const App = () => {
 };
 
 const styles = {
-  page: {
-    // display: "grid",
-    // gridTemplateColumns: "1fr 4fr",
-    // gridTemplateRows: "1fr",
-  },
   splitScreen: {
     display: "flex",
     flexDirection: "column",
-    // marginTop: "50px"
-    // display: "grid",
-    // gridTemplateColumns: "1fr 5fr",
-    // gridTemplateAreas: `left right`,
-    
   },
 
   rightPane: {
@@ -2268,8 +2631,7 @@ const styles = {
     flexDirection: "row",
     top: 0,
     right: 0,
-    // width: "78%",
-    gridArea: "right",
+    width: "78%",
     marginTop: "4%",
     marginRight: "10px",
     justifyContent: "center",
@@ -2279,22 +2641,6 @@ const styles = {
     display: "flex",
     flexDirection: "column",
     marginTop: "10px",
-  },
-  leftPane:{
-      height: "100vh",
-      position: "absolute",
-      top: 0, 
-      padding_top: "20px",
-      left: 0,
-      gridArea: "left",
-      width: "20%",
-      // marginTop: "50px",
-      color: "white",
-      padding: "2%",
-      // backgroundColor:"rgb(245, 246, 247)",
-      backgroundColor: colors.gray,
-      overflowY: "auto",
-      overflowX: "hidden",
   },
   dimensions: {
     position: "fixed",
@@ -2339,7 +2685,19 @@ const styles = {
     backgroundColor: "#f5f6f7",
     borderRadius: 10,
   },
- 
+  dendrogramTabs: {
+    position: "fixed",
+    top: 0,
+    left: 0,
+    marginTop: "10%",
+    marginLeft: "21%",
+    width: "52%",
+  },
+  littleUpload: {
+    display: "flex",
+    flexDirection: "row",
+    padding: "2px",
+  },
 };
 
 export default App;

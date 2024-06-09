@@ -54,6 +54,7 @@ const CentralPane = ({
 
 const styles = {
   dendrogramTabs: {
+    gridArea: "central",
     position: "fixed",
     top: 0,
     left: 0,

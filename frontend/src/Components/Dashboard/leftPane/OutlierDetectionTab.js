@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Select from "react-select";
 import Collapse from "react-bootstrap/Collapse";
 import { AiFillCaretDown } from "react-icons/ai";
-import { Button, IconButton } from "@material-ui/core";
+import { Button, Hidden, IconButton } from "@material-ui/core";
 import OutlierBlock from "./OutlierBlock"
 import Switch from "./Switch";
 import { FcMindMap } from "react-icons/fc";
@@ -103,7 +103,7 @@ const OutlierDetectionTab = ({ onChange, numFeatures, removeOutliers, allActions
   };
 
   return (
-    <div>
+    <div style={{}}>
       <div
         style={{
           marginBottom: "5%",
@@ -129,15 +129,20 @@ const OutlierDetectionTab = ({ onChange, numFeatures, removeOutliers, allActions
 
       <Collapse in={open}>
         <div id="example-collapse-text">
-          <div style={{ display: "flex", flexDirection: "row" }}>
-            <div style={{ width: "60%" }}>
+          <div style={{ display: "flex", flexDirection: "row", }}>
+            <div style={{ width: "60%", }}>
               <Select
                 options={selectOutlierActions}
                 defaultValue={selectOutlierActions.find((x) => x.value === selectedOutlierMethod)}
                 styles={{
+                  control: (baseStyles, state) => ({
+                    ...baseStyles,
+                    // height: "100px"
+                  }),
                   option: (provided) => ({
                     ...provided,
                     color: "black",
+                    // height: "100px"
                   }),
                 }}
                 onChange={handleOutlierChange}

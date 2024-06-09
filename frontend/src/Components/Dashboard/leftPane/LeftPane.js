@@ -4,6 +4,8 @@ import UploadAndVisualizeTab from "./UploadAndVisualizeTab";
 import ClusteringAlgorithmsTab from "./ClusteringAlgorithmsTab";
 import OutlierDetectionTab from "./OutlierDetectionTab";
 import colors from "../../../config/colors";
+import { useNavigate } from "react-router-dom";
+
 
 const LeftPane = ({
   UploadTabChange,
@@ -19,9 +21,20 @@ const LeftPane = ({
   allActions,
   removeOutliers,
   onPressReset,
+  styles
 }) => {
+
+  const navigate = useNavigate();
+
+  function handleHomeClick() {
+    navigate("/");
+  }
   return (
     <div className="leftpane" style={styles.leftPane}>
+       <div onClick={handleHomeClick} style={{display: "flex", flexDirection: "row", marginTop: "5px", marginBottom: "50px", alignItems: 'center', cursor: "pointer"}}>
+          <img src='../../../logo.jpeg'style={{ height:"40px",marginRight: "10px"}}/>
+          <span style={{fontSize: "18px"}} >PopMLVis</span>
+        </div>
       <form style={{ marginTop: "1%" }}>
         <UploadAndVisualizeTab
           onChange={UploadTabChange}
@@ -65,24 +78,6 @@ const LeftPane = ({
       </div>
     </div>
   );
-};
-
-const styles = {
-  leftPane: {
-    height: "130%",
-    position: "absolute",
-    top: 0,
-    padding_top: "20px",
-    left: 0,
-    width: "20%",
-    marginTop: "3%",
-    color: "white",
-    padding: "2%",
-    // backgroundColor:"rgb(245, 246, 247)",
-    backgroundColor: colors.gray,
-    overflow_x: "hidden", 
-    overflow: "scroll"
-  },
 };
 
 export default LeftPane;

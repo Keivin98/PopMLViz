@@ -232,17 +232,19 @@ const styles = {
   optionsContainer: {
     position: "fixed",
     right: "1%",
+    gridArea: "right",
     top: 0,
     height: "89%",
     display: "flex",
     flexDirection: "column",
-    width: "20%",
+    width: "18%",
     padding: "10px",
-    marginTop: "4.5%",
+    // marginTop: "4.5%",
+    marginTop: "10px",
     backgroundColor: "#f5f6f7",
     borderRadius: 10,
-    overflow_x: "hidden", 
-    overflow: "scroll"
+    overflowY: "auto",
+    overflowX: "hidden",
   },
   describingColumnDropDown: {
     marginLeft: "3%",

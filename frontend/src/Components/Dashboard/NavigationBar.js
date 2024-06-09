@@ -14,7 +14,7 @@ export default function NavigationBar() {
       <Navbar
         style={{
           position: "fixed",
-          height: "6%",
+          height: "50px",
           width: "100%",
           paddingLeft: "45%",
           backgroundColor: colors.primary,
