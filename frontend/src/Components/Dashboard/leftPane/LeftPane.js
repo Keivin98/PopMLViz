@@ -33,7 +33,7 @@ const LeftPane = ({
     <div className="leftpane" style={styles.leftPane}>
        <div onClick={handleHomeClick} style={{display: "flex", flexDirection: "row", marginTop: "5px", marginBottom: "50px", alignItems: 'center', cursor: "pointer"}}>
           <img src='../../../logo.jpeg'style={{ height:"40px",marginRight: "10px"}}/>
-          <span style={{fontSize: "18px"}} >PopMLVis</span>
+          <span style={{fontSize: "20px", fontWeight: "500", fontFamily: "sans-serif"}} >PopMLVis</span>
         </div>
       <form style={{ marginTop: "1%" }}>
         <UploadAndVisualizeTab

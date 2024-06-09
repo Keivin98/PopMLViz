@@ -22,10 +22,8 @@ const BarPlot = (props) => {
   const [numClusters, setNumClusters] = useState(2);
   const [dataNew, setDataNew] = useState([]);
   const [positionOfUndefined, setPositionOfUndefined] = useState(0);
-  const [method, setMethod] = useState(props.admixMode);
 
   const range = (start, end) => {
-    /* generate a range : [start, start+1, ..., end-1, end] */
     var len = end - start + 1;
     var a = new Array(len);
     for (let i = 0; i < len; i++) a[i] = start + i;
@@ -53,10 +51,10 @@ const BarPlot = (props) => {
   };
 
   useEffect(() => {
-    BarPlot();
+    createBarPlot();
   }, [props.data, props.clusterNames, props.picWidth, props.picHeight, props.picFormat, props.plotTitle, props.alphaVal, props.certaintyVal, props.admixMode]);
 
-  const BarPlot = () => {
+  const createBarPlot = () => {
     var colors = [];
     var data_new = [];
 
@@ -145,6 +143,8 @@ const BarPlot = (props) => {
           });
         }
       }
+
+     
       setDataNew(data_new);
       setPositionOfUndefined(positionOfUndefined);
       Plotly.newPlot(
@@ -154,6 +154,10 @@ const BarPlot = (props) => {
           title: props.plotTitle,
           barmode: "stack",
           bargap: 0,
+          autosize: false,
+          height: props.picHeight, // Use props.picHeight for the plot height
+          width: props.picWidth, // Use props.picWidth for the plot width
+          margin: { l: 0, r: 0, t: 0, b: 0, pad: 0 }, // Adjust margins here
         },
         {
           toImageButtonOptions: {
@@ -185,14 +189,15 @@ BarPlot.propTypes = {
 const styles = {
   barContainer: {
     position: "fixed",
-    z_index: 1,
+    zIndex: 1,
     top: 0,
-    overflow_x: "hidden",
+    overflowX: "hidden",
     left: 0,
     marginTop: "13%",
     marginLeft: "21%",
     width: "57%",
     height: "74%",
+    padding: 0, // Ensure no padding
   },
 };
 
