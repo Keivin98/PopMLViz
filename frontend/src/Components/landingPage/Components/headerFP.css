@@ -59,6 +59,10 @@ header .banner-text hr {
   border-color: rgba(150, 150, 150, 0.1);
 }
 
+.nav-right .login-circle-btn{
+  display: none !important;
+}
+
 
 #nav-wrap {
   font: 16px "Open Sans", sans-serif;
@@ -199,6 +203,10 @@ ul#nav li a:hover {
   max-width: 80%;
 }
 
+.banner-text .responsive-headline{
+  font-size: 60px ;
+}
+
 .close {
   position: absolute;
   top: 10px;
@@ -257,6 +265,8 @@ p {
   color: #333;
 }
 
+
+
 @media (max-width: 1200px) {
   header .banner-text h1 {
     font-size: 50px;
@@ -268,10 +278,11 @@ p {
   }
 }
 
-@media (max-width: 724px) {
+@media (max-width: 733px) {
   header .banner-text h1 {
     font-size: 40px;
   }
+  
   .social {
     display: flex;
     justify-content: center;
@@ -283,7 +294,7 @@ p {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    width: 60%;
+    width: 300px;
     margin-top: 10px;
   }
   .social .special-btn{
@@ -330,10 +341,80 @@ p {
     justify-content: center;
     align-items: center;
 
-  }}
+  }
 
-  @media (max-width: 581){
-    
+  header .banner-text .responsive-headline {
+    font-size: 50px !important;
+  }
+  header .banner-text mark {
+    font-size: 20px !important;
+  }
+
+}
+
+  @media (max-width: 620px) {
+    header .banner-text .responsive-headline {
+      font-size: 45px !important;
+    }
+    header .banner-text mark {
+      font-size: 18px !important;
+    }
+  }
+
+  @media (max-width: 468px) {
+    header .banner-text .responsive-headline {
+      font-size: 45px !important;
+    }
+    header .banner-text mark {
+      font-size: 18px !important;
+    }
+    .social .project-btn {
+      width: 300px;
+      padding-left: 30px;
+      padding-right: 30px;
+    }
+    .social .spcial-btn-container{
+      width: 270px;
+      
+    }
+
+  }
+
+  @media (max-width: 413px){
+    header .banner-text .responsive-headline {
+      font-size: 40px !important;
+    }
+    header .banner-text mark {
+      font-size: 16px !important;
+    }
+    .social .project-btn {
+      width: 250px;
+      padding-left: 20px;
+      padding-right: 20px;
+    }
+    .social .spcial-btn-container{
+      width: 230px;
+      
+    }
+    .social .special-btn{
+      border-radius: 200px;
+      padding: 10px;
+      width: 60px;
+      height: 60px;
+    }
+    .nav-right .login-btn{
+      display: none;
+    }
+    .nav-right .login-circle-btn{
+      display: flex !important;
+      justify-content: center;
+      align-items: center;
+      border-radius: 200px;
+      padding: 10px;
+      width: 60px;
+      height: 60px;
+      background-color: #1abc9c;
+    }
   }
 
 
