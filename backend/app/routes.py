@@ -24,6 +24,11 @@ from scipy.cluster.hierarchy import dendrogram, linkage
 import matplotlib
 matplotlib.use('Agg')
 from matplotlib import pyplot as plt
+from flask import Blueprint
+
+
+main_blueprint = Blueprint('main', __name__)
+
 
 # Create an application instance
 
@@ -50,7 +55,7 @@ def runKmeans():
 
 
 @app.route("/", methods=["GET"], strict_slashes=False)
-def runHC():
+def helloWorld():
 	return "Hello World"
 
 @app.route("/api/runhc", methods=["POST"], strict_slashes=False)
@@ -134,10 +139,6 @@ def cmtsne2d():
 		
 	return results_df.to_csv()
 
-
-@app.route("/api/bruh", methods=["GET"],strict_slashes=False) #dummy route
-def dendrogramImage():
-	return "hello man"
 
 @app.route("/api/cmtsne3d", methods=["POST"], strict_slashes=False)
 def cmtsne3d():

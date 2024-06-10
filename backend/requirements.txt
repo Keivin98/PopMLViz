@@ -13,6 +13,7 @@ itsdangerous
 Jinja2
 joblib
 Mako
+matplotlib
 MarkupSafe
 marshmallow
 marshmallow-sqlalchemy
