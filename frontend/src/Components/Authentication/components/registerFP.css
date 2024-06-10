@@ -3,6 +3,8 @@
   background-color: rgb(255, 255, 255);
   border-radius: 10px;
   width: 100%;
+  background: transparent;
+  backdrop-filter: blur(15px);
   max-width: 500px;
   margin: 20px auto;
   padding: 20px;
