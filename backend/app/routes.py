@@ -34,7 +34,7 @@ main_blueprint = Blueprint('main', __name__)
 
 app = create_app()
 # Define a route to fetch the avaialable article
-UPLOAD_FOLDER = './data/'
+UPLOAD_FOLDER = '../data'
 @app.route("/api/runkmeans", methods=["POST"], strict_slashes=False)
 def runKmeans():
 	request_df = request.get_json()['df']
@@ -80,7 +80,7 @@ def runHC():
 	dendrogram(linkage(pca_df[pca_cols], method='ward'))
 	plt.xticks([])
 	filename = random_string(12)
-	plt.savefig('./data/dendrogram/%s.png' % (filename))
+	plt.savefig('../data/dendrogram/%s.png' % (filename))
 	return {
 		'result': list(map(lambda x : int(x), hc)), 
 		'filename' : filename + ".png"
@@ -88,7 +88,7 @@ def runHC():
 
 @app.route("/api/dendrogram/<image_name>", methods=["GET"], strict_slashes=False)
 def dendrogramImage(image_name):
-	return send_file("./data/dendrogram/" + image_name)
+	return send_file("../data/dendrogram/" + image_name)
 
 @app.route("/api/runfuzzy", methods=["POST"], strict_slashes=False)
 def runFuzzy():
@@ -226,12 +226,12 @@ def runPCAIR():
 		library(SNPRelate)
 		library(GWASTools)
 		showfile.gds(closeall=TRUE)
-		snpgdsBED2GDS(bed.fn = "./data/test_docs/%s.bed", bim.fn = "./data/test_docs/%s.bim", fam.fn ="./data/test_docs/%s.fam", out.gdsfn = "./data/test_docs/%s.gds")
+		snpgdsBED2GDS(bed.fn = "../data/test_docs/%s.bed", bim.fn = "../data/test_docs/%s.bim", fam.fn ="../data/test_docs/%s.fam", out.gdsfn = "../data/test_docs/%s.gds")
 
-		geno <- GdsGenotypeReader(filename = "./data/test_docs/%s.gds")
+		geno <- GdsGenotypeReader(filename = "../data/test_docs/%s.gds")
 		genoData <- GenotypeData(geno)
 		
-		IDs <- read.table("./data/test_docs/%s.fam", header = FALSE)
+		IDs <- read.table("../data/test_docs/%s.fam", header = FALSE)
 		IDs_col <- IDs[,1]
 
 		pcair_result_nokin <- pcair(gdsobj = genoData, kinobj = NULL, divobj = NULL, num.cores = 32)  ## Normal PCA
@@ -240,7 +240,7 @@ def runPCAIR():
 		pc_vectors_nokin$IID <- as.character(IDs$V1)
 
 		colnames(pc_vectors_nokin)[1:20] = paste("PC",1:20,sep="")
-		write.csv(pc_vectors_nokin, "./data/test_docs/%s.csv", row.names=F,col.names=TRUE)
+		write.csv(pc_vectors_nokin, "../data/test_docs/%s.csv", row.names=F,col.names=TRUE)
 		''' % (bed_name, bim_name, fam_name, gds_name, gds_name, fam_name, result_name))
 	else:
 		robjects.r('''
@@ -249,13 +249,13 @@ def runPCAIR():
 		library(SNPRelate)
 		library(GWASTools)
 		showfile.gds(closeall=TRUE)
-		snpgdsBED2GDS(bed.fn = "./data/test_docs/%s.bed", bim.fn = "./data/test_docs/%s.bim", fam.fn ="./data/test_docs/%s.fam", out.gdsfn = "./data/test_docs/%s.gds")
+		snpgdsBED2GDS(bed.fn = "../data/test_docs/%s.bed", bim.fn = "../data/test_docs/%s.bim", fam.fn ="../data/test_docs/%s.fam", out.gdsfn = "../data/test_docs/%s.gds")
 
-		geno <- GdsGenotypeReader(filename = "./data/test_docs/%s.gds")
+		geno <- GdsGenotypeReader(filename = "../data/test_docs/%s.gds")
 		genoData <- GenotypeData(geno)
 		
-		kinship <- read.table("./data/test_docs/%s.txt", header = FALSE)
-		IDs <- read.table("./data/test_docs/%s.fam", header = FALSE)
+		kinship <- read.table("../data/test_docs/%s.txt", header = FALSE)
+		IDs <- read.table("../data/test_docs/%s.fam", header = FALSE)
 
 		IDs_col <- IDs[,1]
 
@@ -267,11 +267,11 @@ def runPCAIR():
 		pc_vectors$IID <- as.character(IDs$V1) 
 
 		colnames(pc_vectors)[1:20] = paste("PC",1:20,sep="")
-		write.csv(pc_vectors, "./data/test_docs/%s.csv", row.names=F,col.names=TRUE)
+		write.csv(pc_vectors, "../data/test_docs/%s.csv", row.names=F,col.names=TRUE)
 		
 		''' % (bed_name, bim_name, fam_name, gds_name, gds_name, kinship_name, fam_name,  result_name))
 	
-	return pd.read_csv('./data/test_docs/%s.csv' % (result_name)).to_csv()
+	return pd.read_csv('../data/test_docs/%s.csv' % (result_name)).to_csv()
 
 
 @app.route("/api/detectoutliers", methods=["POST"], strict_slashes=False)
@@ -358,24 +358,24 @@ def detectoutliers():
 @app.route("/api/samplePCA/<sample_id>", methods=["GET"], strict_slashes=False)
 def samplePCA(sample_id):
 	if int(sample_id) == 0:
-		pca_sample = pd.read_csv("./datasets/KG_PCS.csv")
+		pca_sample = pd.read_csv("../datasets/KG_PCS.csv")
 	else:
-		pca_sample = pd.read_csv("./datasets/HGDP/hgdp.csv")
+		pca_sample = pd.read_csv("../datasets/HGDP/hgdp.csv")
 	return pca_sample.to_csv()
 
 @app.route("/api/sampleAdmix", methods=["GET"], strict_slashes=False)
 def sampleAdmix():
-	admix_sample = pd.read_csv("./datasets/admix_KG.5.Q", sep=' ')
+	admix_sample = pd.read_csv("../datasets/admix_KG.5.Q", sep=' ')
 	return admix_sample.to_csv(index=False, sep=' ')
 
 @app.route("/api/samplePCAAdmixDataset/<sample_id>", methods=["GET"], strict_slashes=False)
 def samplePCAAdmixDataset(sample_id):
 	if int(sample_id) == 0:
-		pca_sample = pd.read_csv("./datasets/KG_PCS.csv")
-		admix_sample = pd.read_csv("./datasets/admix_KG.5.Q", sep=' ')
+		pca_sample = pd.read_csv("../datasets/KG_PCS.csv")
+		admix_sample = pd.read_csv("../datasets/admix_KG.5.Q", sep=' ')
 	else:
-		pca_sample = pd.read_csv("./datasets/HGDP/hgdp.csv")
-		admix_sample = pd.read_csv("./datasets/HGDP/hgdp.Q", sep=' ')
+		pca_sample = pd.read_csv("../datasets/HGDP/hgdp.csv")
+		admix_sample = pd.read_csv("../datasets/HGDP/hgdp.Q", sep=' ')
 	return {
 		"pca": pca_sample.to_csv(), 
 		"admix" : admix_sample.to_csv(index=False, sep=' ')
@@ -386,4 +386,4 @@ def hello():
 	return "<h1 style='color:blue'>Hello There!</h1>"
 
 if __name__ == "__main__":
-	app.run(host='127.0.0.1', port=5001, debug=True)
+	app.run(host='127.0.0.1', port=5000, debug=True)

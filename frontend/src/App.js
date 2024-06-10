@@ -1,4 +1,3 @@
-import "./App.css";
 // import Dashboard from "./archive/Dashboard";
 import Dashboard from "./Components/Dashboard/Dashboard"
 import LandingPage from "./Components/landingPage/LandingPage";
