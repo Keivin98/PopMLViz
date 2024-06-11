@@ -7,6 +7,7 @@ import Typography from "@mui/material/Typography";
 import { green } from "@mui/material/colors";
 import { styled } from "@mui/material/styles";
 import { makeStyles } from "@mui/styles";
+import font from "../../../config/font";
 
 const Input = styled("input")({
   display: "none",
@@ -568,6 +569,7 @@ function DataUploadModal({
     borderColor: "#1976d2",
     borderWidth: 1,
     color: "#1976d2",
+    fontFamily: font.primaryFont,
     "&:hover": {
       backgroundColor: "#e3f2fd",
     },
@@ -634,7 +636,7 @@ function DataUploadModal({
   return (
     <div>
       <div style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <Button variant="outlined" className={classes.customButton} onClick={handleOpen}>
+        <Button style={{fontFamily: 'Poppins, san-serif'}} variant="outlined" className={classes.customButton} onClick={handleOpen}>
           Choose Data
         </Button>
       </div>

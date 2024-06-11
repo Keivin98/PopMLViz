@@ -3,6 +3,7 @@ import Typography from "@material-ui/core/Typography";
 import Slider from "@material-ui/core/Slider";
 import { Button } from "@material-ui/core";
 import PropTypes from "prop-types";
+import font from "../../../config/font";
 
 class AdmixOptions extends Component {
   state = {
@@ -65,7 +66,7 @@ class AdmixOptions extends Component {
               });
             }}
             variant="outlined"
-            style={{ marginLeft: "10px" }}
+            style={{ marginLeft: "10px", fontFamily: font.primaryFont }}
             disabled={this.props.disabled}
           >
             Apply

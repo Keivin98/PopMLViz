@@ -5,6 +5,7 @@ import { AiFillCaretDown } from "react-icons/ai";
 import Incrementor from "./Incrementor";
 import { Button } from "@material-ui/core";
 import { AiOutlineCluster } from "react-icons/ai";
+import font from "../../../config/font";
 
 const ClusteringAlgorithmsTab = ({ onChange }) => {
   const [selectClusterActions] = useState([
@@ -102,6 +103,7 @@ const ClusteringAlgorithmsTab = ({ onChange }) => {
                 backgroundColor:
                   selectedClusterMethod == null ? "grey" : "#1891fb",
                 marginTop: "5%",
+                fontFamily: font.primaryFont,
                 marginLeft: "40%",
               }}
               disabled={selectedClusterMethod == null}

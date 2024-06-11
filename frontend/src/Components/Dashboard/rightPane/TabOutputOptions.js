@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { Button } from "@material-ui/core";
 import Select from "react-select";
 import { CirclePicker } from "react-color";
+import font from "../../../config/font";
 
 const TabOutputOptions = ({
   uniqueClusters,
@@ -192,6 +193,7 @@ const TabOutputOptions = ({
         style={{
           marginLeft: "50%",
           marginTop: "10%",
+          fontFamily: font.primaryFont
         }}
       >
         Submit
