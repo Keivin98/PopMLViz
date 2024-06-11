@@ -7,7 +7,8 @@ import "./headerFP.css";
 import logo from "../../../assets/logo.jpeg";
 import PopMLvis from "../../../assets/PopMLvis.pdf";
 import LoginForm from "./LoginForm";
-import colors from "../../../config/colors";
+import colors from "../../../config/colors"; 
+import font from "../../../config/font";
 
 function Header(props) {
   const [showLogin, setShowLogin] = useState(false);
@@ -66,7 +67,7 @@ function Header(props) {
           <h1
             className="responsive-headline"
             style={{
-              fontFamily: "Arial Black",
+              fontFamily: font.secondaryFont,
               color: colors.primary,
               fontSize: "60px", // Adjusted size for smaller header
             }}
@@ -79,6 +80,7 @@ function Header(props) {
               fontSize: "24px",
               backgroundColor: "rgba(255,255,255,0.7)",
               color: "black",
+              fontFamily: 'default'
             }}
           >
             {bio}

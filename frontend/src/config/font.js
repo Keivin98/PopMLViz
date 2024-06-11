@@ -1,3 +1,4 @@
 export default{
-    primaryFont: "Poppins, san-serif"
+    primaryFont: "Poppins, san-serif",
+    secondaryFont: "Arial Black"
 }
