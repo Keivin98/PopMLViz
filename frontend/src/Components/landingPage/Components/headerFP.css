@@ -3,7 +3,7 @@
 html, body {
   height: 100%;
   margin: 0;
-  /* overflow: hidden;  */
+  overflow: hidden; 
 }
 
 header {
@@ -57,6 +57,10 @@ header .banner-text hr {
   margin: 18px auto 24px auto;
   border-color: #2f2d2e;
   border-color: rgba(150, 150, 150, 0.1);
+}
+
+.nav-right .login-circle-btn{
+  display: none !important;
 }
 
 
@@ -154,6 +158,9 @@ ul#nav li a:hover {
 
 .social .project-btn {
   background-color: #1abc9c !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
 }
 .social .docks-btn{
@@ -196,6 +203,10 @@ ul#nav li a:hover {
   position: relative;
   width: 500px;
   max-width: 80%;
+}
+
+.banner-text .responsive-headline{
+  font-size: 60px ;
 }
 
 .close {
@@ -256,6 +267,8 @@ p {
   color: #333;
 }
 
+
+
 @media (max-width: 1200px) {
   header .banner-text h1 {
     font-size: 50px;
@@ -267,10 +280,11 @@ p {
   }
 }
 
-@media (max-width: 724px) {
+@media (max-width: 733px) {
   header .banner-text h1 {
     font-size: 40px;
   }
+  
   .social {
     display: flex;
     justify-content: center;
@@ -282,7 +296,7 @@ p {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    width: 60%;
+    width: 300px;
     margin-top: 10px;
   }
   .social .special-btn{
@@ -329,10 +343,128 @@ p {
     justify-content: center;
     align-items: center;
 
-  }}
+  }
 
-  @media (max-width: 581){
-    
+  header .banner-text .responsive-headline {
+    font-size: 50px !important;
+  }
+  header .banner-text mark {
+    font-size: 20px !important;
+  }
+
+}
+
+  @media (max-width: 620px) {
+    header .banner-text .responsive-headline {
+      font-size: 45px !important;
+    }
+    header .banner-text mark {
+      font-size: 18px !important;
+    }
+  }
+
+  @media (max-width: 468px) {
+    header .banner-text .responsive-headline {
+      font-size: 45px !important;
+    }
+    header .banner-text mark {
+      font-size: 18px !important;
+    }
+    .social .project-btn {
+      width: 300px;
+      padding-left: 30px;
+      padding-right: 30px;
+    }
+    .social .spcial-btn-container{
+      width: 270px;
+      
+    }
+
+  }
+
+  @media (max-width: 413px){
+    header .banner-text .responsive-headline {
+      font-size: 40px !important;
+    }
+    header .banner-text mark {
+      font-size: 16px !important;
+    }
+    .social .project-btn {
+      width: 250px;
+      padding-left: 20px;
+      padding-right: 20px;
+    }
+    .social .spcial-btn-container{
+      width: 230px;
+      
+    }
+    .social .special-btn{
+      border-radius: 200px;
+      padding: 10px;
+      width: 60px;
+      height: 60px;
+    }
+    .nav-right .login-btn{
+      display: none;
+    }
+    .nav-right .login-circle-btn{
+      display: flex !important;
+      justify-content: center;
+      align-items: center;
+      border-radius: 10px;
+      padding: 10px;
+      width: 50px;
+      height: 50px;
+      background-color: #1abc9c;
+    }
+    /* .nav-left .logo{
+      height: 30px;
+    } */
+    .nav-left .site-name{
+      font-size: 16px;
+    }
+  }
+
+
+
+  @media (max-width: 270px){
+    .social .project-btn {
+      width: 90%;
+      padding-left: 10px;
+      padding-right: 10px;
+     
+    }
+    #nav-wrap{
+      flex-direction: column;
+      
+    }
+    .nav-right .login-circle-btn{
+      margin-top: 20px;
+    }
+    .social .project-btn div{
+     font-size: 18px;
+     
+    }
+    .social .spcial-btn-container{
+      width: 90%;
+      
+    }
+    .social .special-btn{
+      border-radius: 200px;
+      padding: 5px;
+      width: 50px;
+      height: 50px;
+    }
+    header .banner-text .responsive-headline {
+      font-size: 25px !important;
+    }
+    header .banner-text mark {
+      font-size: 13px !important;
+    }
+    header .banner {
+      margin-top: 110px;
+     
+    }
   }
 
 
