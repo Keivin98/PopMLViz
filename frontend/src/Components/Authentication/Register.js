@@ -3,9 +3,7 @@ import "./components/registerFP.css";
 import { database } from "../../Components/firebase";
 import { ref, push, child, update } from "firebase/database";
 import { Link } from "react-router-dom";
-import { register } from "plotly.js";
 import ParticlesBg from "particles-bg";
-
 
 function Register() {
   const [email, setEmail] = useState("");
@@ -46,59 +44,52 @@ function Register() {
     <>
       <ParticlesBg type="cobweb" bg={true} />
 
-      <div className="form">
-        <h1 align="center" style={{ fontWeight: "200" }}>
-          Register Here
-        </h1>
-        <div className="form-body" style={{ justifyContent: "center" }}>
-          <div className="email">
-            <label className="form__label" style={{ fontWeight: "300" }} htmlFor="email">
-              Email
-            </label>
-            <input
+      <div className="wrapper">
+        <form>
+          <h1>Register</h1>
+          <div className="input-box">
+            <i className="fas fa-envelope icon"></i>
+            <input 
               type="email"
               id="email"
               className="form__input"
               value={email}
               onChange={handleInputChange}
-              placeholder="Email"
+              required
             />
+            <label htmlFor="email">Email</label>
           </div>
-          <div className="password">
-            <label className="form__label" style={{ fontWeight: "300" }} htmlFor="password">
-              Password
-            </label>
+          <div className="input-box">
+            <i className="fas fa-lock icon"></i>
             <input
               className="form__input"
               type="password"
               id="password"
               value={password}
               onChange={handleInputChange}
-              placeholder="Password"
+              required
             />
+            <label htmlFor="password">Password</label>
           </div>
-          <div className="confirm-password">
-            <label className="form__label" style={{ fontWeight: "300" }} htmlFor="confirmPassword">
-              Confirm Password
-            </label>
+          <div className="input-box">
+            <i className="fas fa-lock icon"></i>
             <input
               className="form__input"
               type="password"
               id="confirmPassword"
               value={confirmPassword}
               onChange={handleInputChange}
-              placeholder="Confirm Password"
+              required
             />
+            <label htmlFor="confirmPassword">Confirm Password</label>
           </div>
-        </div>
-        <div style={{ textAlign: "center", marginTop: "20px" }}>
           <button onClick={handleSubmit} type="submit" className="btn">
             Register
           </button>
-          <p className="login-link">
-            <Link to="/login">I have an account already</Link>
-          </p>
-        </div>
+          <div className="signup-link">
+            <p>Have an account? <Link to="/login">Login</Link></p>
+          </div>
+        </form>
         {registrationText && <p style={{ textAlign: "center", marginTop: "20px" }}>{registrationText}</p>}
       </div>
     </>

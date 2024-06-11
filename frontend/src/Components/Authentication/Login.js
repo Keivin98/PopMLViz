@@ -5,7 +5,6 @@ import { ref, push, child, update } from "firebase/database";
 import { Link } from "react-router-dom";
 import ParticlesBg from "particles-bg";
 
-
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -37,46 +36,43 @@ function Login() {
     <>
       <ParticlesBg type="cobweb" bg={true} />
 
-      <div className="form">
-        <h1 align="center" style={{ fontWeight: "200" }}>
-          Login Here
-        </h1>
-        <div className="form-body" style={{ justifyContent: "center" }}>
-          <div className="email">
-            <label className="form__label" style={{ fontWeight: "300" }} htmlFor="email">
-              Email
-            </label>
-            <input
+      <div className="wrapper">
+        <form>
+          <h1>Login</h1>
+          <div className="input-box">
+            <i className="fas fa-user icon"></i>
+            <input 
               type="email"
               id="email"
               className="form__input"
               value={email}
               onChange={handleInputChange}
-              placeholder="Email"
+              required
             />
+            <label htmlFor="email">Email</label>
           </div>
-          <div className="password">
-            <label className="form__label" style={{ fontWeight: "300" }} htmlFor="password">
-              Password
-            </label>
+          <div className="input-box">
+            <i className="fas fa-lock icon"></i>
             <input
               className="form__input"
               type="password"
               id="password"
               value={password}
               onChange={handleInputChange}
-              placeholder="Password"
+              required
             />
+            <label htmlFor="password">Password</label>
           </div>
-        </div>
-        <div style={{ textAlign: "center", marginTop: "20px" }}>
+          <div className="forgot-password">
+            <a href="#">Forgot Password</a>
+          </div>
           <button onClick={handleSubmit} type="submit" className="btn">
             Login
           </button>
-          <p className="register-link">
-            <Link to="/register">Register if you do not have an account already</Link>
-          </p>
-        </div>
+          <div className="signup-link">
+            <p>Don't Have an account? <Link to="/register">Register</Link></p>
+          </div>
+        </form>
         {loginText && <p style={{ textAlign: "center", marginTop: "20px" }}>{loginText}</p>}
       </div>
     </>

@@ -10,6 +10,7 @@ import LoginForm from "./LoginForm";
 import colors from "../../../config/colors";
 import { BiLogIn } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
+import font from "../../../config/font";
 
 function Header(props) {
   const [showLogin, setShowLogin] = useState(false);
