@@ -3,7 +3,7 @@
 html, body {
   height: 100%;
   margin: 0;
-  /* overflow: hidden;  */
+  overflow: hidden; 
 }
 
 header {
@@ -159,6 +159,9 @@ ul#nav li a:hover {
 
 .social .project-btn {
   background-color: #1abc9c !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
 }
 .social .docks-btn{
@@ -409,11 +412,59 @@ p {
       display: flex !important;
       justify-content: center;
       align-items: center;
-      border-radius: 200px;
+      border-radius: 10px;
       padding: 10px;
-      width: 60px;
-      height: 60px;
+      width: 50px;
+      height: 50px;
       background-color: #1abc9c;
+    }
+    /* .nav-left .logo{
+      height: 30px;
+    } */
+    .nav-left .site-name{
+      font-size: 16px;
+    }
+  }
+
+
+
+  @media (max-width: 270px){
+    .social .project-btn {
+      width: 90%;
+      padding-left: 10px;
+      padding-right: 10px;
+     
+    }
+    #nav-wrap{
+      flex-direction: column;
+      
+    }
+    .nav-right .login-circle-btn{
+      margin-top: 20px;
+    }
+    .social .project-btn div{
+     font-size: 18px;
+     
+    }
+    .social .spcial-btn-container{
+      width: 90%;
+      
+    }
+    .social .special-btn{
+      border-radius: 200px;
+      padding: 5px;
+      width: 50px;
+      height: 50px;
+    }
+    header .banner-text .responsive-headline {
+      font-size: 25px !important;
+    }
+    header .banner-text mark {
+      font-size: 13px !important;
+    }
+    header .banner {
+      margin-top: 110px;
+     
     }
   }
 

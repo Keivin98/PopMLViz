@@ -59,7 +59,7 @@ function Header(props) {
             Login
           </a>
           <button className="button btn login-circle-btn" onClick={handleLoginClick}>
-            <BiLogIn size={35}/>
+            <BiLogIn size={30}/>
           </button>
           {/* <button className="button btn login-btn" onClick={handleLoginClick}>
             Login
@@ -92,7 +92,7 @@ function Header(props) {
 
           <ul className="social">
             <a href={"/Dashboard"} style={{}} className="button btn project-btn" onClick={() => gaEventTracker("Live")}>
-              <FaPlayCircle style={{ marginRight: 10 }} /> Start Visualizing
+              <FaPlayCircle style={{ marginRight: 10 }} /> <div>Start Visualizing</div>
             </a>
             <div className="spcial-btn-container">
               <a

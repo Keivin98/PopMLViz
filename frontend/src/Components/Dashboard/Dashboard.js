@@ -2283,7 +2283,7 @@ const styles = {
   },
   leftPane:{
       height: "100vh",
-      position: "absolute",
+      position: "fixed",
       top: 0, 
       // paddingTop: "20px",
       left: 0,
