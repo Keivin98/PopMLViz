@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { CSVLink } from "react-csv";
 import PropTypes from "prop-types";
 import { Button } from "@material-ui/core";
+import font from "../../../config/font";
 
 const DownloadData = ({
   data,
@@ -135,7 +136,7 @@ const DownloadData = ({
           />
           {"\t"} Include Admix Clustering
         </label>
-        <Button variant="outlined">
+        <Button style={{fontFamily: font.primaryFont}} variant="outlined">
           <CSVLink
             data={downloadableData.length === 0 ? data : downloadableData}
             filename={"popmlvis_analysis.csv"}

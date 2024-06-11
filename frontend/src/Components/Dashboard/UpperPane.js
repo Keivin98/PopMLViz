@@ -6,6 +6,7 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
 import colors from "../../config/colors";
+import font from "../../config/font";
 
 const UpperPane = ({
   selectedOption,
@@ -20,7 +21,7 @@ const UpperPane = ({
   return (
     <div className="radio" style={styles.dimensions}>
       <FormControl style={{ marginLeft: "2%", alignItems: "center", flexDirection: "row",  }}>
-        <FormLabel style={{ marginRight: "30px" }} id="demo-row-radio-buttons-group-label">
+        <FormLabel style={{ marginRight: "30px", fontFamily: font.primaryFont }} id="demo-row-radio-buttons-group-label">
           Plot
         </FormLabel>
         <RadioGroup

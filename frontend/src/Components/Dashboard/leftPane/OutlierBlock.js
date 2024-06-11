@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Slider from "@material-ui/core/Slider";
 import { Button } from "@material-ui/core";
+import font from "../../../config/font";
 
 const OutlierBlock = ({ columnRange, numFeatures, columnName, onChange }) => {
   const [range, setRange] = useState([]);
@@ -60,6 +61,7 @@ const OutlierBlock = ({ columnRange, numFeatures, columnName, onChange }) => {
             fontWeight: "bold",
             marginLeft: "10%",
             backgroundColor: "#ebeff7",
+            fontFamily: font.primaryFont,
             color: "#1891fb",
           }}
         >

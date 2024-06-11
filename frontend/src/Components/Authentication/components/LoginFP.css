@@ -1,6 +1,11 @@
 /* LoginFP.css */
 
 /* Form Styles */
+*{
+  font-family: "Poppins", sans-serif;
+  font-style: normal;
+}
+
 .form {
     max-width: 400px;
     background: transparent;

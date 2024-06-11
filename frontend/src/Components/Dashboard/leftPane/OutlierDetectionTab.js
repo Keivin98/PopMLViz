@@ -8,6 +8,7 @@ import Switch from "./Switch";
 import { FcMindMap } from "react-icons/fc";
 import { AiFillDelete } from "react-icons/ai";
 import PropTypes from "prop-types";
+import font from "../../../config/font";
 
 const OutlierDetectionTab = ({ onChange, numFeatures, removeOutliers, allActions }) => {
   const [selectOutlierActions] = useState([
@@ -174,6 +175,7 @@ const OutlierDetectionTab = ({ onChange, numFeatures, removeOutliers, allActions
                 fontWeight: "bold",
                 backgroundColor: selectedOutlierMethod == null ? "grey" : "#1891fb",
                 marginTop: "5%",
+                fontFamily: font.primaryFont
               }}
               disabled={selectedOutlierMethod == null}
             >
