@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import * as Plotly from "plotly.js";
 import PropTypes from "prop-types";
 
@@ -18,99 +18,107 @@ const randomColors = [
   "#277f05",
 ];
 
-class ScatterAdmix extends Component {
-  state = {
+const ScatterAdmix = ({
+  PCAdata,
+  AdmixData,
+  alphaVal,
+  certaintyVal,
+  outlierData,
+  x,
+  y,
+  z,
+  clusterNames,
+  onChange,
+  plotTitle,
+  picWidth,
+  picHeight,
+  picFormat,
+  markerSize,
+  admixMode,
+}) => {
+  const [state, setState] = useState({
     clusterColors: [],
     clusterNames: [],
     PCAdata: [],
-    alphaVal: 1,
-    certaintyVal: 1,
-    markerSize: 4,
-    admixMode: 0,
-  };
+    alphaVal: alphaVal,
+    certaintyVal: certaintyVal,
+    markerSize: markerSize,
+    admixMode: admixMode,
+  });
 
-  range = (start, end) => {
-    /* generate a range : [start, start+1, ..., end-1, end] */
+  const scatterRef = useRef(null);
+
+  const range = (start, end) => {
     var len = end - start + 1;
     var a = new Array(len);
     for (let i = 0; i < len; i++) a[i] = start + i;
     return a;
   };
-  assignClusterToRow1 = (row) => {
-    // returns index of maximum value
-    // unless max and second max are less than 0.2 apart
-    var parsedRow = Object.values(row).map((a) => {
-      return parseFloat(a);
-    });
-    const rowDescending = [...parsedRow].sort((a, b) => b - a);
-    if (rowDescending[0] < this.props.alphaVal / 100.0) {
-      return parsedRow.length;
-    } else {
-      return parsedRow.indexOf(rowDescending[0]);
-    }
-  };
-  assignClusterToRow2 = (row) => {
-    // returns index of maximum value
-    // unless max and second max are less than 0.2 apart
-    var parsedRow = Object.values(row).map((a) => {
-      return parseFloat(a);
-    });
-    const rowDescending = [...parsedRow].sort((a, b) => b - a);
-    if (rowDescending[0] - rowDescending[1] < this.props.certaintyVal / 100.0) {
-      return parsedRow.length;
-    } else {
-      return parsedRow.indexOf(rowDescending[0]);
-    }
-  };
-  componentDidMount() {
-    //Split the data between pca and admix
-    if (this.props.data !== null) {
-      this.setState({
-        alphaVal: this.props.alphaVal,
-        certaintyVal: this.props.certaintyVal,
-        admixMode: this.props.admixMode,
-      });
-      this.splitPCAandADMIX();
-      this.ScatterAdmixFromData();
-      this.setState({ markerSize: this.props.markerSize });
-    }
-  }
-  componentDidUpdate(prevProps) {
-    if (
-      prevProps.alphaVal !== this.props.alphaVal ||
-      prevProps.certaintyVal !== this.props.certaintyVal ||
-      prevProps.outlierData !== this.props.outlierData ||
-      prevProps.admixMode !== this.props.admixMode
-    ) {
-      // console.log(this.props.certaintyVal);
-      this.setState({ admixMode: this.props.admixMode }, () =>
-        this.splitPCAandADMIX()
-      );
-    }
-    if (
-      JSON.stringify(prevProps.clusterNames) !==
-        JSON.stringify(this.props.clusterNames) ||
-      JSON.stringify(prevProps.AdmixData) !==
-        JSON.stringify(this.props.AdmixData)
-    ) {
-      this.setState({ clusterNames: this.props.clusterNames }, () =>
-        this.splitPCAandADMIX()
-      );
-    }
 
-    if (prevProps.markerSize !== this.props.markerSize) {
-      this.setState({ markerSize: this.props.markerSize });
+  const assignClusterToRow1 = (row) => {
+    var parsedRow = Object.values(row).map((a) => {
+      return parseFloat(a);
+    });
+    const rowDescending = [...parsedRow].sort((a, b) => b - a);
+    if (rowDescending[0] < alphaVal / 100.0) {
+      return parsedRow.length;
+    } else {
+      return parsedRow.indexOf(rowDescending[0]);
     }
-    // if (prevProps.admixMode !== this.props.admixMode) {
-    //   this.setState({ admixMode: this.props.admixMode });
-    // }
-    this.ScatterAdmixFromData();
-  }
-  scatterWithClusters(DIM, x, y, z, outliers, outlierData) {
-    let num_clusters =
-      this.props.AdmixData == null
-        ? 0
-        : Object.values(this.props.AdmixData[0]).length;
+  };
+
+  const assignClusterToRow2 = (row) => {
+    var parsedRow = Object.values(row).map((a) => {
+      return parseFloat(a);
+    });
+    const rowDescending = [...parsedRow].sort((a, b) => b - a);
+    if (rowDescending[0] - rowDescending[1] < certaintyVal / 100.0) {
+      return parsedRow.length;
+    } else {
+      return parsedRow.indexOf(rowDescending[0]);
+    }
+  };
+
+  useEffect(() => {
+    if (AdmixData !== null) {
+      splitPCAandADMIX();
+      scatterAdmixFromData();
+    }
+  }, [AdmixData, alphaVal, certaintyVal, admixMode, outlierData, clusterNames, markerSize]);
+
+  const splitPCAandADMIX = () => {
+    let clusterColors = AdmixData.map((row) => {
+      if (admixMode === 0) {
+        return assignClusterToRow1(row);
+      } else {
+        return assignClusterToRow2(row);
+      }
+    });
+    let clusterNamesUpdated =
+      Object.values(clusterNames).length > 0
+        ? clusterNames
+        : range(0, Object.values(AdmixData[0]).length + 1).map((num) => {
+            return num < Object.values(AdmixData[0]).length
+              ? "Cluster " + num
+              : "Admixed Cluster";
+          });
+
+    setState((prevState) => ({
+      ...prevState,
+      clusterNames: clusterNamesUpdated,
+      clusterColors: clusterColors,
+      alphaVal: alphaVal,
+      certaintyVal: certaintyVal,
+      numClusters: Object.values(AdmixData[0]).length,
+    }));
+
+    if (onChange) {
+      onChange(state);
+    }
+  };
+
+  const scatterWithClusters = (DIM, x, y, z, outliers, outlierData) => {
+    let num_clusters = AdmixData == null ? 0 : Object.values(AdmixData[0]).length;
     var x_clusters = [];
     var y_clusters = [];
     var layout = {};
@@ -142,49 +150,48 @@ class ScatterAdmix extends Component {
     }
 
     var colors = [];
-
     for (let j = 0; j < num_clusters + 1; j += 1) {
       colors.push(randomColors[j]);
     }
 
-    if (this.props.PCAdata != null) {
-      for (var i = 0; i < this.props.PCAdata.length; i++) {
-        let rowCol = this.state.clusterColors[i];
+    if (PCAdata != null) {
+      for (var i = 0; i < PCAdata.length; i++) {
+        let rowCol = state.clusterColors[i];
         if (rowCol !== undefined) {
           if (outliers && outlierData[i]) {
             if (DIM === 0) {
               x_clusters_outliers[rowCol].push(i);
-              y_clusters_outliers[rowCol].push(this.props.PCAdata[i][x]);
+              y_clusters_outliers[rowCol].push(PCAdata[i][x]);
             } else if (DIM === 1) {
-              x_clusters_outliers[rowCol].push(this.props.PCAdata[i][x]);
-              y_clusters_outliers[rowCol].push(this.props.PCAdata[i][y]);
+              x_clusters_outliers[rowCol].push(PCAdata[i][x]);
+              y_clusters_outliers[rowCol].push(PCAdata[i][y]);
             } else {
-              x_clusters_outliers[rowCol].push(this.props.PCAdata[i][x]);
-              y_clusters_outliers[rowCol].push(this.props.PCAdata[i][y]);
-              z_clusters_outliers[rowCol].push(this.props.PCAdata[i][z]);
+              x_clusters_outliers[rowCol].push(PCAdata[i][x]);
+              y_clusters_outliers[rowCol].push(PCAdata[i][y]);
+              z_clusters_outliers[rowCol].push(PCAdata[i][z]);
             }
           } else {
             if (DIM === 0) {
               x_clusters[rowCol].push(i);
-              y_clusters[rowCol].push(this.props.PCAdata[i][x]);
+              y_clusters[rowCol].push(PCAdata[i][x]);
             } else if (DIM === 1) {
-              x_clusters[rowCol].push(this.props.PCAdata[i][x]);
-              y_clusters[rowCol].push(this.props.PCAdata[i][y]);
+              x_clusters[rowCol].push(PCAdata[i][x]);
+              y_clusters[rowCol].push(PCAdata[i][y]);
             } else {
-              x_clusters[rowCol].push(this.props.PCAdata[i][x]);
-              y_clusters[rowCol].push(this.props.PCAdata[i][y]);
-              z_clusters[rowCol].push(this.props.PCAdata[i][z]);
+              x_clusters[rowCol].push(PCAdata[i][x]);
+              y_clusters[rowCol].push(PCAdata[i][y]);
+              z_clusters[rowCol].push(PCAdata[i][z]);
             }
           }
         }
       }
       var data_new = [];
       for (var k = 0; k < num_clusters + 1; k += 1) {
-        var name = !(k in this.state.clusterNames)
+        var name = !(k in state.clusterNames)
           ? k === num_clusters
             ? "Admixed Cluster"
             : "Cluster " + k
-          : this.state.clusterNames[k];
+          : state.clusterNames[k];
         var symbol = k === num_clusters ? "triangle" : "circle";
         var color = k === num_clusters ? "#bfbfbf" : colors[k];
         if (outliers) {
@@ -198,7 +205,7 @@ class ScatterAdmix extends Component {
               type: "scatter3d",
               marker: {
                 color: color,
-                size: this.state.markerSize,
+                size: state.markerSize,
                 symbol: "cross",
                 opacity: 0.5,
               },
@@ -213,12 +220,12 @@ class ScatterAdmix extends Component {
               mode: "markers",
               marker: {
                 color: color,
-                size: this.state.markerSize,
+                size: state.markerSize,
                 symbol: "cross",
                 opacity: 0.5,
               },
               text: cluster_texts[k],
-              hovertemplate: "<i>(%{x:.4f}, %{y:.4f}</i>",
+              hovertemplate: "<i>(%{x:.4f}, %{y:.4f}) </i>",
             });
           }
         }
@@ -232,7 +239,7 @@ class ScatterAdmix extends Component {
             type: "scatter3d",
             marker: {
               color: color,
-              size: this.state.markerSize,
+              size: state.markerSize,
               symbol: symbol,
             },
             text: cluster_texts[k],
@@ -246,7 +253,7 @@ class ScatterAdmix extends Component {
             mode: "markers",
             marker: {
               color: color,
-              size: this.state.markerSize,
+              size: state.markerSize,
               symbol: symbol,
             },
             text: cluster_texts[k],
@@ -255,7 +262,7 @@ class ScatterAdmix extends Component {
         }
       }
     }
-    var plot_title = this.props.plotTitle;
+    var plot_title = plotTitle;
 
     if (DIM === 2) {
       layout = {
@@ -320,98 +327,49 @@ class ScatterAdmix extends Component {
         yaxis: { title: y },
       };
     }
-    return Plotly.newPlot("scatterAdmix", data_new, layout, {
+    return Plotly.newPlot(scatterRef.current, data_new, layout, {
       toImageButtonOptions: {
-        filename: this.props.plotTitle,
-        width: this.props.picWidth,
-        height: this.props.picHeight,
-        format: this.props.picFormat,
+        filename: plotTitle,
+        width: picWidth,
+        height: picHeight,
+        format: picFormat,
       },
     });
-  }
-  splitPCAandADMIX = () => {
-    let clusterColors = this.props.AdmixData.map((row) => {
-      if (this.props.admixMode === 0) {
-        return this.assignClusterToRow1(row);
-      } else {
-        return this.assignClusterToRow2(row);
-      }
-    });
-    let clusterNames =
-      Object.values(this.props.clusterNames).length > 0
-        ? this.props.clusterNames
-        : this.range(0, Object.values(this.props.AdmixData[0]).length + 1).map(
-            (num) => {
-              return num < Object.values(this.props.AdmixData[0]).length
-                ? "Cluster " + num
-                : "Admixed Cluster";
-            }
-          );
-    console.log(this.props.certaintyVal, this.props.admixMode);
-    this.setState(
-      {
-        clusterNames: clusterNames,
-        clusterColors: clusterColors,
-        alphaval: this.props.alphaVal,
-        certaintyVal: this.props.certaintyVal,
-        numClusters: Object.values(this.props.AdmixData[0]).length,
-      },
-      () => {
-        if (this.props.onChange) {
-          this.props.onChange(this.state);
-        }
-      }
-    );
   };
 
-  ScatterAdmixFromData = () => {
-    let DIMS = [this.props.x, this.props.y, this.props.z]
+  const scatterAdmixFromData = () => {
+    let DIMS = [x, y, z]
       .map((dim) => {
         return dim == null ? 0 : 1;
       })
       .reduce((total, curr) => (total = total + curr), 0);
 
-    if (this.props.PCAdata == null || DIMS === 0) {
+    if (PCAdata == null || DIMS === 0) {
       return Plotly.newPlot(
-        "scatterAdmix",
+        scatterRef.current,
         [],
         {},
         {
           toImageButtonOptions: {
-            filename: this.props.plotTitle,
-            width: this.props.picWidth,
-            height: this.props.picHeight,
-            format: this.props.picFormat,
+            filename: plotTitle,
+            width: picWidth,
+            height: picHeight,
+            format: picFormat,
           },
         }
       );
     } else {
-      if (this.props.outlierData.length > 0) {
-        return this.scatterWithClusters(
-          DIMS - 1,
-          this.props.x,
-          this.props.y,
-          this.props.z,
-          true,
-          this.props.outlierData
-        );
+      if (outlierData.length > 0) {
+        return scatterWithClusters(DIMS - 1, x, y, z, true, outlierData);
       } else {
-        return this.scatterWithClusters(
-          DIMS - 1,
-          this.props.x,
-          this.props.y,
-          this.props.z,
-          false,
-          null
-        );
+        return scatterWithClusters(DIMS - 1, x, y, z, false, null);
       }
     }
   };
 
-  render() {
-    return <div id="scatterAdmix" style={styles.ScatterContainer}></div>;
-  }
-}
+  return <div ref={scatterRef} style={styles.ScatterContainer}></div>;
+};
+
 ScatterAdmix.propTypes = {
   PCAdata: PropTypes.array,
   AdmixData: PropTypes.array,
@@ -420,19 +378,22 @@ ScatterAdmix.propTypes = {
   x: PropTypes.string,
   y: PropTypes.string,
   z: PropTypes.string,
-  clusterNames: PropTypes.array,
+  clusterNames: PropTypes.object,
   picWidth: PropTypes.number,
   picHeight: PropTypes.number,
   picFormat: PropTypes.string,
   plotTitle: PropTypes.string,
   markerSize: PropTypes.number,
+  admixMode: PropTypes.number,
+  onChange: PropTypes.func,
 };
+
 const styles = {
   ScatterContainer: {
     position: "fixed",
-    z_index: 1,
+    zIndex: 1,
     top: 0,
-    overflow_x: "hidden",
+    overflowX: "hidden",
     left: 0,
     marginTop: "13%",
     marginLeft: "21%",
@@ -440,4 +401,5 @@ const styles = {
     height: "74%",
   },
 };
+
 export default ScatterAdmix;

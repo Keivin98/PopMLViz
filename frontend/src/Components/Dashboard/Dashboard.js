@@ -2,16 +2,16 @@ import axios from "axios";
 import React, { useState } from "react";
 import { Chart, registerables } from "chart.js";
 import * as XLSX from "xlsx";
-import ScatterPlot from "../ScatterPlot";
-import ScatterAdmix from "../ScatterAdmix";
-import ProgressBarTime from "../ProgressBarTime";
+import ScatterPlot from "./ScatterPlot";
+import ScatterAdmix from "./ScatterAdmix";
+import ProgressBarTime from "./ProgressBarTime";
 import "react-tabs/style/react-tabs.css";
 import NavigationBar from "./NavigationBar";
 import LeftPane from "./leftPane/LeftPane";
 import RightPane from "./rightPane/RightPane";
 import UpperPane from "./UpperPane";
 import CentralPane from "./centralPane/CentralPane";
-import colors from "../../config/colors"
+import colors from "../../config/colors";
 
 require("dotenv").config();
 const randomColors = [
@@ -2158,23 +2158,22 @@ const App = () => {
       {/* <NavigationBar></NavigationBar> */}
 
       <div style={styles.splitScreen}>
-
-          <LeftPane
-            UploadTabChange={UploadTabChange}
-            samplePCAAdmixDataset2={samplePCAAdmixDataset2}
-            handleProcessedPCA={handleProcessedPCA}
-            handleProcessedAdmix={handleProcessedAdmix}
-            handleUnprocessedPCA={handleUnprocessedPCA}
-            handleTSNE2D={handleTSNE2D}
-            handleTSNE3D={handleTSNE3D}
-            runPCAir={runPCAir}
-            runCluster={runCluster}
-            runOutliers={runOutliers}
-            allActions={allActions}
-            removeOutliers={removeOutliers}
-            onPressReset={onPressReset}
-            styles={styles}
-          />
+        <LeftPane
+          UploadTabChange={UploadTabChange}
+          samplePCAAdmixDataset2={samplePCAAdmixDataset2}
+          handleProcessedPCA={handleProcessedPCA}
+          handleProcessedAdmix={handleProcessedAdmix}
+          handleUnprocessedPCA={handleUnprocessedPCA}
+          handleTSNE2D={handleTSNE2D}
+          handleTSNE3D={handleTSNE3D}
+          runPCAir={runPCAir}
+          runCluster={runCluster}
+          runOutliers={runOutliers}
+          allActions={allActions}
+          removeOutliers={removeOutliers}
+          onPressReset={onPressReset}
+          styles={styles}
+        />
 
         <div className="block-example" style={styles.rightPane}>
           {isLoading && (
@@ -2258,13 +2257,12 @@ const styles = {
     // display: "grid",
     // gridTemplateColumns: "1fr 5fr",
     // gridTemplateAreas: 'left right',
-    
   },
 
   rightPane: {
     height: "91%",
     position: "fixed",
-    display: "flex" ,
+    display: "flex",
     flexDirection: "row",
     top: 0,
     right: 0,
@@ -2281,22 +2279,22 @@ const styles = {
     flexDirection: "column",
     marginTop: "10px",
   },
-  leftPane:{
-      height: "100vh",
-      position: "fixed",
-      top: 0, 
-      // paddingTop: "20px",
-      left: 0,
-      gridArea: "left",
-      width: "20%",
-      // marginTop: "50px",
-      color: "white",
-      padding: "2%",
-      // display: "block",
-      // backgroundColor:"rgb(245, 246, 247)",
-      backgroundColor: colors.gray,
-      overflowY: "auto",
-      overflowX: "hidden",
+  leftPane: {
+    height: "100vh",
+    position: "fixed",
+    top: 0,
+    // paddingTop: "20px",
+    left: 0,
+    gridArea: "left",
+    width: "20%",
+    // marginTop: "50px",
+    color: "white",
+    padding: "2%",
+    // display: "block",
+    // backgroundColor:"rgb(245, 246, 247)",
+    backgroundColor: colors.gray,
+    overflowY: "auto",
+    overflowX: "hidden",
   },
   dimensions: {
     position: "fixed",
@@ -2341,7 +2339,6 @@ const styles = {
     backgroundColor: "#f5f6f7",
     borderRadius: 10,
   },
- 
 };
 
 export default App;
