@@ -1,5 +1,5 @@
 // import Dashboard from "./archive/Dashboard";
-import Dashboard from "./Components/Dashboard/Dashboard"
+import Dashboard from "./Components/Dashboard/Dashboard";
 import LandingPage from "./Components/landingPage/LandingPage";
 import Login from "../src/Components/Authentication/Login";
 import Register from "../src/Components/Authentication/Register";

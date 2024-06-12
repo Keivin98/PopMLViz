@@ -5,6 +5,8 @@ import Select from "react-select";
 import font from "../../../config/font";
 import MarkerColor from "./MarkerColor";
 import InputOptions from "../../InputOptions";
+import AppButton from "../../AppButton";
+import { MarginRounded } from "@mui/icons-material";
 
 const TabOutputOptions = ({
   uniqueClusters,
@@ -74,31 +76,10 @@ const TabOutputOptions = ({
       num_clusters = 2;
     }
     return (
-      <div style={{ padding: "4%", paddingTop: 40 }}>
-        <InputOptions label={"Marker size"}>
-          <input
-            type="number"
-            name="clicks"
-            style={{ width: "40%", marginLeft: "10%" }}
-            value={markerSize.toString()}
-            onChange={handleIncrementChange}
-          />
-        </InputOptions>
-
-        <hr style={{ backgroundColor: "black", height: 2, opacity: 1 , marginTop: 50}} />
+      <div style={{ padding: "4%", paddingTop: 10 }}>
+        <hr style={{ backgroundColor: "black", height: 2, opacity: 1 }} />
         <MarkerColor setChosenInitialColor={setChosenInitialColor}></MarkerColor>
         <hr style={{ backgroundColor: "black", height: 2, opacity: 1, marginBottom: 50 }} />
-
-        <div style={{ display: "flex", flexDirection: "row" }}>
-          <h6 style={{ paddingTop: "2%", marginBottom: "10%" }}>Marker Shape:</h6>
-          <div style={{ width: "50%", paddingBottom: "10%", paddingLeft: "2%" }}>
-            <Select
-              options={selectShapeOptions}
-              onChange={handleSelectShapeOptions}
-              defaultValue={selectedInitialShape}
-            />
-          </div>
-        </div>
 
         <div
           style={{
@@ -109,6 +90,22 @@ const TabOutputOptions = ({
             alignItems: "center",
           }}
         >
+          <InputOptions label={"Marker size"}>
+            <input
+              type="number"
+              name="clicks"
+              style={{ width: "40%", marginLeft: "10%" }}
+              value={markerSize.toString()}
+              onChange={handleIncrementChange}
+            />
+          </InputOptions>
+          <InputOptions label={"Marker Shape"}>
+            <Select
+              options={selectShapeOptions}
+              onChange={handleSelectShapeOptions}
+              defaultValue={selectedInitialShape}
+            />
+          </InputOptions>
           <InputOptions label={"Plot title"}>
             <input
               type="text"
@@ -130,7 +127,7 @@ const TabOutputOptions = ({
             <input
               type="text"
               defaultValue={height}
-              style={{ marginLeft: "5%", width: 60  }}
+              style={{ marginLeft: "5%", width: 60 }}
               onChange={(e) => setHeight(e.target.value)}
             />
           </InputOptions>
@@ -166,7 +163,27 @@ const TabOutputOptions = ({
   return (
     <div>
       {showOutputOptions()}
-      <Button
+      <div style={{display: "flex", justifyContent: 'center', bottom: 10 }}>
+        <AppButton
+          style={ {bottom: 10, position: "absolute", width: "90%",} }
+          title={"Submit"}
+          onClick={(event) => {
+            parentCallback({
+              clusterNames,
+              plotTitle,
+              selectedColumn,
+              width,
+              height,
+              image,
+              markerSize,
+              chosenInitialColor,
+              selectedInitialShape,
+            });
+            event.preventDefault();
+          }}
+        ></AppButton>
+      </div>
+      {/* <Button
         variant="outlined"
         onClick={(event) => {
           parentCallback({
@@ -189,7 +206,7 @@ const TabOutputOptions = ({
         }}
       >
         Submit
-      </Button>
+      </Button> */}
     </div>
   );
 };
