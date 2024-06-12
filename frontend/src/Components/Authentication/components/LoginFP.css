@@ -22,10 +22,10 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    backdrop-filter: blur(15px);
+    backdrop-filter: blur(20px);
     padding: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: rgba(255, 255, 255, 0.5);
 }
 
 .wrapper h1 {
@@ -33,11 +33,15 @@ body {
     color: black;
     text-align: center;
 }
+.input-box .form__input{
+    margin-bottom: 0px;
+}
+
 
 .wrapper .input-box {
     position: relative;
     width: 100%;
-    margin: 20px 0;
+    margin: 40px 0 !important;
     border-bottom: 2px solid black;
 }
 
