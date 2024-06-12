@@ -56,7 +56,7 @@ const UpperPane = ({
       <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexDirection: "row" }}>
         <div style={styles.dropDown}>
           <label style={{ width: "25%", marginLeft: "12%" }}>
-            <h6 style={{ width: "50px" }}> X-axis </h6>
+            <h6 style={styles.axisText}> X-axis </h6>
           </label>
           <div style={{ width: "100%" }}>
             <Select
@@ -73,7 +73,7 @@ const UpperPane = ({
 
         <div style={styles.dropDown}>
           <label style={{ width: "25%", marginLeft: "12%" }}>
-            <h6 style={{ width: "50px" }}> Y-axis </h6>
+            <h6 style={styles.axisText}> Y-axis </h6>
           </label>
           <div style={{ width: "100%" }}>
             <Select
@@ -89,7 +89,7 @@ const UpperPane = ({
         </div>
         <div style={styles.dropDown}>
           <label style={{ width: "25%", marginLeft: "12%" }}>
-            <h6 style={{ width: "50px" }}> Z-axis </h6>
+            <h6 style={styles.axisText}> Z-axis </h6>
           </label>
           <div style={{ width: "100%" }}>
             <Select
@@ -132,6 +132,9 @@ const styles = {
     marginLeft: "10px"
     // height: "50px",
   },
+  axisText: {
+    width: 65
+  }
 };
 
 export default UpperPane;

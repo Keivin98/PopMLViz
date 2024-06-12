@@ -2,14 +2,18 @@ import React, { useState } from "react";
 import "./components/registerFP.css";
 import { database } from "../../Components/firebase";
 import { ref, push, child, update } from "firebase/database";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import ParticlesBg from "particles-bg";
+import BackButton from "../BackButton";
+
 
 function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [registrationText, setRegistrationText] = useState("");
+
+  const navigate = useNavigate();
 
   const handleInputChange = (e) => {
     const { id, value } = e.target;
@@ -22,6 +26,10 @@ function Register() {
     if (id === "confirmPassword") {
       setConfirmPassword(value);
     }
+  };
+
+  const handleBack = () => {
+    navigate("/");
   };
 
   const handleSubmit = () => {
@@ -44,12 +52,16 @@ function Register() {
     <>
       <ParticlesBg type="cobweb" bg={true} />
 
+      <div style={{ position: "absolute", top: 50, left: 50 }}>
+        <BackButton handleBack={handleBack} arrowColor={"#EEE"} color={"black"}></BackButton>
+      </div>
+
       <div className="wrapper">
         <form>
           <h1>Register</h1>
           <div className="input-box">
             <i className="fas fa-envelope icon"></i>
-            <input 
+            <input
               type="email"
               id="email"
               className="form__input"
@@ -87,7 +99,9 @@ function Register() {
             Register
           </button>
           <div className="signup-link">
-            <p>Have an account? <Link to="/login">Login</Link></p>
+            <p>
+              Have an account? <Link to="/login">Login</Link>
+            </p>
           </div>
         </form>
         {registrationText && <p style={{ textAlign: "center", marginTop: "20px" }}>{registrationText}</p>}

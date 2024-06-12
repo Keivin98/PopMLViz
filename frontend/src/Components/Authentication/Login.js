@@ -2,13 +2,15 @@ import React, { useState } from "react";
 import "./components/LoginFP.css";
 import { database } from "../../Components/firebase";
 import { ref, push, child, update } from "firebase/database";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import ParticlesBg from "particles-bg";
+import BackButton from "../BackButton";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loginText, setLoginText] = useState("");
+  const navigate = useNavigate();
 
   const handleInputChange = (e) => {
     const { id, value } = e.target;
@@ -18,6 +20,10 @@ function Login() {
     if (id === "password") {
       setPassword(value);
     }
+  };
+
+  const handleBack = () => {
+    navigate("/");
   };
 
   const handleSubmit = () => {
@@ -35,13 +41,16 @@ function Login() {
   return (
     <>
       <ParticlesBg type="cobweb" bg={true} />
+      <div style={{position: "absolute", top: 50, left: 50 }}>
+        <BackButton handleBack={handleBack} arrowColor={"#EEE"} color={"black"}></BackButton>
+      </div>
 
       <div className="wrapper">
         <form>
           <h1>Login</h1>
           <div className="input-box">
             <i className="fas fa-user icon"></i>
-            <input 
+            <input
               type="email"
               id="email"
               className="form__input"
@@ -70,7 +79,9 @@ function Login() {
             Login
           </button>
           <div className="signup-link">
-            <p>Don't Have an account? <Link to="/register">Register</Link></p>
+            <p>
+              Don't Have an account? <Link to="/register">Register</Link>
+            </p>
           </div>
         </form>
         {loginText && <p style={{ textAlign: "center", marginTop: "20px" }}>{loginText}</p>}

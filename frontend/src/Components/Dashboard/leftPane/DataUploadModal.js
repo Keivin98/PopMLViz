@@ -2,12 +2,12 @@ import React, { useEffect, useState, useRef } from "react";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import Typography from "@mui/material/Typography";
 import { green } from "@mui/material/colors";
 import { styled } from "@mui/material/styles";
 import { makeStyles } from "@mui/styles";
 import font from "../../../config/font";
+import BackButton from "../../BackButton";
 
 const Input = styled("input")({
   display: "none",
@@ -610,21 +610,7 @@ function DataUploadModal({
     >
       <div style={{ display: "flex", justifyContent: "start", marginBottom: "20px" }}>
         {dataSelectionStep !== "initial" && (
-          <div
-            onClick={handleBack}
-            style={{
-              display: "flex",
-              borderRadius: 50,
-              width: 40,
-              height: 40,
-              backgroundColor: "#EEE",
-              justifyContent: "center",
-              alignItems: "center",
-              marginRight: 30,
-            }}
-          >
-            <ArrowBackIcon style={{ cursor: "pointer" }} />
-          </div>
+          <BackButton handleBack={handleBack}></BackButton>
         )}
         <h2 style={{ marginBottom: 0 }}>{getTitle()}</h2>
       </div>

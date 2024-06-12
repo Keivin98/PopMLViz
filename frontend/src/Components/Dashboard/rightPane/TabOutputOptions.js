@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { Button } from "@material-ui/core";
 import Select from "react-select";
-import { CirclePicker } from "react-color";
 import font from "../../../config/font";
+import MarkerColor from "./MarkerColor";
 
 const TabOutputOptions = ({
   uniqueClusters,
@@ -86,8 +86,11 @@ const TabOutputOptions = ({
             />
           </div>
         </div>
+        <hr style={{ backgroundColor: "black", height: 2, opacity: 1 }} />
+        <MarkerColor setChosenInitialColor={setChosenInitialColor}></MarkerColor>
+        <hr style={{ backgroundColor: "black", height: 2, opacity: 1 }} />
 
-        <div style={{}}>
+        {/* <div style={{}}>
           <h6 style={{ paddingTop: "2%", marginBottom: "10%" }}>Marker Color:</h6>
           <div style={{ paddingBottom: "10%", paddingLeft: "2%", width: '100px'}}>
             <CirclePicker
@@ -96,7 +99,7 @@ const TabOutputOptions = ({
               onChangeComplete={(color) => setChosenInitialColor(color.hex)}
             />
           </div>
-        </div>
+        </div> */}
 
         <div style={{ display: "flex", flexDirection: "row" }}>
           <h6 style={{ paddingTop: "2%", marginBottom: "10%" }}>Marker Shape:</h6>
@@ -140,11 +143,7 @@ const TabOutputOptions = ({
           <div style={{ marginTop: "2%", display: "flex", flexDirection: "row" }}>
             <label style={{ width: "30%" }}>Format</label>
             <div style={{ width: "50%", marginLeft: "5%" }}>
-              <Select
-                options={selectActions}
-                onChange={handleFormatChange}
-                defaultValue={selectedColumn}
-              />
+              <Select options={selectActions} onChange={handleFormatChange} defaultValue={selectedColumn} />
             </div>
           </div>
         </div>
@@ -193,7 +192,7 @@ const TabOutputOptions = ({
         style={{
           marginLeft: "50%",
           marginTop: "10%",
-          fontFamily: font.primaryFont
+          fontFamily: font.primaryFont,
         }}
       >
         Submit
