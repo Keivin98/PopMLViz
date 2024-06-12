@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import InputOptions from "../../InputOptions";
 
 const Incrementor = ({ onChange }) => {
   const [numClusters, setNumClusters] = useState(2);
@@ -14,25 +15,17 @@ const Incrementor = ({ onChange }) => {
   };
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "row",
-        justifyContent: "space-between",
-        alignItems: "center",
-        // marginLeft: "15%",
-        marginTop: "5%",
-      }}
-    >
-      <div>Clusters: </div>
-      <input
-        type="number"
-        name="clicks"
-        style={{ width: "25%", height: "75%", marginLeft: "5%"}}
-        value={numClusters.toString()}
-        onChange={handleChange}
-      />
-    </div>
+    <>
+      <InputOptions label={"Clusters"}>
+        <input
+          type="number"
+          name="clicks"
+          style={{ width: 50, height: "75%", marginLeft: "5%" }}
+          value={numClusters.toString()}
+          onChange={handleChange}
+        />
+      </InputOptions>
+    </>
   );
 };
 

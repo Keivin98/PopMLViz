@@ -4,6 +4,7 @@ import { Button } from "@material-ui/core";
 import Select from "react-select";
 import font from "../../../config/font";
 import MarkerColor from "./MarkerColor";
+import InputOptions from "../../InputOptions";
 
 const TabOutputOptions = ({
   uniqueClusters,
@@ -73,33 +74,20 @@ const TabOutputOptions = ({
       num_clusters = 2;
     }
     return (
-      <div style={{ padding: "4%" }}>
-        <div style={{ display: "flex", flexDirection: "row" }}>
-          <h6 style={{ paddingTop: "2%", marginBottom: "10%" }}>Marker size:</h6>
-          <div style={{ width: "50%" }}>
-            <input
-              type="number"
-              name="clicks"
-              style={{ width: "40%", marginLeft: "10%" }}
-              value={markerSize.toString()}
-              onChange={handleIncrementChange}
-            />
-          </div>
-        </div>
-        <hr style={{ backgroundColor: "black", height: 2, opacity: 1 }} />
-        <MarkerColor setChosenInitialColor={setChosenInitialColor}></MarkerColor>
-        <hr style={{ backgroundColor: "black", height: 2, opacity: 1 }} />
+      <div style={{ padding: "4%", paddingTop: 40 }}>
+        <InputOptions label={"Marker size"}>
+          <input
+            type="number"
+            name="clicks"
+            style={{ width: "40%", marginLeft: "10%" }}
+            value={markerSize.toString()}
+            onChange={handleIncrementChange}
+          />
+        </InputOptions>
 
-        {/* <div style={{}}>
-          <h6 style={{ paddingTop: "2%", marginBottom: "10%" }}>Marker Color:</h6>
-          <div style={{ paddingBottom: "10%", paddingLeft: "2%", width: '100px'}}>
-            <CirclePicker
-              width="200px"
-              circleSize={20}
-              onChangeComplete={(color) => setChosenInitialColor(color.hex)}
-            />
-          </div>
-        </div> */}
+        <hr style={{ backgroundColor: "black", height: 2, opacity: 1 , marginTop: 50}} />
+        <MarkerColor setChosenInitialColor={setChosenInitialColor}></MarkerColor>
+        <hr style={{ backgroundColor: "black", height: 2, opacity: 1, marginBottom: 50 }} />
 
         <div style={{ display: "flex", flexDirection: "row" }}>
           <h6 style={{ paddingTop: "2%", marginBottom: "10%" }}>Marker Shape:</h6>
@@ -112,41 +100,46 @@ const TabOutputOptions = ({
           </div>
         </div>
 
-        <h6>Change plot title:</h6>
-        <div style={{ marginTop: "10px", display: "flex", flexDirection: "column" }}>
-          <div>
-            <label style={{ width: "30%" }}>Plot Title</label>
+        <div
+          style={{
+            marginTop: "10px",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <InputOptions label={"Plot title"}>
             <input
               type="text"
               style={{ marginLeft: "5%", width: "60%" }}
               onChange={(e) => setPlotTitle(e.target.value)}
             />
-          </div>
-          <div style={{ marginTop: "2%" }}>
-            <label style={{ width: "30%" }}>Width</label>
+          </InputOptions>
+
+          <InputOptions label={"Width"}>
             <input
               type="text"
-              style={{ marginLeft: "5%", width: "20%" }}
+              style={{ marginLeft: "5%", width: 60 }}
               defaultValue={width}
               onChange={(e) => setWidth(e.target.value)}
             />
-          </div>
-          <div style={{ marginTop: "2%" }}>
-            <label style={{ width: "30%" }}>Height</label>
+          </InputOptions>
+
+          <InputOptions label={"Height"}>
             <input
               type="text"
               defaultValue={height}
-              style={{ marginLeft: "5%", width: "20%" }}
+              style={{ marginLeft: "5%", width: 60  }}
               onChange={(e) => setHeight(e.target.value)}
             />
-          </div>
-          <div style={{ marginTop: "2%", display: "flex", flexDirection: "row" }}>
-            <label style={{ width: "30%" }}>Format</label>
-            <div style={{ width: "50%", marginLeft: "5%" }}>
-              <Select options={selectActions} onChange={handleFormatChange} defaultValue={selectedColumn} />
-            </div>
-          </div>
+          </InputOptions>
+
+          <InputOptions label={"Format"}>
+            <Select options={selectActions} onChange={handleFormatChange} defaultValue={selectedColumn} />
+          </InputOptions>
         </div>
+
         {showClusters && (
           <div>
             <h6 style={{ marginTop: "10%" }}>Change cluster names:</h6>

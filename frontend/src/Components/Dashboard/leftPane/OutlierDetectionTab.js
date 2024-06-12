@@ -3,12 +3,13 @@ import Select from "react-select";
 import Collapse from "react-bootstrap/Collapse";
 import { AiFillCaretDown } from "react-icons/ai";
 import { Button, Hidden, IconButton } from "@material-ui/core";
-import OutlierBlock from "./OutlierBlock"
+import OutlierBlock from "./OutlierBlock";
 import Switch from "./Switch";
 import { FcMindMap } from "react-icons/fc";
 import { AiFillDelete } from "react-icons/ai";
 import PropTypes from "prop-types";
 import font from "../../../config/font";
+import InputOptions from "../../InputOptions";
 
 const OutlierDetectionTab = ({ onChange, numFeatures, removeOutliers, allActions }) => {
   const [selectOutlierActions] = useState([
@@ -130,8 +131,8 @@ const OutlierDetectionTab = ({ onChange, numFeatures, removeOutliers, allActions
 
       <Collapse in={open}>
         <div id="example-collapse-text">
-          <div style={{ display: "flex", flexDirection: "row", }}>
-            <div style={{ width: "60%", }}>
+          <div style={{ display: "flex", flexDirection: "column" }}>
+            <InputOptions label={"Algorithm"}>
               <Select
                 options={selectOutlierActions}
                 defaultValue={selectOutlierActions.find((x) => x.value === selectedOutlierMethod)}
@@ -148,7 +149,7 @@ const OutlierDetectionTab = ({ onChange, numFeatures, removeOutliers, allActions
                 }}
                 onChange={handleOutlierChange}
               />
-            </div>
+            </InputOptions>
             <div style={{ display: "flex", flexDirection: "row", width: "20%", color: "white" }}>
               {selectedOutlierMethod < 4 && (
                 <Switch
@@ -175,7 +176,7 @@ const OutlierDetectionTab = ({ onChange, numFeatures, removeOutliers, allActions
                 fontWeight: "bold",
                 backgroundColor: selectedOutlierMethod == null ? "grey" : "#1891fb",
                 marginTop: "5%",
-                fontFamily: font.primaryFont
+                fontFamily: font.primaryFont,
               }}
               disabled={selectedOutlierMethod == null}
             >

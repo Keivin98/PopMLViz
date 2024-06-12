@@ -6,6 +6,7 @@ import Incrementor from "./Incrementor";
 import { Button } from "@material-ui/core";
 import { AiOutlineCluster } from "react-icons/ai";
 import font from "../../../config/font";
+import InputOptions from "../../InputOptions";
 
 const ClusteringAlgorithmsTab = ({ onChange }) => {
   const [selectClusterActions] = useState([
@@ -56,10 +57,7 @@ const ClusteringAlgorithmsTab = ({ onChange }) => {
             width: "80%",
           }}
         >
-          <AiOutlineCluster
-            size={30}
-            style={{ marginRight: "3%", opacity: 0.5 }}
-          />
+          <AiOutlineCluster size={30} style={{ marginRight: "3%", opacity: 0.5 }} />
           <label>Clustering Algorithms</label>
         </div>
 
@@ -68,27 +66,22 @@ const ClusteringAlgorithmsTab = ({ onChange }) => {
 
       <Collapse in={open}>
         <div id="example-collapse-text">
-          <div style={{ display: "flex", flexDirection: "column", }}>
-            <div style={{  display: "flex", flexDirection: 'row' , justifyContent: 'space-between', alignItems: 'center'}}>
-              <div style={{marginRight: "5%",}}>Algorithm: </div>
+          <div style={{ display: "flex", flexDirection: "column" }}>
+            <InputOptions label={"Algorithm"}>
               <Select
                 options={selectClusterActions}
-                defaultValue={selectClusterActions.find(
-                  (x) => x.value === selectedClusterMethod
-                )}
+                defaultValue={selectClusterActions.find((x) => x.value === selectedClusterMethod)}
                 styles={{
-                  
                   option: (provided) => ({
                     ...provided,
                     color: "black",
-                   
                   }),
                 }}
                 onChange={handleClusterChange}
               />
-            </div>
-
-            <div style={{ }}>
+            </InputOptions>
+            
+            <div style={{}}>
               <Incrementor onChange={incrementHandler} />
             </div>
           </div>
@@ -100,8 +93,7 @@ const ClusteringAlgorithmsTab = ({ onChange }) => {
               style={{
                 color: "#ebeff7",
                 fontWeight: "bold",
-                backgroundColor:
-                  selectedClusterMethod == null ? "grey" : "#1891fb",
+                backgroundColor: selectedClusterMethod == null ? "grey" : "#1891fb",
                 marginTop: "5%",
                 fontFamily: font.primaryFont,
                 marginLeft: "40%",
