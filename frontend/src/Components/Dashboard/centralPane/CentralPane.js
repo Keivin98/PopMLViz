@@ -2,7 +2,7 @@ import React from 'react';
 import { Tabs, Tab, TabList, TabPanel } from 'react-tabs';
 import BarPlot from './BarPlot';
 import Dendrogram from './Dendrogram';
-import 'react-tabs/style/react-tabs.css';
+// import 'react-tabs/style/react-tabs.css';
 import { Hidden, hexToRgb } from '@material-ui/core';
 
 const CentralPane = ({

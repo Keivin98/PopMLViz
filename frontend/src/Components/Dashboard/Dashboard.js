@@ -1400,11 +1400,11 @@ const App = () => {
     }
   };
   //processed upload
-  const handleProcessedPCA = (file) => { 
+  const handleProcessedPCA = (file) => {
     setSelectedUploadOption("PCA");
     handleFileUploadNew(file);
   };
-  
+
   const handleProcessedAdmix = (files) => {
     setSelectedUploadOption("pcairandadmixture");
     handleFileUploadNew(files[0], 1);
@@ -1416,7 +1416,6 @@ const App = () => {
     setSelectedUploadOption("Correlation Matrix");
     handleFileUploadNew(file, name);
   };
-
 
   const handleTSNE2D = (file) => {
     setSelectedUploadOption("t-SNE 2D");
@@ -1563,6 +1562,11 @@ const App = () => {
   };
 
   const runOutliers = (s) => {
+    if (!data) {
+      setIsLoading(false);
+      alert("Please make sure to upload a dataset first");
+      return;
+    }
     const inputFormat = selectedUploadOption.includes("t-SNE") ? "tsne" : "pca";
     detectOutliers(s.selectedOutlierMethod, s.columnRange, s.pressed, inputFormat);
   };
@@ -1576,6 +1580,12 @@ const App = () => {
       df: data,
       num_clusters: num_clusters,
     };
+
+    if (!data) {
+      setIsLoading(false);
+      alert("Please make sure to upload a dataset first");
+      return;
+    }
 
     setIsLoading(true);
     setProgressBarType("Loader");
@@ -1617,6 +1627,12 @@ const App = () => {
       num_clusters: num_clusters,
     };
 
+    if (!data) {
+      setIsLoading(false);
+      alert("Please make sure to upload a dataset first");
+      return;
+    }
+
     setIsLoading(true);
     setProgressBarType("Loader");
 
@@ -1657,6 +1673,12 @@ const App = () => {
       admix: [],
       selectedUploadOption: "PCA",
     };
+
+    if (!data) {
+      setIsLoading(false);
+      alert("Please make sure to upload a dataset first");
+      return;
+    }
 
     setIsLoading(true);
     setProgressBarType("Loader");
@@ -1891,7 +1913,7 @@ const App = () => {
         setIsLoading(false);
         alert("Server error! Please check the input and try again. If the error persists, refer to the docs! ");
       });
-      console.log("samplePCAAdmixDataset2");
+    console.log("samplePCAAdmixDataset2");
   };
 
   const detectOutliers = (selectedOutlierMethod, columnRange, pressed, inputFormat) => {
@@ -2181,7 +2203,9 @@ const App = () => {
 
         <div className="block-example" style={styles.rightPane}>
           {isLoading && (
-            <ProgressBarTime totalTime={ProgressBarTimeInterval} type={ProgressBarType} isLoading={isLoading} />
+            <div style={{position: 'absolute', top: "50%", left: "50%"}}>
+              <ProgressBarTime totalTime={ProgressBarTimeInterval} type={ProgressBarType} isLoading={isLoading} />
+            </div>
           )}
           {!isLoading && (
             <CentralPane

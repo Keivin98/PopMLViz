@@ -144,7 +144,6 @@ const BarPlot = (props) => {
         }
       }
 
-     
       setDataNew(data_new);
       setPositionOfUndefined(positionOfUndefined);
       Plotly.newPlot(
@@ -171,7 +170,7 @@ const BarPlot = (props) => {
     }
   };
 
-  return <div id="barPlot" style={styles.barContainer}></div>;
+  return <div id="barPlot" style={{ width: `${props.picWidth}px`, height: `${props.picHeight}px` }}></div>;
 };
 
 BarPlot.propTypes = {
@@ -184,21 +183,6 @@ BarPlot.propTypes = {
   picWidth: PropTypes.number,
   picHeight: PropTypes.number,
   picFormat: PropTypes.string,
-};
-
-const styles = {
-  barContainer: {
-    position: "fixed",
-    zIndex: 1,
-    top: 0,
-    overflowX: "hidden",
-    left: 0,
-    marginTop: "13%",
-    marginLeft: "21%",
-    width: "57%",
-    height: "74%",
-    padding: 0, // Ensure no padding
-  },
 };
 
 export default BarPlot;

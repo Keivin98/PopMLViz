@@ -75,7 +75,6 @@ const ProgressBarTime = ({ totalTime, type, isLoading }) => {
           color="#00BFFF"
           height="100"
           width="100"
-          style={{ marginLeft: "40%" }}
         />
       )}
       {type === "ProgressBar" && (

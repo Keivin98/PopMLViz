@@ -5,7 +5,7 @@ def create_app():
     app = Flask(__name__)
     
     # Allow all origins
-    CORS(app, resources={r"/api/*": {"origins": "http://localhost:3000"}})
+    CORS(app, resources={r"/api/*": {"origins": "*"}})
     
     with app.app_context():
         from .routes import main_blueprint

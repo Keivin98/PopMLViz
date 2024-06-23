@@ -10,6 +10,7 @@ import { AiFillDelete } from "react-icons/ai";
 import PropTypes from "prop-types";
 import font from "../../../config/font";
 import InputOptions from "../../InputOptions";
+import colors from "../../../config/colors";
 
 const OutlierDetectionTab = ({ onChange, numFeatures, removeOutliers, allActions }) => {
   const [selectOutlierActions] = useState([
@@ -150,13 +151,11 @@ const OutlierDetectionTab = ({ onChange, numFeatures, removeOutliers, allActions
                 onChange={handleOutlierChange}
               />
             </InputOptions>
-            <div style={{ display: "flex", flexDirection: "row", width: "20%", color: "white" }}>
+            <div style={{ display: "flex", color: "white", marginTop: 10, marginBottom: 10 }}>
               {selectedOutlierMethod < 4 && (
-                <Switch
-                  labelRight={pressed === true ? "OR" : "AND"}
-                  labelLeft={"Mode:"}
-                  onChange={handleChangeSwitch}
-                />
+                <InputOptions label={"Mode"}>
+                  <Switch labelRight={pressed === true ? "OR" : "AND"} onChange={handleChangeSwitch} />
+                </InputOptions>
               )}
             </div>
           </div>
@@ -167,30 +166,32 @@ const OutlierDetectionTab = ({ onChange, numFeatures, removeOutliers, allActions
             columnName={columnName}
           />
 
-          <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-around" }}>
+          <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-around", alignItems: 'center', marginTop: 20,}}>
             <Button
               variant="outlined"
               onClick={runOutliers}
               style={{
-                color: "#ebeff7",
+                color: "white",
                 fontWeight: "bold",
-                backgroundColor: selectedOutlierMethod == null ? "grey" : "#1891fb",
-                marginTop: "5%",
+                backgroundColor: selectedOutlierMethod == null ? "grey" : colors.blue,
                 fontFamily: font.primaryFont,
+                marginRight: 5 
               }}
               disabled={selectedOutlierMethod == null}
             >
               Detect Outliers
             </Button>
-            <IconButton
-              variant="outlined"
-              aria-label="delete"
-              size="medium"
-              style={{ color: "red", backgroundColor: "transparent", marginTop: 10 }}
-              onClick={removeOutliers}
-            >
-              <AiFillDelete />
-            </IconButton>
+            <div style={{display: "flex",  justifyContent: 'center', alignItems: 'center', width: 40, height: 40, borderRadius: 100, backgroundColor: "white"}}>
+              <IconButton
+                variant="outlined"
+                aria-label="delete"
+                size="medium"
+                style={{ color: "red", backgroundColor: "transparent"}}
+                onClick={removeOutliers}
+              >
+                <AiFillDelete />
+              </IconButton>
+            </div>
           </div>
         </div>
       </Collapse>

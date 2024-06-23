@@ -14,7 +14,7 @@ export default function InputOptions({ children, label,  }) {
         }
       }
     >
-      <label style={{maxWidth: "50%"}}>{label}:</label>
+      <label style={{maxWidth: "50%", marginRight: 10}}>{label}:</label>
       {children}
     </div>
   );

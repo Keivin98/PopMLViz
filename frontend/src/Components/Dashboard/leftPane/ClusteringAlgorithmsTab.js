@@ -7,6 +7,8 @@ import { Button } from "@material-ui/core";
 import { AiOutlineCluster } from "react-icons/ai";
 import font from "../../../config/font";
 import InputOptions from "../../InputOptions";
+import AppButton from "../../AppButton";
+import colors from "../../../config/colors";
 
 const ClusteringAlgorithmsTab = ({ onChange }) => {
   const [selectClusterActions] = useState([
@@ -80,23 +82,22 @@ const ClusteringAlgorithmsTab = ({ onChange }) => {
                 onChange={handleClusterChange}
               />
             </InputOptions>
-            
+
             <div style={{}}>
               <Incrementor onChange={incrementHandler} />
             </div>
           </div>
 
-          <div>
+          <div style={{display: "flex", alignItems: 'center', justifyContent: 'center'}}>
             <Button
               variant="outlined"
               onClick={runCluster}
               style={{
                 color: "#ebeff7",
                 fontWeight: "bold",
-                backgroundColor: selectedClusterMethod == null ? "grey" : "#1891fb",
-                marginTop: "5%",
+                backgroundColor: selectedClusterMethod == null ? "grey" : colors.blue,
+                marginTop: 20,
                 fontFamily: font.primaryFont,
-                marginLeft: "40%",
               }}
               disabled={selectedClusterMethod == null}
             >

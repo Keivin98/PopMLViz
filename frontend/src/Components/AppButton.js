@@ -2,9 +2,10 @@ import React from "react";
 import colors from "../config/colors";
 import { style } from "@mui/system";
 
-export default function AppButton({ title, color, textColor, onClick, style }) {
+export default function AppButton({ title, color, textColor, onClick, style, ...others }) {
   return (
     <div
+      {...others}
       onClick={onClick}
       style={{
         ...{

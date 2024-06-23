@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Slider from "@material-ui/core/Slider";
 import { Button } from "@material-ui/core";
 import font from "../../../config/font";
+import colors from "../../../config/colors";
 
 const OutlierBlock = ({ columnRange, numFeatures, columnName, onChange }) => {
   const [range, setRange] = useState([]);
@@ -51,7 +52,7 @@ const OutlierBlock = ({ columnRange, numFeatures, columnName, onChange }) => {
           min={1}
           max={numFeatures}
           marks
-          style={{ color: "#1891fb" }}
+          style={{ color: colors.blue}}
           disabled={disabled}
         />
         <Button
@@ -60,9 +61,9 @@ const OutlierBlock = ({ columnRange, numFeatures, columnName, onChange }) => {
           style={{
             fontWeight: "bold",
             marginLeft: "10%",
-            backgroundColor: "#ebeff7",
+            backgroundColor: colors.blue,
             fontFamily: font.primaryFont,
-            color: "#1891fb",
+            color: "white",
           }}
         >
           Apply
