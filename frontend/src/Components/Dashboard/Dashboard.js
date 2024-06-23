@@ -13,7 +13,6 @@ import UpperPane from "./UpperPane";
 import CentralPane from "./centralPane/CentralPane";
 import colors from "../../config/colors";
 
-require("dotenv").config();
 const randomColors = [
   "#3f91ba",
   "#801f65",
@@ -103,6 +102,8 @@ const App = () => {
   const [chosenInitialShape, setChosenInitialShape] = useState("diamond");
 
   //
+
+  console.log(process.env.REACT_APP_PROTOCOL);
   const handleMultiChange = (option) => {
     let act = [];
     for (var i = 0; i < columns.length; i++) {
@@ -1398,22 +1399,24 @@ const App = () => {
       reader.readAsBinaryString(file);
     }
   };
-
-  const handleProcessedPCA = (file) => {
+  //processed upload
+  const handleProcessedPCA = (file) => { 
     setSelectedUploadOption("PCA");
     handleFileUploadNew(file);
   };
-
-  const handleUnprocessedPCA = (file, name) => {
-    setSelectedUploadOption("Correlation Matrix");
-    handleFileUploadNew(file, name);
-  };
-
+  
   const handleProcessedAdmix = (files) => {
     setSelectedUploadOption("pcairandadmixture");
     handleFileUploadNew(files[0], 1);
     handleFileUploadNew(files[1], 2);
   };
+
+  //unprocessed upload
+  const handleUnprocessedPCA = (file, name) => {
+    setSelectedUploadOption("Correlation Matrix");
+    handleFileUploadNew(file, name);
+  };
+
 
   const handleTSNE2D = (file) => {
     setSelectedUploadOption("t-SNE 2D");
@@ -1888,6 +1891,7 @@ const App = () => {
         setIsLoading(false);
         alert("Server error! Please check the input and try again. If the error persists, refer to the docs! ");
       });
+      console.log("samplePCAAdmixDataset2");
   };
 
   const detectOutliers = (selectedOutlierMethod, columnRange, pressed, inputFormat) => {

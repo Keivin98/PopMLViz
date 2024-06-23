@@ -25,6 +25,8 @@ import matplotlib
 matplotlib.use('Agg')
 from matplotlib import pyplot as plt
 from flask import Blueprint
+from flask_cors import cross_origin
+
 
 
 main_blueprint = Blueprint('main', __name__)
@@ -35,7 +37,8 @@ main_blueprint = Blueprint('main', __name__)
 app = create_app()
 # Define a route to fetch the avaialable article
 UPLOAD_FOLDER = '../data'
-@app.route("/api/runkmeans", methods=["POST"], strict_slashes=False)
+@app.route("/api/runkmeans", methods=["POST"], strict_slashes=False) #1
+@cross_origin()
 def runKmeans():
 	request_df = request.get_json()['df']
 	
@@ -54,11 +57,13 @@ def runKmeans():
 	return jsonify(list(map(lambda x : int(x), kmeans)))
 
 
-@app.route("/", methods=["GET"], strict_slashes=False)
+@app.route("/", methods=["GET"], strict_slashes=False) #2 dummy endpoint
+@cross_origin()
 def helloWorld():
 	return "Hello World"
 
-@app.route("/api/runhc", methods=["POST"], strict_slashes=False)
+@app.route("/api/runhc", methods=["POST"], strict_slashes=False) #3 runs when running the ClusteringAlgorithmsTab when the algo chosen is hierarchical clustering
+@cross_origin()
 def runHC():
 	request_df = request.get_json()['df']
 	
@@ -86,11 +91,13 @@ def runHC():
 		'filename' : filename + ".png"
 		}
 
-@app.route("/api/dendrogram/<image_name>", methods=["GET"], strict_slashes=False)
+@app.route("/api/dendrogram/<image_name>", methods=["GET"], strict_slashes=False) #4 runs inside centralPane Dendrogram tab
+@cross_origin()
 def dendrogramImage(image_name):
 	return send_file("../data/dendrogram/" + image_name)
 
-@app.route("/api/runfuzzy", methods=["POST"], strict_slashes=False)
+@app.route("/api/runfuzzy", methods=["POST"], strict_slashes=False) #5 runs when running the ClusteringAlgorithmsTab when the algo chosen is fuzzy c-means
+@cross_origin()
 def runFuzzy():
 	request_df = request.get_json()['df']
 	
@@ -115,7 +122,8 @@ def runFuzzy():
 	fuzzy = fcm.predict(pca_df1)
 	return jsonify(list(map(lambda x : int(x), fuzzy)))
 
-@app.route("/api/cmtsne2d", methods=["POST"], strict_slashes=False)
+@app.route("/api/cmtsne2d", methods=["POST"], strict_slashes=False) #6
+@cross_origin()
 def cmtsne2d():
 	request_df = request.get_json()['df']
 	
@@ -140,7 +148,8 @@ def cmtsne2d():
 	return results_df.to_csv()
 
 
-@app.route("/api/cmtsne3d", methods=["POST"], strict_slashes=False)
+@app.route("/api/cmtsne3d", methods=["POST"], strict_slashes=False) #7
+@cross_origin()
 def cmtsne3d():
 	request_df = request.get_json()['df']
 	pca_df = pd.json_normalize(request_df)
@@ -159,7 +168,8 @@ def cmtsne3d():
 		
 	return results_df.to_csv()
 
-@app.route("/api/uploadCM", methods=["POST"], strict_slashes=False)
+@app.route("/api/uploadCM", methods=["POST"], strict_slashes=False) #8
+@cross_origin()
 def uploadCM():
 	target=os.path.join(UPLOAD_FOLDER,'test_docs')
 	if not os.path.isdir(target):
@@ -196,7 +206,8 @@ def random_string(length):
     pool = string.ascii_letters + string.digits
     return ''.join(random.choice(pool) for i in range(length))
 
-@app.route('/api/uploadPCAIR', methods=['POST'])
+@app.route('/api/uploadPCAIR', methods=['POST']) #9
+@cross_origin()
 def uploadPCAIR():
 	target=os.path.join(UPLOAD_FOLDER,'test_docs')
 	if not os.path.isdir(target):
@@ -210,7 +221,8 @@ def uploadPCAIR():
 	return {'filename': filename}
 
 
-@app.route('/api/runPCAIR', methods=['POST'])
+@app.route('/api/runPCAIR', methods=['POST']) #10
+@cross_origin()
 def runPCAIR():
 
 	bed_name = request.get_json()['bedName']
@@ -274,7 +286,8 @@ def runPCAIR():
 	return pd.read_csv('../data/test_docs/%s.csv' % (result_name)).to_csv()
 
 
-@app.route("/api/detectoutliers", methods=["POST"], strict_slashes=False)
+@app.route("/api/detectoutliers", methods=["POST"], strict_slashes=False) #11
+@cross_origin()
 def detectoutliers():
 	def choose_columns(x):
 		if input_format == "pca":
@@ -355,7 +368,8 @@ def detectoutliers():
 	change_to_binary = apply_combineType.apply(binary)
 	return change_to_binary.to_csv()
 
-@app.route("/api/samplePCA/<sample_id>", methods=["GET"], strict_slashes=False)
+@app.route("/api/samplePCA/<sample_id>", methods=["GET"], strict_slashes=False) #this endpoint is not being used
+@cross_origin()
 def samplePCA(sample_id):
 	if int(sample_id) == 0:
 		pca_sample = pd.read_csv("../datasets/KG_PCS.csv")
@@ -363,12 +377,14 @@ def samplePCA(sample_id):
 		pca_sample = pd.read_csv("../datasets/HGDP/hgdp.csv")
 	return pca_sample.to_csv()
 
-@app.route("/api/sampleAdmix", methods=["GET"], strict_slashes=False)
+@app.route("/api/sampleAdmix", methods=["GET"], strict_slashes=False) #12
+@cross_origin()
 def sampleAdmix():
 	admix_sample = pd.read_csv("../datasets/admix_KG.5.Q", sep=' ')
 	return admix_sample.to_csv(index=False, sep=' ')
 
-@app.route("/api/samplePCAAdmixDataset/<sample_id>", methods=["GET"], strict_slashes=False)
+@app.route("/api/samplePCAAdmixDataset/<sample_id>", methods=["GET"], strict_slashes=False) #13
+@cross_origin()
 def samplePCAAdmixDataset(sample_id):
 	if int(sample_id) == 0:
 		pca_sample = pd.read_csv("../datasets/KG_PCS.csv")
@@ -382,6 +398,7 @@ def samplePCAAdmixDataset(sample_id):
 		}
 
 @app.route("/api/")
+@cross_origin()
 def hello():
 	return "<h1 style='color:blue'>Hello There!</h1>"
 

@@ -16,6 +16,7 @@ Mako
 matplotlib
 MarkupSafe
 marshmallow
+flask-cors==3.0.10
 marshmallow-sqlalchemy
 numpy
 pandas

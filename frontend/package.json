@@ -51,7 +51,7 @@
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
-    "extends": [
+  "extends": [
       "react-app",
       "react-app/jest"
     ]
