@@ -1,8 +1,8 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Chart, registerables } from "chart.js";
 import * as XLSX from "xlsx";
-import ScatterPlot from "./ScatterPlot";
+import ScatterPlot from "./centralPane/ScatterPlot";
 import ScatterAdmix from "./ScatterAdmix";
 import ProgressBarTime from "./ProgressBarTime";
 import "react-tabs/style/react-tabs.css";
@@ -104,6 +104,9 @@ const App = () => {
   const [chosenInitialShape, setChosenInitialShape] = useState("diamond");
   const [shouldDownload, setShouldDownload] = useState(false);
   const [chosenClusterColors, setChosenClusterColors] = useState([]);
+  const [fileChanged, setFileChanged] = useState();
+  const axisRef = useRef(null);
+  const [modalOpen, setModalOpen] = useState(false);
 
   //
   useEffect(() => {
@@ -119,8 +122,13 @@ const App = () => {
   }, [shouldDownload, plotTitle, picWidth, picHeight, picFormat]);
 
   useEffect(() => {
-    // showScatterPlot();
-  }, [chosenClusterColors]);
+    if (fileChanged) {
+      axisRef.current.focus();
+      setTimeout(() => setFileChanged(false), 0); //to prevent infinite loop
+    }
+  }, [fileChanged]);
+
+  const handleClose = () => setModalOpen(false);
 
   console.log(process.env.REACT_APP_PROTOCOL);
   const handleMultiChange = (option) => {
@@ -1399,6 +1407,10 @@ const App = () => {
   };
 
   const handleFileUploadNew = (file, type) => {
+    if (!file) {
+      alert("Please select a file to upload");
+      return;
+    }
     if (selectedUploadOption === "Correlation Matrix") {
       UploadCMDatasetNew(file, type);
     } else {
@@ -1430,6 +1442,7 @@ const App = () => {
           }
         });
       };
+      handleClose();
       reader.readAsBinaryString(file);
     }
   };
@@ -1925,6 +1938,7 @@ const App = () => {
     setClusterColors([]);
     setDendrogramPath("");
     setSelectedUploadOption(dstype == 0 ? "PCA" : "pcairandadmixture");
+    setFileChanged(true);
 
     axios
       .get(
@@ -2232,6 +2246,9 @@ const App = () => {
 
       <div style={styles.splitScreen}>
         <LeftPane
+          handleClose={handleClose}
+          modalOpen={modalOpen} 
+          setModalOpen={setModalOpen}
           UploadTabChange={UploadTabChange}
           samplePCAAdmixDataset2={samplePCAAdmixDataset2}
           handleProcessedPCA={handleProcessedPCA}
@@ -2246,6 +2263,8 @@ const App = () => {
           removeOutliers={removeOutliers}
           onPressReset={onPressReset}
           styles={styles}
+          fileChanged={fileChanged}
+          setFileChanged={setFileChanged}
         />
 
         <div className="block-example" style={styles.rightPane}>
@@ -2270,6 +2289,7 @@ const App = () => {
           )}
           <div>
             <UpperPane
+              axisRef={axisRef}
               selectedOption={selectedOption}
               onValueChangeDims={onValueChangeDims}
               selectedColumns={selectedColumns}

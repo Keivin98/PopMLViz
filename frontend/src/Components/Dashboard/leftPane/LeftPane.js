@@ -7,7 +7,6 @@ import colors from "../../../config/colors";
 import { useNavigate } from "react-router-dom";
 import font from "../../../config/font";
 
-
 const LeftPane = ({
   UploadTabChange,
   samplePCAAdmixDataset2,
@@ -22,9 +21,13 @@ const LeftPane = ({
   allActions,
   removeOutliers,
   onPressReset,
-  styles
+  styles,
+  fileChanged,
+  setFileChanged,
+  handleClose,
+  modalOpen,
+  setModalOpen,
 }) => {
-
   const navigate = useNavigate();
 
   function handleHomeClick() {
@@ -32,12 +35,27 @@ const LeftPane = ({
   }
   return (
     <div className="leftpane" style={styles.leftPane}>
-       <div onClick={handleHomeClick} style={{display: "flex", flexDirection: "row", marginTop: "5px", marginBottom: "50px", alignItems: 'center', cursor: "pointer"}}>
-          <img src='../../../logo.jpeg'style={{ height:"40px",marginRight: "10px"}}/>
-          <span style={{fontSize: "20px", fontWeight: "500", fontFamily: font.primaryFont}} >PopMLVis</span>
-        </div>
+      <div
+        onClick={handleHomeClick}
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          marginTop: "5px",
+          marginBottom: "50px",
+          alignItems: "center",
+          cursor: "pointer",
+        }}
+      >
+        <img src="../../../logo.jpeg" style={{ height: "40px", marginRight: "10px" }} />
+        <span style={{ fontSize: "20px", fontWeight: "500", fontFamily: font.primaryFont }}>PopMLVis</span>
+      </div>
       <form style={{ marginTop: "1%" }}>
         <UploadAndVisualizeTab
+          modalOpen={modalOpen}
+          setModalOpen={setModalOpen}
+          handleClose={handleClose}
+          fileChanged={fileChanged}
+          setFileChanged={setFileChanged}
           onChange={UploadTabChange}
           samplePCAAdmixDataset={samplePCAAdmixDataset2}
           processedPCA={handleProcessedPCA} // handleFileUpload
@@ -61,7 +79,7 @@ const LeftPane = ({
         allActions={allActions}
         removeOutliers={removeOutliers}
       />
-      <div style={{ marginTop: "20%", display: 'flex', justifyContent: 'center' }}>
+      <div style={{ marginTop: "20%", display: "flex", justifyContent: "center" }}>
         <Button
           variant="outlined"
           style={{
@@ -70,7 +88,6 @@ const LeftPane = ({
             fontStyle: "italic",
             fontFamily: font.primaryFont,
             backgroundColor: "#ebeff7",
-            
           }}
           onClick={onPressReset}
         >

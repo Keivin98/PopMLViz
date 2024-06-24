@@ -17,11 +17,15 @@ const UpperPane = ({
   handleSelectYChange,
   handleSelectZChange,
   selectedUploadOption,
+  axisRef,
 }) => {
   return (
     <div className="radio" style={styles.dimensions}>
-      <FormControl style={{ marginLeft: "2%", alignItems: "center", flexDirection: "row",  }}>
-        <FormLabel style={{ marginRight: "30px", fontFamily: font.primaryFont }} id="demo-row-radio-buttons-group-label">
+      <FormControl style={{ marginLeft: "2%", alignItems: "center", flexDirection: "row" }}>
+        <FormLabel
+          style={{ marginRight: "30px", fontFamily: font.primaryFont }}
+          id="demo-row-radio-buttons-group-label"
+        >
           Plot
         </FormLabel>
         <RadioGroup
@@ -53,13 +57,14 @@ const UpperPane = ({
         </RadioGroup>
       </FormControl>
       {/* <div style={{ backgroundColor: colors.gray, width: "1px" }}></div> */}
-      <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexDirection: "row" }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexDirection: "row" }}>
         <div style={styles.dropDown}>
           <label style={{ width: "25%", marginLeft: "12%" }}>
             <h6 style={styles.axisText}> X-axis </h6>
           </label>
           <div style={{ width: "100%" }}>
             <Select
+              ref={axisRef}
               value={{
                 value: selectedColumns[0] == null ? "None" : selectedColumns[0],
                 label: selectedColumns[0] == null ? "None" : selectedColumns[0],
@@ -129,12 +134,12 @@ const styles = {
   dropDown: {
     // width: "150px",
     // marginLeft: "2%",
-    marginLeft: "10px"
+    marginLeft: "10px",
     // height: "50px",
   },
   axisText: {
-    width: 65
-  }
+    width: 65,
+  },
 };
 
 export default UpperPane;

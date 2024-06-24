@@ -15,6 +15,7 @@ const TabOutputOptions = ({
   markerSize: initialMarkerSize,
   dendrogramPath,
   parentCallback,
+  DownloadButton,
   clusterColors,
   setClusterColors,
   downloadPlot,
@@ -176,7 +177,12 @@ const TabOutputOptions = ({
               {[...Array(num_clusters)].map((_, index) => (
                 <>
                   <hr style={{ backgroundColor: "black", height: 2, opacity: 1 }} />
-                  <MarkerColor name={"Cluster " + index} index={index} clusterColors={chosenClusterColors} setChosenInitialColor={setChosenClusterColors}></MarkerColor>
+                  <MarkerColor
+                    name={"Cluster " + index}
+                    index={index}
+                    clusterColors={chosenClusterColors}
+                    setChosenInitialColor={setChosenClusterColors}
+                  ></MarkerColor>
                   {/* <hr style={{ backgroundColor: "black", height: 2, opacity: 1, marginBottom: 50 }} /> */}
                 </>
               ))}
@@ -215,7 +221,7 @@ const TabOutputOptions = ({
               markerSize,
               chosenInitialColor,
               selectedInitialShape,
-              chosenClusterColors
+              chosenClusterColors,
             });
             event.preventDefault();
           }}

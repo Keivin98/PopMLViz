@@ -37,17 +37,18 @@ const useStyles = makeStyles({
 //       textTransform: "none !important",
 //       width: 150,
 //       // marginLeft: "20px !important",
-  
+
 //       "&:hover": {
 //         backgroundColor: "rgb(245, 246, 247) !important",
 //         color: "#1abc9c !important",
 //         borderColor: "#1abc9c !important",
-  
+
 //       },
 //     },
 //   });
 
 function DataUploadModal({
+  handleClose,
   samplePCAAdmixDataset,
   processedPCA,
   processedAdmix,
@@ -55,21 +56,24 @@ function DataUploadModal({
   tsne2d,
   tsne3d,
   runPCAir,
+  fileChanged,
+  setFileChanged,
+  modalOpen,
+  setModalOpen,
 }) {
-  const classes = useStyles();
-
-  const [modalOpen, setModalOpen] = useState(false);
-  const [dataSelectionStep, setDataSelectionStep] = useState("initial");
-  const [dataProcessed, setDataProcessed] = useState(false);
-  const [selectedOption, setSelectedOption] = useState("");
-  const [files, setFiles] = useState({
+  const defaultFile = {
     PCA: { processed: null, unprocessed: null },
     Admix: null,
     ".bed": null,
     ".bim": null,
     ".fam": null,
     Kinship: null,
-  });
+  };
+  const classes = useStyles();
+  const [dataSelectionStep, setDataSelectionStep] = useState("initial");
+  const [dataProcessed, setDataProcessed] = useState(false);
+  const [selectedOption, setSelectedOption] = useState("");
+  const [files, setFiles] = useState(defaultFile);
 
   // State to keep track of drag over for each type
   const [dragOver, setDragOver] = useState({
@@ -175,7 +179,6 @@ function DataUploadModal({
     setSelectedOption("");
     setModalOpen(true);
   };
-  const handleClose = () => setModalOpen(false);
 
   const handleDataSelection = (selection) => {
     if (selection === "own") {
@@ -227,6 +230,10 @@ function DataUploadModal({
   };
 
   const handlePCAirFiles = async () => {
+    if (files !== defaultFile) {
+      alert("Please upload all the necessary files for PC-AiR!");
+      return;
+    }
     let newFilenames = {};
     const uploadTasks = [".bed", ".bim", ".fam", "Kinship"].map(async (filename) => {
       const data = new FormData();
@@ -350,7 +357,11 @@ function DataUploadModal({
                 <Button
                   variant="contained"
                   style={{ width: "60%", margin: "auto" }}
-                  onClick={() => samplePCAAdmixDataset(0, index)}
+                  onClick={() => {
+                    setFileChanged(true);
+                    samplePCAAdmixDataset(0, index);
+                    handleClose()
+                  }}
                 >
                   {" "}
                   <Typography>{val}</Typography>
@@ -367,7 +378,11 @@ function DataUploadModal({
                 <Button
                   variant="contained"
                   style={{ width: "60%", margin: "auto" }}
-                  onClick={() => samplePCAAdmixDataset(1, index)}
+                  onClick={() => {
+                    setFileChanged(true);
+                    samplePCAAdmixDataset(1, index);
+                    handleClose()
+                  }}
                 >
                   {" "}
                   <Typography>{val}</Typography>
@@ -398,9 +413,10 @@ function DataUploadModal({
                   if (dataProcessed) {
                     processedPCA(files.PCA.processed);
                   } else {
-                    unprocessedPCA(files.PCA.unprocessed, files.PCA.unprocessed.name);
+                    if(!files)
+                       unprocessedPCA(files.PCA.unprocessed, files.PCA.unprocessed.name);
                   }
-                  handleClose();
+                  setFileChanged(true);
                 }}
               >
                 Submit
@@ -428,7 +444,7 @@ function DataUploadModal({
                 style={{ marginTop: "20px", backgroundColor: green[500], color: "white" }}
                 onClick={() => {
                   processedAdmix([files.PCA.processed, files.Admix]);
-                  handleClose();
+                  setFileChanged(true);
                 }}
               >
                 Submit
@@ -454,7 +470,10 @@ function DataUploadModal({
               <Button
                 variant="contained"
                 style={{ marginTop: "20px", backgroundColor: green[500], color: "white" }}
-                onClick={async () => await handlePCAirFiles()}
+                onClick={async () => {
+                  await handlePCAirFiles();
+                  setFileChanged(true);
+                }}
               >
                 Submit
               </Button>
@@ -474,7 +493,7 @@ function DataUploadModal({
                 style={{ marginTop: "20px", backgroundColor: green[500], color: "white" }}
                 onClick={() => {
                   tsne2d(files.PCA.unprocessed);
-                  handleClose();
+                  setFileChanged(true);
                 }}
               >
                 Submit
@@ -495,7 +514,7 @@ function DataUploadModal({
                 style={{ marginTop: "20px", backgroundColor: green[500], color: "white" }}
                 onClick={() => {
                   tsne3d(files.PCA.unprocessed);
-                  handleClose();
+                  setFileChanged(true);
                 }}
               >
                 Submit
@@ -609,9 +628,7 @@ function DataUploadModal({
       }}
     >
       <div style={{ display: "flex", justifyContent: "start", marginBottom: "20px" }}>
-        {dataSelectionStep !== "initial" && (
-          <BackButton handleBack={handleBack}></BackButton>
-        )}
+        {dataSelectionStep !== "initial" && <BackButton handleBack={handleBack}></BackButton>}
         <h2 style={{ marginBottom: 0 }}>{getTitle()}</h2>
       </div>
       {renderOptions()}
@@ -622,7 +639,12 @@ function DataUploadModal({
   return (
     <div>
       <div style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <Button style={{fontFamily: 'Poppins, san-serif'}} variant="outlined" className={classes.customButton} onClick={handleOpen}>
+        <Button
+          style={{ fontFamily: "Poppins, san-serif" }}
+          variant="outlined"
+          className={classes.customButton}
+          onClick={handleOpen}
+        >
           Choose Data
         </Button>
       </div>

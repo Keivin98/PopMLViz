@@ -7,8 +7,21 @@ import { FcScatterPlot } from "react-icons/fc";
 import DataUploadModal from "./DataUploadModal";
 
 function UploadAndVisualizeTab(prop) {
-  let { onChange, samplePCAAdmixDataset, processedPCA, processedAdmix, unprocessedPCA, tsne2d, tsne3d, runPCAir } =
-    prop;
+  let {
+    onChange,
+    samplePCAAdmixDataset,
+    processedPCA,
+    processedAdmix,
+    unprocessedPCA,
+    tsne2d,
+    tsne3d,
+    runPCAir,
+    fileChanged,
+    setFileChanged,
+    handleClose,
+    modalOpen,
+    setModalOpen,
+  } = prop;
   const [selectedUploadOption, setSelectedUploadOption] = useState(null);
   // const [selectedFile, setSelectedFile] = useState(null);
   const [open, setOpen] = useState(false);
@@ -43,6 +56,11 @@ function UploadAndVisualizeTab(prop) {
           {/* <FcScatterPlot size={30} style={{ marginRight: "3%", opacity: 0.5 }} /> */}
           {/* <label> Upload and Preprocess </label> */}
           <DataUploadModal
+            modalOpen={modalOpen}
+            setModalOpen={setModalOpen}
+            handleClose={handleClose}
+            fileChanged={fileChanged}
+            setFileChanged={setFileChanged}
             samplePCAAdmixDataset={samplePCAAdmixDataset}
             processedPCA={processedPCA}
             processedAdmix={processedAdmix}

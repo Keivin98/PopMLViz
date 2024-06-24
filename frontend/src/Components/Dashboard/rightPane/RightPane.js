@@ -18,6 +18,7 @@ const RightPane = ({
   handleShapeColumns,
   OutlierData,
   data,
+  DownloadButton,
   handleMetaDataUpload,
   onInputMetadataClick,
   allActions,
@@ -224,6 +225,7 @@ const RightPane = ({
               clusterColors={clusterColors}
               showClusters={showOutputOptions}
               markerSize={markerSize}
+              DownloadButton={DownloadButton}
             />
           </TabPanel>
         </div>

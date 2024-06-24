@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import { Chart, registerables } from "chart.js";
 import * as XLSX from "xlsx";
 import Select from "react-select";
-import ScatterPlot from "../Components/Dashboard/ScatterPlot";
+import ScatterPlot from "../Components/Dashboard/centralPane/ScatterPlot";
 import BarPlot from "../Components/Dashboard/centralPane/BarPlot";
 import UploadAndVisualizeTab from "../Components/Dashboard/leftPane/UploadAndVisualizeTab";
 import DimensionalityReductionTab from "../Components/DimensionalityReductionTab";

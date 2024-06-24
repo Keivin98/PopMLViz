@@ -82,7 +82,10 @@ const DownloadData = ({
     return allData.map((elem, index) => {
       return {
         ...elem,
-        admixCluster: additionalColumn[index] === undefinedValue ? "undefined" : clusterNames[additionalColumn[index]] ?? additionalColumn[index],
+        admixCluster:
+          additionalColumn[index] === undefinedValue
+            ? "undefined"
+            : clusterNames[additionalColumn[index]] ?? additionalColumn[index],
       };
     });
   };
@@ -97,7 +100,8 @@ const DownloadData = ({
         let cluster = initialAdmixMode === 0 ? assignClusterToRow1(row_i) : assignClusterToRow2(row_i);
         clusters.push(cluster);
       }
-      const mergedData = downloadableData.length > 0 ? mergeData(downloadableData, clusters) : mergeData(data, clusters);
+      const mergedData =
+        downloadableData.length > 0 ? mergeData(downloadableData, clusters) : mergeData(data, clusters);
       setDownloadableData(mergedData);
       setAdmixCheck(!admixCheck);
     }
@@ -136,7 +140,7 @@ const DownloadData = ({
           />
           {"\t"} Include Admix Clustering
         </label>
-        <Button style={{fontFamily: font.primaryFont}} variant="outlined">
+        <Button style={{ fontFamily: font.primaryFont }} variant="outlined">
           <CSVLink
             data={downloadableData.length === 0 ? data : downloadableData}
             filename={"popmlvis_analysis.csv"}
