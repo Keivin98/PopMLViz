@@ -34,7 +34,7 @@ const RightPane = ({
   markerSize,
   handleTabOutputCallback,
   showOutputOptions,
-
+  downloadPlot,
 }) => {
   return (
     <Tabs style={styles.optionsContainer}>
@@ -174,6 +174,7 @@ const RightPane = ({
           </TabPanel>
           <TabPanel style={styles.outputSettings}>
             <TabOutputOptions
+              downloadPlot={downloadPlot}
               uniqueClusters={numClusters}
               parentCallback={handleTabOutputCallback}
               showClusters={showOutputOptions}

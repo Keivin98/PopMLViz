@@ -2,11 +2,12 @@ import React from "react";
 import colors from "../config/colors";
 import { style } from "@mui/system";
 
-export default function AppButton({ title, color, textColor, onClick, style, ...others }) {
+export default function AppButton({ title, color, textColor, onClick, style, className, ...others }) {
   return (
     <div
       {...others}
       onClick={onClick}
+      className={className}
       style={{
         ...{
           display: "flex",

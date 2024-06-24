@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Chart, registerables } from "chart.js";
 import * as XLSX from "xlsx";
 import ScatterPlot from "./ScatterPlot";
@@ -12,6 +12,8 @@ import RightPane from "./rightPane/RightPane";
 import UpperPane from "./UpperPane";
 import CentralPane from "./centralPane/CentralPane";
 import colors from "../../config/colors";
+import * as Plotly from "plotly.js";
+import BarPlot from "./centralPane/BarPlot";
 
 const randomColors = [
   "#3f91ba",
@@ -100,8 +102,20 @@ const App = () => {
   const [admixMode, setAdmixMode] = useState(0);
   const [chosenInitialColor, setChosenInitialColor] = useState("#f44336");
   const [chosenInitialShape, setChosenInitialShape] = useState("diamond");
+  const [shouldDownload, setShouldDownload] = useState(false);
 
   //
+  useEffect(() => {
+    if (shouldDownload) {
+      Plotly.downloadImage(BarPlot, {
+        filename: plotTitle,
+        width: picWidth,
+        height: picHeight,
+        format: picFormat,
+      });
+      setShouldDownload(false); // Reset the download trigger
+    }
+  }, [shouldDownload, plotTitle, picWidth, picHeight, picFormat]);
 
   console.log(process.env.REACT_APP_PROTOCOL);
   const handleMultiChange = (option) => {
@@ -665,6 +679,17 @@ const App = () => {
     if (data != null) {
       for (var i = 0; i < data.length; i++) {
         let rowCol = clusterColors[i];
+
+        if (!x_clusters[rowCol]) x_clusters[rowCol] = [];
+        if (!y_clusters[rowCol]) y_clusters[rowCol] = [];
+        if (DIM === 2 && !z_clusters[rowCol]) z_clusters[rowCol] = [];
+
+        if (outliers) {
+          if (!x_clusters_outliers[rowCol]) x_clusters_outliers[rowCol] = [];
+          if (!y_clusters_outliers[rowCol]) y_clusters_outliers[rowCol] = [];
+          if (DIM === 2 && !z_clusters_outliers[rowCol]) z_clusters_outliers[rowCol] = [];
+        }
+
         if (outliers && coloredData[i]) {
           if (DIM === 0) {
             x_clusters_outliers[rowCol].push(i);
@@ -731,7 +756,7 @@ const App = () => {
             });
           }
         }
-        var name = isNaN(clusterNames[k]) ? clusterNames[k] : "Cluster " + clusterNames[k];
+        var name = clusterNames && clusterNames[k] ? clusterNames[k] : "Cluster " + k;
         if (DIM === 2) {
           data_new.push({
             name: name,
@@ -1605,7 +1630,7 @@ const App = () => {
       .then((r) => {
         var cluster_names = {};
         [...Array(num_clusters)].map((x, index) => {
-          cluster_names[index] = index;
+          cluster_names[index] = "Cluster "+ index;
         });
         setIsLoading(false);
         setClusterColors(r.data);
@@ -1649,7 +1674,7 @@ const App = () => {
       .then((r) => {
         var cluster_names = {};
         [...Array(num_clusters)].map((x, index) => {
-          cluster_names[index] = index;
+          cluster_names[index] = "Cluster "+ index;
         });
         setIsLoading(false);
         setClusterColors(r.data.result);
@@ -1697,7 +1722,7 @@ const App = () => {
       .then((r) => {
         var cluster_names = {};
         [...Array(num_clusters)].map((x, index) => {
-          cluster_names[index] = index;
+          cluster_names[index] = "Cluster "+ index;
         });
         setIsLoading(false);
         setClusterColors(r.data);
@@ -2126,7 +2151,7 @@ const App = () => {
   };
 
   const handleTabOutputCallback = (outputState) => {
-    setClusterNames(outputState.cluster_names);
+    setClusterNames(outputState.clusterNames);
     setPlotTitle(outputState.plotTitle);
     setPicWidth(outputState.width);
     setPicHeight(outputState.height);
@@ -2134,6 +2159,13 @@ const App = () => {
     setChosenInitialColor(outputState.chosenInitialColor);
     setChosenInitialShape(outputState.selectedInitialShape.label);
     setMarkerSize(outputState.markerSize === undefined ? markerSize : outputState.markerSize);
+  };
+  const downloadPlot = (outputState) => {
+    setPlotTitle(outputState.plotTitle);
+    setPicWidth(outputState.width);
+    setPicHeight(outputState.height);
+    setPicFormat(outputState.selectedColumn);
+    setShouldDownload(true);
   };
 
   const handleAdmixOptionsCallback = (state) => {
@@ -2203,7 +2235,7 @@ const App = () => {
 
         <div className="block-example" style={styles.rightPane}>
           {isLoading && (
-            <div style={{position: 'absolute', top: "50%", left: "50%"}}>
+            <div style={{ position: "absolute", top: "50%", left: "50%" }}>
               <ProgressBarTime totalTime={ProgressBarTimeInterval} type={ProgressBarType} isLoading={isLoading} />
             </div>
           )}
@@ -2238,6 +2270,7 @@ const App = () => {
             />
 
             <RightPane
+              downloadPlot={downloadPlot}
               selectedUploadOption={selectedUploadOption}
               selectActions={selectActions}
               multiValue={multiValue}

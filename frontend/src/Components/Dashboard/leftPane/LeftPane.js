@@ -61,7 +61,7 @@ const LeftPane = ({
         allActions={allActions}
         removeOutliers={removeOutliers}
       />
-      <div style={{ marginTop: "20%" }}>
+      <div style={{ marginTop: "20%", display: 'flex', justifyContent: 'center' }}>
         <Button
           variant="outlined"
           style={{
@@ -70,7 +70,7 @@ const LeftPane = ({
             fontStyle: "italic",
             fontFamily: font.primaryFont,
             backgroundColor: "#ebeff7",
-            marginLeft: "32%",
+            
           }}
           onClick={onPressReset}
         >

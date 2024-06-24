@@ -29,6 +29,13 @@ const ClusteringAlgorithmsTab = ({ onChange }) => {
   const [selectedClusterMethod, setSelectedClusterMethod] = useState(null);
   const [open, setOpen] = useState(false);
 
+  const customStyles = {
+    control: (provided) => ({
+      ...provided,
+      width: 100,
+    }),
+  };
+
   const handleClusterChange = (option) => {
     setSelectedClusterMethod(option.value);
   };
@@ -77,6 +84,10 @@ const ClusteringAlgorithmsTab = ({ onChange }) => {
                   option: (provided) => ({
                     ...provided,
                     color: "black",
+                  }),
+                  control: (provided) => ({
+                    ...provided,
+                    // width: 100,
                   }),
                 }}
                 onChange={handleClusterChange}

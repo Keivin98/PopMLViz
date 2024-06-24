@@ -7,6 +7,7 @@ import MarkerColor from "./MarkerColor";
 import InputOptions from "../../InputOptions";
 import AppButton from "../../AppButton";
 import { MarginRounded } from "@mui/icons-material";
+import * as Plotly from "plotly.js";
 
 const TabOutputOptions = ({
   uniqueClusters,
@@ -14,6 +15,7 @@ const TabOutputOptions = ({
   markerSize: initialMarkerSize,
   dendrogramPath,
   parentCallback,
+  downloadPlot,
 }) => {
   const [clusterNames, setClusterNames] = useState({});
   const [plotTitle, setPlotTitle] = useState("");
@@ -24,6 +26,13 @@ const TabOutputOptions = ({
   const [markerSize, setMarkerSize] = useState(4);
   const [chosenInitialColor, setChosenInitialColor] = useState("#f44336");
   const [selectedInitialShape, setSelectedInitialShape] = useState({ value: "circle", label: "circle" });
+
+  const customStyles = {
+    control: (provided) => ({
+      ...provided,
+      width: 100,
+    }),
+  };
 
   const selectActions = [
     { value: "png", label: "png" },
@@ -76,11 +85,14 @@ const TabOutputOptions = ({
       num_clusters = 2;
     }
     return (
-      <div style={{ padding: "4%", paddingTop: 10 }}>
-        <hr style={{ backgroundColor: "black", height: 2, opacity: 1 }} />
-        <MarkerColor setChosenInitialColor={setChosenInitialColor}></MarkerColor>
-        <hr style={{ backgroundColor: "black", height: 2, opacity: 1, marginBottom: 50 }} />
-
+      <div style={{ padding: "4%", paddingTop: 10, marginBottom: "60px" }}>
+        {!showClusters && (
+          <>
+            <hr style={{ backgroundColor: "black", height: 2, opacity: 1 }} />
+            <MarkerColor setChosenInitialColor={setChosenInitialColor}></MarkerColor>
+            <hr style={{ backgroundColor: "black", height: 2, opacity: 1, marginBottom: 50 }} />{" "}
+          </>
+        )}
         <div
           style={{
             marginTop: "10px",
@@ -101,6 +113,7 @@ const TabOutputOptions = ({
           </InputOptions>
           <InputOptions label={"Marker Shape"}>
             <Select
+              styles={customStyles}
               options={selectShapeOptions}
               onChange={handleSelectShapeOptions}
               defaultValue={selectedInitialShape}
@@ -141,18 +154,17 @@ const TabOutputOptions = ({
           <div>
             <h6 style={{ marginTop: "10%" }}>Change cluster names:</h6>
             {[...Array(num_clusters)].map((_, index) => (
-              <div style={{ marginTop: "10px" }} key={index}>
-                <label style={{ width: "30%" }}>Cluster {index}</label>
+              <InputOptions label={`Cluster ${index}`}>
                 <input
                   type="text"
                   name={index}
-                  style={{ marginLeft: "5%", width: "60%" }}
+                  style={{ marginLeft: "5%", width: "50%" }}
                   onChange={(e) => {
                     const newClusterNames = { ...clusterNames, [index]: e.target.value };
                     setClusterNames(newClusterNames);
                   }}
                 />
-              </div>
+              </InputOptions>
             ))}
           </div>
         )}
@@ -161,11 +173,21 @@ const TabOutputOptions = ({
   };
 
   return (
-    <div>
+    <div
+      style={{
+        display: "flex",
+        flex: 1,
+        flexDirection: "column",
+        justifyContent: "space-between",
+        alignItems: "center",
+      }}
+    >
       {showOutputOptions()}
-      <div style={{display: "flex", justifyContent: 'center', bottom: 10 }}>
+      <div
+        style={{ display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "center", bottom: 10 }}
+      >
         <AppButton
-          style={ {bottom: 10, position: "absolute", width: "90%",} }
+          style={{ width: 200 }}
           title={"Submit"}
           onClick={(event) => {
             parentCallback({
@@ -182,6 +204,24 @@ const TabOutputOptions = ({
             event.preventDefault();
           }}
         ></AppButton>
+        {/* <AppButton
+          style={{ width: 50, height: 50, borderRadius: 100 }}
+          title={"Download Image"}
+          onClick={(event) => {
+            downloadPlot({
+              clusterNames,
+              plotTitle,
+              selectedColumn,
+              width,
+              height,
+              image,
+              markerSize,
+              chosenInitialColor,
+              selectedInitialShape,
+            });
+            event.preventDefault();
+          }}
+        ></AppButton> */}
       </div>
       {/* <Button
         variant="outlined"

@@ -52,7 +52,7 @@ const BarPlot = (props) => {
 
   useEffect(() => {
     createBarPlot();
-  }, [props.data, props.clusterNames, props.picWidth, props.picHeight, props.picFormat, props.plotTitle, props.alphaVal, props.certaintyVal, props.admixMode]);
+  }, [props.data, props.clusterNames, props.picWidth, props.picHeight, props.picFormat, props.plotTitle, props.alphaVal, props.certaintyVal, props.admixMode, ]);
 
   const createBarPlot = () => {
     var colors = [];
