@@ -103,6 +103,9 @@ const styles = {
   ProgressBar: {
     width: "50%",
     marginRight: "25%",
+    position: "absolute",
+    top: "50%",
+    left: "50%",
   },
 };
 

@@ -27,6 +27,7 @@ const RightPane = ({
   admix,
   handleAdmixOptionsCallback,
   columnRange,
+  setClusterColors,
   clusterColors,
   clusterNames,
   admixMode,
@@ -174,6 +175,7 @@ const RightPane = ({
           </TabPanel>
           <TabPanel style={styles.outputSettings}>
             <TabOutputOptions
+              setClusterColors={setClusterColors}
               downloadPlot={downloadPlot}
               uniqueClusters={numClusters}
               parentCallback={handleTabOutputCallback}
@@ -219,6 +221,7 @@ const RightPane = ({
             <TabOutputOptions
               uniqueClusters={numClusters}
               parentCallback={handleTabOutputCallback}
+              clusterColors={clusterColors}
               showClusters={showOutputOptions}
               markerSize={markerSize}
             />

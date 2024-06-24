@@ -19,7 +19,8 @@ const CentralPane = ({
   picWidth,
   picHeight,
   picFormat,
-  admixMode
+  admixMode,
+  clusterColors
 }) => (
   <div style={{}}>
     <Tabs style={styles.dendrogramTabs}>
@@ -40,6 +41,7 @@ const CentralPane = ({
           alphaVal={alphaVal}
           certaintyVal={certaintyVal}
           clusterNames={{ ...clusterNames }}
+          clusterColors={clusterColors}
           onChange={clusterNumberChange}
           AdmixOptionsLabelCheck={admixOptionsLabelCheck}
           plotTitle={plotTitle}

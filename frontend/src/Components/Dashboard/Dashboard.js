@@ -72,11 +72,11 @@ const App = () => {
   const [selectedOption, setSelectedOption] = useState(null);
   const [selectedUploadOption, setSelectedUploadOption] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [clusterColors, setClusterColors] = useState([]);
+  const [clusterColors, setClusterColors] = useState({});
   const [show, setShow] = useState(true);
   const [multiValue, setMultiValue] = useState([]);
   const [describingValues, setDescribingValues] = useState([]);
-  const [selectedDescribingColumn, setSelectedDescribingColumn] = useState(); //this state never been used,but it is added idk why
+  const [selectedDescribingColumn, setSelectedDescribingColumn] = useState();
   const [selectedDescribingColumnColor, setSelectedDescribingColumnColor] = useState({ value: "None", label: "None" });
   const [selectedDescribingColumnShape, setSelectedDescribingColumnShape] = useState({ value: "None", label: "None" });
   const [sampleDatasets, setSampleDatasets] = useState([
@@ -103,6 +103,7 @@ const App = () => {
   const [chosenInitialColor, setChosenInitialColor] = useState("#f44336");
   const [chosenInitialShape, setChosenInitialShape] = useState("diamond");
   const [shouldDownload, setShouldDownload] = useState(false);
+  const [chosenClusterColors, setChosenClusterColors] = useState([]);
 
   //
   useEffect(() => {
@@ -116,6 +117,10 @@ const App = () => {
       setShouldDownload(false); // Reset the download trigger
     }
   }, [shouldDownload, plotTitle, picWidth, picHeight, picFormat]);
+
+  useEffect(() => {
+    // showScatterPlot();
+  }, [chosenClusterColors]);
 
   console.log(process.env.REACT_APP_PROTOCOL);
   const handleMultiChange = (option) => {
@@ -673,7 +678,11 @@ const App = () => {
     var colors = [];
 
     for (let j = 0; j < numClusters; j += 1) {
-      colors.push(randomColors[j]);
+      if (chosenClusterColors && chosenClusterColors[j]) {
+        colors.push(chosenClusterColors[j]);
+      } else {
+        colors.push(randomColors[j]);
+      }
     }
 
     if (data != null) {
@@ -1630,7 +1639,7 @@ const App = () => {
       .then((r) => {
         var cluster_names = {};
         [...Array(num_clusters)].map((x, index) => {
-          cluster_names[index] = "Cluster "+ index;
+          cluster_names[index] = "Cluster " + index;
         });
         setIsLoading(false);
         setClusterColors(r.data);
@@ -1674,7 +1683,7 @@ const App = () => {
       .then((r) => {
         var cluster_names = {};
         [...Array(num_clusters)].map((x, index) => {
-          cluster_names[index] = "Cluster "+ index;
+          cluster_names[index] = "Cluster " + index;
         });
         setIsLoading(false);
         setClusterColors(r.data.result);
@@ -1722,7 +1731,7 @@ const App = () => {
       .then((r) => {
         var cluster_names = {};
         [...Array(num_clusters)].map((x, index) => {
-          cluster_names[index] = "Cluster "+ index;
+          cluster_names[index] = "Cluster " + index;
         });
         setIsLoading(false);
         setClusterColors(r.data);
@@ -2152,6 +2161,7 @@ const App = () => {
 
   const handleTabOutputCallback = (outputState) => {
     setClusterNames(outputState.clusterNames);
+    setChosenClusterColors(outputState.chosenClusterColors);
     setPlotTitle(outputState.plotTitle);
     setPicWidth(outputState.width);
     setPicHeight(outputState.height);
@@ -2214,6 +2224,11 @@ const App = () => {
   return (
     <div>
       {/* <NavigationBar></NavigationBar> */}
+      {isLoading && (
+        <div style={{}}>
+          <ProgressBarTime totalTime={ProgressBarTimeInterval} type={"Loader"} isLoading={isLoading} />
+        </div>
+      )}
 
       <div style={styles.splitScreen}>
         <LeftPane
@@ -2234,11 +2249,6 @@ const App = () => {
         />
 
         <div className="block-example" style={styles.rightPane}>
-          {isLoading && (
-            <div style={{ position: "absolute", top: "50%", left: "50%" }}>
-              <ProgressBarTime totalTime={ProgressBarTimeInterval} type={ProgressBarType} isLoading={isLoading} />
-            </div>
-          )}
           {!isLoading && (
             <CentralPane
               showScatterPlot={showScatterPlot}
@@ -2248,6 +2258,7 @@ const App = () => {
               alphaVal={alphaVal}
               certaintyVal={certaintyVal}
               clusterNames={clusterNames}
+              clusterColors={clusterColors}
               clusterNumberChange={clusterNumberChange}
               admixOptionsLabelCheck={admixOptionsLabelCheck}
               plotTitle={plotTitle}
@@ -2292,6 +2303,7 @@ const App = () => {
               handleAdmixOptionsCallback={handleAdmixOptionsCallback}
               columnRange={columnRange}
               clusterColors={clusterColors}
+              setClusterColors={setClusterColors}
               clusterNames={clusterNames}
               numClusters={numClusters}
               markerSize={markerSize}

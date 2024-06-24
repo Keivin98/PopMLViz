@@ -4,19 +4,18 @@ import { AiFillCaretDown } from "react-icons/ai";
 import { IoIosColorPalette } from "react-icons/io";
 import { CirclePicker } from "react-color";
 
-
-export default function MarkerColor({setChosenInitialColor}) {
+export default function MarkerColor({ setChosenInitialColor, name, clusterColors, index }) {
   const [open, setOpen] = useState(false);
+
   return (
-    <div style={{ }}>
+    <div style={{}}>
       <div
         style={{
           marginBottom: "5%",
           justifyContent: "space-between",
           display: "flex",
           flexDirection: "row",
-          alignItems: 'center',
-         
+          alignItems: "center",
         }}
         onClick={() => setOpen(!open)}
       >
@@ -25,19 +24,33 @@ export default function MarkerColor({setChosenInitialColor}) {
             display: "flex",
             flexDirection: "row",
             width: "90%",
-            alignItems: 'center',
+            alignItems: "center",
           }}
         >
           <IoIosColorPalette size={30} style={{ marginRight: 20, opacity: 0.5 }} />
-          <label>Marker Color</label>
+          <label>{name ? name : "Marker Color"}</label>
         </div>
 
         <AiFillCaretDown style={{ marginTop: "3%" }} />
       </div>
 
       <Collapse style={{}} in={open}>
-        <div style={{ }}>
-          <CirclePicker c width="100%" style={{marginTop: 20,}} circleSize={20} onChangeComplete={(color) => setChosenInitialColor(color.hex)} />
+        <div style={{}}>
+          <CirclePicker
+            c
+            width="100%"
+            style={{ marginTop: 20 }}
+            circleSize={20}
+            onChangeComplete={(color) => {
+              if (clusterColors) {
+                const newClusterColors = [...clusterColors]; 
+                newClusterColors[index] = color.hex;
+                setChosenInitialColor(newClusterColors);
+              } else {
+                setChosenInitialColor(color.hex);
+              }
+            }}
+          />
         </div>
       </Collapse>
     </div>

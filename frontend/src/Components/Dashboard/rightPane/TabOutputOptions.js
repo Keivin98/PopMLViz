@@ -15,6 +15,8 @@ const TabOutputOptions = ({
   markerSize: initialMarkerSize,
   dendrogramPath,
   parentCallback,
+  clusterColors,
+  setClusterColors,
   downloadPlot,
 }) => {
   const [clusterNames, setClusterNames] = useState({});
@@ -25,6 +27,7 @@ const TabOutputOptions = ({
   const [image, setImage] = useState("");
   const [markerSize, setMarkerSize] = useState(4);
   const [chosenInitialColor, setChosenInitialColor] = useState("#f44336");
+  const [chosenClusterColors, setChosenClusterColors] = useState([]);
   const [selectedInitialShape, setSelectedInitialShape] = useState({ value: "circle", label: "circle" });
 
   const customStyles = {
@@ -151,22 +154,34 @@ const TabOutputOptions = ({
         </div>
 
         {showClusters && (
-          <div>
-            <h6 style={{ marginTop: "10%" }}>Change cluster names:</h6>
-            {[...Array(num_clusters)].map((_, index) => (
-              <InputOptions label={`Cluster ${index}`}>
-                <input
-                  type="text"
-                  name={index}
-                  style={{ marginLeft: "5%", width: "50%" }}
-                  onChange={(e) => {
-                    const newClusterNames = { ...clusterNames, [index]: e.target.value };
-                    setClusterNames(newClusterNames);
-                  }}
-                />
-              </InputOptions>
-            ))}
-          </div>
+          <>
+            <div>
+              <h6 style={{ marginTop: "10%" }}>Change cluster names:</h6>
+              {[...Array(num_clusters)].map((_, index) => (
+                <InputOptions label={`Cluster ${index}`}>
+                  <input
+                    type="text"
+                    name={index}
+                    style={{ marginLeft: "5%", width: "50%" }}
+                    onChange={(e) => {
+                      const newClusterNames = { ...clusterNames, [index]: e.target.value };
+                      setClusterNames(newClusterNames);
+                    }}
+                  />
+                </InputOptions>
+              ))}
+            </div>
+            <div>
+              <h6 style={{ marginTop: "10%" }}>Change cluster colors:</h6>
+              {[...Array(num_clusters)].map((_, index) => (
+                <>
+                  <hr style={{ backgroundColor: "black", height: 2, opacity: 1 }} />
+                  <MarkerColor name={"Cluster " + index} index={index} clusterColors={chosenClusterColors} setChosenInitialColor={setChosenClusterColors}></MarkerColor>
+                  {/* <hr style={{ backgroundColor: "black", height: 2, opacity: 1, marginBottom: 50 }} /> */}
+                </>
+              ))}
+            </div>
+          </>
         )}
       </div>
     );
@@ -200,6 +215,7 @@ const TabOutputOptions = ({
               markerSize,
               chosenInitialColor,
               selectedInitialShape,
+              chosenClusterColors
             });
             event.preventDefault();
           }}
