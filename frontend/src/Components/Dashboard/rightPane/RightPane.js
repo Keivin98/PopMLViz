@@ -46,133 +46,136 @@ const RightPane = ({
       </TabList>
       {selectedUploadOption !== "admixture" && selectedUploadOption !== "pcairandadmixture" && (
         <div>
-          {" "}
           <TabPanel>
-            <div className="row">
-              <div className="row-md-8"></div>
+            <div style={{ height: "100%", display: "flex", justifyContent: "space-between", flexDirection: "column" }}>
+              <div style={{}}>
+                <div className="row-md-8"></div>
 
-              <div
-                style={{
-                  width: "90%",
-                  marginTop: "3%",
-                  marginLeft: "3%",
-                }}
-              >
-                <label
+                <div
                   style={{
-                    fontWeight: "300",
-                    fontSize: 18,
-                    padding: "2%",
+                    width: "90%",
+                    marginTop: "3%",
+                    marginLeft: "3%",
                   }}
                 >
-                  Describing Columns
-                </label>
-                <Select
-                  name="filters"
-                  placeholder="Filters"
-                  value={multiValue.filter((elem) => {
-                    return elem.label !== "None";
-                  })}
-                  options={selectActions}
-                  onChange={handleMultiChange}
-                  isMulti
-                />
-              </div>
-              {multiValue.length > 0 && (
-                <div>
-                  <div style={styles.describingColumnDropDown}>
-                    <label
-                      style={{
-                        fontSize: 14,
-                        padding: "2%",
-                        width: "30%",
-                      }}
-                    >
-                      Identify by Colors
-                    </label>
-                    <div style={{ width: "62%", marginTop: "1%" }}>
-                      <Select
-                        value={selectedDescribingColumnColor}
-                        options={multiValue}
-                        onChange={handleColoredColumns}
-                      />
-                    </div>
-                  </div>
-                  <div style={styles.describingColumnDropDown}>
-                    <label
-                      style={{
-                        fontSize: 14,
-                        padding: "2%",
-                        width: "30%",
-                      }}
-                    >
-                      Identify by Shape
-                    </label>
-                    <div style={{ width: "62%", marginTop: "1%" }}>
-                      <Select
-                        value={selectedDescribingColumnShape}
-                        disabled={OutlierData.length > 0}
-                        options={multiValue}
-                        onChange={handleShapeColumns}
-                      />
-                    </div>
-                  </div>
+                  <label
+                    style={{
+                      fontWeight: "300",
+                      fontSize: 18,
+                      padding: "2%",
+                    }}
+                  >
+                    Describing Columns
+                  </label>
+                  <Select
+                    name="filters"
+                    placeholder="Filters"
+                    value={multiValue.filter((elem) => {
+                      return elem.label !== "None";
+                    })}
+                    options={selectActions}
+                    onChange={handleMultiChange}
+                    isMulti
+                  />
                 </div>
+                {multiValue.length > 0 && (
+                  <div>
+                    <div style={styles.describingColumnDropDown}>
+                      <label
+                        style={{
+                          fontSize: 14,
+                          padding: "2%",
+                          width: "30%",
+                        }}
+                      >
+                        Identify by Colors
+                      </label>
+                      <div style={{ width: "62%", marginTop: "1%" }}>
+                        <Select
+                          value={selectedDescribingColumnColor}
+                          options={multiValue}
+                          onChange={handleColoredColumns}
+                        />
+                      </div>
+                    </div>
+                    <div style={styles.describingColumnDropDown}>
+                      <label
+                        style={{
+                          fontSize: 14,
+                          padding: "2%",
+                          width: "30%",
+                        }}
+                      >
+                        Identify by Shape
+                      </label>
+                      <div style={{ width: "62%", marginTop: "1%" }}>
+                        <Select
+                          value={selectedDescribingColumnShape}
+                          disabled={OutlierData.length > 0}
+                          options={multiValue}
+                          onChange={handleShapeColumns}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                <div
+                  style={{
+                    width: "90%",
+                    marginTop: "10%",
+                    marginLeft: "3%",
+                  }}
+                >
+                  <label
+                    style={{
+                      fontWeight: "300",
+                      fontSize: 18,
+                      padding: "2%",
+                    }}
+                  >
+                    Mapping ID Column
+                  </label>
+                  <Select
+                    placeholder="Mapping ID"
+                    options={allActions}
+                    onChange={(option) => {
+                      setMappingIDColumn(option.label);
+                    }}
+                  />
+                  <label
+                    style={{
+                      fontWeight: "300",
+                      padding: "2%",
+                      fontSize: 18,
+                      marginTop: "10%",
+                    }}
+                  >
+                    Add Metadata
+                    <input
+                      type="file"
+                      accept=".csv,.xlsx,.xls,.txt"
+                      onChange={handleMetaDataUpload}
+                      onClick={onInputMetadataClick}
+                      disabled={data == null || data.length === 0}
+                    />
+                  </label>
+                </div>
+              </div>
+
+              {data !== null && (
+                <DownloadData
+                  data={data}
+                  clusterColors={clusterColors}
+                  OutlierData={OutlierData}
+                  clusterNames={clusterNames}
+                  admixData={admix}
+                  alphaVal={alphaVal}
+                  certaintyVal={certaintyVal}
+                  admixMode={admixMode}
+                />
               )}
             </div>
-            <div
-              style={{
-                width: "90%",
-                marginTop: "10%",
-                marginLeft: "3%",
-              }}
-            >
-              <label
-                style={{
-                  fontWeight: "300",
-                  fontSize: 18,
-                  padding: "2%",
-                }}
-              >
-                Mapping ID Column
-              </label>
-              <Select
-                placeholder="Mapping ID"
-                options={allActions}
-                onChange={(option) => {
-                  setMappingIDColumn(option.label);
-                }}
-              />
-              <label
-                style={{
-                  fontWeight: "300",
-                  padding: "2%",
-                  fontSize: 18,
-                  marginTop: "10%",
-                }}
-              >
-                Add Metadata
-                <input
-                  type="file"
-                  accept=".csv,.xlsx,.xls,.txt"
-                  onChange={handleMetaDataUpload}
-                  onClick={onInputMetadataClick}
-                  disabled={data == null || data.length === 0}
-                />
-              </label>
-            </div>
-            {data !== null && (
-              <DownloadData
-                data={data}
-                clusterColors={clusterColors}
-                OutlierData={OutlierData}
-                clusterNames={clusterNames}
-                admixData={admix}
-                alphaVal={alphaVal}
-                certaintyVal={certaintyVal}
-                admixMode={admixMode}
-              />
-            )}
           </TabPanel>
           <TabPanel style={styles.outputSettings}>
             <TabOutputOptions
@@ -189,12 +192,7 @@ const RightPane = ({
       {(selectedUploadOption === "pcairandadmixture" || selectedUploadOption === "admixture") && (
         <div>
           <TabPanel>
-            <div
-              style={{
-                width: "90%",
-                marginLeft: "3%",
-              }}
-            >
+            <div style={{ height: "100%", display: "flex", justifyContent: "space-between", flexDirection: "column" }}>
               <AdmixOptions
                 initialAlpha={alphaVal}
                 initialCertainty={certaintyVal}
@@ -203,20 +201,23 @@ const RightPane = ({
                 mode={admixMode}
                 disabled={admix.length === 0}
               />
+
+              <div>
+                {data !== null && (
+                  <DownloadData
+                    data={data}
+                    clusterColors={clusterColors}
+                    OutlierData={OutlierData}
+                    columnRange={columnRange}
+                    clusterNames={clusterNames}
+                    admixData={admix}
+                    alphaVal={alphaVal}
+                    certaintyVal={certaintyVal}
+                    admixMode={admixMode}
+                  />
+                )}
+              </div>
             </div>
-            {data !== null && (
-              <DownloadData
-                data={data}
-                clusterColors={clusterColors}
-                OutlierData={OutlierData}
-                columnRange={columnRange}
-                clusterNames={clusterNames}
-                admixData={admix}
-                alphaVal={alphaVal}
-                certaintyVal={certaintyVal}
-                admixMode={admixMode}
-              />
-            )}
           </TabPanel>
           <TabPanel style={styles.outputSettings}>
             <TabOutputOptions

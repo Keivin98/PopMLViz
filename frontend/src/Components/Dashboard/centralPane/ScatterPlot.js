@@ -16,7 +16,7 @@ const ScatterPlot = ({ data, layout, picWidth, picHeight, picFormat, plotTitle }
     });
   };
 
-  useEffect(() => {
+useEffect(() => {
     showPlot();
   }, [data, layout, picWidth, picHeight, picFormat, plotTitle]);
 

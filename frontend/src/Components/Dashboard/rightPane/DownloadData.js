@@ -108,7 +108,7 @@ const DownloadData = ({
   };
 
   return (
-    <div>
+
       <div className="block-example border-light" style={styles.download}>
         <label>
           <input
@@ -153,7 +153,6 @@ const DownloadData = ({
           </CSVLink>
         </Button>
       </div>
-    </div>
   );
 };
 
@@ -172,14 +171,13 @@ const styles = {
   download: {
     display: "flex",
     flexDirection: "column",
-    position: "fixed",
-    bottom: "6%",
-    right: "4%",
-    width: "15%",
+    width: '90%',
     padding: "20px",
     border: `3px solid`,
     borderRadius: 10,
+    // marginTop: "20px", 
   },
 };
+
 
 export default DownloadData;

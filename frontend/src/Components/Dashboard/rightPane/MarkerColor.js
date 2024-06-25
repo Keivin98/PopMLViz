@@ -6,6 +6,8 @@ import { CirclePicker } from "react-color";
 
 export default function MarkerColor({ setChosenInitialColor, name, clusterColors, index }) {
   const [open, setOpen] = useState(false);
+  const [selectedColor, setSelectedColor] = useState(null);
+
 
   return (
     <div style={{}}>
@@ -37,11 +39,12 @@ export default function MarkerColor({ setChosenInitialColor, name, clusterColors
       <Collapse style={{}} in={open}>
         <div style={{}}>
           <CirclePicker
-            c
             width="100%"
             style={{ marginTop: 20 }}
             circleSize={20}
+            // colors={clusterColors}
             onChangeComplete={(color) => {
+              // setSelectedColor(color.hex)
               if (clusterColors) {
                 const newClusterColors = [...clusterColors]; 
                 newClusterColors[index] = color.hex;
@@ -50,6 +53,12 @@ export default function MarkerColor({ setChosenInitialColor, name, clusterColors
                 setChosenInitialColor(color.hex);
               }
             }}
+            // renderers={(color, i) => (
+            //   <div
+            //     key={i}
+            //     style={{ backgroundColor: color.hex, borderWidth: selectedColor === color.hex ? 2 : 0, borderStyle: "solid"}}
+            //   />
+            // )}
           />
         </div>
       </Collapse>

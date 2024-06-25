@@ -39,11 +39,11 @@ const AdmixOptions = ({ initialAlpha, initialCertainty, initialVal, mode: initia
       style={{
         display: "flex",
         flexDirection: "column",
-        width: "100%",
+        // width: "100%",
         justifyContent: "space-between",
         marginTop: "10%",
         marginBottom: "5%",
-        height: "50px",
+        // height: "50px",
         paddingTop: "10px",
       }}
     >

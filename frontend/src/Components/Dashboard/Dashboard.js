@@ -111,13 +111,13 @@ const App = () => {
   //
   useEffect(() => {
     if (shouldDownload) {
-      Plotly.downloadImage(BarPlot, {
+      Plotly.downloadImage(ScatterPlot, data, {
         filename: plotTitle,
         width: picWidth,
         height: picHeight,
         format: picFormat,
       });
-      setShouldDownload(false); // Reset the download trigger
+      setShouldDownload(false);
     }
   }, [shouldDownload, plotTitle, picWidth, picHeight, picFormat]);
 
@@ -2247,7 +2247,7 @@ const App = () => {
       <div style={styles.splitScreen}>
         <LeftPane
           handleClose={handleClose}
-          modalOpen={modalOpen} 
+          modalOpen={modalOpen}
           setModalOpen={setModalOpen}
           UploadTabChange={UploadTabChange}
           samplePCAAdmixDataset2={samplePCAAdmixDataset2}

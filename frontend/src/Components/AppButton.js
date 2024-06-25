@@ -1,10 +1,11 @@
 import React from "react";
 import colors from "../config/colors";
 import { style } from "@mui/system";
+import { Button } from "@material-ui/core";
 
 export default function AppButton({ title, color, textColor, onClick, style, className, ...others }) {
   return (
-    <div
+    <Button
       {...others}
       onClick={onClick}
       className={className}
@@ -24,6 +25,6 @@ export default function AppButton({ title, color, textColor, onClick, style, cla
       }}
     >
       {title}
-    </div>
+    </Button>
   );
 }

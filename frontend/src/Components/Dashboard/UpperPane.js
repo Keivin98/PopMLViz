@@ -71,7 +71,7 @@ const UpperPane = ({
               }}
               options={selectActions}
               onChange={handleSelectXChange}
-              isDisabled={selectedUploadOption === "admixture"}
+              // isDisabled={selectedUploadOption === "admixture"} //why disabled?
             />
           </div>
         </div>
