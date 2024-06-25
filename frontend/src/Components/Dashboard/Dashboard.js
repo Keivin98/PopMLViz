@@ -1506,8 +1506,13 @@ const App = () => {
     setSelectedUploadOption(event.target.value);
   };
 
-  const onValueChangeDims = (event) => {
-    var value = event.target.value;
+  const onValueChangeDims = (event, isDropDown) => {
+    let value;
+    if (isDropDown) {
+      value = event.value;
+    } else {
+      value = event.target.value;
+    }
     var newSelected = [];
     if (value === "1D") {
       newSelected = [selectedColumns[0], null, null];

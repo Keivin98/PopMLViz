@@ -7,7 +7,7 @@ import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
 import colors from "../../config/colors";
 import font from "../../config/font";
-
+import "./upperpane.css";
 const UpperPane = ({
   selectedOption,
   onValueChangeDims,
@@ -19,9 +19,31 @@ const UpperPane = ({
   selectedUploadOption,
   axisRef,
 }) => {
+  const plotOptions = [
+    { value: "1D", label: "1D" },
+    { value: "2D", label: "2D" },
+    { value: "3D", label: "3D" },
+  ];
   return (
     <div className="radio" style={styles.dimensions}>
-      <FormControl style={{ marginLeft: "2%", alignItems: "center", flexDirection: "row" }}>
+      <div className="specialDropDown">
+        <label style={{  marginLeft: 20}}>
+          <h6 className="axisText"> Plot </h6>
+        </label>
+        <div style={{}}>
+          <Select
+            // className="select"
+            // style={{ width: "120px" }}
+            disabled={selectedUploadOption === "admixture"}
+            value={{ value: selectedOption ? selectedOption : "1D", label: selectedOption ? selectedOption : "1D", }}
+            options={plotOptions}
+            onChange={(event) => onValueChangeDims(event, true)}
+            // isDisabled={selectedUploadOption === "admixture"} //why disabled?
+          />
+        </div>
+      </div>
+
+      <FormControl className="radioContainer" style={{ marginLeft: "2%", alignItems: "center", flexDirection: "row" }}>
         <FormLabel
           style={{ marginRight: "30px", fontFamily: font.primaryFont }}
           id="demo-row-radio-buttons-group-label"
@@ -29,26 +51,30 @@ const UpperPane = ({
           Plot
         </FormLabel>
         <RadioGroup
-          style={{ height: "50px", flexWrap: "nowrap" }}
+          style={{ height: "50px", flexWrap: "nowrap", fontSize: "12px" }}
           row
+          className="radioGroup"
           aria-labelledby="demo-row-radio-buttons-group-label"
           name="row-radio-buttons-group"
           value={selectedOption}
           onChange={onValueChangeDims}
         >
           <FormControlLabel
+            className="radioButton"
             value="1D"
             disabled={selectedUploadOption === "admixture"}
             control={<Radio color="success" size="small" />}
             label="1D"
           />
           <FormControlLabel
+            className="radioButton"
             value="2D"
             disabled={selectedUploadOption === "admixture"}
             control={<Radio color="success" size="small" />}
             label="2D"
           />
           <FormControlLabel
+            className="radioButton"
             value="3D"
             disabled={selectedUploadOption === "admixture"}
             control={<Radio color="success" size="small" />}
@@ -57,13 +83,14 @@ const UpperPane = ({
         </RadioGroup>
       </FormControl>
       {/* <div style={{ backgroundColor: colors.gray, width: "1px" }}></div> */}
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexDirection: "row" }}>
-        <div style={styles.dropDown}>
+      <div className="axisContainer">
+        <div className="dropDown">
           <label style={{ width: "25%", marginLeft: "12%" }}>
-            <h6 style={styles.axisText}> X-axis </h6>
+            <h6 className="axisText"> X-axis </h6>
           </label>
-          <div style={{ width: "100%" }}>
+          <div className="selectContainer" style={{}}>
             <Select
+              className="select"
               ref={axisRef}
               value={{
                 value: selectedColumns[0] == null ? "None" : selectedColumns[0],
@@ -76,12 +103,13 @@ const UpperPane = ({
           </div>
         </div>
 
-        <div style={styles.dropDown}>
-          <label style={{ width: "25%", marginLeft: "12%" }}>
-            <h6 style={styles.axisText}> Y-axis </h6>
+        <div style={{}} className="dropDown">
+          <label>
+            <h6 className="axisText"> Y-axis </h6>
           </label>
-          <div style={{ width: "100%" }}>
+          <div className="selectContainer" style={{}}>
             <Select
+              className="select"
               value={{
                 value: selectedColumns[1] == null ? "None" : selectedColumns[1],
                 label: selectedColumns[1] == null ? "None" : selectedColumns[1],
@@ -92,12 +120,13 @@ const UpperPane = ({
             />
           </div>
         </div>
-        <div style={styles.dropDown}>
+        <div className="dropDown">
           <label style={{ width: "25%", marginLeft: "12%" }}>
-            <h6 style={styles.axisText}> Z-axis </h6>
+            <h6 className="axisText"> Z-axis </h6>
           </label>
-          <div style={{ width: "100%" }}>
+          <div className="selectContainer" style={{}}>
             <Select
+              className="select"
               value={{
                 value: selectedColumns[2] == null ? "None" : selectedColumns[2],
                 label: selectedColumns[2] == null ? "None" : selectedColumns[2],
