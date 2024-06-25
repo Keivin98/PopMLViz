@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import { Tabs, Tab, TabList, TabPanel } from "react-tabs";
 import Select from "react-select";
 import DownloadData from "./DownloadData";
@@ -6,6 +6,8 @@ import AdmixOptions from "./AdmixOptions";
 import TabOutputOptions from "./TabOutputOptions";
 import "react-tabs/style/react-tabs.css";
 import { FormControl, FormControlLabel, FormLabel, Radio, RadioGroup } from "@mui/material";
+import AppButton from "../../AppButton";
+import "./rightpane.css"
 
 const RightPane = ({
   selectedUploadOption,
@@ -38,8 +40,9 @@ const RightPane = ({
   showOutputOptions,
   downloadPlot,
 }) => {
+  const uploadRef = useRef(null);
   return (
-    <Tabs style={styles.optionsContainer}>
+    <Tabs className={"optionsContainer"} >
       <TabList>
         <Tab>Settings</Tab>
         <Tab>Output Options</Tab>
@@ -47,7 +50,7 @@ const RightPane = ({
       {selectedUploadOption !== "admixture" && selectedUploadOption !== "pcairandadmixture" && (
         <div>
           <TabPanel>
-            <div style={{ height: "100%", display: "flex", justifyContent: "space-between", flexDirection: "column" }}>
+            <div style={{}}>
               <div style={{}}>
                 <div className="row-md-8"></div>
 
@@ -59,11 +62,7 @@ const RightPane = ({
                   }}
                 >
                   <label
-                    style={{
-                      fontWeight: "300",
-                      fontSize: 18,
-                      padding: "2%",
-                    }}
+                    className="form-label"
                   >
                     Describing Columns
                   </label>
@@ -82,11 +81,7 @@ const RightPane = ({
                   <div>
                     <div style={styles.describingColumnDropDown}>
                       <label
-                        style={{
-                          fontSize: 14,
-                          padding: "2%",
-                          width: "30%",
-                        }}
+                        className="form-sub-label"
                       >
                         Identify by Colors
                       </label>
@@ -98,13 +93,9 @@ const RightPane = ({
                         />
                       </div>
                     </div>
-                    <div style={styles.describingColumnDropDown}>
+                    <div className="describingColumnDropDown">
                       <label
-                        style={{
-                          fontSize: 14,
-                          padding: "2%",
-                          width: "30%",
-                        }}
+                        className="form-sub-label"
                       >
                         Identify by Shape
                       </label>
@@ -128,11 +119,7 @@ const RightPane = ({
                   }}
                 >
                   <label
-                    style={{
-                      fontWeight: "300",
-                      fontSize: 18,
-                      padding: "2%",
-                    }}
+                    className="form-label"
                   >
                     Mapping ID Column
                   </label>
@@ -143,7 +130,28 @@ const RightPane = ({
                       setMappingIDColumn(option.label);
                     }}
                   />
-                  <label
+                  <AppButton
+                    style={{ width: "100%", marginTop: 20 }}
+                    title={"Add Metadata"}
+                    onClick={() => {
+                      if (data == null || data.length === 0) {
+                        alert("Please upload data first");
+                        return
+                      }
+                      uploadRef.current.click();
+                    }}
+                    // disabled={data == null || data.length === 0}
+                  ></AppButton>
+                  <input
+                    ref={uploadRef}
+                    type="file"
+                    accept=".csv,.xlsx,.xls,.txt"
+                    onChange={handleMetaDataUpload}
+                    onClick={onInputMetadataClick}
+                    disabled={data == null || data.length === 0}
+                    style={{ display: "none" }}
+                  />
+                  {/* <label
                     style={{
                       fontWeight: "300",
                       padding: "2%",
@@ -152,14 +160,7 @@ const RightPane = ({
                     }}
                   >
                     Add Metadata
-                    <input
-                      type="file"
-                      accept=".csv,.xlsx,.xls,.txt"
-                      onChange={handleMetaDataUpload}
-                      onClick={onInputMetadataClick}
-                      disabled={data == null || data.length === 0}
-                    />
-                  </label>
+                  </label> */}
                 </div>
               </div>
 
@@ -219,7 +220,7 @@ const RightPane = ({
               </div>
             </div>
           </TabPanel>
-          <TabPanel style={styles.outputSettings}>
+          <TabPanel className="outputSettings">
             <TabOutputOptions
               uniqueClusters={numClusters}
               parentCallback={handleTabOutputCallback}

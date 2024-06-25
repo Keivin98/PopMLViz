@@ -3,6 +3,7 @@ import { CSVLink } from "react-csv";
 import PropTypes from "prop-types";
 import { Button } from "@material-ui/core";
 import font from "../../../config/font";
+import "./rightpane.css";
 
 const DownloadData = ({
   data,
@@ -108,51 +109,50 @@ const DownloadData = ({
   };
 
   return (
-
-      <div className="block-example border-light" style={styles.download}>
-        <label>
-          <input
-            name="outliers"
-            type="checkbox"
-            checked={outlierCheck}
-            disabled={OutlierData.length === 0}
-            onClick={removeOutliers}
-          />
-          {"\t"} Remove Outliers
-        </label>
-        <label>
-          <input
-            name="clustering"
-            type="checkbox"
-            checked={clusterCheck}
-            onChange={detectClusters}
-            disabled={clusterColors.length === 0}
-          />
-          {"\t"} Include Clustering Info
-        </label>
-        <label>
-          <input
-            name="clustering"
-            type="checkbox"
-            checked={admixCheck}
-            onChange={admixClustering}
-            disabled={admixData.length === 0}
-          />
-          {"\t"} Include Admix Clustering
-        </label>
-        <Button style={{ fontFamily: font.primaryFont }} variant="outlined">
-          <CSVLink
-            data={downloadableData.length === 0 ? data : downloadableData}
-            filename={"popmlvis_analysis.csv"}
-            onClick={() => {
-              setClusterCheck(false);
-              setOutlierCheck(false);
-            }}
-          >
-            Download Data
-          </CSVLink>
-        </Button>
-      </div>
+    <div className="downloadContainer" >
+      <label className="tick-txt">
+        <input
+          name="outliers"
+          type="checkbox"
+          checked={outlierCheck}
+          disabled={OutlierData.length === 0}
+          onClick={removeOutliers}
+        />
+        {"\t"} Remove Outliers
+      </label>
+      <label className="tick-txt">
+        <input
+          name="clustering"
+          type="checkbox"
+          checked={clusterCheck}
+          onChange={detectClusters}
+          disabled={clusterColors.length === 0}
+        />
+        {"\t"} Include Clustering Info
+      </label>
+      <label className="tick-txt">
+        <input
+          name="clustering"
+          type="checkbox"
+          checked={admixCheck}
+          onChange={admixClustering}
+          disabled={admixData.length === 0}
+        />
+        {"\t"} Include Admix Clustering
+      </label>
+      <Button className="downloadButton" style={{ fontFamily: font.primaryFont }} variant="outlined">
+        <CSVLink
+          data={downloadableData.length === 0 ? data : downloadableData}
+          filename={"popmlvis_analysis.csv"}
+          onClick={() => {
+            setClusterCheck(false);
+            setOutlierCheck(false);
+          }}
+        >
+          Download Data
+        </CSVLink>
+      </Button>
+    </div>
   );
 };
 
@@ -171,13 +171,12 @@ const styles = {
   download: {
     display: "flex",
     flexDirection: "column",
-    width: '90%',
+    width: "90%",
     padding: "20px",
-    border: `3px solid`,
+    // border: `3px solid`,
     borderRadius: 10,
-    // marginTop: "20px", 
+    // marginTop: "20px",
   },
 };
-
 
 export default DownloadData;

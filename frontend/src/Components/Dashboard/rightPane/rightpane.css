@@ -1,0 +1,53 @@
+.form-label{
+    font-weight: 300;
+    font-size: 18;
+    padding: 2%;
+}
+.form-sub-label{
+    font-size: 14;
+    padding: 2%;
+    width: 30%,
+}
+.optionsContainer {
+    position: fixed;
+    right: 1%;
+    grid-area: right;
+    top: 0;
+    height: 89%;
+    display: flex;
+    flex-direction: column;
+    width: 18%;
+    padding: 10px;
+    margin-top: 10px;
+    background-color: #f5f6f7;
+    border-radius: 10px;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+  
+  .describingColumnDropDown {
+    margin-left: 3%;
+    display: flex;
+    flex-direction: row;
+    margin-top: 2%;
+  }
+  
+  .outputSettings {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+  }
+  .downloadContainer{
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    padding: 10px;
+    border-radius: 10;
+    margin-top: 20px;
+  }
+  .tick-txt{
+    margin-bottom: 10px;
+  }
+  .downloadButton{
+    margin-top: 20px;
+  }

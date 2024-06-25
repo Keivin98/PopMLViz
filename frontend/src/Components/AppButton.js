@@ -7,8 +7,11 @@ export default function AppButton({ title, color, textColor, onClick, style, cla
   return (
     <Button
       {...others}
+      
       onClick={onClick}
+      
       className={className}
+      sx={{padding: 10}}
       style={{
         ...{
           display: "flex",
@@ -20,6 +23,7 @@ export default function AppButton({ title, color, textColor, onClick, style, cla
           alignItems: "center",
           color: textColor ? textColor : "white",
           cursor: "pointer",
+          padding: 10,
         },
         ...style,
       }}

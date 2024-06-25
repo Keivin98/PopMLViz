@@ -103,7 +103,7 @@ const TabOutputOptions = ({
             display: "flex",
             flexDirection: "column",
             justifyContent: "center",
-            alignItems: "center",
+            // alignItems: "center",
           }}
         >
           <InputOptions label={"Marker size"}>
@@ -200,7 +200,7 @@ const TabOutputOptions = ({
         flex: 1,
         flexDirection: "column",
         justifyContent: "space-between",
-        alignItems: "center",
+        // alignItems: "center",
       }}
     >
       {showOutputOptions()}
