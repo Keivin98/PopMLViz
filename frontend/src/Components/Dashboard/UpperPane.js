@@ -57,7 +57,7 @@ const UpperPane = ({
           aria-labelledby="demo-row-radio-buttons-group-label"
           name="row-radio-buttons-group"
           value={selectedOption}
-          onChange={onValueChangeDims}
+          onChange={(event)=> onValueChangeDims(event, false)}
         >
           <FormControlLabel
             className="radioButton"

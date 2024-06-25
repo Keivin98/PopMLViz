@@ -94,7 +94,7 @@ const TabOutputOptions = ({
           <>
             <hr style={{ backgroundColor: "black", height: 2, opacity: 1 }} />
             <MarkerColor setChosenInitialColor={setChosenInitialColor}></MarkerColor>
-            <hr style={{ backgroundColor: "black", height: 2, opacity: 1, marginBottom: 50 }} />{" "}
+            <hr style={{ backgroundColor: "black", height: 2, opacity: 1 }} />
           </>
         )}
         <div
@@ -110,13 +110,14 @@ const TabOutputOptions = ({
             <input
               type="number"
               name="clicks"
-              style={{ width: "40%", marginLeft: "10%" }}
+              style={{ width: 50 }}
               value={markerSize.toString()}
               onChange={handleIncrementChange}
             />
           </InputOptions>
           <InputOptions label={"Marker Shape"}>
             <Select
+              className="select"
               styles={customStyles}
               options={selectShapeOptions}
               onChange={handleSelectShapeOptions}
@@ -124,33 +125,24 @@ const TabOutputOptions = ({
             />
           </InputOptions>
           <InputOptions label={"Plot title"}>
-            <input
-              type="text"
-              style={{ marginLeft: "5%", width: "60%" }}
-              onChange={(e) => setPlotTitle(e.target.value)}
-            />
+            <input type="text" style={{ width: 100 }} onChange={(e) => setPlotTitle(e.target.value)} />
           </InputOptions>
 
           <InputOptions label={"Width"}>
-            <input
-              type="text"
-              style={{ marginLeft: "5%", width: 60 }}
-              defaultValue={width}
-              onChange={(e) => setWidth(e.target.value)}
-            />
+            <input type="text" style={{ width: 60 }} defaultValue={width} onChange={(e) => setWidth(e.target.value)} />
           </InputOptions>
 
           <InputOptions label={"Height"}>
             <input
               type="text"
               defaultValue={height}
-              style={{ marginLeft: "5%", width: 60 }}
+              style={{ width: 60 }}
               onChange={(e) => setHeight(e.target.value)}
             />
           </InputOptions>
 
           <InputOptions label={"Format"}>
-            <Select options={selectActions} onChange={handleFormatChange} defaultValue={selectedColumn} />
+            <Select  className="select" options={selectActions} onChange={handleFormatChange} defaultValue={selectedColumn} />
           </InputOptions>
         </div>
 
