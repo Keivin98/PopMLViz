@@ -7,7 +7,10 @@ import TabOutputOptions from "./TabOutputOptions";
 import "react-tabs/style/react-tabs.css";
 import { FormControl, FormControlLabel, FormLabel, Radio, RadioGroup } from "@mui/material";
 import AppButton from "../../AppButton";
-import "./rightpane.css"
+import { MdOutlineBorderColor } from "react-icons/md";
+import { IoMdSettings } from "react-icons/io";
+
+import "./rightpane.css";
 
 const RightPane = ({
   selectedUploadOption,
@@ -42,15 +45,19 @@ const RightPane = ({
 }) => {
   const uploadRef = useRef(null);
   return (
-    <Tabs className={"optionsContainer"} >
-      <TabList>
-        <Tab>Settings</Tab>
-        <Tab>Output Options</Tab>
+    <Tabs className={"optionsContainer"}>
+      <TabList className="tab-list">
+        <Tab className="tab">
+          <IoMdSettings />
+        </Tab>
+        <Tab className="tab">
+          <MdOutlineBorderColor />
+        </Tab>
       </TabList>
       {selectedUploadOption !== "admixture" && selectedUploadOption !== "pcairandadmixture" && (
         <div>
           <TabPanel>
-            <div style={{}}>
+            <div style={{ display: "flex", flexDirection: "column" }}>
               <div style={{}}>
                 <div className="row-md-8"></div>
 
@@ -61,12 +68,9 @@ const RightPane = ({
                     marginLeft: "3%",
                   }}
                 >
-                  <label
-                    className="form-label"
-                  >
-                    Describing Columns
-                  </label>
+                  <label className="form-label">Describing Columns</label>
                   <Select
+                    className="select-settings"
                     name="filters"
                     placeholder="Filters"
                     value={multiValue.filter((elem) => {
@@ -79,14 +83,11 @@ const RightPane = ({
                 </div>
                 {multiValue.length > 0 && (
                   <div>
-                    <div style={styles.describingColumnDropDown}>
-                      <label
-                        className="form-sub-label"
-                      >
-                        Identify by Colors
-                      </label>
-                      <div style={{ width: "62%", marginTop: "1%" }}>
+                    <div className="describingColumnDropDown" style={styles.describingColumnDropDown}>
+                      <label className="form-sub-label">Identify by Colors</label>
+                      <div style={{ width: "100%", marginTop: "1%" }}>
                         <Select
+                          className="select-settings"
                           value={selectedDescribingColumnColor}
                           options={multiValue}
                           onChange={handleColoredColumns}
@@ -94,13 +95,10 @@ const RightPane = ({
                       </div>
                     </div>
                     <div className="describingColumnDropDown">
-                      <label
-                        className="form-sub-label"
-                      >
-                        Identify by Shape
-                      </label>
-                      <div style={{ width: "62%", marginTop: "1%" }}>
+                      <label className="form-sub-label">Identify by Shape</label>
+                      <div style={{ width: "100%", marginTop: "1%" }}>
                         <Select
+                          className="select-settings"
                           value={selectedDescribingColumnShape}
                           disabled={OutlierData.length > 0}
                           options={multiValue}
@@ -118,13 +116,10 @@ const RightPane = ({
                     marginLeft: "3%",
                   }}
                 >
-                  <label
-                    className="form-label"
-                  >
-                    Mapping ID Column
-                  </label>
+                  <label className="form-label">Mapping ID Column</label>
                   <Select
                     placeholder="Mapping ID"
+                    className="select-settings"
                     options={allActions}
                     onChange={(option) => {
                       setMappingIDColumn(option.label);
@@ -133,10 +128,12 @@ const RightPane = ({
                   <AppButton
                     style={{ width: "100%", marginTop: 20 }}
                     title={"Add Metadata"}
+                    className={"add-metadata-button"}
+                    // defaultButton
                     onClick={() => {
                       if (data == null || data.length === 0) {
                         alert("Please upload data first");
-                        return
+                        return;
                       }
                       uploadRef.current.click();
                     }}
@@ -237,34 +234,35 @@ const RightPane = ({
 };
 
 const styles = {
-  optionsContainer: {
-    position: "fixed",
-    right: "1%",
-    gridArea: "right",
-    top: 0,
-    height: "89%",
-    display: "flex",
-    flexDirection: "column",
-    width: "18%",
-    padding: "10px",
-    // marginTop: "4.5%",
-    marginTop: "10px",
-    backgroundColor: "#f5f6f7",
-    borderRadius: 10,
-    overflowY: "auto",
-    overflowX: "hidden",
-  },
-  describingColumnDropDown: {
-    marginLeft: "3%",
-    display: "flex",
-    flexDirection: "row",
-    marginTop: "2%",
-  },
-  outputSettings: {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "space-around",
-  },
+  // optionsContainer: {
+  //   position: "fixed",
+  //   right: "1%",
+  //   gridArea: "right",
+  //   top: 0,
+  //   height: "98%",
+  //   display: "flex",
+  //   flexDirection: "column",
+  //   width: "18%",
+  //   padding: "10px",
+  //   marginBottom: 10,
+  //   // marginTop: "4.5%",
+  //   marginTop: "10px",
+  //   backgroundColor: "#f5f6f7",
+  //   borderRadius: 10,
+  //   overflowY: "auto",
+  //   overflowX: "hidden",
+  // },
+  // describingColumnDropDown: {
+  //   marginLeft: "3%",
+  //   display: "flex",
+  //   flexDirection: "row",
+  //   marginTop: "2%",
+  // },
+  // outputSettings: {
+  //   display: "flex",
+  //   flexDirection: "column",
+  //   justifyContent: "space-around",
+  // },
 };
 
 export default RightPane;

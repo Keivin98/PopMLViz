@@ -4,6 +4,7 @@ import Slider from "@material-ui/core/Slider";
 import { Button } from "@material-ui/core";
 import PropTypes from "prop-types";
 import font from "../../../config/font";
+import "./rightpane.css";
 
 const AdmixOptions = ({ initialAlpha, initialCertainty, initialVal, mode: initialMode, parentCallback, disabled }) => {
   const [alpha, setAlpha] = useState(initialAlpha);
@@ -50,13 +51,7 @@ const AdmixOptions = ({ initialAlpha, initialCertainty, initialVal, mode: initia
       <Typography id="range-slider" gutterBottom>
         <h6 style={{ fontWeight: "bold" }}>Alpha: </h6>
       </Typography>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "space-around",
-        }}
-      >
+      <div className="range-slider">
         <Slider value={alpha} onChange={rangeSelectorAlpha} valueLabelDisplay="auto" min={1} max={100} />
 
         <Button
@@ -64,6 +59,7 @@ const AdmixOptions = ({ initialAlpha, initialCertainty, initialVal, mode: initia
           variant="outlined"
           style={{ marginLeft: "10px", fontFamily: font.primaryFont }}
           disabled={disabled}
+          className="apply-button"
         >
           Apply
         </Button>
@@ -71,32 +67,27 @@ const AdmixOptions = ({ initialAlpha, initialCertainty, initialVal, mode: initia
       <Typography id="range-slider" gutterBottom>
         <h6 style={{ marginTop: "10%", fontWeight: "bold" }}>Certainty: </h6>
       </Typography>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "space-around",
-        }}
-      >
+      <div className="range-slider">
         <Slider value={certainty} onChange={rangeSelectorCertainty} valueLabelDisplay="auto" min={1} max={100} />
 
         <Button
           onClick={handleApplyClick("Certainty")}
           variant="outlined"
-          style={{ marginLeft: "10px" }}
+          style={{ marginLeft: "10px", fontFamily: font.primaryFont }}
           disabled={disabled}
+          className="apply-button"
         >
           Apply
         </Button>
       </div>
-      <label>
-        <span style={{ fontWeight: "bold" }}>{mode}</span> : {mode === "Certainty" ? certainty : alpha} %
+      <label style={{marginTop: 20 }}>
+        <span style={{ fontWeight: "bold", }}>{mode}</span> : {mode === "Certainty" ? certainty : alpha} %
       </label>
-      <label style={{ marginTop: "10%", fontStyle: "italic" }}>
+      <label className="admix-txt" style={{ marginTop: "10%", fontStyle: "italic" }}>
         NOTE: If the admixture result for the subject is less than the chosen{" "}
         <span style={{ fontWeight: "bold" }}>alpha</span>, the subject will be marked as Admixed! {"\n"}{" "}
       </label>
-      <label style={{ marginTop: "10%", fontStyle: "italic" }}>
+      <label className="admix-txt" style={{ marginTop: "10%", fontStyle: "italic" }}>
         {" "}
         If the difference between the top two admixture results for the subject is less than the chosen{" "}
         <span style={{ fontWeight: "bold" }}>certainty</span>, the subject will be marked as Admixed!

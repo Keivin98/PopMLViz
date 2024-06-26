@@ -3,6 +3,8 @@ import Collapse from "react-bootstrap/Collapse";
 import { AiFillCaretDown } from "react-icons/ai";
 import { IoIosColorPalette } from "react-icons/io";
 import { CirclePicker } from "react-color";
+import "../../DropDown.css"
+
 
 export default function MarkerColor({ setChosenInitialColor, name, clusterColors, index }) {
   const [open, setOpen] = useState(false);
@@ -30,7 +32,7 @@ export default function MarkerColor({ setChosenInitialColor, name, clusterColors
           }}
         >
           <IoIosColorPalette size={30} style={{ marginRight: 20, opacity: 0.5 }} />
-          <label>{name ? name : "Marker Color"}</label>
+          <label className="label-txt">{name ? name : "Marker Color"}</label>
         </div>
 
         <AiFillCaretDown style={{ marginTop: "3%" }} />

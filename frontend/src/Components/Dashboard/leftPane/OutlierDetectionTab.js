@@ -11,6 +11,7 @@ import PropTypes from "prop-types";
 import font from "../../../config/font";
 import InputOptions from "../../InputOptions";
 import colors from "../../../config/colors";
+import "../../DropDown.css"
 
 const OutlierDetectionTab = ({ onChange, numFeatures, removeOutliers, allActions }) => {
   const [selectOutlierActions] = useState([
@@ -124,7 +125,7 @@ const OutlierDetectionTab = ({ onChange, numFeatures, removeOutliers, allActions
           }}
         >
           <FcMindMap size={30} style={{ marginRight: "3%", opacity: 0.5 }} />
-          <label>Outlier Detection </label>
+          <label className="label-txt">Outlier Detection </label>
         </div>
 
         <AiFillCaretDown style={{ marginTop: "3%" }} />

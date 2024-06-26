@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import { Button } from "@material-ui/core";
 import font from "../../../config/font";
 import "./rightpane.css";
+import colors from "../../../config/colors";
 
 const DownloadData = ({
   data,
@@ -140,10 +141,11 @@ const DownloadData = ({
         />
         {"\t"} Include Admix Clustering
       </label>
-      <Button className="downloadButton" style={{ fontFamily: font.primaryFont }} variant="outlined">
+      <Button className="downloadButton" style={{backgroundColor: colors.secondary ,fontFamily: font.primaryFont }} variant="outlined">
         <CSVLink
           data={downloadableData.length === 0 ? data : downloadableData}
           filename={"popmlvis_analysis.csv"}
+          className="downloadLink"
           onClick={() => {
             setClusterCheck(false);
             setOutlierCheck(false);

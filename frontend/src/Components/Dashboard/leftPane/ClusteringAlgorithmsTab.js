@@ -9,6 +9,7 @@ import font from "../../../config/font";
 import InputOptions from "../../InputOptions";
 import AppButton from "../../AppButton";
 import colors from "../../../config/colors";
+import "../../DropDown.css"
 
 const ClusteringAlgorithmsTab = ({ onChange }) => {
   const [selectClusterActions] = useState([
@@ -67,7 +68,7 @@ const ClusteringAlgorithmsTab = ({ onChange }) => {
           }}
         >
           <AiOutlineCluster size={30} style={{ marginRight: "3%", opacity: 0.5 }} />
-          <label>Clustering Algorithms</label>
+          <label className="label-txt">Clustering Algorithms</label>
         </div>
 
         <AiFillCaretDown style={{ marginTop: "3%" }} />

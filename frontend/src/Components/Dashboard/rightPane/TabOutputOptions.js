@@ -149,13 +149,13 @@ const TabOutputOptions = ({
         {showClusters && (
           <>
             <div>
-              <h6 style={{ marginTop: "10%" }}>Change cluster names:</h6>
+              <h6 style={{ marginTop: "10%" }}>Change cluster names</h6>
               {[...Array(num_clusters)].map((_, index) => (
                 <InputOptions label={`Cluster ${index}`}>
                   <input
                     type="text"
                     name={index}
-                    style={{ marginLeft: "5%", width: "50%" }}
+                    style={{ width: 100 }}
                     onChange={(e) => {
                       const newClusterNames = { ...clusterNames, [index]: e.target.value };
                       setClusterNames(newClusterNames);
