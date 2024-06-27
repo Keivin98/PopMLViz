@@ -23,7 +23,7 @@ const CentralPane = ({
 }) => (
   <div className='grid-c'>
     <Tabs style={styles.dendrogramTabs}>
-      <TabList>
+      <TabList style={{marginBottom: 3}}>
         <Tab>Scatter Plot</Tab>
         {dendrogramPath !== "" && <Tab>Dendrogram</Tab>}
         {admix.length > 0 && selectedUploadOption === "pcairandadmixture" && <Tab>Admixture</Tab>}
@@ -56,7 +56,7 @@ const CentralPane = ({
 
 const styles = {
   dendrogramTabs: {
-    height: 1000,
+    // height: 1000,
   },
 };
 

@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import * as Plotly from "plotly.js";
+import "../dashboard.css"
 
 const ScatterPlot = ({ data, layout, picWidth, picHeight, picFormat, plotTitle }) => {
   const scatterRef = useRef(null);
@@ -42,7 +43,7 @@ const ScatterPlot = ({ data, layout, picWidth, picHeight, picFormat, plotTitle }
     };
   }, [data, layout, picWidth, picHeight, plotTitle]);
 
-  return <div ref={scatterRef} style={{height: 'calc(100vh - 180px )' }}></div>;
+  return <div className="scatter-plot" ref={scatterRef} style={{}}></div>;
 };
 
 ScatterPlot.propTypes = {

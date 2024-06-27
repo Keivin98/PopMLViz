@@ -131,6 +131,11 @@
   .add-metadata-button{
     font-size: 10px !important;
   }
+  @media (max-width: 625px) {
+    .optionsContainer{
+      display: none;
+    }
+  }
 
   }
 

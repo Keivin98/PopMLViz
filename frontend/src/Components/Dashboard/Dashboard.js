@@ -15,6 +15,7 @@ import colors from "../../config/colors";
 import * as Plotly from "plotly.js";
 import BarPlot from "./centralPane/BarPlot";
 import "./dashboard.css";
+import BottomPane from "./BottomPane";
 
 const randomColors = [
   "#3f91ba",
@@ -129,6 +130,21 @@ const App = () => {
     }
   }, [fileChanged]);
 
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth <= 625) {
+        document.body.classList.add("force-reflow");
+        setTimeout(() => {
+          document.body.classList.remove("force-reflow");
+        }, 100);
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
   const handleClose = () => setModalOpen(false);
 
   console.log(process.env.REACT_APP_PROTOCOL);
@@ -2306,6 +2322,55 @@ const App = () => {
           selectedUploadOption={selectedUploadOption}
         />
 
+        <BottomPane
+          downloadPlot={downloadPlot}
+          selectedUploadOption={selectedUploadOption}
+          selectActions={selectActions}
+          multiValue={multiValue}
+          handleMultiChange={handleMultiChange}
+          selectedDescribingColumnColor={selectedDescribingColumnColor}
+          handleColoredColumns={handleColoredColumns}
+          selectedDescribingColumnShape={selectedDescribingColumnShape}
+          handleShapeColumns={handleShapeColumns}
+          OutlierData={OutlierData}
+          data={data}
+          handleMetaDataUpload={handleMetaDataUpload}
+          onInputMetadataClick={onInputMetadataClick}
+          allActions={allActions}
+          setMappingIDColumn={setMappingIDColumn}
+          alphaVal={alphaVal}
+          certaintyVal={certaintyVal}
+          admixMode={admixMode}
+          admix={admix}
+          handleAdmixOptionsCallback={handleAdmixOptionsCallback}
+          columnRange={columnRange}
+          clusterColors={clusterColors}
+          setClusterColors={setClusterColors}
+          clusterNames={clusterNames}
+          numClusters={numClusters}
+          markerSize={markerSize}
+          handleTabOutputCallback={handleTabOutputCallback}
+          showOutputOptions={showOutputOptions}
+          handleClose={handleClose}
+          modalOpen={modalOpen}
+          setModalOpen={setModalOpen}
+          UploadTabChange={UploadTabChange}
+          samplePCAAdmixDataset2={samplePCAAdmixDataset2}
+          handleProcessedPCA={handleProcessedPCA}
+          handleProcessedAdmix={handleProcessedAdmix}
+          handleUnprocessedPCA={handleUnprocessedPCA}
+          handleTSNE2D={handleTSNE2D}
+          handleTSNE3D={handleTSNE3D}
+          runPCAir={runPCAir}
+          runCluster={runCluster}
+          runOutliers={runOutliers}
+          removeOutliers={removeOutliers}
+          onPressReset={onPressReset}
+          styles={styles}
+          fileChanged={fileChanged}
+          setFileChanged={setFileChanged}
+        />
+
         <RightPane
           downloadPlot={downloadPlot}
           selectedUploadOption={selectedUploadOption}
@@ -2328,7 +2393,7 @@ const App = () => {
           admix={admix}
           handleAdmixOptionsCallback={handleAdmixOptionsCallback}
           columnRange={columnRange}
-        clusterColors={clusterColors}
+          clusterColors={clusterColors}
           setClusterColors={setClusterColors}
           clusterNames={clusterNames}
           numClusters={numClusters}

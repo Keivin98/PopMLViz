@@ -4,10 +4,10 @@
     top: 0;
     /* left: 0; */
     grid-area: left;
-    width: 20%;
+    /* width: 20%; */
     color: white;
     padding: 20px;
-    background-color: #3b3f4e; /* Replace with the actual color value from colors.gray */
+    background-color: #3b3f4e; 
     overflow-y: auto;
     overflow-x: hidden;
     min-width: 140px;
@@ -55,3 +55,9 @@
         font-size: 15px !important;
     } */
 }
+
+@media (max-width: 625px) {
+    .leftpane{
+      display: none;
+    }
+  }

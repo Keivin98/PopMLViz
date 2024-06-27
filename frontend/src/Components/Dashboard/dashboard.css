@@ -4,7 +4,7 @@
     padding: 0 !important;
     margin: 0 !important;
     display: grid;
-    grid-template-columns: minmax(100px, 1fr) minmax(100px, 3.5fr) minmax(100px, 1fr);
+    grid-template-columns: minmax(140px, 1fr) minmax(100px, 3.5fr) minmax(127px, 1fr);
     grid-template-rows: 100px 1fr;
     grid-template-areas:
       "left upper right"
@@ -35,4 +35,49 @@
     grid-area: upper;
     width: 100%;
   }
-  
+  .bottom{
+    display: none;
+  }
+  .scatter-plot{
+    height: calc(100vh - 160px )
+  }
+  .logo{
+    display: none;
+  }
+
+  .force-reflow * {
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
+    will-change: unset !important;
+  }
+
+
+  @media (max-width: 625px) {
+    
+    .container {
+        grid-template-columns: 1fr;
+        grid-template-rows: 100px 1fr 1fr;
+        grid-template-areas:
+          "upper"
+          "center"
+          "bottom";
+        column-gap: 10px;
+        row-gap: 10px;
+      }
+      .bottom{
+        display: block;
+        grid-area: bottom;
+        height: 100%;
+        background-color: rgb(245, 246, 247);
+        width: 100%;
+        overflow-y: auto;
+        overflow-x: hidden;
+      }
+      .scatter-plot{
+        height: 450px
+      }
+      .logo{
+        display: block;
+      }
+  }

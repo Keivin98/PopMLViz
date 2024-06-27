@@ -7,6 +7,7 @@ import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
 import colors from "../../config/colors";
 import font from "../../config/font";
+import { useNavigate } from "react-router-dom";
 import "./upperpane.css";
 import "./dashboard.css";
 
@@ -26,8 +27,28 @@ const UpperPane = ({
     { value: "2D", label: "2D" },
     { value: "3D", label: "3D" },
   ];
+
+  const navigate = useNavigate();
+
+  function handleHomeClick() {
+    navigate("/");
+  }
   return (
     <div className="radio grid-u" style={styles.dimensions}>
+      {/* <div
+        className="logo"
+        onClick={handleHomeClick}
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          marginTop: "5px",
+          // marginBottom: "50px",
+          alignItems: "center",
+          cursor: "pointer",
+        }}
+      >
+        <img src="../../logo.jpeg" style={{ height: "40px", marginRight: "10px" }} />
+      </div> */}
       <div className="specialDropDown">
         <label style={{ marginLeft: 20 }}>
           <h6 className="axisText"> Plot </h6>
