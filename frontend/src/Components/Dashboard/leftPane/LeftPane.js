@@ -7,6 +7,7 @@ import colors from "../../../config/colors";
 import { useNavigate } from "react-router-dom";
 import font from "../../../config/font";
 import "./leftpane.css"
+import "../dashboard.css"
 
 const LeftPane = ({
   UploadTabChange,
@@ -35,7 +36,7 @@ const LeftPane = ({
     navigate("/");
   }
   return (
-    <div className="leftpane" >
+    <div className="leftpane grid-l" >
       <div
         className="logo-container"
         onClick={handleHomeClick}

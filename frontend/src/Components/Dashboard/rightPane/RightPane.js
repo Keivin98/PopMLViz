@@ -9,8 +9,9 @@ import { FormControl, FormControlLabel, FormLabel, Radio, RadioGroup } from "@mu
 import AppButton from "../../AppButton";
 import { MdOutlineBorderColor } from "react-icons/md";
 import { IoMdSettings } from "react-icons/io";
-
+import "../dashboard.css"
 import "./rightpane.css";
+
 
 const RightPane = ({
   selectedUploadOption,
@@ -45,7 +46,7 @@ const RightPane = ({
 }) => {
   const uploadRef = useRef(null);
   return (
-    <Tabs className={"optionsContainer"}>
+    <Tabs className={"optionsContainer grid-r"}>
       <TabList className="tab-list">
         <Tab className="tab">
           <IoMdSettings />

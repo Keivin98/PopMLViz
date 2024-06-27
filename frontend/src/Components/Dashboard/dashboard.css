@@ -1,0 +1,34 @@
+.container {
+    width: 100% !important;
+    max-width: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    display: grid;
+    grid-template-columns: minmax(140px, 1fr) minmax(127px, 3.5fr) minmax(127px, 1fr); 
+    grid-template-rows: 100px 1fr; 
+    grid-template-areas: 
+      "left upper right"
+      "left center right";
+    height: 100vh; 
+    width: 100vw;
+    column-gap: 10px;
+    row-gap: 10px;
+}
+
+.grid-l {
+    grid-area: left;
+    width: 100%;
+}
+.grid-c {
+    grid-area: center;
+    width: 100%;
+    height: 100%;
+}
+.grid-r {
+    grid-area: right;
+    width: 100%;
+}
+.grid-u {
+    grid-area: upper;
+    width: 100%;
+}

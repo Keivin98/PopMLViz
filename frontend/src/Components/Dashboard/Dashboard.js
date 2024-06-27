@@ -14,6 +14,7 @@ import CentralPane from "./centralPane/CentralPane";
 import colors from "../../config/colors";
 import * as Plotly from "plotly.js";
 import BarPlot from "./centralPane/BarPlot";
+import "./dashboard.css";
 
 const randomColors = [
   "#3f91ba",
@@ -2249,7 +2250,7 @@ const App = () => {
         </div>
       )}
 
-      <div style={styles.splitScreen}>
+      <div className="container" style={styles.splitScreen}>
         <LeftPane
           handleClose={handleClose}
           modalOpen={modalOpen}
@@ -2272,72 +2273,72 @@ const App = () => {
           setFileChanged={setFileChanged}
         />
 
-        <div className="block-example" style={styles.rightPane}>
-          {!isLoading && (
-            <CentralPane
-              showScatterPlot={showScatterPlot}
-              dendrogramPath={dendrogramPath}
-              admix={admix}
-              selectedUploadOption={selectedUploadOption}
-              alphaVal={alphaVal}
-              certaintyVal={certaintyVal}
-              clusterNames={clusterNames}
-              clusterColors={clusterColors}
-              clusterNumberChange={clusterNumberChange}
-              admixOptionsLabelCheck={admixOptionsLabelCheck}
-              plotTitle={plotTitle}
-              picWidth={picWidth}
-              picHeight={picHeight}
-              picFormat={picFormat}
-              admixMode={admixMode}
-            />
-          )}
-          <div>
-            <UpperPane
-              axisRef={axisRef}
-              selectedOption={selectedOption}
-              onValueChangeDims={onValueChangeDims}
-              selectedColumns={selectedColumns}
-              selectActions={selectActions}
-              handleSelectXChange={handleSelectXChange}
-              handleSelectYChange={handleSelectYChange}
-              handleSelectZChange={handleSelectZChange}
-              selectedUploadOption={selectedUploadOption}
-            />
+        {/* <div className="block-example" style={styles.rightPane}> */}
+        {!isLoading && (
+          <CentralPane
+            showScatterPlot={showScatterPlot}
+            dendrogramPath={dendrogramPath}
+            admix={admix}
+            selectedUploadOption={selectedUploadOption}
+            alphaVal={alphaVal}
+            certaintyVal={certaintyVal}
+            clusterNames={clusterNames}
+            clusterColors={clusterColors}
+            clusterNumberChange={clusterNumberChange}
+            admixOptionsLabelCheck={admixOptionsLabelCheck}
+            plotTitle={plotTitle}
+            picWidth={picWidth}
+            picHeight={picHeight}
+            picFormat={picFormat}
+            admixMode={admixMode}
+          />
+        )}
+        {/* <div> */}
+        <UpperPane
+          axisRef={axisRef}
+          selectedOption={selectedOption}
+          onValueChangeDims={onValueChangeDims}
+          selectedColumns={selectedColumns}
+          selectActions={selectActions}
+          handleSelectXChange={handleSelectXChange}
+          handleSelectYChange={handleSelectYChange}
+          handleSelectZChange={handleSelectZChange}
+          selectedUploadOption={selectedUploadOption}
+        />
 
-            <RightPane
-              downloadPlot={downloadPlot}
-              selectedUploadOption={selectedUploadOption}
-              selectActions={selectActions}
-              multiValue={multiValue}
-              handleMultiChange={handleMultiChange}
-              selectedDescribingColumnColor={selectedDescribingColumnColor}
-              handleColoredColumns={handleColoredColumns}
-              selectedDescribingColumnShape={selectedDescribingColumnShape}
-              handleShapeColumns={handleShapeColumns}
-              OutlierData={OutlierData}
-              data={data}
-              handleMetaDataUpload={handleMetaDataUpload}
-              onInputMetadataClick={onInputMetadataClick}
-              allActions={allActions}
-              setMappingIDColumn={setMappingIDColumn}
-              alphaVal={alphaVal}
-              certaintyVal={certaintyVal}
-              admixMode={admixMode}
-              admix={admix}
-              handleAdmixOptionsCallback={handleAdmixOptionsCallback}
-              columnRange={columnRange}
-              clusterColors={clusterColors}
-              setClusterColors={setClusterColors}
-              clusterNames={clusterNames}
-              numClusters={numClusters}
-              markerSize={markerSize}
-              handleTabOutputCallback={handleTabOutputCallback}
-              showOutputOptions={showOutputOptions}
-            />
-          </div>
-        </div>
+        <RightPane
+          downloadPlot={downloadPlot}
+          selectedUploadOption={selectedUploadOption}
+          selectActions={selectActions}
+          multiValue={multiValue}
+          handleMultiChange={handleMultiChange}
+          selectedDescribingColumnColor={selectedDescribingColumnColor}
+          handleColoredColumns={handleColoredColumns}
+          selectedDescribingColumnShape={selectedDescribingColumnShape}
+          handleShapeColumns={handleShapeColumns}
+          OutlierData={OutlierData}
+          data={data}
+          handleMetaDataUpload={handleMetaDataUpload}
+          onInputMetadataClick={onInputMetadataClick}
+          allActions={allActions}
+          setMappingIDColumn={setMappingIDColumn}
+          alphaVal={alphaVal}
+          certaintyVal={certaintyVal}
+          admixMode={admixMode}
+          admix={admix}
+          handleAdmixOptionsCallback={handleAdmixOptionsCallback}
+          columnRange={columnRange}
+        clusterColors={clusterColors}
+          setClusterColors={setClusterColors}
+          clusterNames={clusterNames}
+          numClusters={numClusters}
+          markerSize={markerSize}
+          handleTabOutputCallback={handleTabOutputCallback}
+          showOutputOptions={showOutputOptions}
+        />
       </div>
+      {/* </div> */}
+      {/* </div> */}
     </div>
   );
 };
@@ -2349,65 +2350,65 @@ const styles = {
     // gridTemplateRows: "1fr",
   },
   splitScreen: {
-    display: "flex",
-    flexDirection: "column",
+    // display: "flex",
+    // flexDirection: "column",
     // marginTop: "50px"
     // display: "grid",
     // gridTemplateColumns: "1fr 5fr",
     // gridTemplateAreas: 'left right',
   },
 
-  rightPane: {
-    height: "91%",
-    position: "fixed",
-    display: "flex",
-    flexDirection: "row",
-    top: 0,
-    right: 0,
-    // width: "78%",
-    // display: 'block',
-    gridArea: "right",
-    marginTop: "4%",
-    marginRight: "10px",
-    justifyContent: "center",
-    alignItems: "center",
-  },
+  // rightPane: {
+  //   height: "91%",
+  //   position: "fixed",
+  //   display: "flex",
+  //   flexDirection: "row",
+  //   top: 0,
+  //   right: 0,
+  //   // width: "78%",
+  //   // display: 'block',
+  //   gridArea: "right",
+  //   marginTop: "4%",
+  //   marginRight: "10px",
+  //   justifyContent: "center",
+  //   alignItems: "center",
+  // },
   radioButtons: {
     display: "flex",
     flexDirection: "column",
     marginTop: "10px",
   },
   leftPane: {
-  //   height: "100vh",
+    //   height: "100vh",
+    //   position: "fixed",
+    //   top: 0,
+    //   // paddingTop: "20px",
+    //   left: 0,
+    //   gridArea: "left",
+    //   width: "20%",
+    //   // marginTop: "50px",
+    //   color: "white",
+    //   padding: "2%",
+    //   // display: "block",
+    //   // backgroundColor:"rgb(245, 246, 247)",
+    //   backgroundColor: colors.gray,
+    //   overflowY: "auto",
+    //   overflowX: "hidden",
+  },
+  // dimensions: {
   //   position: "fixed",
-  //   top: 0,
-  //   // paddingTop: "20px",
+  //   z_index: 1,
+  //   top: "8%",
+  //   overflow_x: "hidden",
   //   left: 0,
-  //   gridArea: "left",
-  //   width: "20%",
-  //   // marginTop: "50px",
-  //   color: "white",
-  //   padding: "2%",
-  //   // display: "block",
-  //   // backgroundColor:"rgb(245, 246, 247)",
-  //   backgroundColor: colors.gray,
-  //   overflowY: "auto",
-  //   overflowX: "hidden",
-  },
-  dimensions: {
-    position: "fixed",
-    z_index: 1,
-    top: "8%",
-    overflow_x: "hidden",
-    left: 0,
-    marginLeft: "21%",
-    width: "57%",
-    display: "flex",
-    flexDirection: "row",
-    padding: "10px",
-    backgroundColor: "#f5f6f7",
-    borderRadius: 10,
-  },
+  //   marginLeft: "21%",
+  //   width: "57%",
+  //   display: "flex",
+  //   flexDirection: "row",
+  //   padding: "10px",
+  //   backgroundColor: "#f5f6f7",
+  //   borderRadius: 10,
+  // },
   outputSettings: {
     display: "flex",
     flexDirection: "column",
@@ -2424,19 +2425,19 @@ const styles = {
     flexDirection: "row",
     marginTop: "2%",
   },
-  optionsContainer: {
-    position: "fixed",
-    right: "1%",
-    top: 0,
-    height: "89%",
-    display: "flex",
-    flexDirection: "column",
-    width: "20%",
-    padding: "10px",
-    marginTop: "4.5%",
-    backgroundColor: "#f5f6f7",
-    borderRadius: 10,
-  },
+  // optionsContainer: {
+  //   position: "fixed",
+  //   right: "1%",
+  //   top: 0,
+  //   height: "89%",
+  //   display: "flex",
+  //   flexDirection: "column",
+  //   width: "20%",
+  //   padding: "10px",
+  //   marginTop: "4.5%",
+  //   backgroundColor: "#f5f6f7",
+  //   borderRadius: 10,
+  // },
 };
 
 export default App;

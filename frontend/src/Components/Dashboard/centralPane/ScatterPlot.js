@@ -12,12 +12,12 @@ const ScatterPlot = ({ data, layout, picWidth, picHeight, picFormat, plotTitle }
         l: 40,
         r: 40,
         t: 40,
-        b: 40
+        b: 40,
       },
       autosize: true,
     };
-  
-    return Plotly.newPlot(scatterRef.current, data, updatedLayout, {
+
+    Plotly.newPlot(scatterRef.current, data, updatedLayout, {
       toImageButtonOptions: {
         filename: plotTitle,
         width: picWidth,
@@ -26,13 +26,41 @@ const ScatterPlot = ({ data, layout, picWidth, picHeight, picFormat, plotTitle }
       },
     });
   };
-  
 
-useEffect(() => {
+  const handleResize = () => {
+    if (scatterRef.current) {
+      Plotly.Plots.resize(scatterRef.current);
+    }
+  };
+
+  useEffect(() => {
     showPlot();
-  }, [data, layout, picWidth, picHeight, picFormat, plotTitle]);
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [data, layout, picWidth, picHeight, plotTitle]);
 
-  return <div ref={scatterRef} style={styles.scatterContainer}></div>;
+  const scatterContainerStyle = {
+    width: "100%",
+    height: "100%",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  };
+
+  const plotContainerStyle = {
+    width: "100%",
+    height: "100%",
+    minWidth: 0,
+    minHeight: 0,
+  };
+
+  return (
+    <div style={scatterContainerStyle}>
+      <div ref={scatterRef} style={plotContainerStyle}></div>
+    </div>
+  );
 };
 
 ScatterPlot.propTypes = {
@@ -42,20 +70,6 @@ ScatterPlot.propTypes = {
   picHeight: PropTypes.number,
   picFormat: PropTypes.string,
   plotTitle: PropTypes.string,
-};
-
-const styles = {
-  scatterContainer: {
-    position: "fixed",
-    zIndex: 1,
-    top: 0,
-    overflowX: "hidden",
-    left: 0,
-    marginTop: "13%",
-    marginLeft: "21%",
-    width: "57%",
-    height: "80%",
-  },
 };
 
 export default ScatterPlot;

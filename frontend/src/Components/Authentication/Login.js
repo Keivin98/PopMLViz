@@ -39,7 +39,7 @@ function Login() {
   };
 
   return (
-    <>
+    <div className="auth-container">
       <ParticlesBg type="cobweb" bg={true} />
       <div style={{position: "absolute", top: 50, left: 50 }}>
         <BackButton handleBack={handleBack} arrowColor={"#EEE"} color={"black"}></BackButton>
@@ -86,7 +86,7 @@ function Login() {
         </form>
         {loginText && <p style={{ textAlign: "center", marginTop: "20px" }}>{loginText}</p>}
       </div>
-    </>
+    </div>
   );
 }
 

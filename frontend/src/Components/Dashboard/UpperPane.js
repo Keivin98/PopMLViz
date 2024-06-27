@@ -8,6 +8,8 @@ import FormLabel from "@mui/material/FormLabel";
 import colors from "../../config/colors";
 import font from "../../config/font";
 import "./upperpane.css";
+import "./dashboard.css";
+
 const UpperPane = ({
   selectedOption,
   onValueChangeDims,
@@ -25,9 +27,9 @@ const UpperPane = ({
     { value: "3D", label: "3D" },
   ];
   return (
-    <div className="radio" style={styles.dimensions}>
+    <div className="radio grid-u" style={styles.dimensions}>
       <div className="specialDropDown">
-        <label style={{  marginLeft: 20}}>
+        <label style={{ marginLeft: 20 }}>
           <h6 className="axisText"> Plot </h6>
         </label>
         <div style={{}}>
@@ -35,7 +37,7 @@ const UpperPane = ({
             // className="select"
             // style={{ width: "120px" }}
             disabled={selectedUploadOption === "admixture"}
-            value={{ value: selectedOption ? selectedOption : "1D", label: selectedOption ? selectedOption : "1D", }}
+            value={{ value: selectedOption ? selectedOption : "1D", label: selectedOption ? selectedOption : "1D" }}
             options={plotOptions}
             onChange={(event) => onValueChangeDims(event, true)}
             // isDisabled={selectedUploadOption === "admixture"} //why disabled?
@@ -57,7 +59,7 @@ const UpperPane = ({
           aria-labelledby="demo-row-radio-buttons-group-label"
           name="row-radio-buttons-group"
           value={selectedOption}
-          onChange={(event)=> onValueChangeDims(event, false)}
+          onChange={(event) => onValueChangeDims(event, false)}
         >
           <FormControlLabel
             className="radioButton"
@@ -144,14 +146,14 @@ const UpperPane = ({
 
 const styles = {
   dimensions: {
-    position: "fixed",
+    // position: "fixed",
     z_index: 1,
     top: 0,
     marginTop: "10px",
     overflow_x: "hidden",
     left: 0,
-    marginLeft: "21%",
-    width: "57%",
+    // marginLeft: "21%",
+    // width: "57%",
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",

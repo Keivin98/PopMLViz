@@ -1,12 +1,12 @@
 .leftpane{
     height: 100vh;
-    position: fixed;
+    /* position: fixed; */
     top: 0;
-    left: 0;
+    /* left: 0; */
     grid-area: left;
     width: 20%;
     color: white;
-    padding: 2%;
+    padding: 20px;
     background-color: #3b3f4e; /* Replace with the actual color value from colors.gray */
     overflow-y: auto;
     overflow-x: hidden;

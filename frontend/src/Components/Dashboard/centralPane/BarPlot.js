@@ -52,7 +52,17 @@ const BarPlot = (props) => {
 
   useEffect(() => {
     createBarPlot();
-  }, [props.data, props.clusterNames, props.picWidth, props.picHeight, props.picFormat, props.plotTitle, props.alphaVal, props.certaintyVal, props.admixMode, ]);
+  }, [
+    props.data,
+    props.clusterNames,
+    props.picWidth,
+    props.picHeight,
+    props.picFormat,
+    props.plotTitle,
+    props.alphaVal,
+    props.certaintyVal,
+    props.admixMode,
+  ]);
 
   const createBarPlot = () => {
     var colors = [];
@@ -67,10 +77,10 @@ const BarPlot = (props) => {
       let sortedValues = [];
       let positionOfUndefined = -1;
       if (props.admixMode === 0) {
-        sortedValues = [...props.data].sort((a, b) => assignClusterToRow1(a) > assignClusterToRow1(b) ? 1 : -1);
+        sortedValues = [...props.data].sort((a, b) => (assignClusterToRow1(a) > assignClusterToRow1(b) ? 1 : -1));
         positionOfUndefined = sortedValues.map((x) => assignClusterToRow1(x)).indexOf(numClusters);
       } else {
-        sortedValues = [...props.data].sort((a, b) => assignClusterToRow2(a) > assignClusterToRow2(b) ? 1 : -1);
+        sortedValues = [...props.data].sort((a, b) => (assignClusterToRow2(a) > assignClusterToRow2(b) ? 1 : -1));
         positionOfUndefined = sortedValues.map((x) => assignClusterToRow2(x)).indexOf(numClusters);
       }
 
@@ -87,10 +97,7 @@ const BarPlot = (props) => {
             name: name,
             x: [
               ...range(0, positionOfUndefined),
-              ...range(
-                positionOfUndefined + 5,
-                Math.max(y_values.length, positionOfUndefined + 4)
-              ),
+              ...range(positionOfUndefined + 5, Math.max(y_values.length, positionOfUndefined + 4)),
             ],
             y: y_values,
             marker: {
@@ -106,16 +113,11 @@ const BarPlot = (props) => {
             name: name,
             x: [
               ...range(0, positionOfUndefined),
-              ...range(
-                positionOfUndefined + 5,
-                Math.max(y_values.length, positionOfUndefined + 4)
-              ),
+              ...range(positionOfUndefined + 5, Math.max(y_values.length, positionOfUndefined + 4)),
             ],
             y: y_values,
             marker: {
-              opacity: range(0, y_values.length).map((x) =>
-                x < positionOfUndefined ? 1 : 0.2
-              ),
+              opacity: range(0, y_values.length).map((x) => (x < positionOfUndefined ? 1 : 0.2)),
               color: colors[n - 1],
             },
           });

@@ -49,7 +49,7 @@ function Register() {
   };
 
   return (
-    <>
+    <div className="auth-container">
       <ParticlesBg type="cobweb" bg={true} />
 
       <div style={{ position: "absolute", top: 50, left: 50 }}>
@@ -106,7 +106,7 @@ function Register() {
         </form>
         {registrationText && <p style={{ textAlign: "center", marginTop: "20px" }}>{registrationText}</p>}
       </div>
-    </>
+    </div>
   );
 }
 

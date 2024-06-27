@@ -46,6 +46,16 @@ const ScatterAdmix = ({
     admixMode: admixMode,
   });
 
+  const updatedLayout = {
+    margin: {
+      l: 40,
+      r: 40,
+      t: 40,
+      b: 40
+    },
+    autosize: true,
+  };
+
   const scatterRef = useRef(null);
 
   const range = (start, end) => {
@@ -327,7 +337,8 @@ const ScatterAdmix = ({
         yaxis: { title: y },
       };
     }
-    return Plotly.newPlot(scatterRef.current, data_new, layout, {
+   
+    return Plotly.newPlot(scatterRef.current, data_new, layout,updatedLayout, {
       toImageButtonOptions: {
         filename: plotTitle,
         width: picWidth,
@@ -347,8 +358,7 @@ const ScatterAdmix = ({
     if (PCAdata == null || DIMS === 0) {
       return Plotly.newPlot(
         scatterRef.current,
-        [],
-        {},
+        updatedLayout,
         {
           toImageButtonOptions: {
             filename: plotTitle,
