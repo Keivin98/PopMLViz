@@ -12,6 +12,8 @@ import font from "../../../config/font";
 import InputOptions from "../../InputOptions";
 import colors from "../../../config/colors";
 import "../../DropDown.css"
+import "./leftpane.css"
+import AppButton from "../../AppButton";
 
 const OutlierDetectionTab = ({ onChange, numFeatures, removeOutliers, allActions }) => {
   const [selectOutlierActions] = useState([
@@ -168,22 +170,24 @@ const OutlierDetectionTab = ({ onChange, numFeatures, removeOutliers, allActions
             columnName={columnName}
           />
 
-          <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-around", alignItems: 'center', marginTop: 20,}}>
-            <Button
+          <div className="outlier-btns">
+            <AppButton
+              className={"outlier-btn"}
               variant="outlined"
               onClick={runOutliers}
+              title={"Detect Outliers"}
               style={{
                 color: "white",
                 fontWeight: "bold",
                 backgroundColor: selectedOutlierMethod == null ? "grey" : colors.blue,
                 fontFamily: font.primaryFont,
-                marginRight: 5 
+                marginRight: 5,
+                width: "100%"
               }}
               disabled={selectedOutlierMethod == null}
             >
-              Detect Outliers
-            </Button>
-            <div style={{display: "flex",  justifyContent: 'center', alignItems: 'center', width: 40, height: 40, borderRadius: 100, backgroundColor: "white"}}>
+            </AppButton>
+            <div className="trash-can" style={{display: "flex",  justifyContent: 'center', alignItems: 'center', width: 40, height: 40, borderRadius: 100, backgroundColor: "white"}}>
               <IconButton
                 variant="outlined"
                 aria-label="delete"

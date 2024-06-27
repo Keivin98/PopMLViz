@@ -78,7 +78,7 @@
     
     cursor: pointer;
     border: 1px solid #ccc;
-    background-color: #f9f9f9;
+    background-color: #eee;
   }
   .tab:hover {
     background-color: #efefef;
@@ -90,7 +90,7 @@
   }
   
   .tab[aria-selected="true"] {
-    background-color: #eee;
+    background-color: #f9f9f9;
     border-bottom: 2px solid blue;
   }
   .range-slider{

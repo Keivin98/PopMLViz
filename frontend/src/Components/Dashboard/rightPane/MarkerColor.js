@@ -39,10 +39,10 @@ export default function MarkerColor({ setChosenInitialColor, name, clusterColors
       </div>
 
       <Collapse style={{}} in={open}>
-        <div style={{}}>
+        <div style={{display: "flex", flexDirection: 'column'}}>
           <CirclePicker
             width="100%"
-            style={{ marginTop: 20 }}
+            style={{ marginTop: 20, alignItems: "center"}}
             circleSize={20}
             // colors={clusterColors}
             onChangeComplete={(color) => {

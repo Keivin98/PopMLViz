@@ -3,6 +3,9 @@ import Slider from "@material-ui/core/Slider";
 import { Button } from "@material-ui/core";
 import font from "../../../config/font";
 import colors from "../../../config/colors";
+import "./leftpane.css";
+import AppButton from "../../AppButton";
+import { Height } from "@mui/icons-material";
 
 const OutlierBlock = ({ columnRange, numFeatures, columnName, onChange }) => {
   const [range, setRange] = useState([]);
@@ -27,24 +30,20 @@ const OutlierBlock = ({ columnRange, numFeatures, columnName, onChange }) => {
   };
 
   return (
-    <div
+    <div 
+      className="outlier-block"
       style={{
         display: "flex",
         flexDirection: "column",
         width: "100%",
         justifyContent: "space-between",
         marginBottom: "10%",
-        height: "50px",
+        // height: "50px",
         paddingTop: "10px",
       }}
     >
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "space-around",
-        }}
-      >
+      <hr></hr>
+      <div className="range-slider">
         <Slider
           value={range}
           onChange={rangeSelector}
@@ -52,28 +51,28 @@ const OutlierBlock = ({ columnRange, numFeatures, columnName, onChange }) => {
           min={1}
           max={numFeatures}
           marks
-          style={{ color: colors.blue}}
+          style={{ color: colors.blue }}
           disabled={disabled}
         />
-        <Button
+        <AppButton
           onClick={handleApplyClick}
           variant="outlined"
+          title={"Apply"}
+          color={"white"}
+          textColor={colors.blue}
+          className="apply-btn"
           style={{
-            fontWeight: "bold",
             marginLeft: "10%",
-            backgroundColor: colors.blue,
-            fontFamily: font.primaryFont,
-            color: "white",
+            // fontFamily: font.primaryFont,
           }}
-        >
-          Apply
-        </Button>
+        ></AppButton>
       </div>
       {!disabled && (
-        <label>
+        <label style={{marginTop: 10,}}>
           {columnName} {range[0]} -- {columnName} {range[1]}
         </label>
       )}
+      <hr></hr>
     </div>
   );
 };

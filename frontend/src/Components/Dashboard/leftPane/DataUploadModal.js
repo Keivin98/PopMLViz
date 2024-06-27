@@ -640,7 +640,7 @@ function DataUploadModal({
     <div>
       <div style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
         <Button
-          style={{ fontFamily: "Poppins, san-serif" }}
+          style={{display: 'block', fontFamily: "Poppins, san-serif", width: "100%" }}
           variant="outlined"
           className={classes.customButton}
           onClick={handleOpen}

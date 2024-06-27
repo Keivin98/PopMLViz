@@ -38,17 +38,17 @@ function UploadAndVisualizeTab(prop) {
     <div>
       <div
         style={{
-          display: "flex",
-          marginBottom: "5%",
-          justifyContent: "center",
-          alignItems: "center",
+          // display: "flex",
+          // marginBottom: "5%",
+          // justifyContent: "center",
+          // alignItems: "center",
           // flexDirection: "row",
         }}
         onClick={() => setOpen(!open)}
       >
         <div
           style={{
-            display: "flex",
+            // display: "flex",
             flexDirection: "row",
             // width: "80%",
           }}

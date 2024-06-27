@@ -6,7 +6,18 @@ const ScatterPlot = ({ data, layout, picWidth, picHeight, picFormat, plotTitle }
   const scatterRef = useRef(null);
 
   const showPlot = () => {
-    return Plotly.newPlot(scatterRef.current, data, layout, {
+    const updatedLayout = {
+      ...layout,
+      margin: {
+        l: 40,
+        r: 40,
+        t: 40,
+        b: 40
+      },
+      autosize: true,
+    };
+  
+    return Plotly.newPlot(scatterRef.current, data, updatedLayout, {
       toImageButtonOptions: {
         filename: plotTitle,
         width: picWidth,
@@ -15,6 +26,7 @@ const ScatterPlot = ({ data, layout, picWidth, picHeight, picFormat, plotTitle }
       },
     });
   };
+  
 
 useEffect(() => {
     showPlot();
@@ -42,7 +54,7 @@ const styles = {
     marginTop: "13%",
     marginLeft: "21%",
     width: "57%",
-    height: "74%",
+    height: "80%",
   },
 };
 

@@ -6,6 +6,7 @@ import OutlierDetectionTab from "./OutlierDetectionTab";
 import colors from "../../../config/colors";
 import { useNavigate } from "react-router-dom";
 import font from "../../../config/font";
+import "./leftpane.css"
 
 const LeftPane = ({
   UploadTabChange,
@@ -34,8 +35,9 @@ const LeftPane = ({
     navigate("/");
   }
   return (
-    <div className="leftpane" style={styles.leftPane}>
+    <div className="leftpane" >
       <div
+        className="logo-container"
         onClick={handleHomeClick}
         style={{
           display: "flex",
