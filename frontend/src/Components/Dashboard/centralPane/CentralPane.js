@@ -2,9 +2,7 @@ import React from 'react';
 import { Tabs, Tab, TabList, TabPanel } from 'react-tabs';
 import BarPlot from './BarPlot';
 import Dendrogram from './Dendrogram';
-// import 'react-tabs/style/react-tabs.css';
-import { Hidden, hexToRgb } from '@material-ui/core';
-import "../dashboard.css"
+import "../dashboard.css";
 
 const CentralPane = ({
   showScatterPlot,
@@ -23,7 +21,7 @@ const CentralPane = ({
   admixMode,
   clusterColors
 }) => (
-  <div className='grid-c' style={{}}>
+  <div className='grid-c'>
     <Tabs style={styles.dendrogramTabs}>
       <TabList>
         <Tab>Scatter Plot</Tab>
@@ -36,7 +34,7 @@ const CentralPane = ({
           <Dendrogram dendrogramPath={dendrogramPath} />
         </TabPanel>
       )}
-      <TabPanel style={{}}>
+      <TabPanel>
         <BarPlot
           data={admix}
           alphaVal={alphaVal}
@@ -58,13 +56,7 @@ const CentralPane = ({
 
 const styles = {
   dendrogramTabs: {
-    gridArea: "central",
-    // position: "fixed",
-    // top: 0,
-    // left: 0,
-    // marginTop: "7%",
-    // marginLeft: "21%",
-    // width: "52%",
+    height: 1000,
   },
 };
 

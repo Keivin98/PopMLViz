@@ -2373,11 +2373,11 @@ const styles = {
   //   justifyContent: "center",
   //   alignItems: "center",
   // },
-  radioButtons: {
-    display: "flex",
-    flexDirection: "column",
-    marginTop: "10px",
-  },
+  // radioButtons: {
+  //   display: "flex",
+  //   flexDirection: "column",
+  //   marginTop: "10px",
+  // },
   leftPane: {
     //   height: "100vh",
     //   position: "fixed",
@@ -2409,22 +2409,22 @@ const styles = {
   //   backgroundColor: "#f5f6f7",
   //   borderRadius: 10,
   // },
-  outputSettings: {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "space-around",
-  },
+  // outputSettings: {
+  //   display: "flex",
+  //   flexDirection: "column",
+  //   justifyContent: "space-around",
+  // },
 
-  dropDown: {
-    width: "21%",
-    marginLeft: "2%",
-  },
-  describingColumnDropDown: {
-    marginLeft: "3%",
-    display: "flex",
-    flexDirection: "row",
-    marginTop: "2%",
-  },
+  // dropDown: {
+  //   width: "21%",
+  //   marginLeft: "2%",
+  // },
+  // describingColumnDropDown: {
+  //   marginLeft: "3%",
+  //   display: "flex",
+  //   flexDirection: "row",
+  //   marginTop: "2%",
+  // },
   // optionsContainer: {
   //   position: "fixed",
   //   right: "1%",

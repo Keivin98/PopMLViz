@@ -15,6 +15,7 @@ const ScatterPlot = ({ data, layout, picWidth, picHeight, picFormat, plotTitle }
         b: 40,
       },
       autosize: true,
+      responsive: true,
     };
 
     Plotly.newPlot(scatterRef.current, data, updatedLayout, {
@@ -41,26 +42,7 @@ const ScatterPlot = ({ data, layout, picWidth, picHeight, picFormat, plotTitle }
     };
   }, [data, layout, picWidth, picHeight, plotTitle]);
 
-  const scatterContainerStyle = {
-    width: "100%",
-    height: "100%",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-  };
-
-  const plotContainerStyle = {
-    width: "100%",
-    height: "100%",
-    minWidth: 0,
-    minHeight: 0,
-  };
-
-  return (
-    <div style={scatterContainerStyle}>
-      <div ref={scatterRef} style={plotContainerStyle}></div>
-    </div>
-  );
+  return <div ref={scatterRef} style={{height: 'calc(100vh - 180px )' }}></div>;
 };
 
 ScatterPlot.propTypes = {
