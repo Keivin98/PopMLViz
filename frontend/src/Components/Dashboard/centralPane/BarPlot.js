@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import * as Plotly from "plotly.js";
+import "../dashboard.css";
 
 const randomColors = [
   "#3f91ba",
@@ -20,8 +21,9 @@ const randomColors = [
 
 const BarPlot = (props) => {
   const [numClusters, setNumClusters] = useState(2);
-  const [dataNew, setDataNew] = useState([]);
+  // const [dataNew, setDataNew] = useState([]);
   const [positionOfUndefined, setPositionOfUndefined] = useState(0);
+  const scatterRef = useRef(null);
 
   const range = (start, end) => {
     var len = end - start + 1;
@@ -50,8 +52,18 @@ const BarPlot = (props) => {
     }
   };
 
+  const handleResize = () => {
+    if (scatterRef.current) {
+      Plotly.Plots.resize(scatterRef.current);
+    }
+  };
+
   useEffect(() => {
     createBarPlot();
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
   }, [
     props.data,
     props.clusterNames,
@@ -146,19 +158,22 @@ const BarPlot = (props) => {
         }
       }
 
-      setDataNew(data_new);
+      // setDataNew(data_new);
       setPositionOfUndefined(positionOfUndefined);
       Plotly.newPlot(
-        "barPlot",
+        scatterRef.current,
         data_new,
         {
           title: props.plotTitle,
           barmode: "stack",
-          bargap: 0,
-          autosize: false,
-          height: props.picHeight, // Use props.picHeight for the plot height
-          width: props.picWidth, // Use props.picWidth for the plot width
-          margin: { l: 0, r: 0, t: 0, b: 0, pad: 0 }, // Adjust margins here
+          autosize: true,
+          margin: {
+            l: 40,
+            r: 40,
+            t: 40,
+            b: 40,
+          },
+          responsive: true, 
         },
         {
           toImageButtonOptions: {
@@ -172,7 +187,7 @@ const BarPlot = (props) => {
     }
   };
 
-  return <div id="barPlot" style={{ width: `${props.picWidth}px`, height: `${props.picHeight}px` }}></div>;
+  return <div ref={scatterRef} className="scatter-plot"></div>;
 };
 
 BarPlot.propTypes = {

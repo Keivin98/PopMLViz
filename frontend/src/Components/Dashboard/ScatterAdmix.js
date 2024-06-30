@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import * as Plotly from "plotly.js";
 import PropTypes from "prop-types";
-import "./dashboard.css"
+import "./dashboard.css";
 
 const randomColors = [
   "#3f91ba",
@@ -52,7 +52,7 @@ const ScatterAdmix = ({
       l: 40,
       r: 40,
       t: 40,
-      b: 40
+      b: 40,
     },
     autosize: true,
   };
@@ -90,10 +90,20 @@ const ScatterAdmix = ({
     }
   };
 
+  const handleResize = () => {
+    if (scatterRef.current) {
+      Plotly.Plots.resize(scatterRef.current);
+    }
+  };
+
   useEffect(() => {
     if (AdmixData !== null) {
       splitPCAandADMIX();
       scatterAdmixFromData();
+      window.addEventListener("resize", handleResize);
+      return () => {
+        window.removeEventListener("resize", handleResize);
+      };
     }
   }, [AdmixData, alphaVal, certaintyVal, admixMode, outlierData, clusterNames, markerSize]);
 
@@ -109,9 +119,7 @@ const ScatterAdmix = ({
       Object.values(clusterNames).length > 0
         ? clusterNames
         : range(0, Object.values(AdmixData[0]).length + 1).map((num) => {
-            return num < Object.values(AdmixData[0]).length
-              ? "Cluster " + num
-              : "Admixed Cluster";
+            return num < Object.values(AdmixData[0]).length ? "Cluster " + num : "Admixed Cluster";
           });
 
     setState((prevState) => ({
@@ -284,10 +292,10 @@ const ScatterAdmix = ({
           x: 0.99,
         },
         margin: {
-          l: 0,
-          r: 0,
-          b: 0,
-          t: 0,
+          l: 40,
+          r: 40,
+          t: 40,
+          b: 40,
         },
         autosize: true,
         scene: {
@@ -330,18 +338,30 @@ const ScatterAdmix = ({
           },
         },
         title: plot_title,
+        autosize: true,
+        responsive: true,
       };
     } else {
       layout = {
+        margin: {
+          l: 40,
+          r: 40,
+          t: 40,
+          b: 40,
+        },
         title: plot_title,
         xaxis: { title: x },
         yaxis: { title: y },
+        autosize: true,
+        responsive: true,
       };
     }
-   
-    return Plotly.newPlot(scatterRef.current, data_new, layout,updatedLayout, {
+
+    return Plotly.newPlot(scatterRef.current, data_new, layout, updatedLayout,{
       toImageButtonOptions: {
         filename: plotTitle,
+        // width: "100%",
+        // height: "100%",
         width: picWidth,
         height: picHeight,
         format: picFormat,
@@ -357,18 +377,16 @@ const ScatterAdmix = ({
       .reduce((total, curr) => (total = total + curr), 0);
 
     if (PCAdata == null || DIMS === 0) {
-      return Plotly.newPlot(
-        scatterRef.current,
-        updatedLayout,
-        {
-          toImageButtonOptions: {
-            filename: plotTitle,
-            width: picWidth,
-            height: picHeight,
-            format: picFormat,
-          },
-        }
-      );
+      return Plotly.newPlot(scatterRef.current,updatedLayout, {
+        toImageButtonOptions: {
+          filename: plotTitle,
+          // width: "100%",
+          // height: "100%",
+          width: picWidth,
+          height: picHeight,
+          format: picFormat,
+        },
+      });
     } else {
       if (outlierData.length > 0) {
         return scatterWithClusters(DIMS - 1, x, y, z, true, outlierData);
@@ -378,7 +396,7 @@ const ScatterAdmix = ({
     }
   };
 
-  return <div ref={scatterRef} className="scatter-plot"></div>
+  return <div ref={scatterRef} className="scatter-plot"></div>;
 };
 
 ScatterAdmix.propTypes = {
