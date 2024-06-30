@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import * as Plotly from "plotly.js";
 import PropTypes from "prop-types";
+import "./dashboard.css"
 
 const randomColors = [
   "#3f91ba",
@@ -377,7 +378,7 @@ const ScatterAdmix = ({
     }
   };
 
-  return <div ref={scatterRef} style={styles.ScatterContainer}></div>;
+  return <div ref={scatterRef} className="scatter-plot"></div>
 };
 
 ScatterAdmix.propTypes = {
@@ -399,17 +400,17 @@ ScatterAdmix.propTypes = {
 };
 
 const styles = {
-  ScatterContainer: {
-    position: "fixed",
-    zIndex: 1,
-    top: 0,
-    overflowX: "hidden",
-    left: 0,
-    marginTop: "13%",
-    marginLeft: "21%",
-    width: "57%",
-    height: "74%",
-  },
+  // ScatterContainer: {
+  //   position: "fixed",
+  //   zIndex: 1,
+  //   top: 0,
+  //   overflowX: "hidden",
+  //   left: 0,
+  //   marginTop: "13%",
+  //   marginLeft: "21%",
+  //   width: "57%",
+  //   height: "74%",
+  // },
 };
 
 export default ScatterAdmix;
