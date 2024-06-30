@@ -11,11 +11,16 @@ import colors from "../../../config/colors";
 import { BiLogIn } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
 import font from "../../../config/font";
+import useWindowWidth from "../../../config/useWindowWidth";
+
 
 function Header(props) {
   const [showLogin, setShowLogin] = useState(false);
   const gaEventTracker = useAnalyticsEventTracker("social");
   const navigate = useNavigate();
+  const windowWidth = useWindowWidth();
+
+
 
   const name = "A better way to analyze population genetics.";
   const bio =
@@ -31,7 +36,11 @@ function Header(props) {
 
   return (
     <header id="home">
-      <ParticlesBg type="cobweb" bg={true} />
+     {windowWidth < 500 ? (
+        <ParticlesBg type="cobweb" num={40} bg={true} />
+      ) : (
+        <ParticlesBg type="cobweb" bg={true} />
+      )}
 
       <nav id="nav-wrap">
         <div className="nav-left">

@@ -5,13 +5,17 @@ import { ref, push, child, update } from "firebase/database";
 import { Link, useNavigate } from "react-router-dom";
 import ParticlesBg from "particles-bg";
 import BackButton from "../BackButton";
-
+import { FaRegEye, FaRegEyeSlash } from "react-icons/fa6";
+import axios from "axios";
 
 function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [registrationText, setRegistrationText] = useState("");
+  const [message, setMessage] = useState("");
+  const [passwordVisible, setPasswordVisible] = useState(false);
+  const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
 
   const navigate = useNavigate();
 
@@ -32,21 +36,33 @@ function Register() {
     navigate("/");
   };
 
-  const handleSubmit = () => {
-    if (password !== confirmPassword) {
-      setRegistrationText("Passwords do not match!");
-      return;
-    }
+  const handleSubmit = async () => {
     let obj = {
       email: email,
       password: password,
     };
-    const newPostKey = push(child(ref(database), "users")).key;
-    const updates = {};
-    updates["/" + newPostKey] = obj;
-    setRegistrationText("Registration successful!");
-    return update(ref(database), updates);
+    try {
+      const res = await axios.post("http://localhost:5000/register", obj);
+      setMessage(res.data.message);
+    } catch (error) {
+      setMessage(error.response.data.message);
+    }
   };
+  // const handleSubmit = () => {
+  //   if (password !== confirmPassword) {
+  //     setRegistrationText("Passwords do not match!");
+  //     return;
+  //   }
+  //   let obj = {
+  //     email: email,
+  //     password: password,
+  //   };
+  //   const newPostKey = push(child(ref(database), "users")).key;
+  //   const updates = {};
+  //   updates["/" + newPostKey] = obj;
+  //   setRegistrationText("Registration successful!");
+  //   return update(ref(database), updates);
+  // };
 
   return (
     <div className="auth-container">
@@ -75,25 +91,43 @@ function Register() {
             <i className="fas fa-lock icon"></i>
             <input
               className="form__input"
-              type="password"
+              type={!passwordVisible ? "password" : "text"}
               id="password"
               value={password}
+              minLength={8}
               onChange={handleInputChange}
               required
             />
             <label htmlFor="password">Password</label>
+            <div
+              style={{ position: "absolute", right: 10, top: 10 }}
+              onClick={() => {
+                setPasswordVisible(!passwordVisible);
+              }}
+            >
+              {passwordVisible ? <FaRegEye size={20} /> : <FaRegEyeSlash size={20} />}
+            </div>
           </div>
           <div className="input-box">
             <i className="fas fa-lock icon"></i>
             <input
               className="form__input"
-              type="password"
+              type={!confirmPasswordVisible ? "password" : "text"}
               id="confirmPassword"
               value={confirmPassword}
+              minLength={8}
               onChange={handleInputChange}
               required
             />
-            <label htmlFor="confirmPassword">Confirm Password</label>
+            <label htmlFor="password">Confirm Password</label>
+            <div
+              style={{ position: "absolute", right: 10, top: 10 }}
+              onClick={() => {
+                setConfirmPasswordVisible(!confirmPasswordVisible);
+              }}
+            >
+              {confirmPasswordVisible ? <FaRegEye size={20} /> : <FaRegEyeSlash size={20} />}
+            </div>
           </div>
           <button onClick={handleSubmit} type="submit" className="btn">
             Register
