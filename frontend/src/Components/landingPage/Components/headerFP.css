@@ -3,7 +3,7 @@
 html, body {
   height: 100%;
   margin: 0;
-  overflow: hidden; 
+  overflow:hidden; 
 }
 
 header {
@@ -13,7 +13,9 @@ header {
   text-align: center;
   /* overflow: hidden; */
 }
+.nav-left{
 
+}
 #background-video {
   position: absolute;
   top: 0;
@@ -86,6 +88,7 @@ header .banner-text hr {
 }
 
 .nav-left .logo {
+  display: block !important;
   height: 40px;
   margin-right: 10px;
 }
