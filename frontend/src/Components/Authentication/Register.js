@@ -16,6 +16,9 @@ function Register() {
   const [message, setMessage] = useState("");
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
+  const [emailFocused, setEmailFocused] = useState(false);
+  const [passwordFocused, setPasswordFocused] = useState(false);
+  const [confirmPasswordFocused, setConfirmPasswordFocused] = useState(false);
 
   const navigate = useNavigate();
 
@@ -83,9 +86,13 @@ function Register() {
               className="form__input"
               value={email}
               onChange={handleInputChange}
+              onFocus={() => setEmailFocused(true)}
+              onBlur={() => setEmailFocused(false)}
               required
             />
-            <label htmlFor="email">Email</label>
+            <label className={email || emailFocused ? "focused-textInput" : ""} htmlFor="email">
+              Email
+            </label>
           </div>
           <div className="input-box">
             <i className="fas fa-lock icon"></i>
@@ -96,9 +103,13 @@ function Register() {
               value={password}
               minLength={8}
               onChange={handleInputChange}
+              onFocus={() => setPasswordFocused(true)}
+              onBlur={() => setPasswordFocused(false)}
               required
             />
-            <label htmlFor="password">Password</label>
+            <label className={password || passwordFocused ? "focused-textInput" : ""} htmlFor="password">
+              Password
+            </label>
             <div
               style={{ position: "absolute", right: 10, top: 10 }}
               onClick={() => {
@@ -116,10 +127,14 @@ function Register() {
               id="confirmPassword"
               value={confirmPassword}
               minLength={8}
+              onFocus={() => setConfirmPasswordFocused(true)}
+              onBlur={() => setConfirmPasswordFocused(false)}
               onChange={handleInputChange}
               required
             />
-            <label htmlFor="password">Confirm Password</label>
+            <label className={confirmPassword || confirmPasswordFocused ? "focused-textInput" : ""} htmlFor="password">
+              Confirm Password
+            </label>
             <div
               style={{ position: "absolute", right: 10, top: 10 }}
               onClick={() => {

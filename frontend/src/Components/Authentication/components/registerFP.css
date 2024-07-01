@@ -63,10 +63,14 @@
   transition: 0.5s;
 }
 
-.wrapper .input-box input:focus ~ label,
+.focused-textInput {
+  top: -5px !important;
+}
+
+/* .wrapper .input-box input:focus ~ label,
 .wrapper .input-box input:valid ~ label {
   top: -5px;
-}
+} */
 
 .wrapper .input-box .icon {
   position: absolute;

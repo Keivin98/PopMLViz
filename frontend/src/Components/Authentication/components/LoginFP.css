@@ -68,8 +68,7 @@
     transition: 0.5s;
 }
 
-.wrapper .input-box input:focus ~ label,
-.wrapper .input-box input:valid ~ label {
+.focused-textInput {
     top: -5px;
 }
 

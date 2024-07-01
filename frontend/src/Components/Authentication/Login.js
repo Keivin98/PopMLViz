@@ -6,8 +6,6 @@ import { Link, useNavigate } from "react-router-dom";
 import ParticlesBg from "particles-bg";
 import BackButton from "../BackButton";
 import axios from "axios";
-import AppForm from "./components/form/AppForm";
-import * as Yup from "yup";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa6";
 
 function Login() {
@@ -16,6 +14,8 @@ function Login() {
   const [loginText, setLoginText] = useState("");
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
+  const [emailFocused, setEmailFocused] = useState(false);
+  const [passwordFocused, setPasswordFocused] = useState(false);
   const [passwordVisible, setPasswordVisible] = useState(false);
 
   const handleInputChange = (e) => {
@@ -72,7 +72,7 @@ function Login() {
 
   return (
     <div className="auth-container">
-      <ParticlesBg  type="cobweb" bg={true} />
+      <ParticlesBg type="cobweb" bg={true} />
       <div style={{ position: "absolute", top: 50, left: 50 }}>
         <BackButton handleBack={handleBack} arrowColor={"#EEE"} color={"black"}></BackButton>
       </div>
@@ -106,10 +106,14 @@ function Login() {
               id="email"
               className="form__input"
               value={email}
+              onFocus={() => setEmailFocused(true)}
+              onBlur={() => setEmailFocused(false)}
               onChange={handleInputChange}
               required
             />
-            <label htmlFor="email">Email</label>
+            <label className={emailFocused || email ? "focused-textInput" : ""} htmlFor="email">
+              Email
+            </label>
           </div>
           <div className="input-box">
             <i className="fas fa-lock icon"></i>
@@ -119,10 +123,14 @@ function Login() {
               id="password"
               value={password}
               minLength={8}
+              onFocus={() => setPasswordFocused(true)}
+              onBlur={() => setPasswordFocused(false)}
               onChange={handleInputChange}
               required
             />
-            <label htmlFor="password">Password</label>
+            <label className={passwordFocused || password ? "focused-textInput" : ""} htmlFor="password">
+              Password
+            </label>
             <div
               style={{ position: "absolute", right: 10, top: 10 }}
               onClick={() => {
