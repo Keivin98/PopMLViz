@@ -9,10 +9,15 @@ import PopMLvis from "../../../assets/PopMLvis.pdf";
 import colors from "../../../config/colors";
 import { useNavigate } from "react-router-dom";
 import font from "../../../config/font";
+import useWindowWidth from "../../../config/useWindowWidth";
+
 
 function Header(props) {
   const gaEventTracker = useAnalyticsEventTracker("social");
   const navigate = useNavigate();
+  const windowWidth = useWindowWidth();
+
+
 
   const name = "A better way to analyze population genetics.";
   const bio =
@@ -27,8 +32,12 @@ function Header(props) {
   };
 
   return (
-    <div className="main-page" id="home">
-      <ParticlesBg type="cobweb" bg={true} />
+    <header id="home">
+     {windowWidth < 500 ? (
+        <ParticlesBg type="cobweb" num={40} bg={true} />
+      ) : (
+        <ParticlesBg type="cobweb" bg={true} />
+      )}
 
       <nav id="nav-wrap">
         <div className="nav-left">

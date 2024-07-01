@@ -1,5 +1,6 @@
 #!/bin/bash
 
+
 if [[ "$OSTYPE" == "linux-gnu"* || "$OSTYPE" == "darwin"* ]]; then
     # Linux or macOS
     export FLASK_APP=app/routes.py
@@ -13,7 +14,7 @@ elif [[ "$OSTYPE" == "msys" || "$OSTYPE" == "cygwin" ]]; then
     export FLASK_ENV=development
     flask run
 elif [[ "$OSTYPE" == "win32" ]]; then
-    # Native Windows
+    # Native Windows, 
     set FLASK_APP=app/routes.py
     set FLASK_DEBUG=1
     set FLASK_ENV=development
