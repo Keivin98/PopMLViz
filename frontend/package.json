@@ -51,10 +51,6 @@
     "build": "export NODE_OPTIONS=--openssl-legacy-provider && react-scripts build",
     "test": "export NODE_OPTIONS=--openssl-legacy-provider && react-scripts test",
     "eject": "react-scripts eject"
-  "start": "cross-env NODE_OPTIONS=--openssl-legacy-provider react-scripts start",
-  "build": "cross-env NODE_OPTIONS=--openssl-legacy-provider react-scripts build",
-  "test": "cross-env NODE_OPTIONS=--openssl-legacy-provider react-scripts test",
-  "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": [

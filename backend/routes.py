@@ -1,9 +1,9 @@
 from flask import jsonify, request, send_file
-from app import create_app
+from .app import create_app
 import pandas as pd
 from sklearn.decomposition import PCA
 import random, string
-from common import runKmeans
+from .common import runKmeans
 from sklearn.cluster import KMeans
 from sklearn.manifold import TSNE
 import os
@@ -21,6 +21,8 @@ matplotlib.use('Agg')
 from matplotlib import pyplot as plt
 from flask import Blueprint
 from flask_cors import cross_origin
+from flask_bcrypt import Bcrypt
+
 
 main_blueprint = Blueprint('main', __name__)
 
@@ -382,6 +384,19 @@ def samplePCAAdmixDataset(sample_id):
 @cross_origin()
 def hello():
     return "<h1 style='color:blue'>Hello There!</h1>"
+
+
+@app.route("/api/register", methods=["POST"], strict_slashes=False) #14
+@cross_origin()
+def register():
+    return "<h1 style='color:blue'>Hello There!</h1>"
+
+
+@app.route("/api/login", methods=["POST"], strict_slashes=False) #14
+@cross_origin()
+def login():
+    return "<h1 style='color:blue'>Hello There!</h1>"
+
 
 if __name__ == "__main__":
     app.run(host='127.0.0.1', port=5000, debug=True)

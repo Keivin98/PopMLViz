@@ -3,13 +3,13 @@
 
 if [[ "$OSTYPE" == "linux-gnu"* || "$OSTYPE" == "darwin"* ]]; then
     # Linux or macOS
-    export FLASK_APP=app/routes.py
+    export FLASK_APP=routes.py
     export FLASK_DEBUG=1
     export FLASK_ENV=development
     flask run
 elif [[ "$OSTYPE" == "msys" || "$OSTYPE" == "cygwin" ]]; then
     # Git Bash or Cygwin on Windows
-    export FLASK_APP=app/routes.py
+    export FLASK_APP=routes.py
     export FLASK_DEBUG=1
     export FLASK_ENV=development
     flask run

@@ -60,7 +60,7 @@ function FAQ() {
   ];
 
   return (
-    <div className="faq-page">
+    <div className="faq-page"> 
       <header className="faq-header">
         <div className="header-content" onClick={handleLogoClick}>
           <img src={logo} alt="PopMLVis Logo" className="logo" />

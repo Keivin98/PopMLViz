@@ -13,6 +13,7 @@ function Login() {
   const [password, setPassword] = useState("");
   const [loginText, setLoginText] = useState("");
   const [message, setMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const [emailFocused, setEmailFocused] = useState(false);
   const [passwordFocused, setPasswordFocused] = useState(false);
@@ -57,12 +58,25 @@ function Login() {
       password: password,
     };
     console.log(obj);
-    try {
-      const res = await axios.post("http://localhost:5000/login", obj);
-      // setMessage(res.data.message);
-    } catch (error) {
-      // setMessage(error.response.data.message);
-    }
+    setIsLoading(true);
+    axios
+    .post(
+      `${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}${process.env.REACT_APP_PORT}/api/login/`,
+      obj,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*",
+        },
+      }
+    )
+    .then((response) => {
+      setIsLoading(false);
+    })
+    .catch(() => {
+      setIsLoading(false);
+      alert("Server error! Please check the input and try again. If the error persists, refer to the docs! ");
+    });
     // const newPostKey = push(child(ref(database), "posts")).key;
     // const updates = {};
     // updates["/" + newPostKey] = obj;

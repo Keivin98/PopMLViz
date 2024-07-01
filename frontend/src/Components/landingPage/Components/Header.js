@@ -32,7 +32,7 @@ function Header(props) {
   };
 
   return (
-    <header id="home">
+    <div className="main-page" id="home">
      {windowWidth < 500 ? (
         <ParticlesBg type="cobweb" num={40} bg={true} />
       ) : (
