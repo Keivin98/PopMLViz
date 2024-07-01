@@ -1,21 +1,16 @@
-
-
 html, body {
   height: 100%;
   margin: 0;
   overflow:hidden; 
 }
 
-header {
+.main-page {
   position: relative;
   height: 100vh; 
   width: 100%;
   text-align: center;
-  /* overflow: hidden; */
 }
-.nav-left{
 
-}
 #background-video {
   position: absolute;
   top: 0;
@@ -26,14 +21,14 @@ header {
   z-index: -1; 
 }
 
-header:before {
+.main-page:before {
   content: "";
   display: inline-block;
   vertical-align: middle;
   height: 100%;
 }
 
-header .banner {
+.main-page .banner {
   display: inline-block;
   vertical-align: middle;
   margin: 0 auto;
@@ -43,18 +38,18 @@ header .banner {
   text-align: center;
 }
 
-header .banner-text {
+.main-page .banner-text {
   width: 100%;
 }
 
-header .banner-text h1 {
+.main-page .banner-text h1 {
   font: 60px/1.1em "Open Sans", sans-serif;
   color: rgb(0, 0, 0);
   letter-spacing: -1px;
   margin: 0 auto 18px auto;
 }
 
-header .banner-text hr {
+.main-page .banner-text hr {
   width: 60%;
   margin: 18px auto 24px auto;
   border-color: #2f2d2e;
@@ -273,7 +268,7 @@ p {
 
 
 @media (max-width: 1200px) {
-  header .banner-text h1 {
+  .main-page .banner-text h1 {
     font-size: 50px;
   }
   .social .btn {
@@ -284,7 +279,7 @@ p {
 }
 
 @media (max-width: 733px) {
-  header .banner-text h1 {
+  .main-page .banner-text h1 {
     font-size: 40px;
   }
   
@@ -348,29 +343,29 @@ p {
 
   }
 
-  header .banner-text .responsive-headline {
+  .main-page .banner-text .responsive-headline {
     font-size: 50px !important;
   }
-  header .banner-text mark {
+  .main-page .banner-text mark {
     font-size: 20px !important;
   }
 
 }
 
   @media (max-width: 620px) {
-    header .banner-text .responsive-headline {
+    .main-page .banner-text .responsive-headline {
       font-size: 45px !important;
     }
-    header .banner-text mark {
+    .main-page .banner-text mark {
       font-size: 18px !important;
     }
   }
 
   @media (max-width: 468px) {
-    header .banner-text .responsive-headline {
+    .main-page .banner-text .responsive-headline {
       font-size: 45px !important;
     }
-    header .banner-text mark {
+    .main-page .banner-text mark {
       font-size: 18px !important;
     }
     .social .project-btn {
@@ -386,10 +381,10 @@ p {
   }
 
   @media (max-width: 413px){
-    header .banner-text .responsive-headline {
+    .main-page .banner-text .responsive-headline {
       font-size: 40px !important;
     }
-    header .banner-text mark {
+    .main-page .banner-text mark {
       font-size: 16px !important;
     }
     .social .project-btn {
@@ -458,21 +453,14 @@ p {
       width: 50px;
       height: 50px;
     }
-    header .banner-text .responsive-headline {
+    .main-page .banner-text .responsive-headline {
       font-size: 25px !important;
     }
-    header .banner-text mark {
+    .main-page .banner-text mark {
       font-size: 13px !important;
     }
-    header .banner {
+    .main-page .banner {
       margin-top: 110px;
      
     }
   }
-
-
-
-
-
-
-
