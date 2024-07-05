@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "./FAQ.css";
 import PopMLvis from "../../../assets/PopMLvis.pdf";
 import logo from "../../../assets/logo.jpeg";
+import AppNav from "./AppNav";
 
 function FAQ() {
   const [openQuestionIndex, setOpenQuestionIndex] = useState(null);
@@ -61,12 +62,7 @@ function FAQ() {
 
   return (
     <div className="faq-page"> 
-      <header className="faq-header">
-        <div className="header-content" onClick={handleLogoClick}>
-          <img src={logo} alt="PopMLVis Logo" className="logo" />
-          <span className="site-name">PopMLVis</span>
-        </div>
-      </header>
+      <AppNav></AppNav>
       <div className="faq-content">
         <div className="faq-container">
           <h2>Frequently Asked Questions</h2>

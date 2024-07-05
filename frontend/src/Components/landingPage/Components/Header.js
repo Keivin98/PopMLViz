@@ -10,6 +10,7 @@ import colors from "../../../config/colors";
 import { useNavigate } from "react-router-dom";
 import font from "../../../config/font";
 import useWindowWidth from "../../../config/useWindowWidth";
+import AppNav from "./AppNav";
 
 
 function Header(props) {
@@ -23,13 +24,7 @@ function Header(props) {
   const bio =
     "Visualize population genetic datasets interactively with PopMLvis, using dimensionality reduction algorithms, machine learning models, and statistical measurements.";
 
-  const handleLoginClick = () => {
-    navigate("/login");
-  };
-
-  const handleFAQClick = () => {
-    navigate("/faq");
-  };
+ 
 
   return (
     <div className="main-page" id="home">
@@ -39,37 +34,7 @@ function Header(props) {
         <ParticlesBg type="cobweb" bg={true} />
       )}
 
-      <nav id="nav-wrap">
-        <div className="nav-left">
-          <img src={logo} alt="PopMLVis Logo" className="logo" />
-          <span className="site-name">PopMLVis</span>
-        </div>
-        <ul id="nav" className="nav">
-          <li>
-            <a href={PopMLvis} target="_blank" rel="noopener noreferrer">
-              Docs
-            </a>
-          </li>
-          <li>
-            <a href="https://github.com/qcri/QCAI-PopMLVis" target="_blank" rel="noopener noreferrer">
-              Github
-            </a>
-          </li>
-          <li>
-            <a className="smoothscroll" onClick={handleFAQClick}>
-              FAQ
-            </a>
-          </li>
-        </ul>
-        <div className="nav-right">
-          <a href="/login" className="button btn login-btn">
-            Login
-          </a>
-          <button className="button btn login-circle-btn" onClick={handleLoginClick}>
-            <BiLogIn size={30}/>
-          </button>
-        </div>
-      </nav>
+      <AppNav></AppNav>
 
       <div className="row banner">
         <div className="banner-text">
@@ -101,10 +66,9 @@ function Header(props) {
             </a>
             <div className="special-btn-container">
               <a
-                href={PopMLvis}
+                onClick={() => navigate("/faq")}
                 className="button btn FAQ-btn special-btn"
                 style={{ color: "white" }}
-                onClick={() => gaEventTracker("Docs")}
               >
                 <img style={{ width: "60px", height: "60px" }} src="/faq.png" alt="FAQ Icon"></img>
                 <div className="button-txt">FAQ</div>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import "./components/LoginFP.css";
 import { database } from "../../Components/firebase";
 import { ref, push, child, update } from "firebase/database";
@@ -19,12 +19,15 @@ function Login() {
   const [passwordFocused, setPasswordFocused] = useState(false);
   const [passwordVisible, setPasswordVisible] = useState(false);
 
+  const emailRef = useRef(null);
+  const passwordRef = useRef(null);
+
   const handleInputChange = (e) => {
-    const { id, value } = e.target;
-    if (id === "email") {
+    const { name, value } = e.target;
+    if (name === "email") {
       setEmail(value);
     }
-    if (id === "password") {
+    if (name === "password") {
       setPassword(value);
     }
   };
@@ -56,7 +59,7 @@ function Login() {
     e.preventDefault();
     const obj = { email, password };
     setIsLoading(true);
-  
+
     try {
       const response = await axios.post(
         `${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}${process.env.REACT_APP_PORT}/login`,
@@ -65,12 +68,12 @@ function Login() {
           headers: {
             "Content-Type": "application/json",
           },
-          withCredentials: true,  
+          withCredentials: true,
         }
       );
-  
+
       setIsLoading(false);
-  
+
       if (response.status === 200) {
         navigate("/Dashboard");
       } else {
@@ -94,9 +97,6 @@ function Login() {
       }
     }
   };
-  
-  
-  
 
   // const handleSubmit = async (e) => {
   //   e.preventDefault();
@@ -163,8 +163,10 @@ function Login() {
           <div className="input-box">
             <i className="fas fa-user icon"></i>
             <input
+              ref={emailRef}
               type="email"
               id="email"
+              name="email"
               className="form__input"
               value={email}
               onFocus={() => setEmailFocused(true)}
@@ -179,9 +181,11 @@ function Login() {
           <div className="input-box">
             <i className="fas fa-lock icon"></i>
             <input
+              ref={passwordRef}
               className="form__input"
               type={!passwordVisible ? "password" : "text"}
               id="password"
+              name="password"
               value={password}
               minLength={8}
               onFocus={() => setPasswordFocused(true)}
@@ -204,7 +208,7 @@ function Login() {
           <div className="forgot-password">
             <a href="#">Forgot Password</a>
           </div>
-          <button  type="submit" className="btn">
+          <button type="submit" className="btn">
             Login
           </button>
           <div className="signup-link">
