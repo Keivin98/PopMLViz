@@ -415,6 +415,7 @@ def register():
     except sqlite3.IntegrityError:
         return jsonify(message="User already exists"), 409
 
+
 @app.route('/login', methods=['POST'],  strict_slashes=False)
 @cross_origin(supports_credentials=True)
 def login():
@@ -432,17 +433,27 @@ def login():
         response = make_response(jsonify(message="User logged in successfully"), 200)
         access_token = create_access_token(identity=email)
         refresh_token = create_refresh_token(identity=email)
-        
-        response.set_cookie('access_token', access_token, httponly=True, secure=False, samesite='Strict', max_age=15*60 )
-        response.set_cookie('refresh_token', refresh_token, httponly=True, secure=False, samesite='Strict', max_age=30*24*60*60)
 
+        response.set_cookie('access_token_cookie', access_token, httponly=True, secure=True, samesite='none', max_age=15*60 ) #secure=true means the token get sent only wehn the connection is https 
+        response.set_cookie('refresh_token_cookie', refresh_token, httponly=True,secure=True, samesite='none', max_age=30*24*60*60)
+        #note that access token duration is 15 minutes and refresh token duration is 30 days
         return response
 
     else:
         return jsonify(message="Invalid credentials"), 401
 
 
+
+@app.route('/verify', methods=['GET'])
+@cross_origin(supports_credentials=True)
+@jwt_required()
+def verify():
+    current_user = get_jwt_identity()
+    return jsonify(user=current_user), 200
+
+
 @app.route('/protected', methods=['GET'])
+@cross_origin(supports_credentials=True)
 @jwt_required()
 def protected():
     current_user = get_jwt_identity()
@@ -450,12 +461,13 @@ def protected():
 
 
 @app.route('/refresh', methods=['POST'])
+@cross_origin(supports_credentials=True)
 @jwt_required(refresh=True)
 def refresh():
     current_user = get_jwt_identity()
     new_access_token = create_access_token(identity=current_user)
     response = make_response(jsonify(access_token=new_access_token), 200)
-    response.set_cookie('access_token', new_access_token, httponly=True, secure=False, samesite='Strict', max_age=15*60 )
+    response.set_cookie('access_token_cookie', new_access_token, httponly=True,secure=True, samesite='none', max_age=15*60 )
     return response
       
 

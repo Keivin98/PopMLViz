@@ -1,14 +1,16 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { BiLogIn } from "react-icons/bi";
 import "./headerFP.css";
 import logo from "../../../assets/logo.jpeg";
 import PopMLvis from "../../../assets/PopMLvis.pdf";
 import { useNavigate } from "react-router-dom";
-
-
+import { AuthContext } from "../../../config/AuthProvider";
+import { FaUser } from "react-icons/fa";
+import colors from "../../../config/colors";
 
 export default function AppNav() {
   const navigate = useNavigate();
+  const { user } = useContext(AuthContext);
 
   const handleLoginClick = () => {
     navigate("/login");
@@ -19,7 +21,7 @@ export default function AppNav() {
   };
   return (
     <nav id="nav-wrap">
-      <div className="nav-left" onClick={()=> navigate("/")}>
+      <div className="nav-left" onClick={() => navigate("/")}>
         <img src={logo} alt="PopMLVis Logo" className="logo" />
         <span className="site-name">PopMLVis</span>
       </div>
@@ -41,12 +43,20 @@ export default function AppNav() {
         </li>
       </ul>
       <div className="nav-right">
-        <a href="/login" className="button btn login-btn">
-          Login
-        </a>
-        <button className="button btn login-circle-btn" onClick={handleLoginClick}>
-          <BiLogIn size={30} />
-        </button>
+        {!user ? (
+          <>
+            <a href="/login" className="button btn login-btn">
+              Login
+            </a>
+            <button className="button btn login-circle-btn" onClick={handleLoginClick}>
+              <BiLogIn size={30} />
+            </button>
+          </>
+        ) : (
+          <div style={{width: 50, height: 50, backgroundColor: colors.secondary, display: "flex", justifyContent: 'center', alignItems: 'center', borderRadius: 50}}>
+            <FaUser color={"white"}/>
+          </div>
+        )}
       </div>
     </nav>
   );

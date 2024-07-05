@@ -179,12 +179,17 @@ function DataUploadModal({
     setSelectedOption("");
     setModalOpen(true);
   };
+  function handleSavedData() {
+    
+  }
 
   const handleDataSelection = (selection) => {
     if (selection === "own") {
       setDataSelectionStep("ownData");
-    } else {
+    } else if (selection === "example"){
       setDataSelectionStep("exampleData");
+    } else if( selection === "saved"){
+      handleSavedData();
     }
   };
 
@@ -537,11 +542,15 @@ function DataUploadModal({
         return (
           <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
             <Button variant="outlined" style={buttonStyle} onClick={() => handleDataSelection("own")}>
-              Use Your Own Data
+              Upload Your Own Data
             </Button>
             <Button variant="outlined" style={buttonStyle} onClick={() => handleDataSelection("example")}>
               Use Example Data
             </Button>
+            <Button variant="outlined" style={buttonStyle} onClick={() => handleDataSelection("saved")}>
+              Use Saved Data
+            </Button>
+
           </div>
         );
       case "ownData":
@@ -625,6 +634,7 @@ function DataUploadModal({
         boxShadow: 24,
         p: 4,
         borderRadius: 2,
+        minWidth: 310
       }}
     >
       <div style={{ display: "flex", justifyContent: "start", marginBottom: "20px" }}>

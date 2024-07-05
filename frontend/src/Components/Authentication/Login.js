@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useLayoutEffect, useRef, useState } from "react";
 import "./components/LoginFP.css";
 import { database } from "../../Components/firebase";
 import { ref, push, child, update } from "firebase/database";
@@ -7,6 +7,8 @@ import ParticlesBg from "particles-bg";
 import BackButton from "../BackButton";
 import axios from "axios";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa6";
+import { AuthContext } from "../../config/AuthProvider";
+import ParticleBackground from "../ParticleBackground";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -21,6 +23,12 @@ function Login() {
 
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
+  const { setUser } = useContext(AuthContext);
+
+  // useEffect(()=>{
+  //   setEmailFocused(true)
+  //   setPasswordFocused(true)
+  // },[])
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -75,6 +83,9 @@ function Login() {
       setIsLoading(false);
 
       if (response.status === 200) {
+        setUser(email);
+        console.log(response.data);
+        console.log(email);
         navigate("/Dashboard");
       } else {
         alert("Unexpected response from server: " + response.status);
@@ -133,7 +144,7 @@ function Login() {
 
   return (
     <div className="auth-container">
-      <ParticlesBg type="cobweb" bg={true} />
+      <ParticleBackground></ParticleBackground>
       <div style={{ position: "absolute", top: 50, left: 50 }}>
         <BackButton handleBack={handleBack} arrowColor={"#EEE"} color={"black"}></BackButton>
       </div>
@@ -146,7 +157,7 @@ function Login() {
           handleInputChange={handleInputChange}
           validationSchema={validate}
         ></AppForm>
-        <div className="forgot-password">
+        <div className="forgot-password">\
           <a href="#">Forgot Password</a>
         </div>
        

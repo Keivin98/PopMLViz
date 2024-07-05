@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import ParticlesBg from "particles-bg";
 import useAnalyticsEventTracker from "../../useAnalyticsEventTracker";
 import { FaPlayCircle, FaBook, FaGithub } from "react-icons/fa";
@@ -10,29 +10,23 @@ import colors from "../../../config/colors";
 import { useNavigate } from "react-router-dom";
 import font from "../../../config/font";
 import useWindowWidth from "../../../config/useWindowWidth";
-import AppNav from "./AppNav";
-
+import AppNav from "../Components/AppNav";
+import { AuthContext } from "../../../config/AuthProvider";
+import ParticleBackground from "../../ParticleBackground";
 
 function Header(props) {
   const gaEventTracker = useAnalyticsEventTracker("social");
   const navigate = useNavigate();
-  const windowWidth = useWindowWidth();
 
-
+  const { user } = useContext(AuthContext);
 
   const name = "A better way to analyze population genetics.";
   const bio =
     "Visualize population genetic datasets interactively with PopMLvis, using dimensionality reduction algorithms, machine learning models, and statistical measurements.";
 
- 
-
   return (
     <div className="main-page" id="home">
-     {windowWidth < 500 ? (
-        <ParticlesBg type="cobweb" num={40} bg={true} />
-      ) : (
-        <ParticlesBg type="cobweb" bg={true} />
-      )}
+      <ParticleBackground></ParticleBackground>
 
       <AppNav></AppNav>
 
@@ -53,7 +47,7 @@ function Header(props) {
               fontSize: "24px",
               backgroundColor: "rgba(255,255,255,0.7)",
               color: "black",
-              fontFamily: 'default'
+              fontFamily: "default",
             }}
           >
             {bio}
@@ -65,11 +59,7 @@ function Header(props) {
               <FaPlayCircle style={{ marginRight: 10 }} /> <div>Start Visualizing</div>
             </a>
             <div className="special-btn-container">
-              <a
-                onClick={() => navigate("/faq")}
-                className="button btn FAQ-btn special-btn"
-                style={{ color: "white" }}
-              >
+              <a onClick={() => navigate("/faq")} className="button btn FAQ-btn special-btn" style={{ color: "white" }}>
                 <img style={{ width: "60px", height: "60px" }} src="/faq.png" alt="FAQ Icon"></img>
                 <div className="button-txt">FAQ</div>
               </a>

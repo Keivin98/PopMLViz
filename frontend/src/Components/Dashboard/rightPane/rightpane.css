@@ -9,6 +9,11 @@
     padding: 2%;
     width: 30%,
 }
+.right-pane{
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
 .optionsContainer {
     /* position: fixed; */
     /* right: 1%; */
@@ -135,6 +140,14 @@
     .optionsContainer{
       display: none;
     }
+    .right-pane{
+      height: 100%
+    }
+    .save-button{
+     margin-top: 0px !important;
+     margin-bottom: 0px !important;
+    }
+
   }
 
   }

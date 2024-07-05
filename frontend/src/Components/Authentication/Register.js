@@ -8,6 +8,7 @@ import BackButton from "../BackButton";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa6";
 import axios from "axios";
 import AppButton from "../AppButton";
+import ParticleBackground from "../ParticleBackground";
 
 function Register() {
   const [email, setEmail] = useState("");
@@ -112,16 +113,24 @@ function Register() {
 
   return (
     <div className="auth-container">
-      <ParticlesBg type="cobweb" bg={true} />
+      <ParticleBackground></ParticleBackground>
 
       <div style={{ position: "absolute", top: 50, left: 50 }}>
         <BackButton handleBack={handleBack} arrowColor={"#EEE"} color={"black"}></BackButton>
       </div>
       <div className="wrapper">
         {accountCreated ? (
-          <div style={{padding: 30, display: "flex", alignItems: 'center', justifyContent: 'center', flexDirection: 'column'}}>
-            <div style={{marginBottom: 30,}}>You are all set!</div>
-            <AppButton title={"login"} onClick={()=> navigate("/login")}></AppButton>
+          <div
+            style={{
+              padding: 30,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              flexDirection: "column",
+            }}
+          >
+            <div style={{ marginBottom: 30 }}>You are all set!</div>
+            <AppButton title={"login"} onClick={() => navigate("/login")}></AppButton>
           </div>
         ) : (
           <>
