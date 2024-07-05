@@ -52,37 +52,84 @@ function Login() {
     navigate("/");
   };
 
-  const handleSubmit = async () => {
-    let obj = {
-      email: email,
-      password: password,
-    };
-    console.log(obj);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const obj = { email, password };
     setIsLoading(true);
-    axios
-    .post(
-      `${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}${process.env.REACT_APP_PORT}/api/login/`,
-      obj,
-      {
-        headers: {
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "*",
-        },
+  
+    try {
+      const response = await axios.post(
+        `${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}${process.env.REACT_APP_PORT}/login`,
+        obj,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,  
+        }
+      );
+  
+      setIsLoading(false);
+  
+      if (response.status === 200) {
+        navigate("/Dashboard");
+      } else {
+        alert("Unexpected response from server: " + response.status);
       }
-    )
-    .then((response) => {
+    } catch (error) {
       setIsLoading(false);
-    })
-    .catch(() => {
-      setIsLoading(false);
-      alert("Server error! Please check the input and try again. If the error persists, refer to the docs! ");
-    });
-    // const newPostKey = push(child(ref(database), "posts")).key;
-    // const updates = {};
-    // updates["/" + newPostKey] = obj;
-    // setLoginText("Welcome!");
-    // return update(ref(database), updates);
+      if (error.response) {
+        // Server responded with an error status code
+        if (error.response.status === 401) {
+          alert("Invalid credentials");
+        } else {
+          alert("Server error! Please check the input and try again. If the error persists, refer to the docs!");
+        }
+      } else if (error.request) {
+        // The request was made but no response was received
+        alert("No response from server. Please check your network connection.");
+      } else {
+        // Something happened in setting up the request that triggered an error
+        alert("Unexpected error: " + error.message);
+      }
+    }
   };
+  
+  
+  
+
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   let obj = {
+  //     email: email,
+  //     password: password,
+  //   };
+  //   console.log(obj);
+  //   setIsLoading(true);
+  //   axios
+  //   .post(
+  //     `${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}${process.env.REACT_APP_PORT}/api/login/`,
+  //     obj,
+  //     {
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         "Access-Control-Allow-Origin": "*",
+  //       },
+  //     }
+  //   )
+  //   .then((response) => {
+  //     setIsLoading(false);
+  //   })
+  //   .catch(() => {
+  //     setIsLoading(false);
+  //     alert("Server error! Please check the input and try again. If the error persists, refer to the docs! ");
+  //   });
+  //   // const newPostKey = push(child(ref(database), "posts")).key;
+  //   // const updates = {};
+  //   // updates["/" + newPostKey] = obj;
+  //   // setLoginText("Welcome!");
+  //   // return update(ref(database), updates);
+  // };
 
   return (
     <div className="auth-container">
@@ -111,7 +158,7 @@ function Login() {
       </div> */}
 
       <div className="wrapper">
-        <form>
+        <form onSubmit={handleSubmit}>
           <h1>Login</h1>
           <div className="input-box">
             <i className="fas fa-user icon"></i>
@@ -157,7 +204,7 @@ function Login() {
           <div className="forgot-password">
             <a href="#">Forgot Password</a>
           </div>
-          <button onClick={handleSubmit} type="submit" className="btn">
+          <button  type="submit" className="btn">
             Login
           </button>
           <div className="signup-link">

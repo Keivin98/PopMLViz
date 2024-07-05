@@ -19,18 +19,25 @@ from scipy.cluster.hierarchy import dendrogram, linkage
 import matplotlib
 matplotlib.use('Agg')
 from matplotlib import pyplot as plt
-from flask import Blueprint
+from flask import Blueprint, make_response
 from flask_cors import cross_origin
 from flask_bcrypt import Bcrypt
-
+import sqlite3
+from flask_jwt_extended import create_access_token,create_refresh_token, get_jwt_identity, jwt_required
+from datetime import timedelta
 
 main_blueprint = Blueprint('main', __name__)
+bcrypt = Bcrypt()
 
 # Create an application instance
 app = create_app()
 
+
 # Define a route to fetch the available article
 UPLOAD_FOLDER = './data'
+
+app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(minutes=15)
+app.config['JWT_REFRESH_TOKEN_EXPIRES'] = timedelta(days=30)
 
 @app.route("/api/runkmeans", methods=["POST"], strict_slashes=False) #1
 @cross_origin() 
@@ -386,17 +393,71 @@ def hello():
     return "<h1 style='color:blue'>Hello There!</h1>"
 
 
-@app.route("/api/register", methods=["POST"], strict_slashes=False) #14
-@cross_origin()
+
+@app.route('/register', methods=['POST'],  strict_slashes=False)
+@cross_origin(supports_credentials=True)
 def register():
-    return "<h1 style='color:blue'>Hello There!</h1>"
+    data = request.get_json()
+    email = data.get('email')
+    password = data.get('password')
 
+    hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
 
-@app.route("/api/login", methods=["POST"], strict_slashes=False) #14
-@cross_origin()
+    try:
+        conn = sqlite3.connect('popMLViz.db')
+        c = conn.cursor()
+        c.execute('INSERT INTO users (email, password) VALUES (?, ?)', (email, hashed_password))
+        conn.commit()
+        c.execute("select * from users") #remove this later
+        c.fetchall()
+        conn.close()
+        return jsonify(message="User registered successfully"), 201 
+    except sqlite3.IntegrityError:
+        return jsonify(message="User already exists"), 409
+
+@app.route('/login', methods=['POST'],  strict_slashes=False)
+@cross_origin(supports_credentials=True)
 def login():
-    return "<h1 style='color:blue'>Hello There!</h1>"
+    data = request.get_json()
+    email = data.get('email')
+    password = data.get('password')
 
+    conn = sqlite3.connect('popMLViz.db')
+    c = conn.cursor()
+    c.execute('SELECT * FROM users WHERE email = ?', (email,))
+    user = c.fetchone()
+    conn.close()
+
+    if user and bcrypt.check_password_hash(user[2], password):
+        response = make_response(jsonify(message="User logged in successfully"), 200)
+        access_token = create_access_token(identity=email)
+        refresh_token = create_refresh_token(identity=email)
+        
+        response.set_cookie('access_token', access_token, httponly=True, secure=False, samesite='Strict', max_age=15*60 )
+        response.set_cookie('refresh_token', refresh_token, httponly=True, secure=False, samesite='Strict', max_age=30*24*60*60)
+
+        return response
+
+    else:
+        return jsonify(message="Invalid credentials"), 401
+
+
+@app.route('/protected', methods=['GET'])
+@jwt_required()
+def protected():
+    current_user = get_jwt_identity()
+    return jsonify(logged_in_as=current_user), 200
+
+
+@app.route('/refresh', methods=['POST'])
+@jwt_required(refresh=True)
+def refresh():
+    current_user = get_jwt_identity()
+    new_access_token = create_access_token(identity=current_user)
+    response = make_response(jsonify(access_token=new_access_token), 200)
+    response.set_cookie('access_token', new_access_token, httponly=True, secure=False, samesite='Strict', max_age=15*60 )
+    return response
+      
 
 if __name__ == "__main__":
     app.run(host='127.0.0.1', port=5000, debug=True)

@@ -1,5 +1,7 @@
 alembic
 bcrypt
+Flask-JWT-Extended
+python-dotenv
 cffi
 click
 cryptography
