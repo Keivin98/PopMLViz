@@ -1,6 +1,7 @@
 from flask import jsonify, request, send_file
 from .app import create_app
 import pandas as pd
+import json
 from sklearn.decomposition import PCA
 import random, string
 from .common import runKmeans
@@ -452,12 +453,60 @@ def verify():
     return jsonify(user=current_user), 200
 
 
-@app.route('/protected', methods=['GET'])
+@app.route('/save', methods=['POST'])
 @cross_origin(supports_credentials=True)
 @jwt_required()
 def protected():
     current_user = get_jwt_identity()
-    return jsonify(logged_in_as=current_user), 200
+    data = request.get_json()
+
+    plot_title = data.get('name')
+    data_plot = data.get('data')
+
+    if not plot_title or not data_plot:
+        return jsonify({"error": "Missing required fields"}), 400
+
+    # Convert data_plot to JSON string
+    data_plot_json = json.dumps(data_plot)
+
+    conn = sqlite3.connect('popMLViz.db')
+    c = conn.cursor()
+    c.execute("SELECT id FROM plots WHERE plot_title=? AND user_id=?", (plot_title, current_user))
+    existing_plot = c.fetchone()
+
+    if existing_plot:
+        conn.close()
+        return jsonify({"error": "Plot title already exists for this user"}), 400
+
+
+    c.execute("INSERT INTO plots (data_plot, plot_title, user_id) VALUES (?, ?, ?)",
+              (data_plot_json, plot_title, current_user))
+    conn.commit()
+    conn.close()
+
+    return jsonify({"plot": "Plot saved successfully"}), 201
+
+@app.route('/api/getSavedData', methods=['GET'])
+@cross_origin(supports_credentials=True)
+@jwt_required()
+def get_plot():
+    current_user = get_jwt_identity()
+
+    conn = sqlite3.connect('popMLViz.db')
+    c = conn.cursor()
+    c.execute("SELECT date_created, plot_title FROM plots WHERE user_id=?", (current_user,))
+    plots = c.fetchall()
+    conn.close()
+
+    plot_list = []
+
+    for plot in plots:
+        # plot_data = json.loads(plot[0])
+        plot_list.append({
+            "title": plot[1],
+            "date": plot[0]
+        })
+    return jsonify({"plots": plot_list}), 200
 
 
 @app.route('/refresh', methods=['POST'])

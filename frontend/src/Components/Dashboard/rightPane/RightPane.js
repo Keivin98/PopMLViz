@@ -14,8 +14,7 @@ import "../dashboard.css";
 import "./rightpane.css";
 import { AuthContext } from "../../../config/AuthProvider";
 import { useNavigate } from "react-router-dom";
-
-
+import axios from "axios";
 
 const RightPane = ({
   selectedUploadOption,
@@ -51,19 +50,150 @@ const RightPane = ({
   const uploadRef = useRef(null);
   const { user } = useContext(AuthContext);
   const [modalVisible, setModalVisible] = useState(false);
+  const [dataNameModalVisible, setDataNameModalVisible] = useState(false);
+  const [dataName, setDataName] = useState("");
+
   const navigate = useNavigate();
+
+  const api = axios.create({
+    baseURL: `${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}${process.env.REACT_APP_PORT}`,
+    withCredentials: true, // Ensure credentials (cookies) are sent with requests
+  });
+
+  // Function to check if access token is valid
+  const checkAccessTokenValidity = async () => {
+    try {
+      await api.get("/verify");
+      return true;
+    } catch (error) {
+      return false;
+    }
+  };
+
+  // Function to refresh access token using refresh token
+  const refreshAccessToken = async () => {
+    try {
+      const response = await api.post("/refresh");
+      return response.data.access_token;
+    } catch (error) {
+      console.error("Error refreshing access token:", error);
+      throw error;
+    }
+  };
+
+  // Function to perform authenticated requests
+  const postSavedData = async () => {
+    // const csvData = await converter.json2csv(data);
+    // const blob = new Blob([csvData], { type: "text/csv" });
+    // const formData = new FormData();
+    // formData.append("file", blob, "popmlvis_analysis.csv");
+    try {
+      const isValid = await checkAccessTokenValidity();
+      if (!isValid) {
+        const newAccessToken = await refreshAccessToken();
+        const response = await api.post(
+          "/save",
+          { data: data, name: dataName},
+          {
+            headers: {
+              Authorization: `Bearer ${newAccessToken}`,
+            },
+          }
+        );
+        console.log(response.data);
+        console.log("data is fetched!");
+        return response.data;
+      } else {
+        const response = await api.post(
+          "/save",
+          { data: data, name: dataName},
+          { withCredentials: true }
+        );
+        console.log(response.data);
+        return response.data;
+      }
+    } catch (error) {
+      if(error.response && error.response.status === 400) {
+        alert("Data with the same name already exists. Please choose another name")
+      }
+      console.error("Error fetching data:", error);
+      throw error;
+    }
+  };
 
   function handleSave() {
     if (!user) {
       setModalVisible(true);
     }
+    if (!data) {
+      alert("Please make sure to upload a dataset first");
+      return;
+    }
+    setDataNameModalVisible(true);
   }
   return (
     <>
-      <Modal open={modalVisible} onClose={()=> setModalVisible(false)}>
-        <div style={{top: "50%", left: '50%', position:'absolute', width: "50%", backgroundColor: 'white', transform: 'translate(-50%, -50%)', borderRadius: 30, padding:20, display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', minWidth: 250}}>
-          <h2 style={{textAlign: 'center', marginTop: 20}}>Please login to save your work</h2>
-          <AppButton style={{marginTop: 20, fontSize: 20, width: "30%", minWidth: 70}} title={'login'} onClick={()=>navigate('/login')}></AppButton>
+      <Modal open={modalVisible} onClose={() => setModalVisible(false)}>
+        <div
+          style={{
+            top: "50%",
+            left: "50%",
+            position: "absolute",
+            width: "50%",
+            backgroundColor: "white",
+            transform: "translate(-50%, -50%)",
+            borderRadius: 30,
+            padding: 20,
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            flexDirection: "column",
+            minWidth: 250,
+          }}
+        >
+          <h2 style={{ textAlign: "center", marginTop: 20 }}>Please login to save your work</h2>
+          <AppButton
+            style={{ marginTop: 20, fontSize: 20, width: "30%", minWidth: 70 }}
+            title={"login"}
+            onClick={() => navigate("/login")}
+          ></AppButton>
+        </div>
+      </Modal>
+
+      <Modal open={dataNameModalVisible} onClose={() => setDataNameModalVisible(false)}>
+        <div
+          style={{
+            top: "50%",
+            left: "50%",
+            position: "absolute",
+            width: "50%",
+            backgroundColor: "white",
+            transform: "translate(-50%, -50%)",
+            borderRadius: 30,
+            padding: 20,
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            flexDirection: "column",
+            minWidth: 250,
+          }}
+        >
+          <h2 style={{ textAlign: "center", marginTop: 20 }}>Please enter the data name</h2>
+          <form
+            style={{ display: "flex", flexDirection: "column", alignItems: "center" }}
+            onSubmit={() => {
+              setDataNameModalVisible(false);
+              postSavedData()
+            }}
+          >
+            <input
+              required
+              type="text"
+              style={{ width: 150, marginTop: 30, borderRadius: 10, paddingLeft: 10, paddingRight: 10 }}
+              onChange={(e) => setDataName(e.target.value)}
+            />
+            <AppButton style={{ marginTop: 20, fontSize: 20, minWidth: 70 }} title={"save"} type="submit"></AppButton>
+          </form>
         </div>
       </Modal>
 
@@ -256,7 +386,7 @@ const RightPane = ({
           )}
         </Tabs>
         <AppButton
-          className={'save-button'}
+          className={"save-button"}
           style={{ width: "100%", marginTop: 10, marginBottom: 20 }}
           title={"save"}
           onClick={handleSave}

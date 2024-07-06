@@ -12,6 +12,7 @@ export default function AppButton({
   style,
   className,
   defaultButton = false,
+  type,
   ...others
 }) {
   return (
@@ -19,6 +20,7 @@ export default function AppButton({
       {...others}
       onClick={onClick}
       className={`${className} app-button`}
+      type={type}
       // sx={{padding: 10}}
       style={{
         ...{

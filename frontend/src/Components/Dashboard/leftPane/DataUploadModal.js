@@ -8,6 +8,10 @@ import { styled } from "@mui/material/styles";
 import { makeStyles } from "@mui/styles";
 import font from "../../../config/font";
 import BackButton from "../../BackButton";
+import axios from "axios";
+import fetchSavedData from "./fetchSavedData";
+import Loader from "react-loader-spinner";
+import colors from "../../../config/colors";
 
 const Input = styled("input")({
   display: "none",
@@ -74,6 +78,8 @@ function DataUploadModal({
   const [dataProcessed, setDataProcessed] = useState(false);
   const [selectedOption, setSelectedOption] = useState("");
   const [files, setFiles] = useState(defaultFile);
+  const [savedPlots, setSavedPlots] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   // State to keep track of drag over for each type
   const [dragOver, setDragOver] = useState({
@@ -179,17 +185,16 @@ function DataUploadModal({
     setSelectedOption("");
     setModalOpen(true);
   };
-  function handleSavedData() {
-    
-  }
 
   const handleDataSelection = (selection) => {
     if (selection === "own") {
       setDataSelectionStep("ownData");
-    } else if (selection === "example"){
+    } else if (selection === "example") {
       setDataSelectionStep("exampleData");
-    } else if( selection === "saved"){
-      handleSavedData();
+    } else if (selection === "saved") {
+      fetchSavedData({ setDataSelectionStep, setSavedPlots, setIsLoading });
+      setDataSelectionStep("saved");
+      console.log(savedPlots);
     }
   };
 
@@ -365,7 +370,7 @@ function DataUploadModal({
                   onClick={() => {
                     setFileChanged(true);
                     samplePCAAdmixDataset(0, index);
-                    handleClose()
+                    handleClose();
                   }}
                 >
                   {" "}
@@ -386,7 +391,7 @@ function DataUploadModal({
                   onClick={() => {
                     setFileChanged(true);
                     samplePCAAdmixDataset(1, index);
-                    handleClose()
+                    handleClose();
                   }}
                 >
                   {" "}
@@ -418,8 +423,7 @@ function DataUploadModal({
                   if (dataProcessed) {
                     processedPCA(files.PCA.processed);
                   } else {
-                    if(!files)
-                       unprocessedPCA(files.PCA.unprocessed, files.PCA.unprocessed.name);
+                    if (!files) unprocessedPCA(files.PCA.unprocessed, files.PCA.unprocessed.name);
                   }
                   setFileChanged(true);
                 }}
@@ -550,7 +554,6 @@ function DataUploadModal({
             <Button variant="outlined" style={buttonStyle} onClick={() => handleDataSelection("saved")}>
               Use Saved Data
             </Button>
-
           </div>
         );
       case "ownData":
@@ -562,6 +565,41 @@ function DataUploadModal({
             <Button variant="outlined" style={buttonStyle} onClick={() => handleProcessingSelection(false)}>
               Data Not Processed
             </Button>
+          </div>
+        );
+      case "saved":
+        return (
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "10px",
+              alignItems: "center",
+              justifyContent: "space-between",
+            }}
+          >
+            {savedPlots && savedPlots.plots ? (
+              savedPlots.plots.map((plot) => (
+                <div
+                  style={{
+                    width: "80%",
+                    height: 50,
+                    backgroundColor: "#EEE",
+                    borderRadius: 20,
+                    padding: 10,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                  }}
+                  onClick={() => {}}
+                >
+                  <div>{plot.title}</div>
+                  <div>{plot.date.split(" ")[0]}</div>
+                </div>
+              ))
+            ) : (
+              <h5> there are no data</h5>
+            )}
           </div>
         );
       case "exampleData":
@@ -616,6 +654,8 @@ function DataUploadModal({
         return "Has the Data Been Processed?";
       case "exampleData":
         return "Use Example Data";
+      case "saved":
+        return "Use Saved Data";
       case "final":
         return "Select Dimensionality Reduction Method";
       default:
@@ -634,7 +674,7 @@ function DataUploadModal({
         boxShadow: 24,
         p: 4,
         borderRadius: 2,
-        minWidth: 310
+        minWidth: 310,
       }}
     >
       <div style={{ display: "flex", justifyContent: "start", marginBottom: "20px" }}>
@@ -642,6 +682,11 @@ function DataUploadModal({
         <h2 style={{ marginBottom: 0 }}>{getTitle()}</h2>
       </div>
       {renderOptions()}
+      {isLoading && (
+        <div style={{ top: "50%", left: "50%", transform: "translate(-50%, -50%)", position: "absolute" }}>
+          <Loader type="TailSpin" color="#00BFFF" height="100" width="100" />
+        </div>
+      )}
     </Box>
   );
 
@@ -650,7 +695,7 @@ function DataUploadModal({
     <div>
       <div style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
         <Button
-          style={{display: 'block', fontFamily: "Poppins, san-serif", width: "100%" }}
+          style={{ display: "block", fontFamily: "Poppins, san-serif", width: "100%" }}
           variant="outlined"
           className={classes.customButton}
           onClick={handleOpen}

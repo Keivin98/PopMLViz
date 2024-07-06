@@ -22,7 +22,7 @@ def create_app():
     app.config['CORS_HEADERS'] = 'Content-Type'
     app.config['JWT_TOKEN_LOCATION'] = ['cookies']
     app.config['JWT_COOKIE_SECURE'] = True
-    app.config['JWT_COOKIE_CSRF_PROTECT'] = True
+    app.config['JWT_COOKIE_CSRF_PROTECT'] = False
     app.config['JWT_COOKIE_SAMESITE'] = 'None'
     # Allow all origins
     CORS(app, resources={r"/*": {"origins": "*"}}, supports_credentials=True)
