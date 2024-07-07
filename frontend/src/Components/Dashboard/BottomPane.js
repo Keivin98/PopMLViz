@@ -45,6 +45,7 @@ export default function BottomPane({
   setClusterColors,
   clusterNames,
   numClusters,
+  uploadSavedData,
   markerSize,
   handleTabOutputCallback,
   showOutputOptions,
@@ -56,6 +57,8 @@ export default function BottomPane({
   handleProcessedPCA,
   handleProcessedAdmix,
   handleUnprocessedPCA,
+  processData,
+  setIsMainPageLoading,
   handleTSNE2D,
   handleTSNE3D,
   runPCAir,
@@ -102,7 +105,10 @@ export default function BottomPane({
                 processedAdmix={handleProcessedAdmix} // handleAdmixFileUpload1
                 unprocessedPCA={handleUnprocessedPCA}
                 tsne2d={handleTSNE2D}
+                uploadSavedData={uploadSavedData}
                 tsne3d={handleTSNE3D}
+                processData={processData}
+                setIsMainPageLoading={setIsMainPageLoading}
                 runPCAir={runPCAir}
               />
             </form>
@@ -139,9 +145,9 @@ export default function BottomPane({
         </TabPanel>
 
         {selectedUploadOption !== "admixture" && selectedUploadOption !== "pcairandadmixture" && (
-          <div style={{  }}>
+          <div style={{}}>
             <TabPanel>
-              <div style={{ display: "flex", flexDirection: "column", }}>
+              <div style={{ display: "flex", flexDirection: "column" }}>
                 <div style={{}}>
                   <div className="row-md-8"></div>
 

@@ -6,24 +6,28 @@ import { AiFillCaretDown } from "react-icons/ai";
 import { FcScatterPlot } from "react-icons/fc";
 import DataUploadModal from "./DataUploadModal";
 
-function UploadAndVisualizeTab(prop) {
-  let {
-    onChange,
-    samplePCAAdmixDataset,
-    processedPCA,
-    processedAdmix,
-    unprocessedPCA,
-    tsne2d,
-    tsne3d,
-    runPCAir,
-    fileChanged,
-    setFileChanged,
-    handleClose,
-    modalOpen,
-    setModalOpen,
-  } = prop;
+function UploadAndVisualizeTab({
+  onChange,
+  samplePCAAdmixDataset,
+  processedPCA,
+  processedAdmix,
+  unprocessedPCA,
+  tsne2d,
+  tsne3d,
+  runPCAir,
+  fileChanged,
+  setFileChanged,
+  handleClose,
+  modalOpen,
+  setModalOpen,
+  processData,
+  setIsMainPageLoading,
+  uploadSavedData,
+  selectedColumns
+}) {
   const [selectedUploadOption, setSelectedUploadOption] = useState(null);
   // const [selectedFile, setSelectedFile] = useState(null);
+  // console.log(processData)
   const [open, setOpen] = useState(false);
 
   const onUploadValueChange = useCallback((event) => {
@@ -37,13 +41,15 @@ function UploadAndVisualizeTab(prop) {
   return (
     <div>
       <div
-        style={{
-          // display: "flex",
-          // marginBottom: "5%",
-          // justifyContent: "center",
-          // alignItems: "center",
-          // flexDirection: "row",
-        }}
+        style={
+          {
+            // display: "flex",
+            // marginBottom: "5%",
+            // justifyContent: "center",
+            // alignItems: "center",
+            // flexDirection: "row",
+          }
+        }
         onClick={() => setOpen(!open)}
       >
         <div
@@ -57,17 +63,21 @@ function UploadAndVisualizeTab(prop) {
           {/* <label> Upload and Preprocess </label> */}
           <DataUploadModal
             modalOpen={modalOpen}
+            uploadSavedData={uploadSavedData}
             setModalOpen={setModalOpen}
             handleClose={handleClose}
             fileChanged={fileChanged}
             setFileChanged={setFileChanged}
+            setIsMainPageLoading={setIsMainPageLoading}
             samplePCAAdmixDataset={samplePCAAdmixDataset}
             processedPCA={processedPCA}
             processedAdmix={processedAdmix}
             unprocessedPCA={unprocessedPCA}
             tsne2d={tsne2d}
             tsne3d={tsne3d}
+            selectedColumns={selectedColumns}
             runPCAir={runPCAir}
+            processData={processData}
           />
         </div>
         {/* <AiFillCaretDown style={{marginTop: "3%"}} /> */}

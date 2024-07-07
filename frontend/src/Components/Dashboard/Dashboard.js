@@ -1396,7 +1396,12 @@ const App = () => {
       setColoredData([]);
       setClusterNames([]);
       setClusterColors([]);
-      const file = e.target.files[0];
+      let file;
+      if (e.target.files[0]) {
+        file = e.target.files[0];
+      } else {
+        file = e;
+      }
       const reader = new FileReader();
       reader.onload = (evt) => {
         /* Parse data */
@@ -1422,6 +1427,33 @@ const App = () => {
       reader.readAsBinaryString(file);
     }
   };
+
+  const handleSavedUpload = (plotData) => {
+    // Set up necessary states
+    setIsLoading(false);
+    setOutlierData([]);
+    setColoredData([]);
+    setClusterNames([]);
+    setClusterColors([]);
+    setSelectedUploadOption("PCA"); // Adjust this if necessary
+    
+    // Transform Plotly data to match the structure your functions expect
+    const columns = Object.keys(plotData[0]).map((col) => ({ name: col, selector: col }));
+
+    const data = plotData.map(point => ({
+      [columns[0].name]: point[Object.keys(point)[0]], // First column assumed to be X
+      [columns[1].name]: point[Object.keys(point)[1]], // Second column assumed to be Y
+      ...(columns.length > 2 && { [columns[2].name]: point[Object.keys(point)[2]] }), // Z if present
+    }));
+
+    // Call processData directly with the transformed data and columns
+    processData(data, false);
+    console.log("Data uploaded successfully!");
+    console.log(data)
+
+    // Additional steps like running TSNE or other processing could be added here if needed
+  };
+
 
   const handleFileUploadNew = (file, type) => {
     if (!file) {
@@ -2281,12 +2313,15 @@ const App = () => {
           runPCAir={runPCAir}
           runCluster={runCluster}
           runOutliers={runOutliers}
+          selectedColumns={selectedColumns}
           allActions={allActions}
           removeOutliers={removeOutliers}
           onPressReset={onPressReset}
           styles={styles}
           fileChanged={fileChanged}
           setFileChanged={setFileChanged}
+          processData={processData}
+          setIsMainPageLoading={isLoading}
         />
 
         {/* <div className="block-example" style={styles.rightPane}> */}
@@ -2333,12 +2368,15 @@ const App = () => {
           selectedDescribingColumnShape={selectedDescribingColumnShape}
           handleShapeColumns={handleShapeColumns}
           OutlierData={OutlierData}
+          processData={processData}
+          setIsMainPageLoading={setIsLoading}
           data={data}
           handleMetaDataUpload={handleMetaDataUpload}
           onInputMetadataClick={onInputMetadataClick}
           allActions={allActions}
           setMappingIDColumn={setMappingIDColumn}
           alphaVal={alphaVal}
+          selectedColumns={selectedColumns}
           certaintyVal={certaintyVal}
           admixMode={admixMode}
           admix={admix}
@@ -2383,6 +2421,7 @@ const App = () => {
           handleShapeColumns={handleShapeColumns}
           OutlierData={OutlierData}
           data={data}
+          selectedColumns={selectedColumns}
           handleMetaDataUpload={handleMetaDataUpload}
           onInputMetadataClick={onInputMetadataClick}
           allActions={allActions}

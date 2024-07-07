@@ -14,8 +14,12 @@ def create_database():
                     id INTEGER PRIMARY KEY,
                     data_plot TEXT NOT NULL,
                     plot_title TEXT NOT NULL,
+                    axis_labels TEXT NOT NULL,
                     date_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                     user_id INTEGER,
+                    clustering_algorithm TEXT,
+                    number_of_clusters INTEGER,
+                    outlier_detection TEXT,
                     FOREIGN KEY (user_id) REFERENCES users(id))''')
 
 
@@ -29,7 +33,7 @@ def create_database():
     conn.commit()
 
     c.execute("select * from users")    
-    c.execute("DELETE FROM plots")      
+    # c.execute("DELETE FROM plots")      
     rows = c.fetchall()
     for row in rows:
         print(row)

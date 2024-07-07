@@ -46,6 +46,7 @@ const RightPane = ({
   handleTabOutputCallback,
   showOutputOptions,
   downloadPlot,
+  selectedColumns
 }) => {
   const uploadRef = useRef(null);
   const { user } = useContext(AuthContext);
@@ -93,7 +94,7 @@ const RightPane = ({
         const newAccessToken = await refreshAccessToken();
         const response = await api.post(
           "/save",
-          { data: data, name: dataName},
+          { data: data, name: dataName, axis: selectedColumns},
           {
             headers: {
               Authorization: `Bearer ${newAccessToken}`,
@@ -101,15 +102,17 @@ const RightPane = ({
           }
         );
         console.log(response.data);
+        console.log(selectedColumns)
         console.log("data is fetched!");
         return response.data;
       } else {
         const response = await api.post(
           "/save",
-          { data: data, name: dataName},
+          { data: data, name: dataName, axis: selectedColumns},
           { withCredentials: true }
         );
         console.log(response.data);
+        console.log(selectedColumns)
         return response.data;
       }
     } catch (error) {

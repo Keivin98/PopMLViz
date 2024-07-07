@@ -462,12 +462,14 @@ def protected():
 
     plot_title = data.get('name')
     data_plot = data.get('data')
+    axis_labels = data.get('axis')
 
     if not plot_title or not data_plot:
         return jsonify({"error": "Missing required fields"}), 400
 
     # Convert data_plot to JSON string
     data_plot_json = json.dumps(data_plot)
+    axis_labels = json.dumps(axis_labels)
 
     conn = sqlite3.connect('popMLViz.db')
     c = conn.cursor()
@@ -479,8 +481,8 @@ def protected():
         return jsonify({"error": "Plot title already exists for this user"}), 400
 
 
-    c.execute("INSERT INTO plots (data_plot, plot_title, user_id) VALUES (?, ?, ?)",
-              (data_plot_json, plot_title, current_user))
+    c.execute("INSERT INTO plots (data_plot, plot_title, axis_labels, user_id) VALUES (?, ?, ?, ?)",
+              (data_plot_json, plot_title, axis_labels, current_user))
     conn.commit()
     conn.close()
 
@@ -489,12 +491,12 @@ def protected():
 @app.route('/api/getSavedData', methods=['GET'])
 @cross_origin(supports_credentials=True)
 @jwt_required()
-def get_plot():
+def get_plots():
     current_user = get_jwt_identity()
 
     conn = sqlite3.connect('popMLViz.db')
     c = conn.cursor()
-    c.execute("SELECT date_created, plot_title FROM plots WHERE user_id=?", (current_user,))
+    c.execute("SELECT date_created, plot_title, axis_labels FROM plots WHERE user_id=?", (current_user,))
     plots = c.fetchall()
     conn.close()
 
@@ -504,9 +506,35 @@ def get_plot():
         # plot_data = json.loads(plot[0])
         plot_list.append({
             "title": plot[1],
-            "date": plot[0]
+            "date": plot[0],
+            "axis": plot[2]
         })
     return jsonify({"plots": plot_list}), 200
+
+@app.route('/api/getSavedPlot', methods=['GET'])
+@cross_origin(supports_credentials=True)
+@jwt_required()
+def get_plot():
+    current_user = get_jwt_identity()
+    plot_title = request.args.get('name')
+    print(plot_title)  # Debugging: print the plot title received
+
+    conn = sqlite3.connect('popMLViz.db')
+    c = conn.cursor()
+    c.execute("SELECT date_created, plot_title, axis_labels, data_plot FROM plots WHERE user_id=? AND plot_title=?", (current_user, plot_title))
+    plot = c.fetchone()  # Fetch one plot
+    conn.close()
+
+    if plot:
+        plot_data = {
+            "title": plot[1],
+            "date": plot[0],
+            "axis": json.loads(plot[2]),  # Parse axis_labels JSON string
+            "plot": json.loads(plot[3])
+        }
+        return jsonify({"plot": plot_data}), 200
+    else:
+        return jsonify({"error": "Plot not found"}), 404
 
 
 @app.route('/refresh', methods=['POST'])

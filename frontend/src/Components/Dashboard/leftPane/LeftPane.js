@@ -6,8 +6,8 @@ import OutlierDetectionTab from "./OutlierDetectionTab";
 import colors from "../../../config/colors";
 import { useNavigate } from "react-router-dom";
 import font from "../../../config/font";
-import "./leftpane.css"
-import "../dashboard.css"
+import "./leftpane.css";
+import "../dashboard.css";
 
 const LeftPane = ({
   UploadTabChange,
@@ -29,14 +29,19 @@ const LeftPane = ({
   handleClose,
   modalOpen,
   setModalOpen,
+  selectedColumns,
+  processData,
+  uploadSavedData,
+  setIsMainPageLoading
 }) => {
   const navigate = useNavigate();
+  // console.log(processData)
 
   function handleHomeClick() {
     navigate("/");
   }
   return (
-    <div className="leftpane grid-l" >
+    <div className="leftpane grid-l">
       <div
         className="logo-container"
         onClick={handleHomeClick}
@@ -54,7 +59,9 @@ const LeftPane = ({
       </div>
       <form style={{ marginTop: "1%" }}>
         <UploadAndVisualizeTab
+          processData={processData}
           modalOpen={modalOpen}
+          uploadSavedData={uploadSavedData}
           setModalOpen={setModalOpen}
           handleClose={handleClose}
           fileChanged={fileChanged}
@@ -66,7 +73,9 @@ const LeftPane = ({
           unprocessedPCA={handleUnprocessedPCA}
           tsne2d={handleTSNE2D}
           tsne3d={handleTSNE3D}
+          setIsMainPageLoading={setIsMainPageLoading}
           runPCAir={runPCAir}
+          selectedColumns={selectedColumns}
         />
       </form>
       <hr style={{ backgroundColor: "white", height: 2, opacity: 1 }} />

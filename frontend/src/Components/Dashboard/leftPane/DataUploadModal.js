@@ -12,6 +12,7 @@ import axios from "axios";
 import fetchSavedData from "./fetchSavedData";
 import Loader from "react-loader-spinner";
 import colors from "../../../config/colors";
+import fetchSpecificPlot from "./fetchSpecificPlot";
 
 const Input = styled("input")({
   display: "none",
@@ -64,6 +65,9 @@ function DataUploadModal({
   setFileChanged,
   modalOpen,
   setModalOpen,
+  processData,
+  setIsMainPageLoading,
+  selectedColumns,
 }) {
   const defaultFile = {
     PCA: { processed: null, unprocessed: null },
@@ -192,7 +196,7 @@ function DataUploadModal({
     } else if (selection === "example") {
       setDataSelectionStep("exampleData");
     } else if (selection === "saved") {
-      fetchSavedData({ setDataSelectionStep, setSavedPlots, setIsLoading });
+      fetchSavedData({ setDataSelectionStep, setSavedPlots, setIsLoading, selectedColumns });
       setDataSelectionStep("saved");
       console.log(savedPlots);
     }
@@ -591,9 +595,17 @@ function DataUploadModal({
                     alignItems: "center",
                     justifyContent: "space-between",
                   }}
-                  onClick={() => {}}
+                  onClick={() => {
+                    fetchSpecificPlot({
+                      processData: processData,
+                      setIsLoading: setIsMainPageLoading,
+                      plotName: plot.title,
+                    });
+                    handleClose();
+                  }}
                 >
                   <div>{plot.title}</div>
+                  <div>{plot.axis}</div>
                   <div>{plot.date.split(" ")[0]}</div>
                 </div>
               ))
