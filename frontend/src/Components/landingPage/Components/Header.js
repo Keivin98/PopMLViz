@@ -58,7 +58,7 @@ function Header(props) {
             <a href={"/Dashboard"} style={{}} className="button btn project-btn" onClick={() => gaEventTracker("Live")}>
               <FaPlayCircle style={{ marginRight: 10 }} /> <div>Start Visualizing</div>
             </a>
-            <div className="special-btn-container">
+            <div style={{display: 'flex', gap: 20}} className="special-btn-container">
               <a onClick={() => navigate("/faq")} className="button btn FAQ-btn special-btn" style={{ color: "white" }}>
                 <img style={{ width: "60px", height: "60px" }} src="/faq.png" alt="FAQ Icon"></img>
                 <div className="button-txt">FAQ</div>

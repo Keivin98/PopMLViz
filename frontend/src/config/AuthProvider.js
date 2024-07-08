@@ -1,6 +1,7 @@
 import React, { createContext, useState, useEffect } from "react";
 import axios from "axios";
 
+
 const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
@@ -19,7 +20,9 @@ const AuthProvider = ({ children }) => {
 
       if (response.status === 200) {
         const { user } = response.data;
-          setUser(user);
+        console.log("user "+ user)
+
+        setUser(user);
       }
       return response.data.access_token;
     } catch (error) {
@@ -45,6 +48,7 @@ const AuthProvider = ({ children }) => {
         }
       } catch (error) {
         setUser(null);
+
         await refreshAccessToken();
       }
     };

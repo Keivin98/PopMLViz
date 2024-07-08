@@ -175,10 +175,11 @@ function Login() {
             <i className="fas fa-user icon"></i>
             <input
               ref={emailRef}
+              style={{paddingRight: 5}}
               type="email"
               id="email"
               name="email"
-              className="form__input"
+              className="form__input email-input"
               value={email}
               onFocus={() => setEmailFocused(true)}
               onBlur={() => setEmailFocused(false)}

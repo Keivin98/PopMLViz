@@ -139,6 +139,7 @@ function Register() {
               <div className="input-box">
                 <i className="fas fa-envelope icon"></i>
                 <input
+                  style={{paddingRight: 5}}
                   type="email"
                   id="email"
                   className="form__input"

@@ -30,6 +30,10 @@
         margin-bottom: 30px !important;
         gap: 10px !important;
     }
+    .outlier-btns{
+        flex-direction: column !important; 
+        gap: 10px;
+    }
 }
 
 @media (max-width: 900px) {

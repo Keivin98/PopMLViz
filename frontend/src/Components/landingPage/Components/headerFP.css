@@ -289,7 +289,7 @@ p {
     align-items: center;
     padding-left: 0px;
   }
-  .social .spcial-btn-container{
+  .spcial-btn-container{
     display: flex;
     flex-direction: row;
     justify-content: space-between;

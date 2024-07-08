@@ -7,10 +7,13 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../../config/AuthProvider";
 import { FaUser } from "react-icons/fa";
 import colors from "../../../config/colors";
+import Modal from "@mui/material/Modal";
+import { FaRegUserCircle } from "react-icons/fa";
 
 export default function AppNav() {
   const navigate = useNavigate();
   const { user } = useContext(AuthContext);
+  const [modalVisible, setModalVisible] = useState(false);
 
   const handleLoginClick = () => {
     navigate("/login");
@@ -19,8 +22,36 @@ export default function AppNav() {
   const handleFAQClick = () => {
     navigate("/faq");
   };
+
+  const handleShowUser = () => {
+    setModalVisible(true);
+  };
   return (
     <nav id="nav-wrap">
+      <Modal
+        style={{
+          top: "50%",
+          left: "50%",
+          position: "absolute",
+          width: "50%",
+          backgroundColor: "white",
+          transform: "translate(-50%, -50%)",
+          borderRadius: 30,
+          padding: 20,
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          flexDirection: "column",
+          minWidth: 250,
+        }}
+        open={modalVisible}
+        onClose={() => setModalVisible(false)}
+      >
+        <div style={{display: 'flex'}}>
+          <FaRegUserCircle />
+          <h5>{user}</h5>
+        </div>
+      </Modal>
       <div className="nav-left" onClick={() => navigate("/")}>
         <img src={logo} alt="PopMLVis Logo" className="logo" />
         <span className="site-name">PopMLVis</span>
@@ -53,8 +84,19 @@ export default function AppNav() {
             </button>
           </>
         ) : (
-          <div style={{width: 50, height: 50, backgroundColor: colors.secondary, display: "flex", justifyContent: 'center', alignItems: 'center', borderRadius: 50}}>
-            <FaUser color={"white"}/>
+          <div
+            onClick={handleShowUser}
+            style={{
+              width: 50,
+              height: 50,
+              backgroundColor: colors.secondary,
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              borderRadius: 50,
+            }}
+          >
+            <FaUser color={"white"} />
           </div>
         )}
       </div>
