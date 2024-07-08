@@ -7,6 +7,7 @@ click
 cryptography
 Flask
 Flask-Cors
+umap-learn
 flask-marshmallow
 Flask-Migrate
 Flask-SQLAlchemy

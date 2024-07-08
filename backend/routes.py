@@ -26,7 +26,7 @@ from flask_bcrypt import Bcrypt
 import sqlite3
 from flask_jwt_extended import create_access_token,create_refresh_token, get_jwt_identity, jwt_required
 from datetime import timedelta
-from umap import UMAP
+# from umap import UMAP
 from sklearn.cluster import DBSCAN
 
 main_blueprint = Blueprint('main', __name__)
@@ -179,45 +179,45 @@ def cmtsne3d():
     results_df = pd.concat([tsne_df, pca_df[other_cols]], axis=1)
     return results_df.to_csv()
 
-@app.route("/api/cmumap2d", methods=["POST"], strict_slashes=False)
-@cross_origin()
-def cmumap2d():
-    request_df = request.get_json()['df']
-    pca_df = pd.json_normalize(request_df)
-    try:
-        pca_cols = [x for x in pca_df.columns if 'PC' in x or 'TSNE' in x]
-        other_cols = [x for x in pca_df.columns if 'PC' not in x and 'TSNE' not in x]
-        if not pca_cols:
-            pca_cols = pca_df.columns
-            other_cols = []
-    except:
-        pca_cols = pca_df.columns
+# @app.route("/api/cmumap2d", methods=["POST"], strict_slashes=False)
+# @cross_origin()
+# def cmumap2d():
+#     request_df = request.get_json()['df']
+#     pca_df = pd.json_normalize(request_df)
+#     try:
+#         pca_cols = [x for x in pca_df.columns if 'PC' in x or 'TSNE' in x]
+#         other_cols = [x for x in pca_df.columns if 'PC' not in x and 'TSNE' not in x]
+#         if not pca_cols:
+#             pca_cols = pca_df.columns
+#             other_cols = []
+#     except:
+#         pca_cols = pca_df.columns
 
-    umap_visualization = UMAP(random_state=123).fit_transform(pca_df[pca_cols])
-    umap_df = pd.DataFrame(umap_visualization)
-    umap_df.columns = ["UMAP-1", "UMAP-2"]
-    results_df = pd.concat([umap_df, pca_df[other_cols]], axis=1)
-    return results_df.to_csv()
+#     umap_visualization = UMAP(random_state=123).fit_transform(pca_df[pca_cols])
+#     umap_df = pd.DataFrame(umap_visualization)
+#     umap_df.columns = ["UMAP-1", "UMAP-2"]
+#     results_df = pd.concat([umap_df, pca_df[other_cols]], axis=1)
+#     return results_df.to_csv()
 
-@app.route("/api/cmumap3d", methods=["POST"], strict_slashes=False)
-@cross_origin()
-def cmumap3d():
-    request_df = request.get_json()['df']
-    pca_df = pd.json_normalize(request_df)
-    try:
-        pca_cols = [x for x in pca_df.columns if 'PC' in x or 'TSNE' in x]
-        other_cols = [x for x in pca_df.columns if 'PC' not in x and 'TSNE' not in x]
-        if not pca_cols:
-            pca_cols = pca_df.columns
-            other_cols = []
-    except:
-        pca_cols = pca_df.columns
+# @app.route("/api/cmumap3d", methods=["POST"], strict_slashes=False)
+# @cross_origin()
+# def cmumap3d():
+#     request_df = request.get_json()['df']
+#     pca_df = pd.json_normalize(request_df)
+#     try:
+#         pca_cols = [x for x in pca_df.columns if 'PC' in x or 'TSNE' in x]
+#         other_cols = [x for x in pca_df.columns if 'PC' not in x and 'TSNE' not in x]
+#         if not pca_cols:
+#             pca_cols = pca_df.columns
+#             other_cols = []
+#     except:
+#         pca_cols = pca_df.columns
 
-    umap_visualization = UMAP(n_components=3, random_state=123).fit_transform(pca_df[pca_cols])
-    umap_df = pd.DataFrame(umap_visualization)
-    umap_df.columns = ["UMAP-1", "UMAP-2", "UMAP-3"]
-    results_df = pd.concat([umap_df, pca_df[other_cols]], axis=1)
-    return results_df.to_csv()
+#     umap_visualization = UMAP(n_components=3, random_state=123).fit_transform(pca_df[pca_cols])
+#     umap_df = pd.DataFrame(umap_visualization)
+#     umap_df.columns = ["UMAP-1", "UMAP-2", "UMAP-3"]
+#     results_df = pd.concat([umap_df, pca_df[other_cols]], axis=1)
+#     return results_df.to_csv()
 
 @app.route("/api/uploadCM", methods=["POST"], strict_slashes=False) #8
 @cross_origin()
@@ -607,7 +607,16 @@ def refresh():
     response = make_response(jsonify(access_token=new_access_token), 200)
     response.set_cookie('access_token_cookie', new_access_token, httponly=True,secure=True, samesite='none', max_age=15*60 )
     return response
-      
+
+
+@app.route('/logout', methods=['POST'])
+@cross_origin(supports_credentials=True)
+@jwt_required(refresh=True)
+def logout():
+    response = make_response(jsonify({"message": "Successfully logged out"}), 200)
+    response.set_cookie('access_token_cookie', "", httponly=True,secure=True, samesite='none', max_age=0)
+    response.set_cookie('refresh_token_cookie', "", httponly=True,secure=True, samesite='none', max_age=0)
+    return response
 
 if __name__ == "__main__":
     app.run(host='127.0.0.1', port=5000, debug=True)
