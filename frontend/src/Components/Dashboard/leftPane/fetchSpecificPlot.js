@@ -59,6 +59,7 @@ export default async function fetchSpecificPlot({ setIsLoading, plotName, proces
     });
 
     console.log(response.data.plot.plot);
+    console.log(response.data.plot);
     const csv = arrayToCSV(response.data.plot.plot);
     console.log(csv);
    

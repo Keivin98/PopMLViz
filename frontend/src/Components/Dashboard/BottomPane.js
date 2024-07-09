@@ -37,6 +37,7 @@ export default function BottomPane({
   setMappingIDColumn,
   alphaVal,
   certaintyVal,
+  resetSaveState,
   admixMode,
   admix,
   handleAdmixOptionsCallback,
@@ -98,6 +99,7 @@ export default function BottomPane({
                 setModalOpen={setModalOpen}
                 handleClose={handleClose}
                 fileChanged={fileChanged}
+                resetSaveState={resetSaveState}
                 setFileChanged={setFileChanged}
                 onChange={UploadTabChange}
                 samplePCAAdmixDataset={samplePCAAdmixDataset2}

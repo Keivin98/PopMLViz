@@ -55,7 +55,7 @@ const randomShapes = [
 Chart.register(...registerables);
 
 const App = () => {
-  const [numClusters, setNumClusters] = useState(2);
+  // const [numClusters, setNumClusters] = useState(2);
   const [ProgressBarType, setProgressBarType] = useState("Loader");
   const [ProgressBarTimeInterval, setProgressBarTimeInterval] = useState(5);
   const [columnRange, setColumnRange] = useState([]);
@@ -110,7 +110,7 @@ const App = () => {
   const axisRef = useRef(null);
   const [modalOpen, setModalOpen] = useState(false);
 
-  // const {numClusters, setNumClusters} = useZustand()
+  const { numClusters, setNumClusters, setConfirmedClusterMethod, setOutlierDetectionOptions } = useZustand();
 
   //
   useEffect(() => {
@@ -147,6 +147,11 @@ const App = () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
+
+  function resetSaveState() {
+    setConfirmedClusterMethod(null);
+    setOutlierDetectionOptions({})
+  }
   const handleClose = () => setModalOpen(false);
 
   console.log(process.env.REACT_APP_PROTOCOL);
@@ -1438,11 +1443,11 @@ const App = () => {
     setClusterNames([]);
     setClusterColors([]);
     setSelectedUploadOption("PCA"); // Adjust this if necessary
-    
+
     // Transform Plotly data to match the structure your functions expect
     const columns = Object.keys(plotData[0]).map((col) => ({ name: col, selector: col }));
 
-    const data = plotData.map(point => ({
+    const data = plotData.map((point) => ({
       [columns[0].name]: point[Object.keys(point)[0]], // First column assumed to be X
       [columns[1].name]: point[Object.keys(point)[1]], // Second column assumed to be Y
       ...(columns.length > 2 && { [columns[2].name]: point[Object.keys(point)[2]] }), // Z if present
@@ -1451,12 +1456,13 @@ const App = () => {
     // Call processData directly with the transformed data and columns
     processData(data, false);
     console.log("Data uploaded successfully!");
-    console.log(data)
+
+    console.log(data);
 
     // Additional steps like running TSNE or other processing could be added here if needed
   };
 
-
+  //upload data for processed data and unprocessed Correlation Matrix by calling UploadCMDatasetNew, T_SNE 2D and T_SNE 3D, so it handles every upload except for PC-AIR
   const handleFileUploadNew = (file, type) => {
     if (!file) {
       alert("Please select a file to upload");
@@ -1493,6 +1499,7 @@ const App = () => {
           }
         });
       };
+      resetSaveState();
       handleClose();
       reader.readAsBinaryString(file);
     }
@@ -1502,14 +1509,14 @@ const App = () => {
     setSelectedUploadOption("PCA");
     handleFileUploadNew(file);
   };
-
+  //handle upload data that is processed and admix
   const handleProcessedAdmix = (files) => {
     setSelectedUploadOption("pcairandadmixture");
     handleFileUploadNew(files[0], 1);
     handleFileUploadNew(files[1], 2);
   };
 
-  //unprocessed upload
+  //unprocessed upload for Correlation Matrix
   const handleUnprocessedPCA = (file, name) => {
     setSelectedUploadOption("Correlation Matrix");
     handleFileUploadNew(file, name);
@@ -1985,7 +1992,7 @@ const App = () => {
         alert("Server error! Please check the input and try again. If the error persists, refer to the docs! ");
       });
   };
-
+  //upload the data from example datasets, handle both admixed and not admixed, the 1000K and the HGDP
   const samplePCAAdmixDataset2 = (dstype, sampleDatasetValue) => {
     setIsLoading(true);
     setProgressBarType("Loader");
@@ -2007,6 +2014,7 @@ const App = () => {
         }
       )
       .then((r) => {
+        resetSaveState();
         setIsLoading(false);
         setColoredData([]);
         setSelectedDescribingColumn({ value: "None", label: "None" });
@@ -2221,6 +2229,7 @@ const App = () => {
   };
 
   const UploadTabChange = (data) => {
+    //it is not used
     if (data.selectedUploadOption === "pcairandadmixture") {
       setSelectedUploadOption(data.selectedUploadOption);
       setShowOutputOptions(true);
@@ -2303,6 +2312,7 @@ const App = () => {
         <LeftPane
           handleClose={handleClose}
           modalOpen={modalOpen}
+          resetSaveState={resetSaveState}
           setModalOpen={setModalOpen}
           UploadTabChange={UploadTabChange}
           samplePCAAdmixDataset2={samplePCAAdmixDataset2}
@@ -2363,6 +2373,7 @@ const App = () => {
           selectedUploadOption={selectedUploadOption}
           selectActions={selectActions}
           multiValue={multiValue}
+          resetSaveState={resetSaveState}
           handleMultiChange={handleMultiChange}
           selectedDescribingColumnColor={selectedDescribingColumnColor}
           handleColoredColumns={handleColoredColumns}
@@ -2436,7 +2447,7 @@ const App = () => {
           clusterColors={clusterColors}
           setClusterColors={setClusterColors}
           clusterNames={clusterNames}
-          numClusters={numClusters}
+          // numClusters={numClusters}
           markerSize={markerSize}
           handleTabOutputCallback={handleTabOutputCallback}
           showOutputOptions={showOutputOptions}

@@ -20,6 +20,9 @@ def create_database():
                     clustering_algorithm TEXT,
                     number_of_clusters INTEGER,
                     outlier_detection TEXT,
+                    is_or INTEGER,
+                    outlier_Detection_column_start INTEGER,
+                    outlier_Detection_column_end INTEGER,
                     FOREIGN KEY (user_id) REFERENCES users(id))''')
 
 

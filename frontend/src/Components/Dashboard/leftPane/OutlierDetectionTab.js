@@ -11,9 +11,10 @@ import PropTypes from "prop-types";
 import font from "../../../config/font";
 import InputOptions from "../../InputOptions";
 import colors from "../../../config/colors";
-import "../../DropDown.css"
-import "./leftpane.css"
+import "../../DropDown.css";
+import "./leftpane.css";
 import AppButton from "../../AppButton";
+import useZustand from "../../../config/useZustand";
 
 const OutlierDetectionTab = ({ onChange, numFeatures, removeOutliers, allActions }) => {
   const [selectOutlierActions] = useState([
@@ -60,6 +61,8 @@ const OutlierDetectionTab = ({ onChange, numFeatures, removeOutliers, allActions
   const [columnName, setColumnName] = useState("");
   const [allActionsState, setAllActionsState] = useState(allActions);
 
+  const { outlierDetectionOptions, setOutlierDetectionOptions } = useZustand();
+
   const findName = (allActions) => {
     if (
       allActions.filter((elem) => {
@@ -97,6 +100,11 @@ const OutlierDetectionTab = ({ onChange, numFeatures, removeOutliers, allActions
   };
 
   const runOutliers = () => {
+    setOutlierDetectionOptions({
+      outlierDetectionAlgo: selectedOutlierMethod,
+      outlierDetectionColumns: columnRange,
+      outlierDetectionMode: pressed,
+    });
     onChange({
       selectOutlierActions,
       selectedOutlierMethod,
@@ -182,17 +190,27 @@ const OutlierDetectionTab = ({ onChange, numFeatures, removeOutliers, allActions
                 backgroundColor: selectedOutlierMethod == null ? "grey" : colors.blue,
                 fontFamily: font.primaryFont,
                 marginRight: 5,
-                width: "100%"
+                width: "100%",
               }}
               disabled={selectedOutlierMethod == null}
+            ></AppButton>
+            <div
+              className="trash-can"
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                width: 40,
+                height: 40,
+                borderRadius: 100,
+                backgroundColor: "white",
+              }}
             >
-            </AppButton>
-            <div className="trash-can" style={{display: "flex",  justifyContent: 'center', alignItems: 'center', width: 40, height: 40, borderRadius: 100, backgroundColor: "white"}}>
               <IconButton
                 variant="outlined"
                 aria-label="delete"
                 size="medium"
-                style={{ color: "red", backgroundColor: "transparent"}}
+                style={{ color: "red", backgroundColor: "transparent" }}
                 onClick={removeOutliers}
               >
                 <AiFillDelete />

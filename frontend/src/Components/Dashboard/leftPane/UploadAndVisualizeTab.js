@@ -17,6 +17,7 @@ function UploadAndVisualizeTab({
   runPCAir,
   fileChanged,
   setFileChanged,
+  resetSaveState,
   handleClose,
   modalOpen,
   setModalOpen,
@@ -73,6 +74,7 @@ function UploadAndVisualizeTab({
             processedPCA={processedPCA}
             processedAdmix={processedAdmix}
             unprocessedPCA={unprocessedPCA}
+            resetSaveState={resetSaveState}
             tsne2d={tsne2d}
             tsne3d={tsne3d}
             selectedColumns={selectedColumns}

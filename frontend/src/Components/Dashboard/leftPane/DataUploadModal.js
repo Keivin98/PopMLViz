@@ -62,6 +62,7 @@ function DataUploadModal({
   tsne3d,
   runPCAir,
   fileChanged,
+  resetSaveState,
   setFileChanged,
   modalOpen,
   setModalOpen,
@@ -196,7 +197,7 @@ function DataUploadModal({
     } else if (selection === "example") {
       setDataSelectionStep("exampleData");
     } else if (selection === "saved") {
-      fetchSavedData({ setDataSelectionStep, setSavedPlots, setIsLoading, selectedColumns });
+      fetchSavedData({ setDataSelectionStep, setSavedPlots, setIsLoading, selectedColumns, resetSaveState });
       setDataSelectionStep("saved");
       console.log(savedPlots);
     }
@@ -268,6 +269,7 @@ function DataUploadModal({
         const responseData = await response.json();
         newFilenames[filename] = responseData.filename;
         console.log(filename, responseData.filename);
+        resetSaveState()
         return responseData;
       } catch (error) {
         console.error("Upload failed for " + filename, error);

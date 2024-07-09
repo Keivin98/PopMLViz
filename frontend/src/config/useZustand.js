@@ -3,8 +3,10 @@ import { create } from 'zustand'
 const useZustand = create((set) => ({
     numClusters: 2,
     setNumClusters: (numClusters) => set({ numClusters }),
-    selectedClusterMethod: null,
-    setSelectedClusterMethod: (selectedClusterMethod) => set({ selectedClusterMethod }),
+    confirmedClusterMethod: null,
+    setConfirmedClusterMethod: (confirmedClusterMethod) => set({ confirmedClusterMethod }),
+    outlierDetectionOptions: {},
+    setOutlierDetectionOptions: (outlierDetectionOptions) => set({ outlierDetectionOptions }),
 }))
 
 export default useZustand;

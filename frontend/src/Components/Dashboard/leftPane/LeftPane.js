@@ -15,6 +15,7 @@ const LeftPane = ({
   handleProcessedPCA,
   handleProcessedAdmix,
   handleUnprocessedPCA,
+  resetSaveState,
   handleTSNE2D,
   handleTSNE3D,
   runPCAir,
@@ -63,6 +64,7 @@ const LeftPane = ({
           modalOpen={modalOpen}
           uploadSavedData={uploadSavedData}
           setModalOpen={setModalOpen}
+          resetSaveState={resetSaveState}
           handleClose={handleClose}
           fileChanged={fileChanged}
           setFileChanged={setFileChanged}

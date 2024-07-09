@@ -29,7 +29,7 @@ const refreshAccessToken = async () => {
     throw error;
   }
 };
-export default async function fetchSavedData({setIsLoading, setSavedPlots, setDataSelectionStep }) {
+export default async function fetchSavedData({setIsLoading, setSavedPlots, setDataSelectionStep, resetSaveState }) {
   try {
     setIsLoading(true)
     const isValid = await checkAccessTokenValidity();
@@ -45,6 +45,7 @@ export default async function fetchSavedData({setIsLoading, setSavedPlots, setDa
       setSavedPlots(response.data);
       setIsLoading(false)
       setDataSelectionStep("saved")
+      resetSaveState()
       return response.data;
     } else {
       const response = await api.get("/api/getSavedData", { withCredentials: true });
@@ -52,6 +53,7 @@ export default async function fetchSavedData({setIsLoading, setSavedPlots, setDa
       setSavedPlots(response.data);
       setIsLoading(false)
       setDataSelectionStep("saved")
+      resetSaveState()
       return response.data;
     }
   } catch (error) {

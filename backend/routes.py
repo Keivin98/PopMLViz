@@ -524,9 +524,22 @@ def protected():
     plot_title = data.get('name')
     data_plot = data.get('data')
     axis_labels = data.get('axis')
+    isOr = data.get('isOr')
+    clusteringAlgo = data.get('clusteringAlgo')
+    numCluster = data.get("numCluster")
+    outlierDetectionAlgo = data.get("outlierDetectionAlgo")
+    outlierDetectionColumnsStart = data.get("outlierDetectionColumnsStart")
+    outlierDetectionColumnsEnd = data.get("outlierDetectionColumnsEnd")
+
 
     if not plot_title or not data_plot:
         return jsonify({"error": "Missing required fields"}), 400
+
+    if isOr:
+        if isOr == True:
+            isOr = 1
+        else:
+            isOr = 0 
 
     # Convert data_plot to JSON string
     data_plot_json = json.dumps(data_plot)
@@ -542,9 +555,13 @@ def protected():
         return jsonify({"error": "Plot title already exists for this user"}), 400
 
 
-    c.execute("INSERT INTO plots (data_plot, plot_title, axis_labels, user_id) VALUES (?, ?, ?, ?)",
-              (data_plot_json, plot_title, axis_labels, current_user))
-    conn.commit()
+    c.execute('''INSERT INTO plots (data_plot, plot_title, axis_labels, user_id, is_or, clustering_algorithm, 
+                                    number_of_clusters, outlier_detection, outlier_Detection_column_start, 
+                                    outlier_Detection_column_end) 
+                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)''',
+              (data_plot_json, plot_title, axis_labels, current_user, isOr, clusteringAlgo, numCluster, 
+               outlierDetectionAlgo, outlierDetectionColumnsStart, outlierDetectionColumnsEnd))
+    conn.commit()           
     conn.close()
 
     return jsonify({"plot": "Plot saved successfully"}), 201
@@ -582,16 +599,28 @@ def get_plot():
 
     conn = sqlite3.connect('popMLViz.db')
     c = conn.cursor()
-    c.execute("SELECT date_created, plot_title, axis_labels, data_plot FROM plots WHERE user_id=? AND plot_title=?", (current_user, plot_title))
+    c.execute("SELECT date_created, data_plot, plot_title, axis_labels, user_id, is_or,clustering_algorithm, number_of_clusters, outlier_detection, outlier_Detection_column_start, outlier_Detection_column_end FROM plots WHERE user_id=? AND plot_title=?", (current_user, plot_title))
     plot = c.fetchone()  # Fetch one plot
     conn.close()
 
+    # if plot[4]:
+    #     if plot[4] == 1:
+    #         plot[4] = True
+    #     else:
+    #         plot[4] = False    
+
     if plot:
         plot_data = {
-            "title": plot[1],
             "date": plot[0],
-            "axis": json.loads(plot[2]),  # Parse axis_labels JSON string
-            "plot": json.loads(plot[3])
+            "title": plot[1],
+            "axis": json.loads(plot[2]), 
+            "plot": json.loads(plot[3]),
+            "isOr": plot[4],
+            "clusteringAlgo": plot[5],
+            "numCluster": plot[6],
+            "outlierDetectionAlgo": plot[7],
+            "outlierDetectionColumnsStart": plot[8],
+            "outlierDetectionColumnsEnd": plot[9]
         }
         return jsonify({"plot": plot_data}), 200
     else:

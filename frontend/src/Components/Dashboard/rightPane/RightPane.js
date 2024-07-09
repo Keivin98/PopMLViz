@@ -16,7 +16,7 @@ import { AuthContext } from "../../../config/AuthProvider";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import useZustand from "../../../config/useZustand";
-
+import InputOptions from "../../InputOptions";
 
 const RightPane = ({
   selectedUploadOption,
@@ -48,21 +48,97 @@ const RightPane = ({
   handleTabOutputCallback,
   showOutputOptions,
   downloadPlot,
-  selectedColumns
+  selectedColumns,
 }) => {
   const uploadRef = useRef(null);
   const { user } = useContext(AuthContext);
   const [modalVisible, setModalVisible] = useState(false);
   const [dataNameModalVisible, setDataNameModalVisible] = useState(false);
   const [dataName, setDataName] = useState("");
-  const {numClusters, setNumClusters, selectedClusterMethod, setSelectedClusterMethod} = useZustand();
+  const { numClusters, setNumClusters, confirmedClusterMethod, outlierDetectionOptions } = useZustand();
+  const [selectClusterActions] = useState([
+    {
+      label: "K-means",
+      value: 0,
+    },
+    {
+      label: "Hierarchical clustering",
+      value: 1,
+    },
+    {
+      label: "Fuzzy c-means",
+      value: 2,
+    },
+  ]);
+  const [selectOutlierActions] = useState([
+    {
+      label: "None",
+      value: 0,
+    },
+    {
+      label: "1 SD",
+      value: 1,
+    },
+    {
+      label: "2 SD",
+      value: 2,
+    },
+    {
+      label: "3 SD",
+      value: 3,
+    },
+    {
+      label: "Isolation Forest",
+      value: 4,
+    },
+    {
+      label: "Minimum Covariance Determinant",
+      value: 5,
+    },
+    {
+      label: "Local Outlier Factor",
+      value: 6,
+    },
+    {
+      label: "OneClassSVM",
+      value: 7,
+    },
+  ]);
 
   const navigate = useNavigate();
+  console.log("cluster method " + confirmedClusterMethod);
+  console.log("outlier detection " + outlierDetectionOptions);
+  console.log(outlierDetectionOptions);
+  
 
   const api = axios.create({
     baseURL: `${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}${process.env.REACT_APP_PORT}`,
     withCredentials: true, // Ensure credentials (cookies) are sent with requests
   });
+
+  function StyledText({ label, value, range }) {
+    return (
+      <>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            marginBottom: 5,
+            marginTop: 5,
+          }}
+        >
+          <div style={{marginRight: 10}}>{label}: </div>
+          {!range ? (
+            <div style={{textAlign: 'right'}}>{value ? value : "Not applied"}</div>
+          ) : (
+            <div style={{textAlign: 'right'}}>{value ? `Between ${value[0]} and ${value[1]}` : "Not applied"}</div>
+          )}
+        </div>
+        <hr></hr>
+      </>
+    );
+  }
 
   // Function to check if access token is valid
   const checkAccessTokenValidity = async () => {
@@ -81,56 +157,67 @@ const RightPane = ({
       return response.data.access_token;
     } catch (error) {
       console.error("Error refreshing access token:", error);
+      setModalVisible(true);
       throw error;
     }
   };
 
   // Function to perform authenticated requests
   const postSavedData = async () => {
-    // const csvData = await converter.json2csv(data);
-    // const blob = new Blob([csvData], { type: "text/csv" });
-    // const formData = new FormData();
-    // formData.append("file", blob, "popmlvis_analysis.csv");
     try {
+      console.log(dataName);
+
       const isValid = await checkAccessTokenValidity();
+      let headers = {};
+
       if (!isValid) {
         const newAccessToken = await refreshAccessToken();
-        const response = await api.post(
-          "/save",
-          { data: data, name: dataName, axis: selectedColumns},
-          {
-            headers: {
-              Authorization: `Bearer ${newAccessToken}`,
-            },
-          }
-        );
-        console.log(response.data);
-        console.log(selectedColumns)
-        console.log("data is fetched!");
-        return response.data;
-      } else {
-        const response = await api.post(
-          "/save",
-          { data: data, name: dataName, axis: selectedColumns},
-          { withCredentials: true }
-        );
-        console.log(response.data);
-        console.log(selectedColumns)
-        return response.data;
+        headers.Authorization = `Bearer ${newAccessToken}`;
       }
+
+      const payload = { data: data, name: dataName, axis: selectedColumns };
+      if (confirmedClusterMethod) {
+        payload.clusteringAlgo = confirmedClusterMethod;
+        payload.numClusters = numClusters;
+        console.log(payload);
+      }
+      if (outlierDetectionOptions) {
+        payload.outlierDetectionAlgo = outlierDetectionOptions.outlierDetectionAlgo;
+        payload.outlierDetectionColumnsStart = outlierDetectionOptions.outlierDetectionColumns[0];
+        payload.outlierDetectionColumnsEnd = outlierDetectionOptions.outlierDetectionColumns[1];
+        payload.isOr = outlierDetectionOptions.pressed;
+        console.log(payload);
+      }
+      const response = await api.post("/save", payload, {
+        headers: {
+          ...headers,
+        },
+        withCredentials: true,
+      });
+
+      console.log(response.data);
+      console.log(selectedColumns);
+      console.log("Data is saved!");
+      return response.data;
     } catch (error) {
-      if(error.response && error.response.status === 400) {
-        alert("Data with the same name already exists. Please choose another name")
+      if (error.response && error.response.status === 400) {
+        alert("Data with the same name already exists. Please choose another name");
       }
-      console.error("Error fetching data:", error);
+      console.error("Error saving data:", error);
       throw error;
     }
   };
 
-  function handleSave() {
-    if (!user) {
-      setModalVisible(true);
+  async function handleSave() {
+    const isValid = await checkAccessTokenValidity();
+    let newAccessToken;
+    if (!isValid) {
+      newAccessToken = await refreshAccessToken();
+      if (!newAccessToken) {
+        return;
+      }
     }
+
     if (!data) {
       alert("Please make sure to upload a dataset first");
       return;
@@ -189,7 +276,7 @@ const RightPane = ({
             style={{ display: "flex", flexDirection: "column", alignItems: "center" }}
             onSubmit={() => {
               setDataNameModalVisible(false);
-              postSavedData()
+              postSavedData();
             }}
           >
             <input
@@ -200,6 +287,37 @@ const RightPane = ({
             />
             <AppButton style={{ marginTop: 20, fontSize: 20, minWidth: 70 }} title={"save"} type="submit"></AppButton>
           </form>
+          <h5></h5>
+          <div style={{ marginTop: 40, width: "100%" }}>
+            <StyledText label={"Data Added"} value={"Yes"}></StyledText>
+            <StyledText
+              label={"clustering algorithm applied"}
+              value={selectClusterActions[confirmedClusterMethod]?.label}
+            ></StyledText>
+            <StyledText label={"Number of clusters"} value={confirmedClusterMethod ? numClusters : null}></StyledText>
+            <StyledText
+              label={"Outlier Detection algorithm applied"}
+              value={selectOutlierActions[outlierDetectionOptions.outlierDetectionAlgo]?.label}
+            ></StyledText>
+            <StyledText
+              label={"Outlier Detection mode"}
+              value={
+                outlierDetectionOptions.outlierDetectionAlgo ? (outlierDetectionOptions.pressed ? "Or" : "And") : null
+              }
+            ></StyledText>
+            <StyledText
+              label={"Outlier Detection Range"}
+              range={true}
+              value={
+                outlierDetectionOptions.outlierDetectionColumns
+                  ? [
+                      outlierDetectionOptions.outlierDetectionColumns[0],
+                      outlierDetectionOptions.outlierDetectionColumns[1],
+                    ]
+                  : null
+              }
+            ></StyledText>
+          </div>
         </div>
       </Modal>
 
