@@ -45,7 +45,8 @@
     "styled-components": "^5.3.3",
     "web-vitals": "^1.1.2",
     "xlsx": "^0.17.4",
-    "yup": "^1.4.0"
+    "yup": "^1.4.0",
+    "zustand": "^4.5.4"
   },
   "scripts": {
     "start": "unset HOST && export NODE_OPTIONS=--openssl-legacy-provider && react-scripts start",

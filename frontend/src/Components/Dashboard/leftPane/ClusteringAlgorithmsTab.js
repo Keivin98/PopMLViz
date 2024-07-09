@@ -9,9 +9,12 @@ import font from "../../../config/font";
 import InputOptions from "../../InputOptions";
 import AppButton from "../../AppButton";
 import colors from "../../../config/colors";
-import "../../DropDown.css"
+import "../../DropDown.css" 
+import useZustand from "../../../config/useZustand";
 
 const ClusteringAlgorithmsTab = ({ onChange }) => {
+
+  const {numClusters, setNumClusters, selectedClusterMethod, setSelectedClusterMethod} = useZustand();
   const [selectClusterActions] = useState([
     {
       label: "K-means",
@@ -26,8 +29,8 @@ const ClusteringAlgorithmsTab = ({ onChange }) => {
       value: 2,
     },
   ]);
-  const [numClusters, setNumClusters] = useState(2);
-  const [selectedClusterMethod, setSelectedClusterMethod] = useState(null);
+  // const [numClusters, setNumClusters] = useState(2);
+  // const [selectedClusterMethod, setSelectedClusterMethod] = useState(null);
   const [open, setOpen] = useState(false);
 
   const customStyles = {

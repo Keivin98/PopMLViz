@@ -15,6 +15,8 @@ import "./rightpane.css";
 import { AuthContext } from "../../../config/AuthProvider";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import useZustand from "../../../config/useZustand";
+
 
 const RightPane = ({
   selectedUploadOption,
@@ -41,7 +43,7 @@ const RightPane = ({
   clusterColors,
   clusterNames,
   admixMode,
-  numClusters,
+  // numClusters,
   markerSize,
   handleTabOutputCallback,
   showOutputOptions,
@@ -53,6 +55,7 @@ const RightPane = ({
   const [modalVisible, setModalVisible] = useState(false);
   const [dataNameModalVisible, setDataNameModalVisible] = useState(false);
   const [dataName, setDataName] = useState("");
+  const {numClusters, setNumClusters, selectedClusterMethod, setSelectedClusterMethod} = useZustand();
 
   const navigate = useNavigate();
 

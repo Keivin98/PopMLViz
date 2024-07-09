@@ -16,6 +16,7 @@ import * as Plotly from "plotly.js";
 import BarPlot from "./centralPane/BarPlot";
 import "./dashboard.css";
 import BottomPane from "./BottomPane";
+import useZustand from "../../config/useZustand";
 
 const randomColors = [
   "#3f91ba",
@@ -71,7 +72,7 @@ const App = () => {
   const [allActions, setAllActions] = useState([]);
   const [selectActions, setSelectActions] = useState([]);
   const [selectedColumns, setSelectedColumns] = useState([null, null, null]);
-  const [selectedOption, setSelectedOption] = useState(null);
+  const [selectedOption, setSelectedOption] = useState("1D");
   const [selectedUploadOption, setSelectedUploadOption] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [clusterColors, setClusterColors] = useState({});
@@ -86,7 +87,6 @@ const App = () => {
     { value: 1, label: "Human Genome Diversity Project (HGDP)" },
   ]);
   const [sampleDatasetValue, setSampleDatasetValue] = useState(0);
-  const [selectedClusterMethod, setSelectedClusterMethod] = useState(null);
   const [OutlierData, setOutlierData] = useState([]);
   const [showOutputOptions, setShowOutputOptions] = useState(false);
   const [selectedColorShape, setSelectedColorShape] = useState(0);
@@ -109,6 +109,8 @@ const App = () => {
   const [fileChanged, setFileChanged] = useState();
   const axisRef = useRef(null);
   const [modalOpen, setModalOpen] = useState(false);
+
+  // const {numClusters, setNumClusters} = useZustand()
 
   //
   useEffect(() => {
@@ -2267,14 +2269,13 @@ const App = () => {
     setAllActions([]);
     setSelectActions([]);
     setSelectedColumns([null, null, null]);
-    setSelectedOption(null);
+    setSelectedOption("1D");
     setIsLoading(false);
     setClusterColors([]);
     setShow(true);
     setMultiValue([]);
     setDescribingValues([]);
     setSelectedDescribingColumn({ value: "None", label: "None" });
-    setSelectedClusterMethod(null);
     setOutlierData([]);
     setShowOutputOptions(false);
     setSelectedColorShape(0);
