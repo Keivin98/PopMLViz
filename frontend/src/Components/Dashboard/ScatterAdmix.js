@@ -105,7 +105,7 @@ const ScatterAdmix = ({
         window.removeEventListener("resize", handleResize);
       };
     }
-  }, [AdmixData, alphaVal, certaintyVal, admixMode, outlierData, clusterNames, markerSize]);
+  }, [AdmixData, alphaVal, certaintyVal, admixMode, outlierData, clusterNames, markerSize, x, y, z]);
 
   const splitPCAandADMIX = () => {
     let clusterColors = AdmixData.map((row) => {
@@ -357,7 +357,7 @@ const ScatterAdmix = ({
       };
     }
 
-    return Plotly.newPlot(scatterRef.current, data_new, layout, updatedLayout,{
+    return Plotly.newPlot(scatterRef.current, data_new, layout, updatedLayout, {
       toImageButtonOptions: {
         filename: plotTitle,
         // width: "100%",
@@ -377,7 +377,7 @@ const ScatterAdmix = ({
       .reduce((total, curr) => (total = total + curr), 0);
 
     if (PCAdata == null || DIMS === 0) {
-      return Plotly.newPlot(scatterRef.current,updatedLayout, {
+      return Plotly.newPlot(scatterRef.current, updatedLayout, {
         toImageButtonOptions: {
           filename: plotTitle,
           // width: "100%",

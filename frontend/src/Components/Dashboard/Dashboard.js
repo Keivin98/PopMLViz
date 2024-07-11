@@ -1379,7 +1379,7 @@ const App = () => {
           value = "3D";
         }
         console.log(selectedColumns)
-        
+
         onValueChangeDims(value, false, true);
         if (counter == 1) {
           setSelectedColumns([axis[0], null, null]);

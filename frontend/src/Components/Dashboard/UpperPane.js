@@ -57,7 +57,7 @@ const UpperPane = ({
           <Select
             // className="select"
             // style={{ width: "120px" }}
-            disabled={selectedUploadOption === "admixture"}
+            // disabled={selectedUploadOption === "admixture"}
             value={{ value: selectedOption ? selectedOption : "1D", label: selectedOption ? selectedOption : "1D" }}
             options={plotOptions}
             onChange={(event) => onValueChangeDims(event, true)}
@@ -85,21 +85,21 @@ const UpperPane = ({
           <FormControlLabel
             className="radioButton"
             value="1D"
-            disabled={selectedUploadOption === "admixture"}
+            // disabled={selectedUploadOption === "admixture"}
             control={<Radio color="success" size="small" />}
             label="1D"
           />
           <FormControlLabel
             className="radioButton"
             value="2D"
-            disabled={selectedUploadOption === "admixture"}
+            // disabled={selectedUploadOption === "admixture"}
             control={<Radio color="success" size="small" />}
             label="2D"
           />
           <FormControlLabel
             className="radioButton"
             value="3D"
-            disabled={selectedUploadOption === "admixture"}
+            // disabled={selectedUploadOption === "admixture"}
             control={<Radio color="success" size="small" />}
             label="3D"
           />
@@ -139,7 +139,8 @@ const UpperPane = ({
               }}
               options={selectActions}
               onChange={handleSelectYChange}
-              isDisabled={(selectedOption !== "3D" && selectedOption !== "2D") || selectedUploadOption === "admixture"}
+              // isDisabled={(selectedOption !== "3D" && selectedOption !== "2D") || selectedUploadOption === "admixture"}
+              isDisabled={(selectedOption !== "3D" && selectedOption !== "2D") }
             />
           </div>
         </div>
@@ -156,7 +157,8 @@ const UpperPane = ({
               }}
               options={selectActions}
               onChange={handleSelectZChange}
-              isDisabled={selectedOption !== "3D" || selectedUploadOption === "admixture"}
+              // isDisabled={selectedOption !== "3D" || selectedUploadOption === "admixture"}
+              isDisabled={selectedOption !== "3D" }
             />
           </div>
         </div>
