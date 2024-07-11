@@ -164,7 +164,7 @@ const OutlierDetectionTab = ({ onChange, numFeatures, removeOutliers, allActions
               />
             </InputOptions>
             <div style={{ display: "flex", color: "white", marginTop: 10, marginBottom: 10 }}>
-              {selectedOutlierMethod < 4 && (
+              {selectedOutlierMethod < 4 && selectedOutlierMethod !=0 && (
                 <InputOptions label={"Mode"}>
                   <Switch labelRight={pressed === true ? "OR" : "AND"} onChange={handleChangeSwitch} />
                 </InputOptions>

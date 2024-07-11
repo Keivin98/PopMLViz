@@ -13,6 +13,8 @@ import fetchSavedData from "./fetchSavedData";
 import Loader from "react-loader-spinner";
 import colors from "../../../config/colors";
 import fetchSpecificPlot from "./fetchSpecificPlot";
+import { FaTrash } from "react-icons/fa6";
+import { checkAccessTokenValidity, api, refreshAccessToken } from "../../../config/tokenValidityChecker";
 
 const Input = styled("input")({
   display: "none",
@@ -184,6 +186,31 @@ function DataUploadModal({
     setFiles(newFilesState);
     setDragOver(newDragOverState);
   };
+  const handleDelete = async (title) => {
+    const isValid = await checkAccessTokenValidity();
+    let headers = {};
+    if (!isValid) {
+      const newAccessToken = await refreshAccessToken();
+      headers.Authorization = `Bearer ${newAccessToken}`;
+    }
+
+    try {
+      const response = await api.post("/api/deletePlot", {title: title}, {
+        headers: {
+          ...headers,
+        },
+        withCredentials: true,
+      });
+      if (response.status == 200) {
+        console.log(response.data);
+        fetchSavedData({ setSavedPlots, setIsLoading, selectedColumns });
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      setIsLoading(false);
+      throw error;
+    }
+  };
   const handleOpen = () => {
     setDataSelectionStep("initial");
     setDataProcessed(false);
@@ -197,7 +224,7 @@ function DataUploadModal({
     } else if (selection === "example") {
       setDataSelectionStep("exampleData");
     } else if (selection === "saved") {
-      fetchSavedData({ setDataSelectionStep, setSavedPlots, setIsLoading, selectedColumns, resetSaveState });
+      fetchSavedData({ setDataSelectionStep, setSavedPlots, setIsLoading, selectedColumns });
       setDataSelectionStep("saved");
       console.log(savedPlots);
     }
@@ -269,7 +296,7 @@ function DataUploadModal({
         const responseData = await response.json();
         newFilenames[filename] = responseData.filename;
         console.log(filename, responseData.filename);
-        resetSaveState()
+        resetSaveState();
         return responseData;
       } catch (error) {
         console.error("Upload failed for " + filename, error);
@@ -587,28 +614,47 @@ function DataUploadModal({
             {savedPlots && savedPlots.plots ? (
               savedPlots.plots.map((plot) => (
                 <div
-                  style={{
-                    width: "80%",
-                    height: 50,
-                    backgroundColor: "#EEE",
-                    borderRadius: 20,
-                    padding: 10,
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                  }}
-                  onClick={() => {
-                    fetchSpecificPlot({
-                      processData: processData,
-                      setIsLoading: setIsMainPageLoading,
-                      plotName: plot.title,
-                    });
-                    handleClose();
-                  }}
+                  style={{ display: "flex", width: "100%", justifyContent: "center", alignItems: "center", gap: 10 }}
                 >
-                  <div>{plot.title}</div>
-                  <div>{plot.axis}</div>
-                  <div>{plot.date.split(" ")[0]}</div>
+                  <div
+                    style={{
+                      width: "80%",
+                      height: 50,
+                      backgroundColor: "#EEE",
+                      borderRadius: 20,
+                      padding: 10,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                    }}
+                    onClick={() => {
+                      fetchSpecificPlot({
+                        processData: processData,
+                        setIsLoading: setIsMainPageLoading,
+                        plotName: plot.title,
+                        resetSaveState: resetSaveState,
+                      });
+                      handleClose();
+                    }}
+                  >
+                    <div>{plot.title}</div>
+                    <div>{plot.axis}</div>
+                    <div>{plot.date.split(" ")[0]}</div>
+                  </div>
+                  <div
+                    onClick={() => handleDelete(plot.title)}
+                    style={{
+                      backgroundColor: "#EEE",
+                      height: 45,
+                      width: 45,
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      borderRadius: 50,
+                    }}
+                  >
+                    <FaTrash color="red" />
+                  </div>
                 </div>
               ))
             ) : (
@@ -704,7 +750,7 @@ function DataUploadModal({
     </Box>
   );
 
-  console.log(files);
+  // console.log(files);
   return (
     <div>
       <div style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>

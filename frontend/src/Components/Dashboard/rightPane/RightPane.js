@@ -106,10 +106,9 @@ const RightPane = ({
   ]);
 
   const navigate = useNavigate();
-  console.log("cluster method " + confirmedClusterMethod);
-  console.log("outlier detection " + outlierDetectionOptions);
-  console.log(outlierDetectionOptions);
-  
+  // console.log("cluster method " + confirmedClusterMethod + " num clusters " + numClusters);
+  // console.log("outlier detection " + outlierDetectionOptions);
+  // console.log(outlierDetectionOptions);
 
   const api = axios.create({
     baseURL: `${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}${process.env.REACT_APP_PORT}`,
@@ -128,11 +127,11 @@ const RightPane = ({
             marginTop: 5,
           }}
         >
-          <div style={{marginRight: 10}}>{label}: </div>
-          {!range ? (
-            <div style={{textAlign: 'right'}}>{value ? value : "Not applied"}</div>
+          <div style={{ marginRight: 10 }}>{label}: </div>
+          {range ? (
+            <div style={{ textAlign: "right" }}>{value ? `Between ${value[0]} and ${value[1]}` : "Not applied"}</div>
           ) : (
-            <div style={{textAlign: 'right'}}>{value ? `Between ${value[0]} and ${value[1]}` : "Not applied"}</div>
+            <div style={{ textAlign: "right" }}>{value ? value : "Not applied"}</div>
           )}
         </div>
         <hr></hr>
@@ -176,16 +175,23 @@ const RightPane = ({
       }
 
       const payload = { data: data, name: dataName, axis: selectedColumns };
-      if (confirmedClusterMethod) {
+      if (selectedUploadOption) {
+        payload.selectedUploadOption = selectedUploadOption;
+      }
+      if (confirmedClusterMethod !== null) {
         payload.clusteringAlgo = confirmedClusterMethod;
         payload.numClusters = numClusters;
         console.log(payload);
       }
-      if (outlierDetectionOptions) {
-        payload.outlierDetectionAlgo = outlierDetectionOptions.outlierDetectionAlgo;
-        payload.outlierDetectionColumnsStart = outlierDetectionOptions.outlierDetectionColumns[0];
-        payload.outlierDetectionColumnsEnd = outlierDetectionOptions.outlierDetectionColumns[1];
-        payload.isOr = outlierDetectionOptions.pressed;
+      if (outlierDetectionOptions || outlierDetectionOptions?.outlierDetectionAlg == "None") {
+        payload.outlierDetectionAlgo = outlierDetectionOptions?.outlierDetectionAlgo || null;
+        if (outlierDetectionOptions?.outlierDetectionColumns) {
+          payload.outlierDetectionColumnsStart = outlierDetectionOptions.outlierDetectionColumns[0];
+          payload.outlierDetectionColumnsEnd = outlierDetectionOptions.outlierDetectionColumns[1];
+        }
+        if (outlierDetectionOptions.outlierDetectionAlgo < 4 && outlierDetectionOptions?.outlierDetectionAlgo != 0) {
+          payload.isOr = outlierDetectionOptions.outlierDetectionMode;
+        }
         console.log(payload);
       }
       const response = await api.post("/save", payload, {
@@ -275,8 +281,8 @@ const RightPane = ({
           <form
             style={{ display: "flex", flexDirection: "column", alignItems: "center" }}
             onSubmit={() => {
-              setDataNameModalVisible(false);
               postSavedData();
+              setDataNameModalVisible(false);
             }}
           >
             <input
@@ -302,7 +308,13 @@ const RightPane = ({
             <StyledText
               label={"Outlier Detection mode"}
               value={
-                outlierDetectionOptions.outlierDetectionAlgo ? (outlierDetectionOptions.pressed ? "Or" : "And") : null
+                outlierDetectionOptions.outlierDetectionAlgo &&
+                outlierDetectionOptions.outlierDetectionAlgo < 4 &&
+                outlierDetectionOptions.outlierDetectionAlgo != 0
+                  ? outlierDetectionOptions.outlierDetectionMode
+                    ? "Or"
+                    : "And"
+                  : null
               }
             ></StyledText>
             <StyledText
@@ -335,7 +347,7 @@ const RightPane = ({
             <div>
               <TabPanel>
                 <div style={{ display: "flex", flexDirection: "column" }}>
-                  <div style={{}}>
+                  <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
                     <div className="row-md-8"></div>
 
                     <div

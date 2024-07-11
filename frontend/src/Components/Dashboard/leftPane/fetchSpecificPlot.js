@@ -1,43 +1,21 @@
 import React, { useState } from "react";
 import axios from "axios";
 import * as XLSX from "xlsx";
+import { checkAccessTokenValidity, api, refreshAccessToken } from "../../../config/tokenValidityChecker";
 
-const api = axios.create({
-  baseURL: `${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}${process.env.REACT_APP_PORT}`,
-  withCredentials: true, // Ensure credentials (cookies) are sent with requests
-});
 
-// Function to check if access token is valid
-const checkAccessTokenValidity = async () => {
-  try {
-    await api.get("/verify");
-    return true;
-  } catch (error) {
-    return false;
-  }
-};
 
-// Function to refresh access token using refresh token
-const refreshAccessToken = async () => {
-  try {
-    const response = await api.post("/refresh");
-    return response.data.access_token;
-  } catch (error) {
-    console.error("Error refreshing access token:", error);
-    throw error;
-  }
-};
 
 function arrayToCSV(data) {
-    const headers = Object.keys(data[0]); // Extract headers from the first object
-    const csvRows = [
-      headers.join(','), // Header row
-      ...data.map(row => headers.map(field => row[field]).join(',')) // Data rows
-    ];
-    return csvRows.join('\n'); 
-  }
+  const headers = Object.keys(data[0]); // Extract headers from the first object
+  const csvRows = [
+    headers.join(","), // Header row
+    ...data.map((row) => headers.map((field) => row[field]).join(",")), // Data rows
+  ];
+  return csvRows.join("\n");
+}
 
-export default async function fetchSpecificPlot({ setIsLoading, plotName, processData }) {
+export default async function fetchSpecificPlot({ setIsLoading, plotName, processData, resetSaveState }) {
   try {
     setIsLoading(true);
     console.log(plotName);
@@ -61,11 +39,13 @@ export default async function fetchSpecificPlot({ setIsLoading, plotName, proces
     console.log(response.data.plot.plot);
     console.log(response.data.plot);
     const csv = arrayToCSV(response.data.plot.plot);
-    console.log(csv);
-   
+    // console.log(csv);
 
     // Use the processData function that now takes a string instead of an array
-    processData(csv, false);
+    processData(csv, false, null, response.data.plot);
+
+    resetSaveState()
+    // processData(csv, false);
     // const file = response.data.plot;
     // const reader = new FileReader();
     // reader.onload = (evt) => {
@@ -82,7 +62,7 @@ export default async function fetchSpecificPlot({ setIsLoading, plotName, proces
     // console.log(response.data);
     // processData({ dataString: response.data.plot, type: false });
     // console.log(JSON.stringify(response.data.plot));
-    setIsLoading(false);
+    setIsLoading(false); 
     return response.data.plot;
   } catch (error) {
     console.error("Error fetching data:", error);

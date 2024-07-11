@@ -513,11 +513,26 @@ def verify():
     current_user = get_jwt_identity()
     return jsonify(user=current_user), 200
 
+@app.route('/api/deletePlot', methods=['POST'])
+@cross_origin(supports_credentials=True)
+@jwt_required()
+def delete_plot():
+    current_user = get_jwt_identity()
+    data = request.get_json()
+
+    plot_title = data.get('title')
+    conn = sqlite3.connect('popMLViz.db')
+    cursor = conn.cursor()
+    
+    cursor.execute("DELETE FROM plots WHERE user_id=? AND plot_title = ?", (current_user, plot_title,))
+    conn.commit()
+    conn.close()
+    return jsonify({"plot": "Plot deleted successfully"}), 200
 
 @app.route('/save', methods=['POST'])
 @cross_origin(supports_credentials=True)
 @jwt_required()
-def protected():
+def save_plot():
     current_user = get_jwt_identity()
     data = request.get_json()
 
@@ -526,10 +541,11 @@ def protected():
     axis_labels = data.get('axis')
     isOr = data.get('isOr')
     clusteringAlgo = data.get('clusteringAlgo')
-    numCluster = data.get("numCluster")
+    numCluster = data.get("numClusters")
     outlierDetectionAlgo = data.get("outlierDetectionAlgo")
     outlierDetectionColumnsStart = data.get("outlierDetectionColumnsStart")
     outlierDetectionColumnsEnd = data.get("outlierDetectionColumnsEnd")
+    selectedUploadOption = data.get("selectedUploadOption")
 
 
     if not plot_title or not data_plot:
@@ -557,10 +573,10 @@ def protected():
 
     c.execute('''INSERT INTO plots (data_plot, plot_title, axis_labels, user_id, is_or, clustering_algorithm, 
                                     number_of_clusters, outlier_detection, outlier_Detection_column_start, 
-                                    outlier_Detection_column_end) 
-                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)''',
+                                    outlier_Detection_column_end, selected_upload_option) 
+                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)''',
               (data_plot_json, plot_title, axis_labels, current_user, isOr, clusteringAlgo, numCluster, 
-               outlierDetectionAlgo, outlierDetectionColumnsStart, outlierDetectionColumnsEnd))
+               outlierDetectionAlgo, outlierDetectionColumnsStart, outlierDetectionColumnsEnd, selectedUploadOption))
     conn.commit()           
     conn.close()
 
@@ -599,7 +615,7 @@ def get_plot():
 
     conn = sqlite3.connect('popMLViz.db')
     c = conn.cursor()
-    c.execute("SELECT date_created, data_plot, plot_title, axis_labels, user_id, is_or,clustering_algorithm, number_of_clusters, outlier_detection, outlier_Detection_column_start, outlier_Detection_column_end FROM plots WHERE user_id=? AND plot_title=?", (current_user, plot_title))
+    c.execute("SELECT date_created, data_plot, plot_title, axis_labels, is_or,clustering_algorithm, number_of_clusters, outlier_detection, outlier_Detection_column_start, outlier_Detection_column_end, selected_upload_option FROM plots WHERE user_id=? AND plot_title=?", (current_user, plot_title))
     plot = c.fetchone()  # Fetch one plot
     conn.close()
 
@@ -612,15 +628,16 @@ def get_plot():
     if plot:
         plot_data = {
             "date": plot[0],
-            "title": plot[1],
-            "axis": json.loads(plot[2]), 
-            "plot": json.loads(plot[3]),
+            "plot": json.loads(plot[1]) ,
+            "title": plot[2],
+            "axis": json.loads(plot[3]) if plot[3] else None,
             "isOr": plot[4],
             "clusteringAlgo": plot[5],
             "numCluster": plot[6],
             "outlierDetectionAlgo": plot[7],
             "outlierDetectionColumnsStart": plot[8],
-            "outlierDetectionColumnsEnd": plot[9]
+            "outlierDetectionColumnsEnd": plot[9],
+            "selectedUploadOption": plot[10]
         }
         return jsonify({"plot": plot_data}), 200
     else:

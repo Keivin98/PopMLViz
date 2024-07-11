@@ -73,7 +73,7 @@ const App = () => {
   const [selectActions, setSelectActions] = useState([]);
   const [selectedColumns, setSelectedColumns] = useState([null, null, null]);
   const [selectedOption, setSelectedOption] = useState("1D");
-  const [selectedUploadOption, setSelectedUploadOption] = useState(null);
+  const [selectedUploadOption, setSelectedUploadOption] = useState(null); // "PCA" , "pcairandadmixture"  "Correlation Matrix" "t-SNE 2D" "t-SNE 3D"
   const [isLoading, setIsLoading] = useState(false);
   const [clusterColors, setClusterColors] = useState({});
   const [show, setShow] = useState(true);
@@ -150,11 +150,11 @@ const App = () => {
 
   function resetSaveState() {
     setConfirmedClusterMethod(null);
-    setOutlierDetectionOptions({})
+    setOutlierDetectionOptions({});
   }
   const handleClose = () => setModalOpen(false);
 
-  console.log(process.env.REACT_APP_PROTOCOL);
+  // console.log(process.env.REACT_APP_PROTOCOL);
   const handleMultiChange = (option) => {
     let act = [];
     for (var i = 0; i < columns.length; i++) {
@@ -1269,9 +1269,16 @@ const App = () => {
     );
   };
 
-  const processData = async (dataString, outliers, type) => {
+  const processData = async (dataString, outliers, type, savedData) => {
     const dataStringLines = dataString.split(/\r\n|\n/);
-    var selectedUploadOption = selectedUploadOption;
+
+    let selectedUploadOption;
+    if (!savedData) {
+      selectedUploadOption = selectedUploadOption;
+    } else {
+      selectedUploadOption = savedData.selectedUploadOption;
+    }
+
     var headers = [];
     if (selectedUploadOption === "typeture" || type === 2) {
       headers = [...Array(dataStringLines[0].split(" ").length)].map((x, index) => {
@@ -1345,6 +1352,65 @@ const App = () => {
         setColumnsState(columns);
       }
     }
+    if (savedData) {
+      console.log("savedData");
+      console.log(savedData);
+      let axis = savedData.axis;
+      console.log(axis);
+      let noAxis = axis.every((a) => a == null); // check if all axis are null, return true if all are null
+      console.log(noAxis)
+      if (noAxis == false) {
+        let counter = 0;
+        // console.log("bruh")
+        for (let i = 0; i < 3; i++) {
+          if (axis[i] == null) {
+            console.log("returned at "+i)
+            continue;
+          }
+          counter++;
+        }
+        console.log(counter)
+        let value;
+        if (counter == 1) {
+          value = "1D";
+        } else if (counter == 2) {
+          value = "2D";
+        } else {
+          value = "3D";
+        }
+        console.log(selectedColumns)
+        
+        onValueChangeDims(value, false, true);
+        if (counter == 1) {
+          setSelectedColumns([axis[0], null, null]);
+        } else if (counter == 2) {
+          setSelectedColumns([axis[0], axis[1], null]);
+        } else {
+          setSelectedColumns([axis[0], axis[1], axis[2]]);
+        }
+        console.log(selectedColumns)
+      }
+      if (savedData.clusteringAlgo) {
+        let s = {
+          selectedClusterMethod: savedData.clusteringAlgo,
+          num_clusters: savedData.numCluster,
+          plot: savedData.plot,
+        };
+        console.log(s);
+        runCluster(s, true);
+      }
+      if (savedData.outlierDetectionAlgo) {
+        let s = {
+          selectedOutlierMethod: savedData.outlierDetectionAlgo,
+          columnRange: [savedData.outlierDetectionColumnsStart, savedData.outlierDetectionColumnsEnd],
+          pressed: savedData.isOr,
+          selectedUploadOption: savedData.selectedUploadOption,
+          plot: savedData.plot,
+        };
+        console.log(s);
+        runOutliers(s, true);
+      }
+    }
   };
   const mergeDataWithMetaData = () => {
     if (!("IID" in data[0])) {
@@ -1394,6 +1460,7 @@ const App = () => {
   };
 
   const handleFileUpload = (e, type) => {
+    //old
     if (selectedUploadOption === "Correlation Matrix") {
       UploadCMDataset(e);
     } else {
@@ -1532,44 +1599,51 @@ const App = () => {
     handleFileUploadNew(file);
   };
 
-  const handleAdmixFileUpload1 = (e) => {
-    handleFileUpload(e, 1);
-  };
+  // const handleAdmixFileUpload1 = (e) => {
+  //   handleFileUpload(e, 1);
+  // };
 
-  const handleAdmixFileUpload2 = (e) => {
-    handleFileUpload(e, 2);
-  };
+  // const handleAdmixFileUpload2 = (e) => {
+  //   handleFileUpload(e, 2);
+  // };
 
   const handleMetaDataUpload = (e) => {
     handleFileUpload(e, 3);
   };
 
-  const handleSampleDataset = (option) => {
-    setSampleDatasetValue(option.value);
-  };
+  // const handleSampleDataset = (option) => {
+  //   setSampleDatasetValue(option.value);
+  // };
 
   const handleSelectXChange = (value) => {
     setSelectedColumns([value.label, selectedColumns[1], selectedColumns[2]]);
+    console.log(selectedColumns)
   };
 
   const handleSelectYChange = (value) => {
     setSelectedColumns([selectedColumns[0], value.label, selectedColumns[2]]);
+    console.log(selectedColumns)
   };
 
   const handleSelectZChange = (value) => {
     setSelectedColumns([selectedColumns[0], selectedColumns[1], value.label]);
+    console.log(selectedColumns)
   };
 
   const onUploadValueChange = (event) => {
     setSelectedUploadOption(event.target.value);
   };
 
-  const onValueChangeDims = (event, isDropDown) => {
+  const onValueChangeDims = (event, isDropDown, special =false) => {
     let value;
-    if (isDropDown) {
-      value = event.value;
+    if (special == false) {
+      if (isDropDown) {
+        value = event.value;
+      } else {
+        value = event.target.value;
+      }
     } else {
-      value = event.target.value;
+      value = event;
     }
     var newSelected = [];
     if (value === "1D") {
@@ -1661,41 +1735,52 @@ const App = () => {
       });
   };
 
-  const runCluster = (s) => {
-    if (s.selectedClusterMethod === 0) {
-      runKmeans(s.num_clusters);
-    } else if (s.selectedClusterMethod === 1) {
-      runHC(s.num_clusters);
+  const runCluster = (s, saved) => {
+    if (!saved) {
+      if (!data) {
+        setIsLoading(false);
+        alert("Please make sure to upload a dataset first");
+        return;
+      }
+    }
+
+    if (s.selectedClusterMethod == 0) {
+      runKmeans(s.num_clusters, s.plot);
+    } else if (s.selectedClusterMethod == 1) {
+      runHC(s.num_clusters, s.plot);
     } else {
-      runFuzzy(s.num_clusters);
+      runFuzzy(s.num_clusters, s.plot);
     }
   };
 
-  const runOutliers = (s) => {
-    if (!data) {
-      setIsLoading(false);
-      alert("Please make sure to upload a dataset first");
-      return;
+  const runOutliers = (s, saved) => {
+    if (!saved) {
+      if (!data) {
+        setIsLoading(false);
+        alert("Please make sure to upload a dataset first");
+        return;
+      }
     }
-    const inputFormat = selectedUploadOption.includes("t-SNE") ? "tsne" : "pca";
-    detectOutliers(s.selectedOutlierMethod, s.columnRange, s.pressed, inputFormat);
+    console.log("s: ");
+    console.log(s);
+    let inputFormat;
+    if (!saved) {
+      inputFormat = selectedUploadOption.includes("t-SNE") ? "tsne" : "pca";
+    } else {
+      inputFormat = s.selectedUploadOption.includes("t-SNE") ? "tsne" : "pca";
+    }
+    detectOutliers(s.selectedOutlierMethod, s.columnRange, s.pressed, inputFormat, s.plot, s.selectedUploadOption);
   };
 
   const removeOutliers = () => {
     setOutlierData([]);
   };
 
-  const runKmeans = (num_clusters) => {
+  const runKmeans = (num_clusters, saved_plot) => {
     const formData = {
-      df: data,
+      df: saved_plot ? saved_plot : data,
       num_clusters: num_clusters,
     };
-
-    if (!data) {
-      setIsLoading(false);
-      alert("Please make sure to upload a dataset first");
-      return;
-    }
 
     setIsLoading(true);
     setProgressBarType("Loader");
@@ -1731,17 +1816,11 @@ const App = () => {
       });
   };
 
-  const runHC = (num_clusters) => {
+  const runHC = (num_clusters, saved_plot) => {
     const formData = {
-      df: data,
+      df: saved_plot ? saved_plot : data,
       num_clusters: num_clusters,
     };
-
-    if (!data) {
-      setIsLoading(false);
-      alert("Please make sure to upload a dataset first");
-      return;
-    }
 
     setIsLoading(true);
     setProgressBarType("Loader");
@@ -1776,19 +1855,13 @@ const App = () => {
       });
   };
 
-  const runFuzzy = (num_clusters) => {
+  const runFuzzy = (num_clusters, saved_plot) => {
     const formData = {
-      df: data,
+      df: saved_plot ? saved_plot : data,
       num_clusters: num_clusters,
       admix: [],
       selectedUploadOption: "PCA",
     };
-
-    if (!data) {
-      setIsLoading(false);
-      alert("Please make sure to upload a dataset first");
-      return;
-    }
 
     setIsLoading(true);
     setProgressBarType("Loader");
@@ -2028,12 +2101,19 @@ const App = () => {
     console.log("samplePCAAdmixDataset2");
   };
 
-  const detectOutliers = (selectedOutlierMethod, columnRange, pressed, inputFormat) => {
+  const detectOutliers = (
+    selectedOutlierMethod,
+    columnRange,
+    pressed,
+    inputFormat,
+    saved_plot,
+    selectedUploadOptionSaved
+  ) => {
     if (selectedOutlierMethod === 0) {
       updateOutlierData([]);
     } else {
       const formData = {
-        df: data,
+        df: saved_plot ? saved_plot : data,
         method: selectedOutlierMethod,
         columnRange: columnRange,
         combineType: pressed,
@@ -2055,7 +2135,11 @@ const App = () => {
         )
         .then((r) => {
           setIsLoading(false);
-          setSelectedUploadOption(selectedUploadOption.includes("t-SNE") ? "PCA" : selectedUploadOption);
+          if (saved_plot) {
+            setSelectedUploadOption(selectedUploadOptionSaved.includes("t-SNE") ? "PCA" : selectedUploadOptionSaved);
+          } else {
+            setSelectedUploadOption(selectedUploadOption.includes("t-SNE") ? "PCA" : selectedUploadOption);
+          }
           setSelectedColorShape(0); // keep it always to zero, because we do not need the shaped data
           processData(r.data, true);
         })
