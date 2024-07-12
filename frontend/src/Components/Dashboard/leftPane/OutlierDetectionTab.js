@@ -15,42 +15,10 @@ import "../../DropDown.css";
 import "./leftpane.css";
 import AppButton from "../../AppButton";
 import useZustand from "../../../config/useZustand";
+import selectOutlierActions from "../../../config/selectOutlierActions";
 
 const OutlierDetectionTab = ({ onChange, numFeatures, removeOutliers, allActions }) => {
-  const [selectOutlierActions] = useState([
-    {
-      label: "None",
-      value: 0,
-    },
-    {
-      label: "1 SD",
-      value: 1,
-    },
-    {
-      label: "2 SD",
-      value: 2,
-    },
-    {
-      label: "3 SD",
-      value: 3,
-    },
-    {
-      label: "Isolation Forest",
-      value: 4,
-    },
-    {
-      label: "Minimum Covariance Determinant",
-      value: 5,
-    },
-    {
-      label: "Local Outlier Factor",
-      value: 6,
-    },
-    {
-      label: "OneClassSVM",
-      value: 7,
-    },
-  ]);
+
   const [selectedOutlierMethod, setSelectedOutlierMethod] = useState({
     label: "None",
     value: 0,

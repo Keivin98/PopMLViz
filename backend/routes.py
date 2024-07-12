@@ -590,7 +590,7 @@ def get_plots():
 
     conn = sqlite3.connect('popMLViz.db')
     c = conn.cursor()
-    c.execute("SELECT date_created, plot_title, axis_labels FROM plots WHERE user_id=?", (current_user,))
+    c.execute("SELECT date_created, plot_title, axis_labels, is_or,clustering_algorithm, number_of_clusters, outlier_detection, outlier_Detection_column_start, outlier_Detection_column_end, selected_upload_option  FROM plots WHERE user_id=?", (current_user,))
     plots = c.fetchall()
     conn.close()
 
@@ -601,7 +601,14 @@ def get_plots():
         plot_list.append({
             "title": plot[1],
             "date": plot[0],
-            "axis": plot[2]
+            "axis": plot[2],
+            "isOr": plot[3],
+            "clusteringAlgo": plot[4],
+            "numCluster": plot[5],
+            "outlierDetectionAlgo": plot[6],
+            "outlierDetectionColumnsStart": plot[7],
+            "outlierDetectionColumnsEnd": plot[8],
+            "selectedUploadOption": plot[9]
         })
     return jsonify({"plots": plot_list}), 200
 

@@ -11,24 +11,11 @@ import AppButton from "../../AppButton";
 import colors from "../../../config/colors";
 import "../../DropDown.css" 
 import useZustand from "../../../config/useZustand";
+import selectClusterActions from "../../../config/selectClusterActions";
 
 const ClusteringAlgorithmsTab = ({ onChange }) => {
 
   const {confirmedClusterMethod, setConfirmedClusterMethod} = useZustand();
-  const [selectClusterActions] = useState([
-    {
-      label: "K-means",
-      value: 0,
-    },
-    {
-      label: "Hierarchical clustering",
-      value: 1,
-    },
-    {
-      label: "Fuzzy c-means",
-      value: 2,
-    },
-  ]);
   const [numClusters, setNumClusters] = useState(2);
   const [selectedClusterMethod, setSelectedClusterMethod] = useState(null);
   const [open, setOpen] = useState(false);

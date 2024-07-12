@@ -17,6 +17,8 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import useZustand from "../../../config/useZustand";
 import InputOptions from "../../InputOptions";
+import selectClusterActions from "../../../config/selectClusterActions";
+import selectOutlierActions from "../../../config/selectOutlierActions";
 
 const RightPane = ({
   selectedUploadOption,
@@ -56,55 +58,6 @@ const RightPane = ({
   const [dataNameModalVisible, setDataNameModalVisible] = useState(false);
   const [dataName, setDataName] = useState("");
   const { numClusters, setNumClusters, confirmedClusterMethod, outlierDetectionOptions } = useZustand();
-  const [selectClusterActions] = useState([
-    {
-      label: "K-means",
-      value: 0,
-    },
-    {
-      label: "Hierarchical clustering",
-      value: 1,
-    },
-    {
-      label: "Fuzzy c-means",
-      value: 2,
-    },
-  ]);
-  const [selectOutlierActions] = useState([
-    {
-      label: "None",
-      value: 0,
-    },
-    {
-      label: "1 SD",
-      value: 1,
-    },
-    {
-      label: "2 SD",
-      value: 2,
-    },
-    {
-      label: "3 SD",
-      value: 3,
-    },
-    {
-      label: "Isolation Forest",
-      value: 4,
-    },
-    {
-      label: "Minimum Covariance Determinant",
-      value: 5,
-    },
-    {
-      label: "Local Outlier Factor",
-      value: 6,
-    },
-    {
-      label: "OneClassSVM",
-      value: 7,
-    },
-  ]);
-
   const navigate = useNavigate();
   // console.log("cluster method " + confirmedClusterMethod + " num clusters " + numClusters);
   // console.log("outlier detection " + outlierDetectionOptions);

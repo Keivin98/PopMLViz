@@ -15,6 +15,10 @@ import colors from "../../../config/colors";
 import fetchSpecificPlot from "./fetchSpecificPlot";
 import { FaTrash } from "react-icons/fa6";
 import { checkAccessTokenValidity, api, refreshAccessToken } from "../../../config/tokenValidityChecker";
+import AppButton from "../../AppButton";
+import { MdOutlineMoreHoriz } from "react-icons/md";
+import selectClusterActions from "../../../config/selectClusterActions";
+import selectOutlierActions from "../../../config/selectOutlierActions";
 
 const Input = styled("input")({
   display: "none",
@@ -87,6 +91,8 @@ function DataUploadModal({
   const [files, setFiles] = useState(defaultFile);
   const [savedPlots, setSavedPlots] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [showOptionModal, setShowOptionModal] = useState(false);
+  const [savedData, setSavedData] = useState([]);
 
   // State to keep track of drag over for each type
   const [dragOver, setDragOver] = useState({
@@ -118,6 +124,30 @@ function DataUploadModal({
     Kinship: useRef(null),
   };
   const fileInputRefs = useRef({});
+
+  function StyledText({ label, value, range }) {
+    return (
+      <>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            marginBottom: 5,
+            marginTop: 5,
+          }}
+        >
+          <div style={{ marginRight: 10 }}>{label}: </div>
+          {range ? (
+            <div style={{ textAlign: "right" }}>{value ? `Between ${value[0]} and ${value[1]}` : "Not applied"}</div>
+          ) : (
+            <div style={{ textAlign: "right" }}>{value ? value : "Not applied"}</div>
+          )}
+        </div>
+        <hr></hr>
+      </>
+    );
+  }
 
   const resetUploads = () => {
     setFiles({
@@ -195,12 +225,16 @@ function DataUploadModal({
     }
 
     try {
-      const response = await api.post("/api/deletePlot", {title: title}, {
-        headers: {
-          ...headers,
-        },
-        withCredentials: true,
-      });
+      const response = await api.post(
+        "/api/deletePlot",
+        { title: title },
+        {
+          headers: {
+            ...headers,
+          },
+          withCredentials: true,
+        }
+      );
       if (response.status == 200) {
         console.log(response.data);
         fetchSavedData({ setSavedPlots, setIsLoading, selectedColumns });
@@ -619,13 +653,16 @@ function DataUploadModal({
                   <div
                     style={{
                       width: "80%",
-                      height: 50,
+                      minHeight: 50,
                       backgroundColor: "#EEE",
                       borderRadius: 20,
                       padding: 10,
+                      paddingRight: 20,
+                      paddingLeft: 20,
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "space-between",
+                      flexWrap: "wrap",
                     }}
                     onClick={() => {
                       fetchSpecificPlot({
@@ -637,10 +674,37 @@ function DataUploadModal({
                       handleClose();
                     }}
                   >
-                    <div>{plot.title}</div>
-                    <div>{plot.axis}</div>
-                    <div>{plot.date.split(" ")[0]}</div>
+                    <div style={{overflow: "hidden" }}>{plot.title}</div>
+                    <div style={{fontWeight: 200}}>{plot.date.split(" ")[0]}</div>
                   </div>
+                  <div
+                    onClick={() => {
+                      setShowOptionModal(true);
+                      setSavedData(plot);
+                      console.log("pressed");
+                    }}
+                    style={{
+                      backgroundColor: colors.secondary,
+                      height: 45,
+                      width: 45,
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      borderRadius: 50,
+                    }}
+                  >
+                    <MdOutlineMoreHoriz color={"white"} size={35} />
+                  </div>
+
+                  {/* <AppButton
+                    onClick={() => {
+                      setShowOptionModal(true);
+                      setSavedData(plot);
+                      console.log("pressed");
+                    }}
+                    style={{ minWidth: 120, hight: 45 }}
+                    title={"show more"}
+                  ></AppButton> */}
                   <div
                     onClick={() => handleDelete(plot.title)}
                     style={{
@@ -763,6 +827,63 @@ function DataUploadModal({
           Choose Data
         </Button>
       </div>
+      <Modal open={showOptionModal} onClose={() => setShowOptionModal(false)}>
+        <div
+          style={{
+            top: "50%",
+            left: "50%",
+            position: "absolute",
+            width: "50%",
+            backgroundColor: "white",
+            transform: "translate(-50%, -50%)",
+            borderRadius: 30,
+            padding: 20,
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            flexDirection: "column",
+            minWidth: 250,
+          }}
+        >
+          <h2 style={{ textAlign: "center", marginTop: 20 }}>{savedData.title}</h2>
+          <h5></h5>
+          <div style={{ marginTop: 40, width: "100%" }}>
+            <StyledText
+              label={"clustering algorithm applied"}
+              value={selectClusterActions[savedData.clusteringAlgo]?.label ? selectClusterActions[savedData.clusteringAlgo]?.label : null}
+            ></StyledText>
+            <StyledText
+              label={"Number of clusters"}
+              value={savedData.numCluster ? savedData.numCluster : null}
+            ></StyledText>
+            <StyledText
+              label={"Outlier Detection algorithm applied"}
+              value={selectOutlierActions[savedData.outlierDetectionAlgo]?.label ? selectOutlierActions[savedData.outlierDetectionAlgo]?.label: null}
+            ></StyledText>
+            <StyledText
+              label={"Outlier Detection mode"}
+              value={
+                savedData.outlierDetectionAlgo &&
+                savedData.outlierDetectionAlgo < 4 &&
+                savedData.outlierDetectionAlgo != 0
+                  ? savedData.isOr
+                    ? "Or"
+                    : "And"
+                  : null
+              }
+            ></StyledText>
+            <StyledText
+              label={"Outlier Detection Range"}
+              range={true}
+              value={
+                savedData.outlierDetectionAlgo
+                  ? [savedData.outlierDetectionColumnsStart, savedData.outlierDetectionColumnsEnd]
+                  : null
+              }
+            ></StyledText>
+          </div>
+        </div>
+      </Modal>
       <Modal open={modalOpen} onClose={handleClose}>
         {modalBody}
       </Modal>
