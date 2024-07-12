@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import axios from "axios";
 import * as XLSX from "xlsx";
 import { checkAccessTokenValidity, api, refreshAccessToken } from "../../../config/tokenValidityChecker";
+import SuccessMessage from "../../SuccessMessage";
+import ErrorMessage from "../../ErrorMessage";
 
 
 
@@ -39,33 +41,16 @@ export default async function fetchSpecificPlot({ setIsLoading, plotName, proces
     console.log(response.data.plot.plot);
     console.log(response.data.plot);
     const csv = arrayToCSV(response.data.plot.plot);
+    // Use the processData function that now takes a string instead of an array
     // console.log(csv);
 
-    // Use the processData function that now takes a string instead of an array
     processData(csv, false, null, response.data.plot);
-
     resetSaveState()
-    // processData(csv, false);
-    // const file = response.data.plot;
-    // const reader = new FileReader();
-    // reader.onload = (evt) => {
-    //   /* Parse data */
-    //   const bstr = evt.target.result;
-    //   const wb = XLSX.read(bstr, { type: "binary" });
-    //   /* Get first worksheet */
-    //   const wsname = wb.SheetNames[0];
-    //   const ws = wb.Sheets[wsname];
-    //   /* Convert array of arrays */
-    //   const data = XLSX.utils.sheet_to_csv(ws, { header: 1 });
-    //   processData({ dataString: data, type: false });
-    // };
-    // console.log(response.data);
-    // processData({ dataString: response.data.plot, type: false });
-    // console.log(JSON.stringify(response.data.plot));
+    SuccessMessage("Saved data uploaded successfully!");
     setIsLoading(false); 
     return response.data.plot;
   } catch (error) {
-    console.error("Error fetching data:", error);
+    ErrorMessage("Error fetching data. Please try again later.")
     setIsLoading(false);
     throw error;
   }

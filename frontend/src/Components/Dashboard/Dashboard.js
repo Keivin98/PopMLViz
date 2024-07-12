@@ -17,6 +17,8 @@ import BarPlot from "./centralPane/BarPlot";
 import "./dashboard.css";
 import BottomPane from "./BottomPane";
 import useZustand from "../../config/useZustand";
+import ErrorMessage from "../ErrorMessage";
+import SuccessMessage from "../SuccessMessage";
 
 const randomColors = [
   "#3f91ba",
@@ -109,6 +111,8 @@ const App = () => {
   const [fileChanged, setFileChanged] = useState();
   const axisRef = useRef(null);
   const [modalOpen, setModalOpen] = useState(false);
+  const [scatterErrorShown, setScatterErrorShown] = useState(false);
+  const [scatter2ErrorShown, setScatter2ErrorShown] = useState(false);
 
   const { numClusters, setNumClusters, setConfirmedClusterMethod, setOutlierDetectionOptions } = useZustand();
 
@@ -300,11 +304,14 @@ const App = () => {
         if (uniqueTags.size > 20) {
           tooManyUniqueValues = true; // Set the flag
 
-          alert("There are too many unique values! Check the categorical data!");
-          // Handle the state update if needed
-          setColoredData([]);
-          setSelectedDescribingColumnColor({ value: "None", label: "None" });
-          setSelectedDescribingColumnShape({ value: "None", label: "None" });
+          if (!scatterErrorShown) {
+            ErrorMessage("There are too many unique values! Check the categorical data!");
+            // Handle the state update if needed
+            setColoredData([]);
+            setSelectedDescribingColumnColor({ value: "None", label: "None" });
+            setSelectedDescribingColumnShape({ value: "None", label: "None" });
+            setScatterErrorShown(true);
+          }
 
           break; // Break out of the loop;
         }
@@ -513,10 +520,14 @@ const App = () => {
       }
     }
     if (uniqueTags1.length > 20 || uniqueTags2.length > 20) {
-      alert("There are too many unique values! Check the categorical data!");
-      setColoredData([]);
-      setSelectedDescribingColumn(null);
-      return;
+      if (!scatter2ErrorShown) {
+        ErrorMessage("There are too many unique values! Check the categorical data!");
+        // Handle the state update if needed
+        setColoredData([]);
+        setSelectedDescribingColumnColor({ value: "None", label: "None" });
+        setSelectedDescribingColumnShape({ value: "None", label: "None" });
+        setScatter2ErrorShown(true);
+      }
     }
 
     for (var colID1 = 0; colID1 < uniqueTags1.length; colID1++) {
@@ -1358,18 +1369,18 @@ const App = () => {
       let axis = savedData.axis;
       console.log(axis);
       let noAxis = axis.every((a) => a == null); // check if all axis are null, return true if all are null
-      console.log(noAxis)
+      console.log(noAxis);
       if (noAxis == false) {
         let counter = 0;
         // console.log("bruh")
         for (let i = 0; i < 3; i++) {
           if (axis[i] == null) {
-            console.log("returned at "+i)
+            console.log("returned at " + i);
             continue;
           }
           counter++;
         }
-        console.log(counter)
+        console.log(counter);
         let value;
         if (counter == 1) {
           value = "1D";
@@ -1378,7 +1389,7 @@ const App = () => {
         } else {
           value = "3D";
         }
-        console.log(selectedColumns)
+        console.log(selectedColumns);
 
         onValueChangeDims(value, false, true);
         if (counter == 1) {
@@ -1388,7 +1399,7 @@ const App = () => {
         } else {
           setSelectedColumns([axis[0], axis[1], axis[2]]);
         }
-        console.log(selectedColumns)
+        console.log(selectedColumns);
       }
       if (savedData.clusteringAlgo) {
         let s = {
@@ -1414,13 +1425,13 @@ const App = () => {
   };
   const mergeDataWithMetaData = () => {
     if (!("IID" in data[0])) {
-      alert("Dataset does not include IID.");
+      ErrorMessage("Dataset does not include IID.");
       return;
     } else if (!("IID" in metaData[0])) {
-      alert("MetaData does not include IID.");
+      ErrorMessage("MetaData does not include IID.");
       return;
     } else if (data.length !== metaData.length) {
-      alert("The dimensions do not match! Only the available metadata will be matched.");
+      ErrorMessage("The dimensions do not match! Only the available metadata will be matched.");
     }
 
     var mergedData = data.map((elem, index) => {
@@ -1532,7 +1543,7 @@ const App = () => {
   //upload data for processed data and unprocessed Correlation Matrix by calling UploadCMDatasetNew, T_SNE 2D and T_SNE 3D, so it handles every upload except for PC-AIR
   const handleFileUploadNew = (file, type) => {
     if (!file) {
-      alert("Please select a file to upload");
+      ErrorMessage("Please select a file to upload");
       return;
     }
     if (selectedUploadOption === "Correlation Matrix") {
@@ -1568,6 +1579,7 @@ const App = () => {
       };
       resetSaveState();
       handleClose();
+      SuccessMessage("Data uploaded successfully!")
       reader.readAsBinaryString(file);
     }
   };
@@ -1617,24 +1629,24 @@ const App = () => {
 
   const handleSelectXChange = (value) => {
     setSelectedColumns([value.label, selectedColumns[1], selectedColumns[2]]);
-    console.log(selectedColumns)
+    console.log(selectedColumns);
   };
 
   const handleSelectYChange = (value) => {
     setSelectedColumns([selectedColumns[0], value.label, selectedColumns[2]]);
-    console.log(selectedColumns)
+    console.log(selectedColumns);
   };
 
   const handleSelectZChange = (value) => {
     setSelectedColumns([selectedColumns[0], selectedColumns[1], value.label]);
-    console.log(selectedColumns)
+    console.log(selectedColumns);
   };
 
   const onUploadValueChange = (event) => {
     setSelectedUploadOption(event.target.value);
   };
 
-  const onValueChangeDims = (event, isDropDown, special =false) => {
+  const onValueChangeDims = (event, isDropDown, special = false) => {
     let value;
     if (special == false) {
       if (isDropDown) {
@@ -1698,7 +1710,7 @@ const App = () => {
       })
       .catch(() => {
         setIsLoading(false);
-        alert("Server error! Please check the input and try again. If the error persists, refer to the docs! ");
+        ErrorMessage("Server error! Please check the input and try again. If the error persists, refer to the docs! ");
       });
   };
 
@@ -1731,7 +1743,7 @@ const App = () => {
       })
       .catch(() => {
         setIsLoading(false);
-        alert("Server error! Please check the input and try again. If the error persists, refer to the docs! ");
+        ErrorMessage("Server error! Please check the input and try again. If the error persists, refer to the docs! ");
       });
   };
 
@@ -1739,7 +1751,7 @@ const App = () => {
     if (!saved) {
       if (!data) {
         setIsLoading(false);
-        alert("Please make sure to upload a dataset first");
+        ErrorMessage("Please make sure to upload a dataset first");
         return;
       }
     }
@@ -1757,7 +1769,7 @@ const App = () => {
     if (!saved) {
       if (!data) {
         setIsLoading(false);
-        alert("Please make sure to upload a dataset first");
+        ErrorMessage("Please make sure to upload a dataset first");
         return;
       }
     }
@@ -1812,7 +1824,7 @@ const App = () => {
       })
       .catch(() => {
         setIsLoading(false);
-        alert("Server error! Please check the input and try again. If the error persists, refer to the docs! ");
+        ErrorMessage("Server error! Please check the input and try again. If the error persists, refer to the docs! ");
       });
   };
 
@@ -1851,7 +1863,7 @@ const App = () => {
       })
       .catch(() => {
         setIsLoading(false);
-        alert("Network error! Please check the request or try again.");
+        ErrorMessage("Network error! Please check the request or try again.");
       });
   };
 
@@ -1892,7 +1904,7 @@ const App = () => {
       })
       .catch(() => {
         setIsLoading(false);
-        alert("Server error! Please check the input and try again. If the error persists, refer to the docs! ");
+        ErrorMessage("Server error! Please check the input and try again. If the error persists, refer to the docs! ");
       });
   };
 
@@ -1926,7 +1938,7 @@ const App = () => {
       })
       .catch(() => {
         setIsLoading(false);
-        alert("Server error! Please check the input and try again. If the error persists, refer to the docs! ");
+        ErrorMessage("Server error! Please check the input and try again. If the error persists, refer to the docs! ");
       });
   };
 
@@ -1960,7 +1972,7 @@ const App = () => {
       })
       .catch(() => {
         setIsLoading(false);
-        alert("Server error! Please check the input and try again. If the error persists, refer to the docs! ");
+        ErrorMessage("Server error! Please check the input and try again. If the error persists, refer to the docs! ");
       });
   };
 
@@ -2000,7 +2012,7 @@ const App = () => {
       })
       .catch(() => {
         setIsLoading(false);
-        alert("Server error! Please check the input and try again. If the error persists, refer to the docs! ");
+        ErrorMessage("Server error! Please check the input and try again. If the error persists, refer to the docs! ");
       });
   };
 
@@ -2031,7 +2043,7 @@ const App = () => {
       })
       .catch(() => {
         setIsLoading(false);
-        alert("Server error! Please check the input and try again. If the error persists, refer to the docs! ");
+        ErrorMessage("Server error! Please check the input and try again. If the error persists, refer to the docs! ");
       });
   };
 
@@ -2062,7 +2074,7 @@ const App = () => {
       })
       .catch(() => {
         setIsLoading(false);
-        alert("Server error! Please check the input and try again. If the error persists, refer to the docs! ");
+        ErrorMessage("Server error! Please check the input and try again. If the error persists, refer to the docs! ");
       });
   };
   //upload the data from example datasets, handle both admixed and not admixed, the 1000K and the HGDP
@@ -2091,12 +2103,13 @@ const App = () => {
         setIsLoading(false);
         setColoredData([]);
         setSelectedDescribingColumn({ value: "None", label: "None" });
+        SuccessMessage("Data uploaded successfully!")
         processData(r.data.pca, false, 1);
         processData(r.data.admix, false, 2);
       })
       .catch(() => {
         setIsLoading(false);
-        alert("Server error! Please check the input and try again. If the error persists, refer to the docs! ");
+        ErrorMessage("Server error! Please check the input and try again. If the error persists, refer to the docs! ");
       });
     console.log("samplePCAAdmixDataset2");
   };
@@ -2146,7 +2159,9 @@ const App = () => {
         .catch((e) => {
           setIsLoading(false);
           console.log(e);
-          alert("Server error! Please check the input and try again. If the error persists, refer to the docs! ");
+          ErrorMessage(
+            "Server error! Please check the input and try again. If the error persists, refer to the docs! "
+          );
         });
     }
   };

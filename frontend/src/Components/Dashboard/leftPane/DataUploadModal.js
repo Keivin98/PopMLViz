@@ -19,6 +19,8 @@ import AppButton from "../../AppButton";
 import { MdOutlineMoreHoriz } from "react-icons/md";
 import selectClusterActions from "../../../config/selectClusterActions";
 import selectOutlierActions from "../../../config/selectOutlierActions";
+import ErrorMessage from "../../ErrorMessage";
+import SuccessMessage from "../../SuccessMessage";
 
 const Input = styled("input")({
   display: "none",
@@ -307,7 +309,7 @@ function DataUploadModal({
 
   const handlePCAirFiles = async () => {
     if (files !== defaultFile) {
-      alert("Please upload all the necessary files for PC-AiR!");
+      ErrorMessage("Please upload all the necessary files for PC-AiR!")
       return;
     }
     let newFilenames = {};
@@ -331,10 +333,11 @@ function DataUploadModal({
         newFilenames[filename] = responseData.filename;
         console.log(filename, responseData.filename);
         resetSaveState();
+        SuccessMessage("Data uploaded successfully!")
         return responseData;
       } catch (error) {
         console.error("Upload failed for " + filename, error);
-        alert("Server error! Please check the input and try again. If the error persists, refer to the docs!");
+        ErrorMessage("Server error! Please check the input and try again. If the error persists, refer to the docs! ");
         throw error; // Propagate the error to be caught in Promise.all
       }
     });

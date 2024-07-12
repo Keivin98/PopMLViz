@@ -19,6 +19,9 @@ import useZustand from "../../../config/useZustand";
 import InputOptions from "../../InputOptions";
 import selectClusterActions from "../../../config/selectClusterActions";
 import selectOutlierActions from "../../../config/selectOutlierActions";
+import {toast, Bounce} from "react-toastify"
+import ErrorMessage from "../../ErrorMessage";
+import SuccessMessage from "../../SuccessMessage";
 
 const RightPane = ({
   selectedUploadOption,
@@ -156,11 +159,22 @@ const RightPane = ({
 
       console.log(response.data);
       console.log(selectedColumns);
-      console.log("Data is saved!");
+      SuccessMessage("Data is saved successfully!")
       return response.data;
     } catch (error) {
       if (error.response && error.response.status === 400) {
-        alert("Data with the same name already exists. Please choose another name");
+        toast.error('Data with the same name already exists. Please choose another name', {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          transition: Bounce,
+          });
+        return;
       }
       console.error("Error saving data:", error);
       throw error;
@@ -178,7 +192,17 @@ const RightPane = ({
     }
 
     if (!data) {
-      alert("Please make sure to upload a dataset first");
+      toast.error('Please make sure to upload a dataset first', {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Bounce,
+        });
       return;
     }
     setDataNameModalVisible(true);
@@ -374,7 +398,7 @@ const RightPane = ({
                         // defaultButton
                         onClick={() => {
                           if (data == null || data.length === 0) {
-                            alert("Please upload data first");
+                            ErrorMessage("Please upload data first")
                             return;
                           }
                           uploadRef.current.click();

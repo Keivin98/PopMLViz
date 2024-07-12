@@ -18,6 +18,7 @@ import font from "../../config/font";
 import "./leftPane/leftpane.css";
 import "./dashboard.css";
 import "./rightPane/RightPane";
+import ErrorMessage from "../ErrorMessage";
 //this is used only in mobile view (625px or less)
 export default function BottomPane({
   downloadPlot,
@@ -224,7 +225,7 @@ export default function BottomPane({
                       // defaultButton
                       onClick={() => {
                         if (data == null || data.length === 0) {
-                          alert("Please upload data first");
+                          ErrorMessage("please upload data first")
                           return;
                         }
                         uploadRef.current.click();

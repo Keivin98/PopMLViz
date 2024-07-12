@@ -9,6 +9,7 @@ import { FaRegEye, FaRegEyeSlash } from "react-icons/fa6";
 import axios from "axios";
 import AppButton from "../AppButton";
 import ParticleBackground from "../ParticleBackground";
+import ErrorMessage from "../ErrorMessage";
 
 function Register() {
   const [email, setEmail] = useState("");
@@ -50,7 +51,7 @@ function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (password !== confirmPassword) {
-      alert("Passwords do not match!");
+      ErrorMessage("Passwords do not match!")
       return;
     }
     const obj = { email, password };
@@ -74,23 +75,22 @@ function Register() {
         setAccountCreated(true);
         // navigate("/login");
       } else {
-        alert("Unexpected response from server: " + response.status);
+        ErrorMessage("Unexpected response from server: " + response.status);
       }
     } catch (error) {
       setIsLoading(false);
       if (error.response) {
         // Server responded with an error status code
         if (error.response.status === 409) {
-          alert("this email is being used");
+          ErrorMessage("This email is being used");
         } else {
-          alert("Server error! Please check the input and try again. If the error persists, refer to the docs!");
+          ErrorMessage("Server error! Please check the input and try again. If the error persists, refer to the docs!")
         }
       } else if (error.request) {
         // The request was made but no response was received
-        alert("No response from server. Please check your network connection.");
+        ErrorMessage("No response from server. Please check your network connection.");
       } else {
-        // Something happened in setting up the request that triggered an error
-        alert("Unexpected error: " + error.message);
+        ErrorMessage("Unexpected error: " + error.message);
       }
     }
   };

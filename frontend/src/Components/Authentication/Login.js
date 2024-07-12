@@ -9,6 +9,7 @@ import axios from "axios";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa6";
 import { AuthContext } from "../../config/AuthProvider";
 import ParticleBackground from "../ParticleBackground";
+import ErrorMessage from "../ErrorMessage";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -88,23 +89,23 @@ function Login() {
         console.log(email);
         navigate("/Dashboard");
       } else {
-        alert("Unexpected response from server: " + response.status);
+        ErrorMessage("Unexpected response from server");
       }
     } catch (error) {
       setIsLoading(false);
       if (error.response) {
         // Server responded with an error status code
         if (error.response.status === 401) {
-          alert("Invalid credentials");
+          ErrorMessage("Invalid credentials")
         } else {
-          alert("Server error! Please check the input and try again. If the error persists, refer to the docs!");
+          ErrorMessage('Server error! Please check the input and try again. If the error persists, refer to the docs!')
         }
       } else if (error.request) {
         // The request was made but no response was received
-        alert("No response from server. Please check your network connection.");
+        ErrorMessage("No response from server. Please check your network connection.");
       } else {
         // Something happened in setting up the request that triggered an error
-        alert("Unexpected error: " + error.message);
+        ErrorMessage("Unexpected error: " + error.message);
       }
     }
   };
