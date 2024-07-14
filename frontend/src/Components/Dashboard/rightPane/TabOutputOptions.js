@@ -127,7 +127,7 @@ const TabOutputOptions = ({
           <InputOptions label={"Plot title"}>
             <input type="text" style={{ width: 100 }} onChange={(e) => setPlotTitle(e.target.value)} />
           </InputOptions>
-
+          <h5 style={{marginTop: 25, marginBottom: 10}}>Image Options</h5>
           <InputOptions label={"Width"}>
             <input type="text" style={{ width: 60 }} defaultValue={width} onChange={(e) => setWidth(e.target.value)} />
           </InputOptions>

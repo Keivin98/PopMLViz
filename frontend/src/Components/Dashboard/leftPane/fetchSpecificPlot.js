@@ -5,9 +5,6 @@ import { checkAccessTokenValidity, api, refreshAccessToken } from "../../../conf
 import SuccessMessage from "../../SuccessMessage";
 import ErrorMessage from "../../ErrorMessage";
 
-
-
-
 function arrayToCSV(data) {
   const headers = Object.keys(data[0]); // Extract headers from the first object
   const csvRows = [
@@ -45,13 +42,14 @@ export default async function fetchSpecificPlot({ setIsLoading, plotName, proces
     // console.log(csv);
 
     processData(csv, false, null, response.data.plot);
-    resetSaveState()
+    console.log(response.data.plot);
+    resetSaveState();
     SuccessMessage("Saved data uploaded successfully!");
-    setIsLoading(false); 
+    setIsLoading(false);
     return response.data.plot;
   } catch (error) {
-    ErrorMessage("Error fetching data. Please try again later.")
+    ErrorMessage("Error fetching data. Please try again later.");
+  } finally {
     setIsLoading(false);
-    throw error;
   }
 }

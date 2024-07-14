@@ -147,6 +147,8 @@ const RightPane = ({
         }
         if (outlierDetectionOptions.outlierDetectionAlgo < 4 && outlierDetectionOptions?.outlierDetectionAlgo != 0) {
           payload.isOr = outlierDetectionOptions.outlierDetectionMode;
+        }else{
+          payload.isOr = false;
         }
         console.log(payload);
       }

@@ -3,20 +3,12 @@
 /add_random_values_to_ds.py
 /frontend/.env
 /frontend/build/
-<<<<<<< HEAD
-/backend/gunicorn_logs/
-/backend/logs/
-||||||| b66d9d5... Removed all files that are in the .gitignore
-backend/gunicorn_logs/access.log
-backend/gunicorn_logs/eror.log
-/backend/__pycache__/
-=======
 backend/gunicorn_logs/
 backend/logs/
 /backend/__pycache__/
->>>>>>> parent of b66d9d5... Removed all files that are in the .gitignore
 /backend/node_modules/
 /backend/venv
+/backend/popMLViz.db
 /node_modules
 /backend/requirements.txt
 /backend/q.txt
