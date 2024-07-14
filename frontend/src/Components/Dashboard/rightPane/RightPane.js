@@ -451,6 +451,7 @@ const RightPane = ({
                   parentCallback={handleTabOutputCallback}
                   showClusters={showOutputOptions}
                   markerSize={markerSize}
+                  clusterNames={clusterNames}
                 />
               </TabPanel>
             </div>
@@ -495,6 +496,7 @@ const RightPane = ({
                   showClusters={showOutputOptions}
                   markerSize={markerSize}
                   DownloadButton={DownloadButton}
+                  clusterNames={clusterNames}
                 />
               </TabPanel>
             </div>

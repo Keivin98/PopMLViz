@@ -24,7 +24,8 @@
     align-items: center;
     margin-top: 20px;
 }
-@media (max-width: 1200px) {
+
+@media (max-width: 1300px) {
     .logo-container{
         flex-direction: column !important;
         margin-bottom: 30px !important;
@@ -35,6 +36,12 @@
         gap: 10px;
     }
 }
+/* @media (max-width: 1200px) {
+    .outlier-btns{
+        flex-direction: column !important; 
+        gap: 10px;
+    }
+} */
 
 @media (max-width: 900px) {
     .range-slider{

@@ -42,8 +42,9 @@ export default function MarkerColor({ setChosenInitialColor, name, clusterColors
         <div style={{display: "flex", flexDirection: 'column'}}>
           <CirclePicker
             width="100%"
-            style={{ marginTop: 20, alignItems: "center"}}
+            style={{ marginTop: 20, justifyContent: "center", textAlign: "center"}}
             circleSize={20}
+            justifyContent="center"
             // colors={clusterColors}
             onChangeComplete={(color) => {
               // setSelectedColor(color.hex)

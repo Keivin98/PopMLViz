@@ -276,6 +276,7 @@ export default function BottomPane({
                 parentCallback={handleTabOutputCallback}
                 showClusters={showOutputOptions}
                 markerSize={markerSize}
+                clusterNames={clusterNames}
               />
             </TabPanel>
           </div>
@@ -318,6 +319,7 @@ export default function BottomPane({
                 parentCallback={handleTabOutputCallback}
                 clusterColors={clusterColors}
                 showClusters={showOutputOptions}
+                clusterNames={clusterNames}
                 markerSize={markerSize}
               />
             </TabPanel>

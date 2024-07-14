@@ -90,6 +90,7 @@ const TabOutputOptions = ({
     }
     return (
       <div style={{ padding: "4%", paddingTop: 10, marginBottom: "60px" }}>
+        <h6 style={{ marginBottom: 10 }}>Plot Options</h6>
         {!showClusters && (
           <>
             <hr style={{ backgroundColor: "black", height: 2, opacity: 1 }} />
@@ -127,7 +128,7 @@ const TabOutputOptions = ({
           <InputOptions label={"Plot title"}>
             <input type="text" style={{ width: 100 }} onChange={(e) => setPlotTitle(e.target.value)} />
           </InputOptions>
-          <h5 style={{marginTop: 25, marginBottom: 10}}>Image Options</h5>
+          <h6 style={{ marginTop: 25, marginBottom: 10 }}>Image Options</h6>
           <InputOptions label={"Width"}>
             <input type="text" style={{ width: 60 }} defaultValue={width} onChange={(e) => setWidth(e.target.value)} />
           </InputOptions>
@@ -142,16 +143,21 @@ const TabOutputOptions = ({
           </InputOptions>
 
           <InputOptions label={"Format"}>
-            <Select  className="select" options={selectActions} onChange={handleFormatChange} defaultValue={selectedColumn} />
+            <Select
+              className="select"
+              options={selectActions}
+              onChange={handleFormatChange}
+              defaultValue={selectedColumn}
+            />
           </InputOptions>
         </div>
 
         {showClusters && (
           <>
             <div>
-              <h6 style={{ marginTop: "10%" }}>Change cluster names</h6>
+              <h6 style={{ marginTop: 25, marginBottom: 10 }}>Change cluster names</h6>
               {[...Array(num_clusters)].map((_, index) => (
-                <InputOptions label={`Cluster ${index}`}>
+                <InputOptions label={`Cluster ${index + 1}`}>
                   <input
                     type="text"
                     name={index}
@@ -165,12 +171,12 @@ const TabOutputOptions = ({
               ))}
             </div>
             <div>
-              <h6 style={{ marginTop: "10%" }}>Change cluster colors:</h6>
+              <h6 style={{ marginTop: 25, marginBottom: 10 }}>Change cluster colors:</h6>
               {[...Array(num_clusters)].map((_, index) => (
                 <>
                   <hr style={{ backgroundColor: "black", height: 2, opacity: 1 }} />
                   <MarkerColor
-                    name={"Cluster " + index}
+                    name={"Cluster " + (index + 1)}
                     index={index}
                     clusterColors={chosenClusterColors}
                     setChosenInitialColor={setChosenClusterColors}

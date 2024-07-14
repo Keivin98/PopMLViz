@@ -808,7 +808,7 @@ const App = () => {
             });
           }
         }
-        var name = clusterNames && clusterNames[k] ? clusterNames[k] : "Cluster " + k;
+        var name = clusterNames && clusterNames[k] ? clusterNames[k] : "Cluster " + k + 1;
         if (DIM === 2) {
           data_new.push({
             name: name,
@@ -1812,7 +1812,7 @@ const App = () => {
       .then((r) => {
         var cluster_names = {};
         [...Array(num_clusters)].map((x, index) => {
-          cluster_names[index] = "Cluster " + index;
+          cluster_names[index] = "Cluster " + (index + 1);
         });
         setIsLoading(false);
         setClusterColors(r.data);
@@ -1850,7 +1850,7 @@ const App = () => {
       .then((r) => {
         var cluster_names = {};
         [...Array(num_clusters)].map((x, index) => {
-          cluster_names[index] = "Cluster " + index;
+          cluster_names[index] = "Cluster " + (index + 1);
         });
         setIsLoading(false);
         setClusterColors(r.data.result);
@@ -1891,8 +1891,9 @@ const App = () => {
       )
       .then((r) => {
         var cluster_names = {};
+
         [...Array(num_clusters)].map((x, index) => {
-          cluster_names[index] = "Cluster " + index;
+          cluster_names[index] = "Cluster " + (index + 1);
         });
         setIsLoading(false);
         setClusterColors(r.data);
