@@ -98,11 +98,11 @@ html, body {
 ul#nav {
   display: flex;
   list-style: none;
-  margin: 0;
+  /* margin: 0;
   padding: 0;
   position: absolute;
   left: 50%;
-  transform: translate(-50%);
+  transform: translate(-50%); */
 }
 
 ul#nav li {

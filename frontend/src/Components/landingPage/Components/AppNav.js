@@ -96,6 +96,11 @@ export default function AppNav({}) {
             FAQ
           </a>
         </li>
+        <li>
+          <a className="smoothscroll" onClick={()=> navigate("/tutorial")}>
+            Tutorial
+          </a>
+        </li>
       </ul>
       <div className="nav-right">
         {!user ? (

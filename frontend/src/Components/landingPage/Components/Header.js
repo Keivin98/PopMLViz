@@ -13,6 +13,7 @@ import useWindowWidth from "../../../config/useWindowWidth";
 import AppNav from "../Components/AppNav";
 import { AuthContext } from "../../../config/AuthProvider";
 import ParticleBackground from "../../ParticleBackground";
+import { FaCirclePlay } from "react-icons/fa6";
 import Modal from "@mui/material/Modal";
 import { FaRegUserCircle } from "react-icons/fa";
 
@@ -84,6 +85,15 @@ function Header(props) {
                 onClick={() => gaEventTracker("Github")}
               >
                 <FaGithub size={35} />
+                <div className="button-txt">Github</div>
+              </a>
+              <a
+                className="button btn docks-btn special-btn"
+                onClick={() => navigate("/tutorial")}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <FaCirclePlay size={35} />
                 <div className="button-txt">Github</div>
               </a>
             </div>

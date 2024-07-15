@@ -5,6 +5,7 @@ import Register from "../src/Components/Authentication/Register";
 import FAQ from "./Components/landingPage/Components/FAQ";
 import ReactGA from "react-ga";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Tutorial from "./Components/landingPage/Components/Tutorial";
 
 function App() {
   //Google Analytics Initialization
@@ -20,6 +21,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/faq" element={<FAQ />} />
+          <Route path="/tutorial" element={<Tutorial />} />
         </Routes>
       </BrowserRouter>
     </div>

@@ -1,0 +1,34 @@
+.tutorial-container{
+    display: grid !important;
+    grid-template-columns: 2.5fr 1fr ;
+    grid-template-areas: "videoPlayer videoList" !important;
+    grid-template-rows: 1fr;
+    height: calc(100vh ) !important; 
+    background-color: white !important;
+
+}
+.video-player{
+    grid-area: "videoPlayer";
+    height: 70% !important;
+}
+.videoList{
+    grid-area: "videoList";
+}
+
+@media (max-width: 900px) {
+    .tutorial-container{
+        grid-template-columns: 1fr;
+        grid-template-rows: 2fr 1fr;
+        height: calc(100vh ) !important; 
+        grid-template-areas: "videoPlayer"
+         "videoList" !important;
+
+    }
+    .video-title{
+        display: none !important;  
+    }.video-player{
+        height: 100% !important;
+    }
+    
+    
+}
