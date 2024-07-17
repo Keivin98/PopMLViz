@@ -3,16 +3,24 @@
     grid-template-columns: 2.5fr 1fr ;
     grid-template-areas: "videoPlayer videoList" !important;
     grid-template-rows: 1fr;
-    height: calc(100vh ) !important; 
+    height: calc(100vh) !important; 
     background-color: white !important;
+    overflow-y: hidden;
 
 }
 .video-player{
-    grid-area: "videoPlayer";
+    grid-area: "videoPlayer" !important;
     height: 70% !important;
+   
 }
 .videoList{
     grid-area: "videoList";
+    overflow-y: scroll;
+    margin-top: 40 !important
+}.video-title{
+    display: block !important;
+}.collapse-player-text{
+    display: none !important;
 }
 
 @media (max-width: 900px) {
@@ -20,11 +28,16 @@
         grid-template-columns: 1fr;
         grid-template-rows: 2fr 1fr;
         height: calc(100vh ) !important; 
-        grid-template-areas: "videoPlayer"
-         "videoList" !important;
+        grid-template-areas: "videoPlayer" "videoList" !important;
 
     }
-    .video-title{
+    .collapse-player-text{
+        display: block !important;
+    }
+    .videoList{
+        margin-top: 30 !important;
+    }
+    .player-text{
         display: none !important;  
     }.video-player{
         height: 100% !important;
