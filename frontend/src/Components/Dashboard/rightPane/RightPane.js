@@ -19,7 +19,7 @@ import useZustand from "../../../config/useZustand";
 import InputOptions from "../../InputOptions";
 import selectClusterActions from "../../../config/selectClusterActions";
 import selectOutlierActions from "../../../config/selectOutlierActions";
-import {toast, Bounce} from "react-toastify"
+import { toast, Bounce } from "react-toastify";
 import ErrorMessage from "../../ErrorMessage";
 import SuccessMessage from "../../SuccessMessage";
 
@@ -147,7 +147,7 @@ const RightPane = ({
         }
         if (outlierDetectionOptions.outlierDetectionAlgo < 4 && outlierDetectionOptions?.outlierDetectionAlgo != 0) {
           payload.isOr = outlierDetectionOptions.outlierDetectionMode;
-        }else{
+        } else {
           payload.isOr = false;
         }
         console.log(payload);
@@ -161,11 +161,11 @@ const RightPane = ({
 
       console.log(response.data);
       console.log(selectedColumns);
-      SuccessMessage("Data is saved successfully!")
+      SuccessMessage("Data is saved successfully!");
       return response.data;
     } catch (error) {
       if (error.response && error.response.status === 400) {
-        toast.error('Data with the same name already exists. Please choose another name', {
+        toast.error("Data with the same name already exists. Please choose another name", {
           position: "top-center",
           autoClose: 5000,
           hideProgressBar: false,
@@ -175,7 +175,7 @@ const RightPane = ({
           progress: undefined,
           theme: "light",
           transition: Bounce,
-          });
+        });
         return;
       }
       console.error("Error saving data:", error);
@@ -194,7 +194,7 @@ const RightPane = ({
     }
 
     if (!data) {
-      toast.error('Please make sure to upload a dataset first', {
+      toast.error("Please make sure to upload a dataset first", {
         position: "top-center",
         autoClose: 5000,
         hideProgressBar: false,
@@ -204,7 +204,7 @@ const RightPane = ({
         progress: undefined,
         theme: "light",
         transition: Bounce,
-        });
+      });
       return;
     }
     setDataNameModalVisible(true);
@@ -313,6 +313,12 @@ const RightPane = ({
       </Modal>
 
       <div className="right-pane">
+        <AppButton
+          className={"save-button"}
+          style={{ width: "100%", marginTop: 10, marginBottom: 0 }}
+          title={"save"}
+          onClick={handleSave}
+        ></AppButton>
         <Tabs className={"optionsContainer grid-r"}>
           <TabList className="tab-list">
             <Tab className="tab">
@@ -400,7 +406,7 @@ const RightPane = ({
                         // defaultButton
                         onClick={() => {
                           if (data == null || data.length === 0) {
-                            ErrorMessage("Please upload data first")
+                            ErrorMessage("Please upload data first");
                             return;
                           }
                           uploadRef.current.click();
@@ -502,12 +508,12 @@ const RightPane = ({
             </div>
           )}
         </Tabs>
-        <AppButton
-          className={"save-button"}
-          style={{ width: "100%", marginTop: 10, marginBottom: 20 }}
+        {/* <AppButton
+          className={"save-button save-button-down"}
+          style={{ width: "100%", marginTop: 10, }}
           title={"save"}
           onClick={handleSave}
-        ></AppButton>
+        ></AppButton> */}
       </div>
     </>
   );

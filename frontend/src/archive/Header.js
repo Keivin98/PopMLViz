@@ -48,16 +48,7 @@ function Header(props) {
           >
             {name}
           </h1>
-          <mark
-            style={{
-              fontWeight: "200",
-              fontSize: 24,
-              backgroundColor: "rgba(255,255,255,0.7)",
-              color: "black",
-            }}
-          >
-            {bio}
-          </mark>
+          <div>{bio}</div>
           <hr />
 
           <ul className="social">

@@ -308,8 +308,8 @@ function DataUploadModal({
   };
 
   const handlePCAirFiles = async () => {
-    if (files !== defaultFile) {
-      ErrorMessage("Please upload all the necessary files for PC-AiR!")
+    if (files && files !== defaultFile) {
+      ErrorMessage("Please upload all the necessary files for PC-AiR!");
       return;
     }
     let newFilenames = {};
@@ -333,7 +333,7 @@ function DataUploadModal({
         newFilenames[filename] = responseData.filename;
         console.log(filename, responseData.filename);
         resetSaveState();
-        SuccessMessage("Data uploaded successfully!")
+        SuccessMessage("Data uploaded successfully!");
         return responseData;
       } catch (error) {
         console.error("Upload failed for " + filename, error);
@@ -436,7 +436,7 @@ function DataUploadModal({
               return (
                 <Button
                   variant="contained"
-                  style={{ width: "60%", margin: "auto" }}
+                  style={{ width: "60%", margin: "auto", color: "white", backgroundColor: colors.secondary }}
                   onClick={() => {
                     setFileChanged(true);
                     samplePCAAdmixDataset(0, index);
@@ -457,7 +457,7 @@ function DataUploadModal({
               return (
                 <Button
                   variant="contained"
-                  style={{ width: "60%", margin: "auto" }}
+                  style={{ width: "60%", margin: "auto", color: "white", backgroundColor: colors.secondary }}
                   onClick={() => {
                     setFileChanged(true);
                     samplePCAAdmixDataset(1, index);
@@ -677,8 +677,8 @@ function DataUploadModal({
                       handleClose();
                     }}
                   >
-                    <div style={{overflow: "hidden" }}>{plot.title}</div>
-                    <div style={{fontWeight: 200}}>{plot.date.split(" ")[0]}</div>
+                    <div style={{ overflow: "hidden" }}>{plot.title}</div>
+                    <div style={{ fontWeight: 200 }}>{plot.date.split(" ")[0]}</div>
                   </div>
                   <div
                     onClick={() => {
@@ -853,7 +853,11 @@ function DataUploadModal({
           <div style={{ marginTop: 40, width: "100%" }}>
             <StyledText
               label={"clustering algorithm applied"}
-              value={selectClusterActions[savedData.clusteringAlgo]?.label ? selectClusterActions[savedData.clusteringAlgo]?.label : null}
+              value={
+                selectClusterActions[savedData.clusteringAlgo]?.label
+                  ? selectClusterActions[savedData.clusteringAlgo]?.label
+                  : null
+              }
             ></StyledText>
             <StyledText
               label={"Number of clusters"}
@@ -861,7 +865,11 @@ function DataUploadModal({
             ></StyledText>
             <StyledText
               label={"Outlier Detection algorithm applied"}
-              value={selectOutlierActions[savedData.outlierDetectionAlgo]?.label ? selectOutlierActions[savedData.outlierDetectionAlgo]?.label: null}
+              value={
+                selectOutlierActions[savedData.outlierDetectionAlgo]?.label
+                  ? selectOutlierActions[savedData.outlierDetectionAlgo]?.label
+                  : null
+              }
             ></StyledText>
             <StyledText
               label={"Outlier Detection mode"}
