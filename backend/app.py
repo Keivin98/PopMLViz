@@ -1,27 +1,39 @@
-# Import the required libraries
+import os
+from dotenv import load_dotenv
 from flask import Flask
-# from flask_sqlalchemy import SQLAlchemy
-# from flask_migrate import Migrate
-# from flask_marshmallow import Marshmallow
 from flask_cors import CORS
+from flask_sqlalchemy import SQLAlchemy
+from .database import create_database
+from flask_bcrypt import Bcrypt
+from flask_jwt_extended import JWTManager
+from datetime import timedelta
 
 
-# Create various application instances
-# Order matters: Initialize SQLAlchemy before Marshmallow
 # db = SQLAlchemy()
-# migrate = Migrate()
-# ma = Marshmallow()
-cors = CORS()
 
-
+load_dotenv()
 def create_app():
-    """Application-factory pattern"""
     app = Flask(__name__)
-    # Initialize extensions
-    # To use the application instances above, instantiate with an application:
-    # db.init_app(app)
-    # migrate.init_app(app, db)
-    # ma.init_app(app)
-    cors.init_app(app)
+    jwt = JWTManager(app)
+    bcrypt = Bcrypt()
+    app.config['JWT_SECRET_KEY'] = os.getenv('JWT_SECRET_KEY', 'default_key')  
+    app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(minutes=15)
+    app.config['JWT_REFRESH_TOKEN_EXPIRES'] = timedelta(days=30)
+    app.config['CORS_HEADERS'] = 'Content-Type'
+    app.config['JWT_TOKEN_LOCATION'] = ['cookies']
+    app.config['JWT_COOKIE_SECURE'] = True
+    app.config['JWT_COOKIE_CSRF_PROTECT'] = False
+    app.config['JWT_COOKIE_SAMESITE'] = 'None'
+    # Allow all origins
+    CORS(app, resources={r"/*": {"origins": "*"}}, supports_credentials=True)
 
+    create_database()
+    
+    with app.app_context():
+        from .routes import main_blueprint
+        app.register_blueprint(main_blueprint)
+
+    bcrypt.init_app(app)
+    
+        
     return app

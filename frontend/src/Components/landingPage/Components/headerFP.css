@@ -1,0 +1,469 @@
+html, body {
+  height: 100%;
+  margin: 0;
+  overflow:hidden; 
+}
+
+.main-page {
+  position: relative;
+  height: 100vh; 
+  width: 100%;
+  text-align: center;
+}
+
+#background-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -1; 
+}
+
+.main-page:before {
+  content: "";
+  display: inline-block;
+  vertical-align: middle;
+  height: 100%;
+}
+
+.main-page .banner {
+  display: inline-block;
+  vertical-align: middle;
+  margin: 0 auto;
+  width: 85%;
+  margin-top: 80px;
+  padding-bottom: 30px;
+  text-align: center;
+}
+
+.main-page .banner-text {
+  width: 100%;
+}
+
+.main-page .banner-text h1 {
+  font: 60px/1.1em "Open Sans", sans-serif;
+  color: rgb(0, 0, 0);
+  letter-spacing: -1px;
+  margin: 0 auto 18px auto;
+}
+
+.main-page .banner-text hr {
+  width: 60%;
+  margin: 18px auto 24px auto;
+  border-color: #2f2d2e;
+  border-color: rgba(150, 150, 150, 0.1);
+}
+
+.nav-right .login-circle-btn{
+  display: none !important;
+}
+
+
+#nav-wrap {
+  font: 16px "Open Sans", sans-serif;
+  width: 100%;
+  text-transform: uppercase;
+  letter-spacing: 2.5px;
+  margin: 0 auto;
+  z-index: 100; 
+  position: fixed;
+  top: 0;
+  background-color: #071b52;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+}
+
+.nav-left {
+  display: flex;
+  align-items: center;
+}
+
+.nav-left .logo {
+  display: block !important;
+  height: 40px;
+  margin-right: 10px;
+}
+
+.nav-left .site-name {
+  font-size: 20px;
+  color: #fff;
+  text-transform: none;
+  letter-spacing: normal;
+}
+
+ul#nav {
+  display: flex;
+  list-style: none;
+  /* margin: 0;
+  padding: 0;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%); */
+}
+
+ul#nav li {
+  margin: 0 15px;
+}
+
+ul#nav li a {
+  text-decoration: none;
+  color: #fff;
+  transition: color 0.2s ease-in-out;
+}
+
+ul#nav li a:hover {
+  color: #fe6928;
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+}
+
+.nav-right .button {
+  margin-left: 10px;
+}
+
+.login-btn {
+  background-color: #1abc9c !important;
+}
+
+.register-btn {
+  background-color: #071b52 !important;
+}
+.social{
+  padding-left:0px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.social .btn {
+  padding-left: 100px;
+  padding-right: 100px;
+  min-height: 50px;
+  min-width: 10px;
+  font-size: 24px;
+  margin-top: 20px;
+}
+
+.social .github-btn {
+  background-color: #000000 !important;
+  display: none;
+}
+
+.social .project-btn {
+  background-color: #1abc9c !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+.social .docks-btn{
+  background-color:#071b52 !important;
+  display: none;
+
+}
+.social .FAQ-btn{
+  background-color: black!important;
+  display: none;
+}
+
+.additional-links {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.additional-links .button {
+  margin: 0 10px;
+}
+
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.popup-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  position: relative;
+  width: 500px;
+  max-width: 80%;
+}
+
+.banner-text .responsive-headline{
+  font-size: 60px ;
+}
+
+.close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.form {
+  max-width: 400px;
+  margin: 50px auto;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background-color: #f9f9f9;
+}
+
+.form-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.form__label {
+  margin-bottom: 5px;
+  font-size: 14px;
+  color: #333;
+}
+
+.form__input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+.btn {
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.btn:hover {
+  background-color: #45a049;
+}
+
+p {
+  font-size: 14px;
+  color: #333;
+}
+
+
+
+@media (max-width: 1200px) {
+  .main-page .banner-text h1 {
+    font-size: 50px;
+  }
+  .social .btn {
+    padding-left: 80px;
+    padding-right: 80px;
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 733px) {
+  .main-page .banner-text h1 {
+    font-size: 40px;
+  }
+  
+  .social {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-left: 0px;
+  }
+  .spcial-btn-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 300px;
+    margin-top: 10px;
+  }
+  .social .special-btn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 200px;
+    padding: 10px;
+    width: 70px;
+    height: 70px;
+  }
+  .social .button-txt{
+    display: none;
+  }
+  .social .project-btn {
+    /* height: 100px; */
+    display: flex;
+    width: 400px;
+    justify-content: center;
+    align-items: center;
+    font-size: 25px;
+  }
+  #nav-wrap {
+    padding: 10px 10px;
+    /* height: 90px; */
+    justify-content: space-around;
+  }
+  .nav-left {
+    align-self: center;
+  }
+  .nav-left .logo {
+    margin-right: 10px;
+  }
+  ul#nav {
+    display: none;
+  }
+  .nav-right {
+    /* display: none; */
+  }
+
+  .nav-right .button {
+    margin-left: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+  }
+
+  .main-page .banner-text .responsive-headline {
+    font-size: 50px !important;
+  }
+  .main-page .banner-text mark {
+    font-size: 20px !important;
+  }
+
+}
+
+  @media (max-width: 620px) {
+    .main-page .banner-text .responsive-headline {
+      font-size: 45px !important;
+    }
+    .main-page .banner-text mark {
+      font-size: 18px !important;
+    }
+  }
+
+  @media (max-width: 468px) {
+    .main-page .banner-text .responsive-headline {
+      font-size: 45px !important;
+    }
+    .main-page .banner-text mark {
+      font-size: 18px !important;
+    }
+    .social .project-btn {
+      width: 300px;
+      padding-left: 30px;
+      padding-right: 30px;
+    }
+    .social .spcial-btn-container{
+      width: 270px;
+      
+    }
+
+  }
+
+  @media (max-width: 413px){
+    .main-page .banner-text .responsive-headline {
+      font-size: 40px !important;
+    }
+    .main-page .banner-text mark {
+      font-size: 16px !important;
+    }
+    .social .project-btn {
+      width: 250px;
+      padding-left: 20px;
+      padding-right: 20px;
+    }
+    .social .spcial-btn-container{
+      width: 230px;
+      
+    }
+    .social .special-btn{
+      border-radius: 200px;
+      padding: 10px;
+      width: 60px;
+      height: 60px;
+    }
+    .nav-right .login-btn{
+      display: none;
+    }
+    .nav-right .login-circle-btn{
+      display: flex !important;
+      justify-content: center;
+      align-items: center;
+      border-radius: 10px;
+      padding: 10px;
+      width: 50px;
+      height: 50px;
+      background-color: #1abc9c;
+    }
+    /* .nav-left .logo{
+      height: 30px;
+    } */
+    .nav-left .site-name{
+      font-size: 16px;
+    }
+  }
+
+
+
+  @media (max-width: 270px){
+    .social .project-btn {
+      width: 90%;
+      padding-left: 10px;
+      padding-right: 10px;
+     
+    }
+    #nav-wrap{
+      flex-direction: column;
+      
+    }
+    .nav-right .login-circle-btn{
+      margin-top: 20px;
+    }
+    .social .project-btn div{
+     font-size: 18px;
+     
+    }
+    .social .spcial-btn-container{
+      width: 90%;
+      
+    }
+    .social .special-btn{
+      border-radius: 200px;
+      padding: 5px;
+      width: 50px;
+      height: 50px;
+    }
+    .main-page .banner-text .responsive-headline {
+      font-size: 25px !important;
+    }
+    .main-page .banner-text mark {
+      font-size: 13px !important;
+    }
+    .main-page .banner {
+      margin-top: 110px;
+     
+    }
+  }

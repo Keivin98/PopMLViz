@@ -1,0 +1,155 @@
+.form-label{
+    font-weight: 300;
+    font-size: 18px;
+    padding: 2%;
+}
+.form-sub-label{
+  font-weight: 300;
+    font-size: 14px;
+    padding: 2%;
+    width: 30%,
+}
+.right-pane{
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+.optionsContainer {
+    /* position: fixed; */
+    /* right: 1%; */
+    grid-area: right;
+    top: 0;
+    height: 98%;
+    display: flex;
+    flex-direction: column;
+    /* width: 18%; */
+    min-width: 127px;
+    padding: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    background-color: #f5f6f7;
+    border-radius: 10px;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+  
+  .describingColumnDropDown {
+    margin-left: 3%;
+    display: flex;
+    flex-direction: column;
+    margin-top: 2%;
+  }
+  
+  .outputSettings {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+  }
+  .downloadContainer{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 10px;
+    border-radius: 10;
+    margin-top: 20px;
+    align-self: center;
+  }
+  .tick-txt{
+    margin-bottom: 10px;
+  }
+  .downloadButton{
+    margin-top: 20px;
+    width: "90%";
+    background-color: #1abc9c;
+    border: none
+  }
+  .downloadLink{
+    text-decoration: none;
+    color: white;
+  }
+  
+  .tab-list {
+    display: flex;
+    padding-left: 0px;
+    font-size: 20px;
+  }
+  
+  .tab {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    
+    cursor: pointer;
+    border: 1px solid #ccc;
+    background-color: #eee;
+  }
+  .tab:hover {
+    background-color: #efefef;
+  }
+  
+  .tab:focus {
+    outline: none;
+    box-shadow: inset 0 0 0 2px blue;
+  }
+  
+  .tab[aria-selected="true"] {
+    background-color: #f9f9f9;
+    border-bottom: 2px solid blue;
+  }
+  .range-slider{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+  }
+
+  @media (max-width: 1041px) {
+    .tick-txt{
+      font-size: smaller;
+    }
+    
+  }
+
+  @media (max-width: 900px) {
+    .downloadLink{
+      font-size: smaller;
+    }.form-label{
+      font-size: 14px;
+    }.form-sub-label{
+      font-size: 12px;
+    }.select-settings{
+      font-size: smaller;
+    } .range-slider{
+      display: flex;
+      flex-direction: column;
+      /* justify-content: space-around; */
+    }.apply-button{
+      margin-left: 0px !important;
+      margin-bottom: 5px;
+    }.admix-txt{
+      font-size: smaller !important;
+    }
+  }
+  
+  @media (max-width: 831px) {
+  .add-metadata-button{
+    font-size: 10px !important;
+  }
+  @media (max-width: 625px) {
+    .optionsContainer{
+      display: none;
+    }
+    .right-pane{
+      height: 100%
+    }
+    .save-button{
+     margin-top: 0px !important;
+     margin-bottom: 0px !important;
+    }
+
+  }
+
+  }
+
+  

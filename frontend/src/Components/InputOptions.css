@@ -1,0 +1,36 @@
+.inputOption{
+    margin-top: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+.inputLabel{
+    max-width: 50%;
+    margin-right: 10
+}
+.inputField{
+    margin-Left: 5%
+}
+
+
+@media (max-width: 1078px) {
+    .inputLabel{
+        font-size: 14px !important;
+        align-self: flex-start;
+        max-width: 100%;
+    }
+    .inputOption{
+        flex-direction: column;
+
+    }.inputField{
+        align-self: flex-end;
+        margin-top: 5px;
+       
+    }.inputOption{
+        margin-bottom: 5px;
+    }
+
+
+}

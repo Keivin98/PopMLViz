@@ -1,0 +1,163 @@
+/* switch.css */
+
+/* 1.- CONTENT
+   ----------------------------- */
+   .input-switch {
+    align-items: center;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    display: flex;
+    line-height: 90%;
+    margin: 0;
+    position: relative;
+  }
+  
+  .input-switch input[type="checkbox"] {
+    position: absolute;
+    margin-left: -9999px;
+    visibility: hidden;
+  }
+  
+  .input-switch input[type="checkbox"] + label {
+    -webkit-border-radius: 60px;
+    -moz-border-radius: 60px;
+    border-radius: 60px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    display: inline-block;
+    height: 16px;
+    outline: none;
+    padding: 2px;
+    position: relative;
+    -webkit-transition: background 0.4s;
+    -moz-transition: background 0.4s;
+    -o-transition: background 0.4s;
+    transition: background 0.4s;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    vertical-align: middle;
+  }
+  
+  .input-switch label {
+    color: white;
+    cursor: pointer;
+    font-size: 13px;
+    margin-left: 10px;
+  }
+  
+  .input-switch input[type="checkbox"] + label:before,
+  .input-switch input[type="checkbox"] + label:after {
+    display: inline-block;
+    position: absolute;
+    content: "";
+  }
+  
+  .input-switch > label:first-child {
+    color: white;
+  }
+  
+  /* 1.1.- CONTENT: on
+       ----------------------------- */
+  .input-switch input[type="checkbox"]:checked + label + label {
+    color: white;
+  }
+  
+  /* 1.2.- CONTENT: off
+       ----------------------------- */
+  /* background control */
+  .input-switch input[type="checkbox"] + label:before {
+    top: 1px;
+    left: 1px;
+    bottom: 1px;
+    right: 1px;
+    -webkit-border-radius: 60px;
+    -moz-border-radius: 60px;
+    border-radius: 60px;
+    background-color: white; /* Default off state background color */
+    -webkit-transition: background 0.4s;
+    -moz-transition: background 0.4s;
+    -o-transition: background 0.4s;
+    transition: background 0.4s;
+  }
+  
+  /* button control*/
+  .input-switch input[type="checkbox"] + label:after {
+    bottom: -2px;
+    background-color: white;
+    -webkit-border-radius: 52px;
+    -moz-border-radius: 52px;
+    border-radius: 52px;
+    -webkit-transition: margin 0.4s, background 0.4s;
+    -moz-transition: margin 0.4s, background 0.4s;
+    -o-transition: margin 0.4s, background 0.4s;
+    transition: margin 0.4s, background 0.4s;
+  }
+  
+  /* 1.3.1.- CONTENT: THEME: one
+       ----------------------------- */
+  .input-switch.style-switch-one input[type="checkbox"] + label {
+    background-color: white; /* Default off state background color */
+    width: 38px;
+  }
+  
+  .input-switch.style-switch-one input[type="checkbox"] + label:before {
+    background-color: white; /* Default off state background color */
+  }
+  
+  .input-switch.style-switch-one input[type="checkbox"] + label:after {
+    border: 1px solid #1891fb;
+    -webkit-box-shadow: 0px 1px 1px 1px rgba(0, 0, 0, 0.3);
+    -moz-box-shadow: 0px 1px 1px 1px rgba(0, 0, 0, 0.3);
+    box-shadow: 0px 1px 1px 1px rgba(0, 0, 0, 0.3);
+    left: -2px;
+    top: -2px;
+    width: 18px;
+  }
+  
+  .input-switch.style-switch-one input[type="checkbox"]:checked + label:before {
+    background-color: #1abc9c
+  }
+  
+  .input-switch.style-switch-one input[type="checkbox"]:checked + label {
+    background-color:#1abc9c
+  }
+  
+  .input-switch.style-switch-one input[type="checkbox"]:checked + label:after {
+    margin-left: 23px;
+  }
+  
+  /* 1.3.1.- CONTENT: THEME: two
+       ----------------------------- */
+  .input-switch.style-switch-two input[type="checkbox"] + label {
+    background-color: white; /* Default off state background color */
+    width: 28px;
+  }
+  
+  .input-switch.style-switch-two input[type="checkbox"] + label:before {
+    background-color: white; /* Default off state background color */
+  }
+  
+  .input-switch.style-switch-two input[type="checkbox"] + label:after {
+    border: 1px solid white;
+    height: 10px;
+    left: 2px;
+    top: 2px;
+    width: 10px;
+  }
+  
+  .input-switch.style-switch-two input[type="checkbox"]:checked + label:before {
+    background-color: #1abc9c; 
+  }
+  
+  .input-switch.style-switch-two input[type="checkbox"]:checked + label {
+    background-color: #1abc9c;
+  }
+  
+  .input-switch.style-switch-two input[type="checkbox"]:checked + label:after {
+    margin-left: 12px;
+  }
+  

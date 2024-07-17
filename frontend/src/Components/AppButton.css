@@ -1,0 +1,11 @@
+.app-button:hover{
+    color: #212529 !important;
+}
+
+
+@media (max-width: 900px) {
+    .app-button{
+      font-size: 12px !important;
+    }
+    
+  }
