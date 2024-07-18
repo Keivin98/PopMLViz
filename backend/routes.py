@@ -458,7 +458,7 @@ def hello():
 
 
 
-@app.route('/register', methods=['POST'],  strict_slashes=False)
+@app.route('/api/register', methods=['POST'],  strict_slashes=False)
 @cross_origin(supports_credentials=True)
 def register():
     data = request.get_json()
@@ -480,7 +480,7 @@ def register():
         return jsonify(message="User already exists"), 409
 
 
-@app.route('/login', methods=['POST'],  strict_slashes=False)
+@app.route('/api/login', methods=['POST'],  strict_slashes=False)
 @cross_origin(supports_credentials=True)
 def login():
     data = request.get_json()
@@ -508,7 +508,7 @@ def login():
 
 
 
-@app.route('/verify', methods=['GET'])
+@app.route('/api/verify', methods=['GET'])
 @cross_origin(supports_credentials=True)
 @jwt_required()
 def verify():
@@ -531,7 +531,7 @@ def delete_plot():
     conn.close()
     return jsonify({"plot": "Plot deleted successfully"}), 200
 
-@app.route('/save', methods=['POST'])
+@app.route('/api/save', methods=['POST'])
 @cross_origin(supports_credentials=True)
 @jwt_required()
 def save_plot():
@@ -653,7 +653,7 @@ def get_plot():
         return jsonify({"error": "Plot not found"}), 404
 
 
-@app.route('/refresh', methods=['POST'])
+@app.route('/api/refresh', methods=['POST'])
 @cross_origin(supports_credentials=True)
 @jwt_required(refresh=True)
 def refresh():
@@ -664,7 +664,7 @@ def refresh():
     return response
 
 
-@app.route('/logout', methods=['POST'])
+@app.route('/api/logout', methods=['POST'])
 @cross_origin(supports_credentials=True)
 @jwt_required(refresh=True)
 def logout():
