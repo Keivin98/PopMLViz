@@ -59,6 +59,7 @@ Chart.register(...registerables);
 const App = () => {
   // const [numClusters, setNumClusters] = useState(2);
   const [ProgressBarType, setProgressBarType] = useState("Loader");
+  const [axisErrorMessage, setAxisErrorMessage] = useState("");
   const [ProgressBarTimeInterval, setProgressBarTimeInterval] = useState(5);
   const [columnRange, setColumnRange] = useState([]);
   const [selectedFile, setSelectedFile] = useState(null);
@@ -156,6 +157,7 @@ const App = () => {
     setConfirmedClusterMethod(null);
     setOutlierDetectionOptions({});
   }
+
   const handleClose = () => setModalOpen(false);
 
   // console.log(process.env.REACT_APP_PROTOCOL);
@@ -1579,7 +1581,7 @@ const App = () => {
       };
       resetSaveState();
       handleClose();
-      SuccessMessage("Data uploaded successfully!")
+      SuccessMessage("Data uploaded successfully!");
       reader.readAsBinaryString(file);
     }
   };
@@ -2104,7 +2106,7 @@ const App = () => {
         setIsLoading(false);
         setColoredData([]);
         setSelectedDescribingColumn({ value: "None", label: "None" });
-        SuccessMessage("Data uploaded successfully!")
+        SuccessMessage("Data uploaded successfully!");
         processData(r.data.pca, false, 1);
         processData(r.data.admix, false, 2);
       })
@@ -2404,12 +2406,13 @@ const App = () => {
       {/* <NavigationBar></NavigationBar> */}
       {isLoading && (
         <div style={{}}>
-          <ProgressBarTime totalTime={ProgressBarTimeInterval} type={"Loader"} isLoading={isLoading} />
+          <ProgressBarTime totalTime={ProgressBarTimeInterval} type={ProgressBarType} isLoading={isLoading} />
         </div>
       )}
 
       <div className="container" style={styles.splitScreen}>
         <LeftPane
+          setProgressBarType={setProgressBarType}
           handleClose={handleClose}
           modalOpen={modalOpen}
           resetSaveState={resetSaveState}
@@ -2458,6 +2461,7 @@ const App = () => {
         {/* <div> */}
         <UpperPane
           axisRef={axisRef}
+          axisErrorMessage={axisErrorMessage}
           selectedOption={selectedOption}
           onValueChangeDims={onValueChangeDims}
           selectedColumns={selectedColumns}
@@ -2469,6 +2473,7 @@ const App = () => {
         />
 
         <BottomPane
+          setProgressBarType={setProgressBarType}
           downloadPlot={downloadPlot}
           selectedUploadOption={selectedUploadOption}
           selectActions={selectActions}

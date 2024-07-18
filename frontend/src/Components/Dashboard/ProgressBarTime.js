@@ -2,6 +2,7 @@ import ProgressBar from "@ramonak/react-progress-bar";
 import React, { useState, useEffect } from "react";
 import Loader from "react-loader-spinner";
 import PropTypes from "prop-types";
+import colors from "../../config/colors";
 
 const texts = [
   "Please wait for the files to load ",
@@ -67,28 +68,14 @@ const ProgressBarTime = ({ totalTime, type, isLoading }) => {
     }
   }, [isLoading, intervalId]);
 
-  return (
+  return type === "Loader" ? (
+    <div key={isLoading} style={styles.loader}>
+      <Loader type="TailSpin" color={colors.secondary} height="100" width="100" />
+    </div>
+  ) : (
     <div key={isLoading} style={styles.ProgressBar}>
-      {type === "Loader" && (
-        <Loader
-          type="TailSpin"
-          color="#00BFFF"
-          height="100"
-          width="100"
-        />
-      )}
-      {type === "ProgressBar" && (
-        <div>
-          <h5 style={{ color: "#3287bf" }}>{text}</h5>
-          <ProgressBar
-            completed={completed}
-            maxCompleted={100}
-            bgColor="#3287bf"
-            labelColor="white"
-            baseBgColor="white"
-          />
-        </div>
-      )}
+      <h5 style={{ color: "#3287bf" }}>{text}</h5>
+      <ProgressBar completed={completed} maxCompleted={100} bgColor="#3287bf" labelColor="white" baseBgColor="white" />
     </div>
   );
 };
@@ -100,9 +87,16 @@ ProgressBarTime.propTypes = {
 };
 
 const styles = {
+  loader: {
+    // width: "50%",
+    transform: "translate(-50%, -50%)",
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+  },
   ProgressBar: {
     width: "50%",
-    marginRight: "25%",
+    transform: "translate(-50%, -50%)",
     position: "absolute",
     top: "50%",
     left: "50%",

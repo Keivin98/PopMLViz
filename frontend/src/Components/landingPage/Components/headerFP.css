@@ -369,6 +369,15 @@ p {
     .main-page .banner-text mark {
       font-size: 18px ;
     }
+    /* .banner{
+      background: transparent;
+      padding: 20px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      border-radius: 20px;
+    }.responsive-headline{
+      padding-top: 20px;
+    } */
   }
 
   @media (max-width: 468px) {

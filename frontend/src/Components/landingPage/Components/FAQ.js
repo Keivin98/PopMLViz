@@ -19,9 +19,29 @@ function FAQ() {
 
   const faqData = [
     {
-      question: "What is PopMLVis?",
+      question: "What is GWAS (Genome-Wide Association Study)?",
       answer:
-        "PopMLVis is a tool designed to visualize population genetic datasets interactively using dimensionality reduction algorithms, machine learning models, and statistical measurements. It provides an intuitive interface for analyzing and understanding genetic data.",
+        "A Genome-Wide Association Study (GWAS) is a research method used to identify genetic variants associated with specific traits or diseases by scanning the genomes of many individuals.",
+    },
+    {
+      question: "Why are GWAS important in genetic research?",
+      answer:
+        "GWAS help researchers understand the genetic basis of diseases and traits, identify potential therapeutic targets, and advance personalized medicine by linking genetic variations to health outcomes.",
+    },
+    {
+      question: "What types of data are used in GWAS?",
+      answer:
+        "GWAS typically use data from single nucleotide polymorphisms (SNPs), which are variations at single positions in the DNA sequence among individuals.",
+    },
+    {
+      question: "How is data prepared for GWAS?",
+      answer:
+        "Data preparation for GWAS involves quality control steps such as filtering out low-quality genotypes, imputing missing data, and normalizing phenotypic data to ensure accurate and reliable results.",
+    },
+    {
+      question: "What are the key steps in conducting a GWAS?",
+      answer:
+        "The key steps in GWAS include collecting and preparing genetic and phenotypic data, performing statistical analysis to identify associations, and validating findings through replication studies and functional experiments.",
     },
     {
       question: "How do I get started with PopMLVis?",
@@ -29,34 +49,29 @@ function FAQ() {
         'To get started, simply navigate to the <a href="/Dashboard">Dashboard</a> and upload your population genetic dataset. You can then select the visualization and analysis options that best suit your needs.',
     },
     {
-      question: "What types of data can I upload?",
+      question: "What types of data can I upload to PopMLVis?",
       answer:
-        "PopMLVis supports a variety of genetic data formats including VCF, PLINK, and CSV files containing genetic information. Make sure your data is properly formatted before uploading.",
+        "PopMLVis supports a variety of genetic data formats including, Pickle file, correlation matrix, .bed, .bim, and .fam, and CSV files containing genetic information. Make sure your data is properly formatted before uploading.",
     },
     {
-      question: "Which dimensionality reduction algorithms are available?",
+      question: "Which dimensionality reduction algorithms are available in PopMLVis?",
       answer:
         "PopMLVis offers multiple dimensionality reduction algorithms such as PCA, t-SNE, UMAP, and others. You can choose the one that best fits your analysis requirements.",
     },
     {
-      question: "Can I save and export my visualizations?",
+      question: "Can I save and export my visualizations in PopMLVis?",
       answer:
-        "Yes, you can save your visualizations and export them in various formats such as PNG, SVG, and PDF. This allows you to use the visualizations in your reports and presentations.",
+        "Yes, you can save your visualizations and export them in various formats such as PNG, SVG, WEBP and JPEG. This allows you to use the visualizations in your reports and presentations.",
     },
     {
-      question: "Is there a user manual or documentation available?",
+      question: "Is there a user manual or documentation available for PopMLVis?",
       answer:
-        `Yes, you can find the user manual and detailed documentation <a href=${PopMLvis}>here</a>. It provides comprehensive information on how to use all the features of PopMLVis.`,
+        'Yes, you can find the user manual and detailed documentation <a href=${PopMLvis}>here</a>. It provides comprehensive information on how to use all the features of PopMLVis.',
     },
     {
       question: "How can I contribute to PopMLVis?",
       answer:
         'We welcome contributions from the community! You can contribute by reporting issues, suggesting new features, or submitting pull requests on our <a href="https://github.com/qcri/QCAI-PopMLVis" target="_blank" rel="noopener noreferrer">GitHub repository</a>.',
-    },
-    {
-      question: "Who can I contact for support?",
-      answer:
-        "If you need help or have any questions, feel free to contact our support team at support@popmlvis.com. We're here to assist you!",
     },
   ];
 
