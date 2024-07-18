@@ -4,10 +4,11 @@ import "./Help.css";
 import PopMLvis from "../../../assets/PopMLvis.pdf";
 import logo from "../../../assets/logo.jpeg";
 import AppNav from "./AppNav";
+import AppButton from "../../AppButton";
 
 function Help() {
   const [openQuestionIndex, setOpenQuestionIndex] = useState(null);
-  const [email, setEmail] = useState("");
+  // const [email, setEmail] = useState("");
   const [title, setTitle] = useState("");
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
@@ -20,9 +21,7 @@ function Help() {
     navigate("/");
   };
 
-  const handleEmailChange = (event) => {
-    setEmail(event.target.value);
-  };
+  
 
   const handleTitleChange = (event) => {
     setTitle(event.target.value);
@@ -34,14 +33,11 @@ function Help() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const mailtoLink = `mailto:popmlvissupport@QCRI.org?subject=${encodeURIComponent(
-      title
-    )}&body=${encodeURIComponent(message)}`;
+    const mailtoLink = `mailto:popmlvissupport@QCRI.org?subject=${encodeURIComponent(title)}&body=${encodeURIComponent(
+      message
+    )}`;
     window.location.href = mailtoLink;
   };
-
-  
-
 
   const faqData = [
     {
@@ -123,13 +119,13 @@ function Help() {
       <div className="contact-form">
         <h2>Contact Us</h2>
         <form onSubmit={handleSubmit}>
-          <label htmlFor="email">Your Email:</label>
-          <input type="email" id="email" name="email" value={email} onChange={handleEmailChange} required />
+          {/* <label htmlFor="email">Your Email:</label> */}
+          {/* <input type="email" id="email" name="email" value={email} onChange={handleEmailChange} required /> */}
           <label htmlFor="title">Title:</label>
           <input type="text" id="title" name="title" value={title} onChange={handleTitleChange} required />
           <label htmlFor="message">Message:</label>
           <textarea id="message" name="message" value={message} onChange={handleMessageChange} rows="4" required />
-          <button type="submit">Send Message</button>
+          <AppButton style={{width: "100%"}} type={"submit"} title="submit"></AppButton>
         </form>
       </div>
     </div>

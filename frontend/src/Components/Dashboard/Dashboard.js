@@ -114,6 +114,7 @@ const App = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [scatterErrorShown, setScatterErrorShown] = useState(false);
   const [scatter2ErrorShown, setScatter2ErrorShown] = useState(false);
+  const [dataNameModalVisible, setDataNameModalVisible] = useState(false);
 
   const { numClusters, setNumClusters, setConfirmedClusterMethod, setOutlierDetectionOptions } = useZustand();
 
@@ -2473,6 +2474,8 @@ const App = () => {
         />
 
         <BottomPane
+          dataNameModalVisible={dataNameModalVisible}
+          setDataNameModalVisible={setDataNameModalVisible}
           setProgressBarType={setProgressBarType}
           downloadPlot={downloadPlot}
           selectedUploadOption={selectedUploadOption}
@@ -2528,6 +2531,8 @@ const App = () => {
 
         <RightPane
           downloadPlot={downloadPlot}
+          dataNameModalVisible={dataNameModalVisible}
+          setDataNameModalVisible={setDataNameModalVisible}
           selectedUploadOption={selectedUploadOption}
           selectActions={selectActions}
           multiValue={multiValue}

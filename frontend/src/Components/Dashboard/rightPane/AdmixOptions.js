@@ -37,6 +37,7 @@ const AdmixOptions = ({ initialAlpha, initialCertainty, initialVal, mode: initia
 
   return (
     <div
+      className="outlier-block"
       style={{
         display: "flex",
         flexDirection: "column",

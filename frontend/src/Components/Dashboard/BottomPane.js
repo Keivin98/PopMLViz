@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { Tabs, Tab, TabList, TabPanel } from "react-tabs";
 import Select from "react-select";
 import DownloadData from "./rightPane/DownloadData";
@@ -19,6 +19,13 @@ import "./leftPane/leftpane.css";
 import "./dashboard.css";
 import "./rightPane/RightPane";
 import ErrorMessage from "../ErrorMessage";
+import axios from "axios";
+import Modal from "@mui/material/Modal";
+import { useNavigate } from "react-router-dom";
+
+
+
+
 //this is used only in mobile view (625px or less)
 export default function BottomPane({
   downloadPlot,
@@ -30,6 +37,8 @@ export default function BottomPane({
   handleColoredColumns,
   selectedDescribingColumnShape,
   handleShapeColumns,
+  dataNameModalVisible,
+  setDataNameModalVisible,
   OutlierData,
   data,
   setProgressBarType,
@@ -74,9 +83,76 @@ export default function BottomPane({
   setFileChanged,
 }) {
   const uploadRef = useRef(null);
+  const navigate = useNavigate()
+  const [modalVisible, setModalVisible] = useState(false);
+  const api = axios.create({
+    baseURL: `${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}${process.env.REACT_APP_PORT}`,
+    withCredentials: true, // Ensure credentials (cookies) are sent with requests
+  });
+  const checkAccessTokenValidity = async () => {
+    try {
+      await api.get("/verify");
+      return true;
+    } catch (error) {
+      return false;
+    }
+  };
 
+  // Function to refresh access token using refresh token
+  const refreshAccessToken = async () => {
+    try {
+      const response = await api.post("/refresh");
+      return response.data.access_token;
+    } catch (error) {
+      console.error("Error refreshing access token:", error);
+      setModalVisible(true);
+      throw error;
+    }
+  };
+  async function handleSave() {
+    const isValid = await checkAccessTokenValidity();
+    let newAccessToken;
+    if (!isValid) {
+      newAccessToken = await refreshAccessToken();
+      if (!newAccessToken) {
+        return;
+      }
+    }
+
+    if (!data) {
+      ErrorMessage("Please make sure to upload a dataset first");
+      return;
+    }
+    setDataNameModalVisible(true);
+  }
   return (
     <div className="bottom">
+      <Modal open={modalVisible} onClose={() => setModalVisible(false)}>
+        <div
+          style={{
+            top: "50%",
+            left: "50%",
+            position: "absolute",
+            width: "50%",
+            backgroundColor: "white",
+            transform: "translate(-50%, -50%)",
+            borderRadius: 30,
+            padding: 20,
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            flexDirection: "column",
+            minWidth: 250,
+          }}
+        >
+          <h2 style={{ textAlign: "center", marginTop: 20 }}>Please login to save your work</h2>
+          <AppButton
+            style={{ marginTop: 20, fontSize: 20, width: "30%", minWidth: 70 }}
+            title={"login"}
+            onClick={() => navigate("/login")}
+          ></AppButton>
+        </div>
+      </Modal>
       <Tabs className={""}>
         <TabList style={{ marginBottom: 1 }} className="tab-list">
           <Tab className="tab">
@@ -89,10 +165,16 @@ export default function BottomPane({
             <MdOutlineBorderColor />
           </Tab>
         </TabList>
+        <AppButton
+          // className={"save-button"}
+          style={{ width: "100%", marginTop: 10, marginBottom: 10 }}
+          title={"save"}
+          onClick={handleSave}
+        ></AppButton>
 
         <TabPanel>
           <div
-            style={{ backgroundColor: "#3b3f4e", color: "white", padding: 20, overflowY: "auto", overflowX: "hidden" }}
+            style={{ backgroundColor: "#3b3f4e", height: "100%", color: "white", padding: 20, overflowY: "auto", overflowX: "hidden" }}
             className=""
           >
             <form style={{ marginTop: "1%" }}>
@@ -152,8 +234,8 @@ export default function BottomPane({
         {selectedUploadOption !== "admixture" && selectedUploadOption !== "pcairandadmixture" && (
           <div style={{}}>
             <TabPanel>
-              <div style={{ display: "flex", flexDirection: "column" }}>
-                <div style={{}}>
+              <div style={{ display: "flex", flexDirection: "column",  backgroundColor: 'rgb(245, 246, 247)', }}>
+                <div style={{backgroundColor: "rgb(245, 246, 247)"}}>
                   <div className="row-md-8"></div>
 
                   <div
@@ -227,7 +309,7 @@ export default function BottomPane({
                       // defaultButton
                       onClick={() => {
                         if (data == null || data.length === 0) {
-                          ErrorMessage("please upload data first")
+                          ErrorMessage("please upload data first");
                           return;
                         }
                         uploadRef.current.click();
@@ -284,10 +366,10 @@ export default function BottomPane({
           </div>
         )}
         {(selectedUploadOption === "pcairandadmixture" || selectedUploadOption === "admixture") && (
-          <div style={{ overflowY: "auto", overflowX: "hidden" }}>
+          <div style={{ overflowY: "auto", overflowX: "hidden", }}>
             <TabPanel>
               <div
-                style={{ height: "100%", display: "flex", justifyContent: "space-between", flexDirection: "column" }}
+                style={{ height: "100%", display: "flex", justifyContent: "space-between", flexDirection: "column",  backgroundColor: 'rgb(245, 246, 247)', padding: 30}}
               >
                 <AdmixOptions
                   initialAlpha={alphaVal}

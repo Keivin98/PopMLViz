@@ -68,12 +68,13 @@ html, body {
           "bottom";
         column-gap: 10px;
         row-gap: 10px;
-        height: 100vh;
+        /* height: 100vh; */
         width: 100vw;
       }
       .grid-u {
         grid-area: upper;
         width: 100%;
+        height: 100%;
       }
       .grid-c {
         grid-area: center;
@@ -84,10 +85,10 @@ html, body {
         display: block;
         grid-area: bottom;
         height: 100%;
-        background-color: rgb(245, 246, 247);
+        /* background-color: rgb(245, 246, 247); */
         width: 100%;
-        overflow-y: auto;
-        overflow-x: hidden;
+        /* overflow-y: auto;
+        overflow-x: hidden; */
       }
       .scatter-plot{
         height: 450px

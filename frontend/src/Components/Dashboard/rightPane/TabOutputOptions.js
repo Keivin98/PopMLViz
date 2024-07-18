@@ -89,7 +89,7 @@ const TabOutputOptions = ({
       num_clusters = 2;
     }
     return (
-      <div style={{ padding: "4%", paddingTop: 10, marginBottom: "60px" }}>
+      <div style={{ padding: "4%", paddingTop: 10, marginBottom: "60px",}}>
         <h6 style={{ marginBottom: 10 }}>Plot Options</h6>
         {!showClusters && (
           <>
@@ -201,6 +201,7 @@ const TabOutputOptions = ({
         flex: 1,
         flexDirection: "column",
         justifyContent: "space-between",
+         backgroundColor: 'rgb(245, 246, 247)'
         // alignItems: "center",
       }}
     >
