@@ -12,6 +12,7 @@ import "../dashboard.css";
 const LeftPane = ({
   UploadTabChange,
   samplePCAAdmixDataset2,
+  setProgressBarType,
   handleProcessedPCA,
   handleProcessedAdmix,
   handleUnprocessedPCA,
@@ -33,7 +34,7 @@ const LeftPane = ({
   selectedColumns,
   processData,
   uploadSavedData,
-  setIsMainPageLoading
+  setIsMainPageLoading,
 }) => {
   const navigate = useNavigate();
   // console.log(processData)
@@ -60,6 +61,7 @@ const LeftPane = ({
       </div>
       <form style={{ marginTop: "1%" }}>
         <UploadAndVisualizeTab
+          setProgressBarType={setProgressBarType}
           processData={processData}
           modalOpen={modalOpen}
           uploadSavedData={uploadSavedData}

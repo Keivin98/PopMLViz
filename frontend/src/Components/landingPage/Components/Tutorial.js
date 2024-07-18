@@ -4,6 +4,7 @@ import { FaCirclePlay } from "react-icons/fa6";
 import AppNav from "./AppNav";
 import colors from "../../../config/colors";
 import "./Tutorial.css";
+import Loader from "react-loader-spinner";
 import { duration } from "@mui/material";
 import Collapse from "react-bootstrap/Collapse";
 import { AiFillCaretDown } from "react-icons/ai";
@@ -44,6 +45,7 @@ export default function Tutorial() {
   ];
   const [selectedVideo, setSelectedVideo] = useState(videosLinks[0]);
   const [open, setOpen] = useState(false);
+  const [loader, setLoader] = useState(true);
   const handlePress = (link) => {
     setSelectedVideo(link);
   };
@@ -101,20 +103,26 @@ export default function Tutorial() {
       <AppNav></AppNav>
       <div className="tutorial-container" style={{ gap: 20, padding: 20, paddingTop: 80 }}>
         <div className="video-player" style={{ width: "100%", marginTop: 40 }}>
-          <ReactPlayer width={"100%"} height={"100%"} controls url={selectedVideo.link}></ReactPlayer>
+          <ReactPlayer width={"100%"} height={"100%"} controls url={selectedVideo.link} onReady={()=> setLoader(false)}></ReactPlayer>
+          {loader && <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', zIndex: 10 }}>
+            <Loader  type="TailSpin" color={colors.secondary} height="100" width="100" />
+          </div>}
+         
 
-          <h4 className="player-text" style={{ marginTop: 30, marginLeft: 10 }}>
-            Tutorial: {selectedVideo.name}
-          </h4>
-          <div
-            className="player-text"
-            style={{ marginTop: 10, marginLeft: 10 }}
-            dangerouslySetInnerHTML={{
-              __html: `<span style="font-weight: 600">Description:<br></span> ${selectedVideo.description}`,
-            }}
-          />
+          <div style={{ overflowY: "auto", height: "30%" }}>
+            <h4 className="player-text" style={{ marginTop: 30, marginLeft: 10 }}>
+              Tutorial: {selectedVideo.name}
+            </h4>
+            <div
+              className="player-text"
+              style={{ marginTop: 10, marginLeft: 10 }}
+              dangerouslySetInnerHTML={{
+                __html: `<span style="font-weight: 600">Description:<br></span> ${selectedVideo.description}`,
+              }}
+            />
+          </div>
         </div>
-        <div className="videoList" style={{ padding: 20, height: "100%", }}>
+        <div className="videoList" style={{ padding: 20, height: "100%" }}>
           <div className="collapse-player-text">
             <div
               style={{
@@ -131,15 +139,15 @@ export default function Tutorial() {
                 style={{
                   display: "flex",
                   flexDirection: "row",
-                //   width: "90%",
+                  //   width: "90%",
                   alignItems: "center",
                 }}
               >
                 {/* <IoIosColorPalette size={30} style={{ marginRight: 20, opacity: 0.5 }} /> */}
-                <h6 style={{marginBottom: 0}}>{"More"}</h6>
+                <h6 style={{ marginBottom: 0 }}>{"More"}</h6>
               </div>
 
-              <AiFillCaretDown style={{ marginLeft: 20}} />
+              <AiFillCaretDown style={{ marginLeft: 20 }} />
             </div>
 
             <Collapse style={{ marginBottom: 20 }} in={open}>

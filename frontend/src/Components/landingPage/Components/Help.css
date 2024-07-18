@@ -4,11 +4,11 @@ body, html {
   padding: 0;
   font-family: Arial, sans-serif;
   height: 100%;
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 
 .faq-page {
-  height: 100vh;
+  /* height: 100vh; */
   display: flex;
   flex-direction: column;
   background-color: #f7f7f7;
@@ -114,4 +114,95 @@ body, html {
 
 .faq-answer a:hover {
   text-decoration: underline;
+}
+/* Help.css */
+
+.faq-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+.faq-content {
+  width: 100%;
+  max-width: 800px;
+  margin-top: 20px;
+}
+
+.faq-container {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 20px;
+  background-color: #f9f9f9;
+}
+
+.faq-item {
+  margin-bottom: 20px;
+}
+
+.faq-question {
+  cursor: pointer;
+}
+
+.faq-answer {
+  margin-top: 10px;
+}
+
+.contact-form {
+  width: 100%;
+  max-width: 800px;
+  margin-top: 40px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+
+.contact-form h2 {
+  margin-bottom: 20px;
+}
+
+.contact-form form {
+  display: grid;
+  gap: 10px;
+}
+
+.contact-form label {
+  font-weight: bold;
+}
+
+.contact-form input,
+.contact-form textarea {
+  width: 100%;
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.contact-form textarea {
+  resize: vertical;
+}
+
+.contact-form button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.contact-form button:hover {
+  background-color: #0056b3;
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 600px) {
+  .faq-container,
+  .contact-form {
+    padding: 10px;
+  }
 }

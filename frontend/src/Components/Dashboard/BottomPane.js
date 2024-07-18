@@ -32,6 +32,7 @@ export default function BottomPane({
   handleShapeColumns,
   OutlierData,
   data,
+  setProgressBarType,
   handleMetaDataUpload,
   onInputMetadataClick,
   allActions,
@@ -96,6 +97,7 @@ export default function BottomPane({
           >
             <form style={{ marginTop: "1%" }}>
               <UploadAndVisualizeTab
+                setProgressBarType={setProgressBarType}
                 modalOpen={modalOpen}
                 setModalOpen={setModalOpen}
                 handleClose={handleClose}

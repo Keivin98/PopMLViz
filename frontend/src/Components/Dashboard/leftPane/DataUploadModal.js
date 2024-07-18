@@ -69,6 +69,7 @@ function DataUploadModal({
   tsne2d,
   tsne3d,
   runPCAir,
+  setProgressBarType,
   fileChanged,
   resetSaveState,
   setFileChanged,
@@ -92,7 +93,7 @@ function DataUploadModal({
   const [selectedOption, setSelectedOption] = useState("");
   const [files, setFiles] = useState(defaultFile);
   const [savedPlots, setSavedPlots] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false); //this is for the saved modal only
   const [showOptionModal, setShowOptionModal] = useState(false);
   const [savedData, setSavedData] = useState([]);
 
@@ -308,11 +309,14 @@ function DataUploadModal({
   };
 
   const handlePCAirFiles = async () => {
-    // if (files !== defaultFile) {
-    //   ErrorMessage("Please upload all the necessary files for PC-AiR!")
-    //   return;
-    // }
+    if (!files[".bed"] || !files[".bim"] || !files[".fam"] || !files.Kinship) {
+      ErrorMessage("Please upload all the necessary files for PC-AiR!");
+      return;
+    }
     let newFilenames = {};
+    setProgressBarType("ProgressBar");
+    setIsMainPageLoading(true);
+    handleClose();
     const uploadTasks = [".bed", ".bim", ".fam", "Kinship"].map(async (filename) => {
       const data = new FormData();
       data.append("file", files[filename]);
@@ -332,8 +336,7 @@ function DataUploadModal({
         const responseData = await response.json();
         newFilenames[filename] = responseData.filename;
         console.log(filename, responseData.filename);
-        resetSaveState();
-        SuccessMessage("Data uploaded successfully!")
+
         return responseData;
       } catch (error) {
         console.error("Upload failed for " + filename, error);
@@ -344,8 +347,11 @@ function DataUploadModal({
 
     Promise.all(uploadTasks)
       .then(() => {
-        handleClose();
+        // handleClose();
+        resetSaveState();
         runPCAir(newFilenames[".bed"], newFilenames[".bim"], newFilenames[".fam"], newFilenames["Kinship"]);
+        SuccessMessage("Data uploaded successfully!");
+        setIsMainPageLoading(false);
       })
       .catch((error) => {
         console.error("An error occurred during the upload: ", error);
@@ -436,7 +442,7 @@ function DataUploadModal({
               return (
                 <Button
                   variant="contained"
-                  style={{width: "60%", margin: "auto"}}
+                  style={{width: "60%", margin: "auto", color: "white", backgroundColor: colors.secondary}}
                   onClick={() => {
                     setFileChanged(true);
                     samplePCAAdmixDataset(0, index);
@@ -457,7 +463,7 @@ function DataUploadModal({
               return (
                 <Button
                   variant="contained"
-                  style={{width: "60%", margin: "auto"}}
+                  style={{width: "60%", margin: "auto", color: "white", backgroundColor: colors.secondary}}
                   onClick={() => {
                     setFileChanged(true);
                     samplePCAAdmixDataset(1, index);
@@ -648,7 +654,8 @@ function DataUploadModal({
               justifyContent: "space-between",
             }}
           >
-            {savedPlots && savedPlots.plots ? (
+            {console.log(savedData.plots)}
+            {savedPlots && savedPlots.plots?.length > 0 ? (
               savedPlots.plots.map((plot) => (
                 <div
                   style={{display: "flex", width: "100%", justifyContent: "center", alignItems: "center", gap: 10}}
@@ -853,7 +860,11 @@ function DataUploadModal({
           <div style={{marginTop: 40, width: "100%"}}>
             <StyledText
               label={"clustering algorithm applied"}
-              value={selectClusterActions[savedData.clusteringAlgo]?.label ? selectClusterActions[savedData.clusteringAlgo]?.label : null}
+              value={
+                selectClusterActions[savedData.clusteringAlgo]?.label
+                  ? selectClusterActions[savedData.clusteringAlgo]?.label
+                  : null
+              }
             ></StyledText>
             <StyledText
               label={"Number of clusters"}
@@ -861,7 +872,11 @@ function DataUploadModal({
             ></StyledText>
             <StyledText
               label={"Outlier Detection algorithm applied"}
-              value={selectOutlierActions[savedData.outlierDetectionAlgo]?.label ? selectOutlierActions[savedData.outlierDetectionAlgo]?.label : null}
+              value={
+                selectOutlierActions[savedData.outlierDetectionAlgo]?.label
+                  ? selectOutlierActions[savedData.outlierDetectionAlgo]?.label
+                  : null
+              }
             ></StyledText>
             <StyledText
               label={"Outlier Detection mode"}

@@ -8,6 +8,7 @@ import FormLabel from "@mui/material/FormLabel";
 import colors from "../../config/colors";
 import font from "../../config/font";
 import { useNavigate } from "react-router-dom";
+
 import "./upperpane.css";
 import "./dashboard.css";
 
@@ -16,6 +17,7 @@ const UpperPane = ({
   onValueChangeDims,
   selectedColumns,
   selectActions,
+  axisErrorMessage,
   handleSelectXChange,
   handleSelectYChange,
   handleSelectZChange,
@@ -27,6 +29,9 @@ const UpperPane = ({
     { value: "2D", label: "2D" },
     { value: "3D", label: "3D" },
   ];
+
+
+ 
 
   const navigate = useNavigate();
 
@@ -123,6 +128,9 @@ const UpperPane = ({
               onChange={handleSelectXChange}
               // isDisabled={selectedUploadOption === "admixture"} //why disabled?
             />
+            {/* {axisErrorMessage && (
+              <span style={{ fontSize: "12px", color: "red", marginTop: "4px" }}>{axisErrorMessage}</span>
+            )} */}
           </div>
         </div>
 
@@ -140,7 +148,7 @@ const UpperPane = ({
               options={selectActions}
               onChange={handleSelectYChange}
               // isDisabled={(selectedOption !== "3D" && selectedOption !== "2D") || selectedUploadOption === "admixture"}
-              isDisabled={(selectedOption !== "3D" && selectedOption !== "2D") }
+              isDisabled={selectedOption !== "3D" && selectedOption !== "2D"}
             />
           </div>
         </div>
@@ -158,7 +166,7 @@ const UpperPane = ({
               options={selectActions}
               onChange={handleSelectZChange}
               // isDisabled={selectedOption !== "3D" || selectedUploadOption === "admixture"}
-              isDisabled={selectedOption !== "3D" }
+              isDisabled={selectedOption !== "3D"}
             />
           </div>
         </div>

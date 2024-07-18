@@ -2,7 +2,7 @@ import Dashboard from "./Components/Dashboard/Dashboard";
 import LandingPage from "./Components/landingPage/LandingPage";
 import Login from "../src/Components/Authentication/Login";
 import Register from "../src/Components/Authentication/Register";
-import FAQ from "./Components/landingPage/Components/FAQ";
+import FAQ from "./Components/landingPage/Components/Help";
 import ReactGA from "react-ga";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Tutorial from "./Components/landingPage/Components/Tutorial";

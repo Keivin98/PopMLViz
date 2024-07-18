@@ -15,6 +15,7 @@ function UploadAndVisualizeTab({
   tsne2d,
   tsne3d,
   runPCAir,
+  setProgressBarType,
   fileChanged,
   setFileChanged,
   resetSaveState,
@@ -63,6 +64,7 @@ function UploadAndVisualizeTab({
           {/* <FcScatterPlot size={30} style={{ marginRight: "3%", opacity: 0.5 }} /> */}
           {/* <label> Upload and Preprocess </label> */}
           <DataUploadModal
+            setProgressBarType={setProgressBarType}
             modalOpen={modalOpen}
             uploadSavedData={uploadSavedData}
             setModalOpen={setModalOpen}

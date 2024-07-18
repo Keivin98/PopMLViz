@@ -68,10 +68,16 @@ html, body {
           "bottom";
         column-gap: 10px;
         row-gap: 10px;
+        height: 100vh;
+        width: 100vw;
       }
       .grid-u {
         grid-area: upper;
         width: 100%;
+      }
+      .grid-c {
+        grid-area: center;
+        height: 80%
       }
       
       .bottom{

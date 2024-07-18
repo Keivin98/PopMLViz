@@ -128,7 +128,8 @@ const TabOutputOptions = ({
           <InputOptions label={"Plot title"}>
             <input type="text" style={{ width: 100 }} onChange={(e) => setPlotTitle(e.target.value)} />
           </InputOptions>
-          <h6 style={{ marginTop: 25, marginBottom: 10 }}>Image Options</h6>
+          <hr></hr>
+          <h6 style={{ marginTop: 10, marginBottom: 10 }}>Image Options</h6>
           <InputOptions label={"Width"}>
             <input type="text" style={{ width: 60 }} defaultValue={width} onChange={(e) => setWidth(e.target.value)} />
           </InputOptions>
@@ -155,7 +156,8 @@ const TabOutputOptions = ({
         {showClusters && (
           <>
             <div>
-              <h6 style={{ marginTop: 25, marginBottom: 10 }}>Change cluster names</h6>
+              <hr></hr>
+              <h6 style={{ marginTop: 10, marginBottom: 10 }}>Change Cluster Names</h6>
               {[...Array(num_clusters)].map((_, index) => (
                 <InputOptions label={`Cluster ${index + 1}`}>
                   <input
@@ -171,7 +173,8 @@ const TabOutputOptions = ({
               ))}
             </div>
             <div>
-              <h6 style={{ marginTop: 25, marginBottom: 10 }}>Change cluster colors:</h6>
+              <hr></hr>
+              <h6 style={{ marginTop: 10, marginBottom: 10 }}>Change Cluster Colors:</h6>
               {[...Array(num_clusters)].map((_, index) => (
                 <>
                   <hr style={{ backgroundColor: "black", height: 2, opacity: 1 }} />
