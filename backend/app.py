@@ -3,7 +3,7 @@ from dotenv import load_dotenv
 from flask import Flask
 from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
-from .database import create_database
+from database import create_database
 from flask_bcrypt import Bcrypt
 from flask_jwt_extended import JWTManager
 from datetime import timedelta
@@ -30,7 +30,7 @@ def create_app():
     create_database()
     
     with app.app_context():
-        from .routes import main_blueprint
+        from routes import main_blueprint
         app.register_blueprint(main_blueprint)
 
     bcrypt.init_app(app)

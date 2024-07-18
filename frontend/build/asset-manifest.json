@@ -1,19 +1,21 @@
 {
   "files": {
-    "main.css": "/static/css/main.91799f95.chunk.css",
-    "main.js": "/static/js/main.c6b718c2.chunk.js",
-    "runtime-main.js": "/static/js/runtime-main.f9b28806.js",
-    "static/css/2.3c091339.chunk.css": "/static/css/2.3c091339.chunk.css",
-    "static/js/2.8161235a.chunk.js": "/static/js/2.8161235a.chunk.js",
+    "main.css": "/static/css/main.99208b72.chunk.css",
+    "main.js": "/static/js/main.3d98bcb7.chunk.js",
+    "reactPlayerPreview.js": "/static/js/reactPlayerPreview.c1958864.chunk.js",
+    "runtime-main.js": "/static/js/runtime-main.688fd57b.js",
+    "static/css/3.c3c4e883.chunk.css": "/static/css/3.c3c4e883.chunk.css",
+    "static/js/3.2e532079.chunk.js": "/static/js/3.2e532079.chunk.js",
     "index.html": "/index.html",
-    "static/js/2.8161235a.chunk.js.LICENSE.txt": "/static/js/2.8161235a.chunk.js.LICENSE.txt",
-    "static/media/PopMLvis.ec367b73.pdf": "/static/media/PopMLvis.ec367b73.pdf"
+    "static/js/3.2e532079.chunk.js.LICENSE.txt": "/static/js/3.2e532079.chunk.js.LICENSE.txt",
+    "static/media/PopMLvis.55d33448.pdf": "/static/media/PopMLvis.55d33448.pdf",
+    "static/media/logo.d87cd7f0.jpeg": "/static/media/logo.d87cd7f0.jpeg"
   },
   "entrypoints": [
-    "static/js/runtime-main.f9b28806.js",
-    "static/css/2.3c091339.chunk.css",
-    "static/js/2.8161235a.chunk.js",
-    "static/css/main.91799f95.chunk.css",
-    "static/js/main.c6b718c2.chunk.js"
+    "static/js/runtime-main.688fd57b.js",
+    "static/css/3.c3c4e883.chunk.css",
+    "static/js/3.2e532079.chunk.js",
+    "static/css/main.99208b72.chunk.css",
+    "static/js/main.3d98bcb7.chunk.js"
   ]
 }

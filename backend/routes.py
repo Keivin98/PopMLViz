@@ -1,10 +1,12 @@
+import os
+import ssl
 from flask import jsonify, request, send_file
-from .app import create_app
+from app import create_app
 import pandas as pd
 import json
 from sklearn.decomposition import PCA
 import random, string
-from .common import runKmeans
+from common import runKmeans
 from sklearn.cluster import KMeans
 from sklearn.manifold import TSNE
 import os
@@ -99,7 +101,7 @@ def runHC():
     
     if not pca_cols:
         pca_cols = pca_df.columns
-    hc = AgglomerativeClustering(n_clusters=num_clusters, metric='euclidean', linkage='ward').fit_predict(pca_df[pca_cols])
+    hc = AgglomerativeClustering(n_clusters=num_clusters, linkage='ward').fit_predict(pca_df[pca_cols])
     
     plt.figure(figsize=(10, 7))
     dendrogram(linkage(pca_df[pca_cols], method='ward'))
@@ -671,5 +673,8 @@ def logout():
     response.set_cookie('refresh_token_cookie', "", httponly=True,secure=True, samesite='none', max_age=0)
     return response
 
+context = ('/etc/nginx/conf.d/certs/2024/wildcard.qcri.org.crt', '/etc/nginx/conf.d/certs/2024/wildcard.qcri.org.key')
 if __name__ == "__main__":
-    app.run(host='127.0.0.1', port=5000, debug=True)
+    context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
+    context.load_cert_chain('path/to/certificate.crt', 'path/to/private.key')
+    app.run(host='0.0.0.0', port=5001, ssl_context=context)
