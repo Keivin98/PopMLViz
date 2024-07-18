@@ -87,7 +87,7 @@ export default function AppNav({}) {
           </a>
         </li>
         <li>
-          <a href="https://github.com/qcri/QCAI-PopMLVis" target="_blank" rel="noopener noreferrer">
+          <a href="https://github.com/ibrahim-Alasalimy/PopMLViz" target="_blank" rel="noopener noreferrer">
             Github
           </a>
         </li>
