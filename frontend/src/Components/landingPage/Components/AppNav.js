@@ -93,7 +93,7 @@ export default function AppNav({}) {
         </li>
         <li>
           <a style={{cursor: 'pointer'}} className="smoothscroll" onClick={handleFAQClick}>
-            FAQ
+            Help
           </a>
         </li>
         <li>

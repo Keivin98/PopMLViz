@@ -1,12 +1,15 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "./FAQ.css";
+import "./Help.css";
 import PopMLvis from "../../../assets/PopMLvis.pdf";
 import logo from "../../../assets/logo.jpeg";
 import AppNav from "./AppNav";
 
-function FAQ() {
+function Help() {
   const [openQuestionIndex, setOpenQuestionIndex] = useState(null);
+  const [email, setEmail] = useState("");
+  const [title, setTitle] = useState("");
+  const [message, setMessage] = useState("");
   const navigate = useNavigate();
 
   const toggleQuestion = (index) => {
@@ -16,6 +19,29 @@ function FAQ() {
   const handleLogoClick = () => {
     navigate("/");
   };
+
+  const handleEmailChange = (event) => {
+    setEmail(event.target.value);
+  };
+
+  const handleTitleChange = (event) => {
+    setTitle(event.target.value);
+  };
+
+  const handleMessageChange = (event) => {
+    setMessage(event.target.value);
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const mailtoLink = `mailto:popmlvissupport@QCRI.org?subject=${encodeURIComponent(
+      title
+    )}&body=${encodeURIComponent(message)}`;
+    window.location.href = mailtoLink;
+  };
+
+  
+
 
   const faqData = [
     {
@@ -65,18 +91,17 @@ function FAQ() {
     },
     {
       question: "Is there a user manual or documentation available for PopMLVis?",
-      answer:
-        'Yes, you can find the user manual and detailed documentation <a href=${PopMLvis}>here</a>. It provides comprehensive information on how to use all the features of PopMLVis.',
+      answer: `Yes, you can find the user manual and detailed documentation <a href="${PopMLvis}" target="_blank" rel="noopener noreferrer">here</a>. It provides comprehensive information on how to use all the features of PopMLVis.`,
     },
     {
       question: "How can I contribute to PopMLVis?",
       answer:
-        'We welcome contributions from the community! You can contribute by reporting issues, suggesting new features, or submitting pull requests on our <a href="https://github.com/qcri/QCAI-PopMLVis" target="_blank" rel="noopener noreferrer">GitHub repository</a>.',
+        'We welcome contributions from the community! You can contribute by reporting issues, suggesting new features, or submitting pull requests on our <a href="https://github.com/ibrahim-Alasalimy/PopMLViz" target="_blank" rel="noopener noreferrer">GitHub repository</a>.',
     },
   ];
 
   return (
-    <div className="faq-page"> 
+    <div className="faq-page">
       <AppNav></AppNav>
       <div className="faq-content">
         <div className="faq-container">
@@ -95,8 +120,20 @@ function FAQ() {
           ))}
         </div>
       </div>
+      <div className="contact-form">
+        <h2>Contact Us</h2>
+        <form onSubmit={handleSubmit}>
+          <label htmlFor="email">Your Email:</label>
+          <input type="email" id="email" name="email" value={email} onChange={handleEmailChange} required />
+          <label htmlFor="title">Title:</label>
+          <input type="text" id="title" name="title" value={title} onChange={handleTitleChange} required />
+          <label htmlFor="message">Message:</label>
+          <textarea id="message" name="message" value={message} onChange={handleMessageChange} rows="4" required />
+          <button type="submit">Send Message</button>
+        </form>
+      </div>
     </div>
   );
 }
 
-export default FAQ;
+export default Help;
