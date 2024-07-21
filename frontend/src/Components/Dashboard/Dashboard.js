@@ -1763,8 +1763,10 @@ const App = () => {
       runKmeans(s.num_clusters, s.plot);
     } else if (s.selectedClusterMethod == 1) {
       runHC(s.num_clusters, s.plot);
-    } else {
+    } else if (s.selectedClusterMethod == 2) {
       runFuzzy(s.num_clusters, s.plot);
+    } else {
+      runDBSCAN(s.eps, s.minSamples, s.plot);
     }
   };
 
@@ -1909,6 +1911,39 @@ const App = () => {
       .catch(() => {
         setIsLoading(false);
         ErrorMessage("Server error! Please check the input and try again. If the error persists, refer to the docs! ");
+      });
+  };
+
+  const runDBSCAN = (eps, minSamples, saved_plot) => {
+    const formData = {
+      df: saved_plot ? saved_plot : data,
+      eps: eps,
+      min_samples: minSamples,
+    };
+
+    setIsLoading(true);
+    setProgressBarType("Loader");
+
+    axios
+      .post(
+        `${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}${process.env.REACT_APP_PORT}/api/rundbscan/`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
+      .then((r) => {
+        setIsLoading(false);
+        setClusterColors(r.data.result);
+        setShowOutputOptions(true);
+        setColoredData([]);
+        setSelectedDescribingColumn({ value: "None", label: "None" });
+      })
+      .catch(() => {
+        setIsLoading(false);
+        ErrorMessage("Server error! Please check the input and try again. If the error persists, refer to the docs!");
       });
   };
 

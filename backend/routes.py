@@ -65,24 +65,26 @@ def runKmeans():
 def helloWorld():
     return "Hello World"
 
-@app.route("/api/rundbscan", methods=["POST"], strict_slashes=False)
+@app.route("/api/rundbscan", methods=["POST"], strict_slashes=False) #NEW
 @cross_origin()
 def runDBSCAN():
-    request_df = request.get_json()['df']
-    eps = request.get_json().get('eps', 0.5)
-    min_samples = request.get_json().get('min_samples', 5)
-    
-    pca_df = pd.json_normalize(request_df)
-    try:
-        pca_cols = [x for x in pca_df.columns if 'PC' in x or 'TSNE' in x]
-    except:
-        pca_cols = pca_df.columns
-    
-    if not pca_cols:
-        pca_cols = pca_df.columns
+  request_df = request.get_json()['df']
+  eps = request.get_json()['eps']
+  min_samples = request.get_json()['min_samples']
+  pca_df = pd.json_normalize(request_df)
 
-    dbscan = DBSCAN(eps=eps, min_samples=min_samples).fit_predict(pca_df[pca_cols])
-    return jsonify(list(map(lambda x: int(x), dbscan)))
+  try:
+    pca_cols = [x for x in pca_df.columns if 'PC' in x or 'TSNE' in x]
+  except:
+    pca_cols = pca_df.columns
+
+  if not pca_cols:
+    pca_cols = pca_df.columns
+
+  dbscan = DBSCAN(eps=eps, min_samples=min_samples).fit(pca_df[pca_cols])
+  clusters = dbscan.labels_
+  
+  return jsonify({'result': list(map(lambda x: int(x), clusters))})
 
 @app.route("/api/runhc", methods=["POST"], strict_slashes=False) #3 runs when running the ClusteringAlgorithmsTab when the algo chosen is hierarchical clustering
 @cross_origin()
@@ -179,45 +181,45 @@ def cmtsne3d():
     results_df = pd.concat([tsne_df, pca_df[other_cols]], axis=1)
     return results_df.to_csv()
 
-# @app.route("/api/cmumap2d", methods=["POST"], strict_slashes=False)
-# @cross_origin()
-# def cmumap2d():
-#     request_df = request.get_json()['df']
-#     pca_df = pd.json_normalize(request_df)
-#     try:
-#         pca_cols = [x for x in pca_df.columns if 'PC' in x or 'TSNE' in x]
-#         other_cols = [x for x in pca_df.columns if 'PC' not in x and 'TSNE' not in x]
-#         if not pca_cols:
-#             pca_cols = pca_df.columns
-#             other_cols = []
-#     except:
-#         pca_cols = pca_df.columns
+@app.route("/api/cmumap2d", methods=["POST"], strict_slashes=False)
+@cross_origin()
+def cmumap2d():
+    request_df = request.get_json()['df']
+    pca_df = pd.json_normalize(request_df)
+    try:
+        pca_cols = [x for x in pca_df.columns if 'PC' in x or 'TSNE' in x]
+        other_cols = [x for x in pca_df.columns if 'PC' not in x and 'TSNE' not in x]
+        if not pca_cols:
+            pca_cols = pca_df.columns
+            other_cols = []
+    except:
+        pca_cols = pca_df.columns
 
-#     umap_visualization = UMAP(random_state=123).fit_transform(pca_df[pca_cols])
-#     umap_df = pd.DataFrame(umap_visualization)
-#     umap_df.columns = ["UMAP-1", "UMAP-2"]
-#     results_df = pd.concat([umap_df, pca_df[other_cols]], axis=1)
-#     return results_df.to_csv()
+    umap_visualization = UMAP(random_state=123).fit_transform(pca_df[pca_cols])
+    umap_df = pd.DataFrame(umap_visualization)
+    umap_df.columns = ["UMAP-1", "UMAP-2"]
+    results_df = pd.concat([umap_df, pca_df[other_cols]], axis=1)
+    return results_df.to_csv()
 
-# @app.route("/api/cmumap3d", methods=["POST"], strict_slashes=False)
-# @cross_origin()
-# def cmumap3d():
-#     request_df = request.get_json()['df']
-#     pca_df = pd.json_normalize(request_df)
-#     try:
-#         pca_cols = [x for x in pca_df.columns if 'PC' in x or 'TSNE' in x]
-#         other_cols = [x for x in pca_df.columns if 'PC' not in x and 'TSNE' not in x]
-#         if not pca_cols:
-#             pca_cols = pca_df.columns
-#             other_cols = []
-#     except:
-#         pca_cols = pca_df.columns
+@app.route("/api/cmumap3d", methods=["POST"], strict_slashes=False)
+@cross_origin()
+def cmumap3d():
+    request_df = request.get_json()['df']
+    pca_df = pd.json_normalize(request_df)
+    try:
+        pca_cols = [x for x in pca_df.columns if 'PC' in x or 'TSNE' in x]
+        other_cols = [x for x in pca_df.columns if 'PC' not in x and 'TSNE' not in x]
+        if not pca_cols:
+            pca_cols = pca_df.columns
+            other_cols = []
+    except:
+        pca_cols = pca_df.columns
 
-#     umap_visualization = UMAP(n_components=3, random_state=123).fit_transform(pca_df[pca_cols])
-#     umap_df = pd.DataFrame(umap_visualization)
-#     umap_df.columns = ["UMAP-1", "UMAP-2", "UMAP-3"]
-#     results_df = pd.concat([umap_df, pca_df[other_cols]], axis=1)
-#     return results_df.to_csv()
+    umap_visualization = UMAP(n_components=3, random_state=123).fit_transform(pca_df[pca_cols])
+    umap_df = pd.DataFrame(umap_visualization)
+    umap_df.columns = ["UMAP-1", "UMAP-2", "UMAP-3"]
+    results_df = pd.concat([umap_df, pca_df[other_cols]], axis=1)
+    return results_df.to_csv()
 
 @app.route("/api/uploadCM", methods=["POST"], strict_slashes=False) #8
 @cross_origin()
