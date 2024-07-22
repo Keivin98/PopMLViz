@@ -29,6 +29,7 @@ from datetime import timedelta
 from umap import UMAP
 from sklearn.cluster import DBSCAN
 from sklearn.mixture import GaussianMixture
+from sklearn.cluster import SpectralClustering
 
 main_blueprint = Blueprint('main', __name__)
 bcrypt = Bcrypt()
@@ -42,6 +43,11 @@ UPLOAD_FOLDER = './data'
 
 app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(minutes=15)
 app.config['JWT_REFRESH_TOKEN_EXPIRES'] = timedelta(days=30)
+
+@app.route("/", methods=["GET"], strict_slashes=False) #2 dummy endpoint
+@cross_origin()
+def helloWorld():
+    return "Hello World"
 
 @app.route("/api/runkmeans", methods=["POST"], strict_slashes=False) #1
 @cross_origin() 
@@ -61,10 +67,28 @@ def runKmeans():
     kmeans = KMeans(n_clusters=num_clusters, random_state=123).fit_predict(pca_df[pca_cols])
     return jsonify(list(map(lambda x: int(x), kmeans)))
 
-@app.route("/", methods=["GET"], strict_slashes=False) #2 dummy endpoint
+@app.route("/api/runspectral", methods=["POST"], strict_slashes=False)
 @cross_origin()
-def helloWorld():
-    return "Hello World"
+def runSpectral():
+    request_df = request.get_json()['df']
+    num_clusters = request.get_json().get('num_clusters', 2)
+    
+    if num_clusters < 2:
+        num_clusters = 2
+    
+    pca_df = pd.json_normalize(request_df)
+    try:
+        pca_cols = [x for x in pca_df.columns if 'PC' in x or 'TSNE' in x]
+    except:
+        pca_cols = pca_df.columns
+    
+    if not pca_cols:
+        pca_cols = pca_df.columns
+    
+    spectral = SpectralClustering(n_clusters=num_clusters, affinity='nearest_neighbors', random_state=123).fit(pca_df[pca_cols])
+    clusters = spectral.labels_
+    
+    return jsonify({'result': list(map(lambda x: int(x), clusters))})
 
 @app.route("/api/rungmm", methods=["POST"], strict_slashes=False) 
 @cross_origin()
@@ -307,7 +331,7 @@ def runPCAIR():
     result_name = random_string(12)
     if kinship_name == "":
         robjects.r('''
-        .libPaths("/home/local/QCRI/kisufaj/R/x86_64-pc-linux-gnu-library/4.1")
+        .libPaths("/Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/library")
         library(GENESIS)
         library(SNPRelate)
         library(GWASTools)
@@ -330,7 +354,7 @@ def runPCAIR():
         ''' % (bed_name, bim_name, fam_name, gds_name, gds_name, fam_name, result_name))
     else:
         robjects.r('''
-        .libPaths("/home/local/QCRI/kisufaj/R/x86_64-pc-linux-gnu-library/4.1")
+        .libPaths("/Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/library")
         library(GENESIS)
         library(SNPRelate)
         library(GWASTools)

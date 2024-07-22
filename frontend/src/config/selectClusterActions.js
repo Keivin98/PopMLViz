@@ -15,6 +15,10 @@ const selectClusterActions = [
     label: "GMM",
     value: 3,
   },
+  {
+    label: "Spectral Clustering",
+    value: 4,
+  },
   // {
   //   label: "DBSCAN",
   //   value: 3,

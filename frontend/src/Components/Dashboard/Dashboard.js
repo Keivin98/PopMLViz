@@ -1778,8 +1778,10 @@ const App = () => {
       runHC(s.num_clusters, s.plot);
     } else if (s.selectedClusterMethod == 2) {
       runFuzzy(s.num_clusters, s.plot);
-    } else {
+    } else if (s.selectedClusterMethod == 3){
       runGMM(s.num_clusters, s.plot);
+    }else{
+      runSpectral(s.num_clusters, s.plot)
     }
   };
 
@@ -1939,6 +1941,45 @@ const App = () => {
     axios
       .post(
         `${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}${process.env.REACT_APP_PORT}/api/rungmm/`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
+      .then((r) => {
+        var cluster_names = {};
+        [...Array(num_clusters)].map((x, index) => {
+          cluster_names[index] = "Cluster " + (index + 1);
+        });
+        setIsLoading(false);
+        setClusterColors(r.data.result);
+        setClusterNames(cluster_names);
+        setShowOutputOptions(true);
+        setColoredData([]);
+        setSelectedDescribingColumn({ value: "None", label: "None" });
+        setNumClusters(num_clusters);
+      })
+      .catch(() => {
+        setIsLoading(false);
+        ErrorMessage("Network error! Please check the request or try again.");
+      });
+  };
+
+
+  const runSpectral = (num_clusters, saved_plot) => {
+    const formData = {
+      df: saved_plot ? saved_plot : data,
+      num_clusters: num_clusters,
+    };
+
+    setIsLoading(true);
+    setProgressBarType("Loader");
+
+    axios
+      .post(
+        `${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}${process.env.REACT_APP_PORT}/api/runspectral/`,
         formData,
         {
           headers: {
