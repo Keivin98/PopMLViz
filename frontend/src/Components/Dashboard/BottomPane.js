@@ -26,7 +26,7 @@ import { useNavigate } from "react-router-dom";
 
 
 
-//this is used only in mobile view (625px or less)
+//this is used only in mobile view (625px or less), if you see an unexpected error that says function x is not defined, this is becuase you didnt pass a param here, you only passed it to the leftpane for , make sure to pass new params here too
 export default function BottomPane({
   downloadPlot,
   selectedUploadOption,
@@ -73,6 +73,8 @@ export default function BottomPane({
   setIsMainPageLoading,
   handleTSNE2D,
   handleTSNE3D,
+  runUMAP2D,
+  runUMAP3D,
   runPCAir,
   runCluster,
   runOutliers,
@@ -194,6 +196,8 @@ export default function BottomPane({
                 tsne2d={handleTSNE2D}
                 uploadSavedData={uploadSavedData}
                 tsne3d={handleTSNE3D}
+                runUMAP2D={runUMAP2D}
+                runUMAP3D={runUMAP3D}
                 processData={processData}
                 setIsMainPageLoading={setIsMainPageLoading}
                 runPCAir={runPCAir}

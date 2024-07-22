@@ -14,6 +14,8 @@ function UploadAndVisualizeTab({
   unprocessedPCA,
   tsne2d,
   tsne3d,
+  runUMAP2D,
+  runUMAP3D,
   runPCAir,
   setProgressBarType,
   fileChanged,
@@ -79,6 +81,8 @@ function UploadAndVisualizeTab({
             resetSaveState={resetSaveState}
             tsne2d={tsne2d}
             tsne3d={tsne3d}
+            runUMAP2D={runUMAP2D}
+            runUMAP3D={runUMAP3D}
             selectedColumns={selectedColumns}
             runPCAir={runPCAir}
             processData={processData}

@@ -11,6 +11,10 @@ const selectClusterActions = [
     label: "Fuzzy c-means",
     value: 2,
   },
+  {
+    label: "GMM",
+    value: 3,
+  },
   // {
   //   label: "DBSCAN",
   //   value: 3,

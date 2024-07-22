@@ -26,8 +26,9 @@ from flask_bcrypt import Bcrypt
 import sqlite3
 from flask_jwt_extended import create_access_token,create_refresh_token, get_jwt_identity, jwt_required
 from datetime import timedelta
-# from umap import UMAP
+from umap import UMAP
 from sklearn.cluster import DBSCAN
+from sklearn.mixture import GaussianMixture
 
 main_blueprint = Blueprint('main', __name__)
 bcrypt = Bcrypt()
@@ -65,26 +66,50 @@ def runKmeans():
 def helloWorld():
     return "Hello World"
 
-@app.route("/api/rundbscan", methods=["POST"], strict_slashes=False) #NEW
+@app.route("/api/rungmm", methods=["POST"], strict_slashes=False) 
 @cross_origin()
-def runDBSCAN():
-  request_df = request.get_json()['df']
-  eps = request.get_json()['eps']
-  min_samples = request.get_json()['min_samples']
-  pca_df = pd.json_normalize(request_df)
+def runGMM():
+    request_df = request.get_json()['df']
+    num_clusters = request.get_json()['num_clusters']
+    if num_clusters < 2:
+        num_clusters = 2
 
-  try:
-    pca_cols = [x for x in pca_df.columns if 'PC' in x or 'TSNE' in x]
-  except:
-    pca_cols = pca_df.columns
+    pca_df = pd.json_normalize(request_df)
+    try:
+        pca_cols = [x for x in pca_df.columns if 'PC' in x or 'TSNE' in x]
+    except:
+        pca_cols = pca_df.columns
+    
+    if not pca_cols:
+        pca_cols = pca_df.columns
 
-  if not pca_cols:
-    pca_cols = pca_df.columns
+    gmm = GaussianMixture(n_components=num_clusters, random_state=123)
+    gmm.fit(pca_df[pca_cols])
+    labels = gmm.predict(pca_df[pca_cols])
 
-  dbscan = DBSCAN(eps=eps, min_samples=min_samples).fit(pca_df[pca_cols])
-  clusters = dbscan.labels_
+    return jsonify({'result': list(map(lambda x: int(x), labels))})
+
+
+# @app.route("/api/rundbscan", methods=["POST"], strict_slashes=False) #NEW
+# @cross_origin()
+# def runDBSCAN():
+#   request_df = request.get_json()['df']
+#   eps = request.get_json()['eps']
+#   min_samples = request.get_json()['min_samples']
+#   pca_df = pd.json_normalize(request_df)
+
+#   try:
+#     pca_cols = [x for x in pca_df.columns if 'PC' in x or 'TSNE' in x]
+#   except:
+#     pca_cols = pca_df.columns
+
+#   if not pca_cols:
+#     pca_cols = pca_df.columns
+
+#   dbscan = DBSCAN(eps=eps, min_samples=min_samples).fit(pca_df[pca_cols])
+#   clusters = dbscan.labels_
   
-  return jsonify({'result': list(map(lambda x: int(x), clusters))})
+#   return jsonify({'result': list(map(lambda x: int(x), clusters))})
 
 @app.route("/api/runhc", methods=["POST"], strict_slashes=False) #3 runs when running the ClusteringAlgorithmsTab when the algo chosen is hierarchical clustering
 @cross_origin()

@@ -1577,6 +1577,10 @@ const App = () => {
             runTSNE2d();
           } else if (selectedUploadOption === "t-SNE 3D") {
             runTSNE3d();
+          } else if (selectedUploadOption === "UMAP 2D") {
+            runUMAP2D();
+          } else if (selectedUploadOption === "UMAP 3D") {
+            runUMAP3D();
           }
         });
       };
@@ -1611,6 +1615,15 @@ const App = () => {
 
   const handleTSNE3D = (file) => {
     setSelectedUploadOption("t-SNE 3D");
+    handleFileUploadNew(file);
+  };
+
+  const handleUMAP2D = (file) => {
+    setSelectedUploadOption("UMAP 2D");
+    handleFileUploadNew(file);
+  };
+  const handleUMAP3D = (file) => {
+    setSelectedUploadOption("UMAP 3D");
     handleFileUploadNew(file);
   };
 
@@ -1766,7 +1779,7 @@ const App = () => {
     } else if (s.selectedClusterMethod == 2) {
       runFuzzy(s.num_clusters, s.plot);
     } else {
-      runDBSCAN(s.eps, s.minSamples, s.plot);
+      runGMM(s.num_clusters, s.plot);
     }
   };
 
@@ -1914,11 +1927,10 @@ const App = () => {
       });
   };
 
-  const runDBSCAN = (eps, minSamples, saved_plot) => {
+  const runGMM = (num_clusters, saved_plot) => {
     const formData = {
       df: saved_plot ? saved_plot : data,
-      eps: eps,
-      min_samples: minSamples,
+      num_clusters: num_clusters,
     };
 
     setIsLoading(true);
@@ -1926,7 +1938,7 @@ const App = () => {
 
     axios
       .post(
-        `${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}${process.env.REACT_APP_PORT}/api/rundbscan/`,
+        `${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}${process.env.REACT_APP_PORT}/api/rungmm/`,
         formData,
         {
           headers: {
@@ -1935,17 +1947,56 @@ const App = () => {
         }
       )
       .then((r) => {
+        var cluster_names = {};
+        [...Array(num_clusters)].map((x, index) => {
+          cluster_names[index] = "Cluster " + (index + 1);
+        });
         setIsLoading(false);
         setClusterColors(r.data.result);
+        setClusterNames(cluster_names);
         setShowOutputOptions(true);
         setColoredData([]);
         setSelectedDescribingColumn({ value: "None", label: "None" });
+        setNumClusters(num_clusters);
       })
       .catch(() => {
         setIsLoading(false);
-        ErrorMessage("Server error! Please check the input and try again. If the error persists, refer to the docs!");
+        ErrorMessage("Network error! Please check the request or try again.");
       });
   };
+
+  // const runDBSCAN = (eps, minSamples, saved_plot) => {
+  //   const formData = {
+  //     df: saved_plot ? saved_plot : data,
+  //     eps: eps,
+  //     min_samples: minSamples,
+  //   };
+
+  //   setIsLoading(true);
+  //   setProgressBarType("Loader");
+
+  //   axios
+  //     .post(
+  //       `${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}${process.env.REACT_APP_PORT}/api/rundbscan/`,
+  //       formData,
+  //       {
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //       }
+  //     )
+  //     .then((r) => {
+  //       setIsLoading(false);
+  //       setClusterColors(r.data.result);
+  //       setShowOutputOptions(true);
+  //       setColoredData([]);
+  //       setSelectedDescribingColumn({ value: "None", label: "None" });
+  //     })
+  //     .catch(() => {
+  //       setIsLoading(false);
+  //       ErrorMessage("Server error! Please check the input and try again. If the error persists, refer to the docs!");
+  //     });
+  // };
 
   const runTSNE2d = () => {
     const formData = {
@@ -2012,6 +2063,72 @@ const App = () => {
       .catch(() => {
         setIsLoading(false);
         ErrorMessage("Server error! Please check the input and try again. If the error persists, refer to the docs! ");
+      });
+  };
+  const runUMAP2D = () => {
+    const formData = {
+      df: data,
+    };
+
+    setIsLoading(true);
+    setProgressBarType("ProgressBar");
+    setProgressBarTimeInterval(70);
+
+    axios
+      .post(
+        `${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}${process.env.REACT_APP_PORT}/api/cmumap2d/`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
+      .then((r) => {
+        setIsLoading(false);
+        setColoredData([]);
+        setSelectedDescribingColumn({ value: "None", label: "None" });
+        setOutlierData([]);
+        setClusterNames({});
+        setClusterColors([]);
+        processData(r.data, false);
+      })
+      .catch(() => {
+        setIsLoading(false);
+        ErrorMessage("Server error! Please check the input and try again. If the error persists, refer to the docs!");
+      });
+  };
+  const runUMAP3D = () => {
+    const formData = {
+      df: data,
+    };
+
+    setIsLoading(true);
+    setProgressBarType("ProgressBar");
+    setProgressBarTimeInterval(70);
+
+    axios
+      .post(
+        `${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}${process.env.REACT_APP_PORT}/api/cmumap3d/`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
+      .then((r) => {
+        setIsLoading(false);
+        setColoredData([]);
+        setSelectedDescribingColumn({ value: "None", label: "None" });
+        setOutlierData([]);
+        setClusterNames({});
+        setClusterColors([]);
+        processData(r.data, false);
+      })
+      .catch(() => {
+        setIsLoading(false);
+        ErrorMessage("Server error! Please check the input and try again. If the error persists, refer to the docs!");
       });
   };
 
@@ -2460,6 +2577,8 @@ const App = () => {
           handleUnprocessedPCA={handleUnprocessedPCA}
           handleTSNE2D={handleTSNE2D}
           handleTSNE3D={handleTSNE3D}
+          runUMAP2D={handleUMAP2D}
+          runUMAP3D={handleUMAP3D}
           runPCAir={runPCAir}
           runCluster={runCluster}
           runOutliers={runOutliers}
@@ -2528,6 +2647,8 @@ const App = () => {
           data={data}
           handleMetaDataUpload={handleMetaDataUpload}
           onInputMetadataClick={onInputMetadataClick}
+          runUMAP2D={handleUMAP2D}
+          runUMAP3D={handleUMAP3D}
           allActions={allActions}
           setMappingIDColumn={setMappingIDColumn}
           alphaVal={alphaVal}
