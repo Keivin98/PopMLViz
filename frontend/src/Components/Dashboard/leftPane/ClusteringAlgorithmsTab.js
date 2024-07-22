@@ -85,36 +85,10 @@ const ClusteringAlgorithmsTab = ({ onChange }) => {
                 onChange={handleClusterChange}
               />
             </InputOptions>
-            {selectedClusterMethod == 3 ? (
-              <div>
-                <InputOptions label={"Epsilon (Neighborhood Size)"}>
-                  <input
-                    type="number"
-                    name="clicks"
-                    min={0.1}
-                    max={10}
-                    style={{ width: 50, height: "75%", marginLeft: "5%" }}
-                    value={numClusters.toString()}
-                    onChange={(e)=> setEpsilon(Number(e.target.value))}
-                  />
-                </InputOptions>
-                <InputOptions label={"Minimum Points (Samples)"}>
-                  <input
-                    type="number"
-                    name="clicks"
-                    min={1}
-                    max={10}
-                    style={{ width: 50, height: "75%", marginLeft: "5%" }}
-                    value={numClusters.toString()}
-                    onChange={(e)=> setMinSamples(Number(e.target.value))}
-                  />
-                </InputOptions>
-              </div>
-            ) : (
-              <div style={{}}>
-                <Incrementor onChange={incrementHandler} />
-              </div>
-            )}
+
+            <div style={{}}>
+              <Incrementor onChange={incrementHandler} />
+            </div>
           </div>
 
           <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>

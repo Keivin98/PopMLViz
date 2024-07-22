@@ -493,6 +493,9 @@ def login():
     user = c.fetchone()
     conn.close()
 
+    if not user:
+        return jsonify(message="User not found"), 404
+
     if user and bcrypt.check_password_hash(user[2], password):
         response = make_response(jsonify(message="User logged in successfully"), 200)
         access_token = create_access_token(identity=email)
