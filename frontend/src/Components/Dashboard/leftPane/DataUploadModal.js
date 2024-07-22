@@ -310,7 +310,7 @@ function DataUploadModal({
   };
 
   const handlePCAirFiles = async () => {
-    if (!files[".bed"] || !files[".bim"] || !files[".fam"] || !files.Kinship) {
+    if (!files[".bed"] || !files[".bim"] || !files[".fam"]) {
       ErrorMessage("Please upload all the necessary files for PC-AiR!");
       return;
     }

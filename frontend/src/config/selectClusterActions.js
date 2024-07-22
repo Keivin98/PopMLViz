@@ -19,10 +19,6 @@ const selectClusterActions = [
     label: "Spectral Clustering",
     value: 4,
   },
-  // {
-  //   label: "DBSCAN",
-  //   value: 3,
-  // }
 ];
 
 export default selectClusterActions;

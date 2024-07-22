@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import { BiLogIn } from "react-icons/bi";
 import "./headerFP.css";
 import logo from "../../../assets/logo.jpeg";
+import smallLogo from "../../../assets/Hbku_small.png"
 import PopMLvis from "../../../assets/PopMLvis.pdf";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../../config/AuthProvider";
@@ -78,6 +79,7 @@ export default function AppNav({}) {
       </Modal>
       <div className="nav-left" onClick={() => navigate("/")}>
         <img src={logo} alt="PopMLVis Logo" className="logo" />
+        {/* <img src={smallLogo} alt="PopMLVis Logo" className="logo-small" /> */}
         <span className="site-name">PopMLVis</span>
       </div>
       <ul id="nav" className="nav">
