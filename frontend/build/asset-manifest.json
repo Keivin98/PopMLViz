@@ -1,21 +1,21 @@
 {
   "files": {
-    "main.css": "/static/css/main.8ad7b428.chunk.css",
-    "main.js": "/static/js/main.8367a1ab.chunk.js",
-    "reactPlayerPreview.js": "/static/js/reactPlayerPreview.284889e5.chunk.js",
-    "runtime-main.js": "/static/js/runtime-main.d62604c8.js",
+    "main.css": "/static/css/main.70422389.chunk.css",
+    "main.js": "/static/js/main.f67a138b.chunk.js",
+    "reactPlayerPreview.js": "/static/js/reactPlayerPreview.66bf8324.chunk.js",
+    "runtime-main.js": "/static/js/runtime-main.11a57e8a.js",
     "static/css/3.c3c4e883.chunk.css": "/static/css/3.c3c4e883.chunk.css",
-    "static/js/3.0ac923ed.chunk.js": "/static/js/3.0ac923ed.chunk.js",
+    "static/js/3.f63b0523.chunk.js": "/static/js/3.f63b0523.chunk.js",
     "index.html": "/index.html",
-    "static/js/3.0ac923ed.chunk.js.LICENSE.txt": "/static/js/3.0ac923ed.chunk.js.LICENSE.txt",
+    "static/js/3.f63b0523.chunk.js.LICENSE.txt": "/static/js/3.f63b0523.chunk.js.LICENSE.txt",
     "static/media/PopMLvis.55d33448.pdf": "/static/media/PopMLvis.55d33448.pdf",
     "static/media/logo.d87cd7f0.jpeg": "/static/media/logo.d87cd7f0.jpeg"
   },
   "entrypoints": [
-    "static/js/runtime-main.d62604c8.js",
+    "static/js/runtime-main.11a57e8a.js",
     "static/css/3.c3c4e883.chunk.css",
-    "static/js/3.0ac923ed.chunk.js",
-    "static/css/main.8ad7b428.chunk.css",
-    "static/js/main.8367a1ab.chunk.js"
+    "static/js/3.f63b0523.chunk.js",
+    "static/css/main.70422389.chunk.css",
+    "static/js/main.f67a138b.chunk.js"
   ]
 }
