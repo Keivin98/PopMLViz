@@ -22,10 +22,10 @@
     margin-left: 10px;
 }
 .axisText{
-    width: 65px;
+    width: 70px;
 }
 .select{
-
+    font-size: 12px !important;
 }
 .selectContainer{
     width: 100% ;

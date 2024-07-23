@@ -28,8 +28,10 @@ from flask_bcrypt import Bcrypt
 import sqlite3
 from flask_jwt_extended import create_access_token,create_refresh_token, get_jwt_identity, jwt_required
 from datetime import timedelta
-# from umap import UMAP
+from umap import UMAP
 from sklearn.cluster import DBSCAN
+from sklearn.mixture import GaussianMixture
+from sklearn.cluster import SpectralClustering
 
 main_blueprint = Blueprint('main', __name__)
 bcrypt = Bcrypt()
@@ -43,6 +45,11 @@ UPLOAD_FOLDER = './data'
 
 app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(minutes=15)
 app.config['JWT_REFRESH_TOKEN_EXPIRES'] = timedelta(days=30)
+
+@app.route("/", methods=["GET"], strict_slashes=False) #2 dummy endpoint
+@cross_origin()
+def helloWorld():
+    return "Hello World"
 
 @app.route("/api/runkmeans", methods=["POST"], strict_slashes=False) #1
 @cross_origin() 
@@ -62,17 +69,14 @@ def runKmeans():
     kmeans = KMeans(n_clusters=num_clusters, random_state=123).fit_predict(pca_df[pca_cols])
     return jsonify(list(map(lambda x: int(x), kmeans)))
 
-@app.route("/", methods=["GET"], strict_slashes=False) #2 dummy endpoint
+@app.route("/api/runspectral", methods=["POST"], strict_slashes=False)
 @cross_origin()
-def helloWorld():
-    return "Hello World"
-
-@app.route("/api/rundbscan", methods=["POST"], strict_slashes=False)
-@cross_origin()
-def runDBSCAN():
+def runSpectral():
     request_df = request.get_json()['df']
-    eps = request.get_json().get('eps', 0.5)
-    min_samples = request.get_json().get('min_samples', 5)
+    num_clusters = request.get_json().get('num_clusters', 2)
+    
+    if num_clusters < 2:
+        num_clusters = 2
     
     pca_df = pd.json_normalize(request_df)
     try:
@@ -82,9 +86,56 @@ def runDBSCAN():
     
     if not pca_cols:
         pca_cols = pca_df.columns
+    
+    spectral = SpectralClustering(n_clusters=num_clusters, affinity='nearest_neighbors', random_state=123).fit(pca_df[pca_cols])
+    clusters = spectral.labels_
+    
+    return jsonify({'result': list(map(lambda x: int(x), clusters))})
 
-    dbscan = DBSCAN(eps=eps, min_samples=min_samples).fit_predict(pca_df[pca_cols])
-    return jsonify(list(map(lambda x: int(x), dbscan)))
+@app.route("/api/rungmm", methods=["POST"], strict_slashes=False) 
+@cross_origin()
+def runGMM():
+    request_df = request.get_json()['df']
+    num_clusters = request.get_json()['num_clusters']
+    if num_clusters < 2:
+        num_clusters = 2
+
+    pca_df = pd.json_normalize(request_df)
+    try:
+        pca_cols = [x for x in pca_df.columns if 'PC' in x or 'TSNE' in x]
+    except:
+        pca_cols = pca_df.columns
+    
+    if not pca_cols:
+        pca_cols = pca_df.columns
+
+    gmm = GaussianMixture(n_components=num_clusters, random_state=123)
+    gmm.fit(pca_df[pca_cols])
+    labels = gmm.predict(pca_df[pca_cols])
+
+    return jsonify({'result': list(map(lambda x: int(x), labels))})
+
+
+# @app.route("/api/rundbscan", methods=["POST"], strict_slashes=False) #NEW
+# @cross_origin()
+# def runDBSCAN():
+#   request_df = request.get_json()['df']
+#   eps = request.get_json()['eps']
+#   min_samples = request.get_json()['min_samples']
+#   pca_df = pd.json_normalize(request_df)
+
+#   try:
+#     pca_cols = [x for x in pca_df.columns if 'PC' in x or 'TSNE' in x]
+#   except:
+#     pca_cols = pca_df.columns
+
+#   if not pca_cols:
+#     pca_cols = pca_df.columns
+
+#   dbscan = DBSCAN(eps=eps, min_samples=min_samples).fit(pca_df[pca_cols])
+#   clusters = dbscan.labels_
+  
+#   return jsonify({'result': list(map(lambda x: int(x), clusters))})
 
 @app.route("/api/runhc", methods=["POST"], strict_slashes=False) #3 runs when running the ClusteringAlgorithmsTab when the algo chosen is hierarchical clustering
 @cross_origin()
@@ -181,45 +232,45 @@ def cmtsne3d():
     results_df = pd.concat([tsne_df, pca_df[other_cols]], axis=1)
     return results_df.to_csv()
 
-# @app.route("/api/cmumap2d", methods=["POST"], strict_slashes=False)
-# @cross_origin()
-# def cmumap2d():
-#     request_df = request.get_json()['df']
-#     pca_df = pd.json_normalize(request_df)
-#     try:
-#         pca_cols = [x for x in pca_df.columns if 'PC' in x or 'TSNE' in x]
-#         other_cols = [x for x in pca_df.columns if 'PC' not in x and 'TSNE' not in x]
-#         if not pca_cols:
-#             pca_cols = pca_df.columns
-#             other_cols = []
-#     except:
-#         pca_cols = pca_df.columns
+@app.route("/api/cmumap2d", methods=["POST"], strict_slashes=False)
+@cross_origin()
+def cmumap2d():
+    request_df = request.get_json()['df']
+    pca_df = pd.json_normalize(request_df)
+    try:
+        pca_cols = [x for x in pca_df.columns if 'PC' in x or 'TSNE' in x]
+        other_cols = [x for x in pca_df.columns if 'PC' not in x and 'TSNE' not in x]
+        if not pca_cols:
+            pca_cols = pca_df.columns
+            other_cols = []
+    except:
+        pca_cols = pca_df.columns
 
-#     umap_visualization = UMAP(random_state=123).fit_transform(pca_df[pca_cols])
-#     umap_df = pd.DataFrame(umap_visualization)
-#     umap_df.columns = ["UMAP-1", "UMAP-2"]
-#     results_df = pd.concat([umap_df, pca_df[other_cols]], axis=1)
-#     return results_df.to_csv()
+    umap_visualization = UMAP(random_state=123).fit_transform(pca_df[pca_cols])
+    umap_df = pd.DataFrame(umap_visualization)
+    umap_df.columns = ["UMAP-1", "UMAP-2"]
+    results_df = pd.concat([umap_df, pca_df[other_cols]], axis=1)
+    return results_df.to_csv()
 
-# @app.route("/api/cmumap3d", methods=["POST"], strict_slashes=False)
-# @cross_origin()
-# def cmumap3d():
-#     request_df = request.get_json()['df']
-#     pca_df = pd.json_normalize(request_df)
-#     try:
-#         pca_cols = [x for x in pca_df.columns if 'PC' in x or 'TSNE' in x]
-#         other_cols = [x for x in pca_df.columns if 'PC' not in x and 'TSNE' not in x]
-#         if not pca_cols:
-#             pca_cols = pca_df.columns
-#             other_cols = []
-#     except:
-#         pca_cols = pca_df.columns
+@app.route("/api/cmumap3d", methods=["POST"], strict_slashes=False)
+@cross_origin()
+def cmumap3d():
+    request_df = request.get_json()['df']
+    pca_df = pd.json_normalize(request_df)
+    try:
+        pca_cols = [x for x in pca_df.columns if 'PC' in x or 'TSNE' in x]
+        other_cols = [x for x in pca_df.columns if 'PC' not in x and 'TSNE' not in x]
+        if not pca_cols:
+            pca_cols = pca_df.columns
+            other_cols = []
+    except:
+        pca_cols = pca_df.columns
 
-#     umap_visualization = UMAP(n_components=3, random_state=123).fit_transform(pca_df[pca_cols])
-#     umap_df = pd.DataFrame(umap_visualization)
-#     umap_df.columns = ["UMAP-1", "UMAP-2", "UMAP-3"]
-#     results_df = pd.concat([umap_df, pca_df[other_cols]], axis=1)
-#     return results_df.to_csv()
+    umap_visualization = UMAP(n_components=3, random_state=123).fit_transform(pca_df[pca_cols])
+    umap_df = pd.DataFrame(umap_visualization)
+    umap_df.columns = ["UMAP-1", "UMAP-2", "UMAP-3"]
+    results_df = pd.concat([umap_df, pca_df[other_cols]], axis=1)
+    return results_df.to_csv()
 
 @app.route("/api/uploadCM", methods=["POST"], strict_slashes=False) #8
 @cross_origin()
@@ -282,7 +333,7 @@ def runPCAIR():
     result_name = random_string(12)
     if kinship_name == "":
         robjects.r('''
-        .libPaths("/home/local/QCRI/kisufaj/R/x86_64-pc-linux-gnu-library/4.1")
+        .libPaths("/home/local/QCRI/kisufaj/R/x86_64-pc-linux-gnu-library/4.1”)
         library(GENESIS)
         library(SNPRelate)
         library(GWASTools)
@@ -305,7 +356,7 @@ def runPCAIR():
         ''' % (bed_name, bim_name, fam_name, gds_name, gds_name, fam_name, result_name))
     else:
         robjects.r('''
-        .libPaths("/home/local/QCRI/kisufaj/R/x86_64-pc-linux-gnu-library/4.1")
+        .libPaths("/home/local/QCRI/kisufaj/R/x86_64-pc-linux-gnu-library/4.1”)
         library(GENESIS)
         library(SNPRelate)
         library(GWASTools)
@@ -458,7 +509,7 @@ def hello():
 
 
 
-@app.route('/register', methods=['POST'],  strict_slashes=False)
+@app.route('/api/register', methods=['POST'],  strict_slashes=False)
 @cross_origin(supports_credentials=True)
 def register():
     data = request.get_json()
@@ -480,7 +531,7 @@ def register():
         return jsonify(message="User already exists"), 409
 
 
-@app.route('/login', methods=['POST'],  strict_slashes=False)
+@app.route('/api/login', methods=['POST'],  strict_slashes=False)
 @cross_origin(supports_credentials=True)
 def login():
     data = request.get_json()
@@ -492,6 +543,9 @@ def login():
     c.execute('SELECT * FROM users WHERE email = ?', (email,))
     user = c.fetchone()
     conn.close()
+
+    if not user:
+        return jsonify(message="User not found"), 404
 
     if user and bcrypt.check_password_hash(user[2], password):
         response = make_response(jsonify(message="User logged in successfully"), 200)
@@ -508,7 +562,7 @@ def login():
 
 
 
-@app.route('/verify', methods=['GET'])
+@app.route('/api/verify', methods=['GET'])
 @cross_origin(supports_credentials=True)
 @jwt_required()
 def verify():
@@ -531,7 +585,7 @@ def delete_plot():
     conn.close()
     return jsonify({"plot": "Plot deleted successfully"}), 200
 
-@app.route('/save', methods=['POST'])
+@app.route('/api/save', methods=['POST'])
 @cross_origin(supports_credentials=True)
 @jwt_required()
 def save_plot():
@@ -653,7 +707,7 @@ def get_plot():
         return jsonify({"error": "Plot not found"}), 404
 
 
-@app.route('/refresh', methods=['POST'])
+@app.route('/api/refresh', methods=['POST'])
 @cross_origin(supports_credentials=True)
 @jwt_required(refresh=True)
 def refresh():
@@ -664,7 +718,7 @@ def refresh():
     return response
 
 
-@app.route('/logout', methods=['POST'])
+@app.route('/api/logout', methods=['POST'])
 @cross_origin(supports_credentials=True)
 @jwt_required(refresh=True)
 def logout():

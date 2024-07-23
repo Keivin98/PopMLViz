@@ -9,16 +9,18 @@ import font from "../../../config/font";
 import InputOptions from "../../InputOptions";
 import AppButton from "../../AppButton";
 import colors from "../../../config/colors";
-import "../../DropDown.css" 
+import "../../DropDown.css";
 import useZustand from "../../../config/useZustand";
 import selectClusterActions from "../../../config/selectClusterActions";
+import { set } from "react-ga";
 
 const ClusteringAlgorithmsTab = ({ onChange }) => {
-
-  const {confirmedClusterMethod, setConfirmedClusterMethod} = useZustand();
+  const { confirmedClusterMethod, setConfirmedClusterMethod } = useZustand();
   const [numClusters, setNumClusters] = useState(2);
   const [selectedClusterMethod, setSelectedClusterMethod] = useState(null);
   const [open, setOpen] = useState(false);
+  const [epsilon, setEpsilon] = useState(0.5);
+  const [minSamples, setMinSamples] = useState(5);
 
   const customStyles = {
     control: (provided) => ({
@@ -32,8 +34,8 @@ const ClusteringAlgorithmsTab = ({ onChange }) => {
   };
 
   const runCluster = () => {
-    setConfirmedClusterMethod(selectedClusterMethod)
-    onChange({ selectedClusterMethod, num_clusters: numClusters });
+    setConfirmedClusterMethod(selectedClusterMethod);
+    onChange({ selectedClusterMethod, num_clusters: numClusters, epsilon, minSamples });
   };
 
   const incrementHandler = (data) => {
@@ -49,15 +51,13 @@ const ClusteringAlgorithmsTab = ({ onChange }) => {
           display: "flex",
           flexDirection: "row",
         }}
-        onClick={() => setOpen(!open)}
-      >
+        onClick={() => setOpen(!open)}>
         <div
           style={{
             display: "flex",
             flexDirection: "row",
             width: "80%",
-          }}
-        >
+          }}>
           <AiOutlineCluster size={30} style={{ marginRight: "3%", opacity: 0.5 }} />
           <label className="label-txt">Clustering Algorithms</label>
         </div>
@@ -76,9 +76,11 @@ const ClusteringAlgorithmsTab = ({ onChange }) => {
                   option: (provided) => ({
                     ...provided,
                     color: "black",
+                    fontSize: 13
                   }),
                   control: (provided) => ({
                     ...provided,
+                    fontSize: 13,
                     // width: 100,
                   }),
                 }}
@@ -91,7 +93,7 @@ const ClusteringAlgorithmsTab = ({ onChange }) => {
             </div>
           </div>
 
-          <div style={{display: "flex", alignItems: 'center', justifyContent: 'center'}}>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
             <Button
               variant="outlined"
               onClick={runCluster}
@@ -102,8 +104,7 @@ const ClusteringAlgorithmsTab = ({ onChange }) => {
                 marginTop: 20,
                 fontFamily: font.primaryFont,
               }}
-              disabled={selectedClusterMethod == null}
-            >
+              disabled={selectedClusterMethod == null}>
               Run
             </Button>
           </div>

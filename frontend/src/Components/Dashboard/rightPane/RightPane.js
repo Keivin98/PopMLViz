@@ -1,25 +1,25 @@
-import React, { useContext, useRef, useState } from "react";
-import { Tabs, Tab, TabList, TabPanel } from "react-tabs";
+import React, {useContext, useRef, useState} from "react";
+import {Tabs, Tab, TabList, TabPanel} from "react-tabs";
 import Select from "react-select";
 import DownloadData from "./DownloadData";
 import AdmixOptions from "./AdmixOptions";
 import TabOutputOptions from "./TabOutputOptions";
 import "react-tabs/style/react-tabs.css";
-import { FormControl, FormControlLabel, FormLabel, Radio, RadioGroup } from "@mui/material";
+import {FormControl, FormControlLabel, FormLabel, Radio, RadioGroup} from "@mui/material";
 import AppButton from "../../AppButton";
-import { MdOutlineBorderColor } from "react-icons/md";
-import { IoMdSettings } from "react-icons/io";
+import {MdOutlineBorderColor} from "react-icons/md";
+import {IoMdSettings} from "react-icons/io";
 import Modal from "@mui/material/Modal";
 import "../dashboard.css";
 import "./rightpane.css";
-import { AuthContext } from "../../../config/AuthProvider";
-import { useNavigate } from "react-router-dom";
+import {AuthContext} from "../../../config/AuthProvider";
+import {useNavigate} from "react-router-dom";
 import axios from "axios";
 import useZustand from "../../../config/useZustand";
 import InputOptions from "../../InputOptions";
 import selectClusterActions from "../../../config/selectClusterActions";
 import selectOutlierActions from "../../../config/selectOutlierActions";
-import { toast, Bounce } from "react-toastify";
+import {toast, Bounce} from "react-toastify";
 import ErrorMessage from "../../ErrorMessage";
 import SuccessMessage from "../../SuccessMessage";
 
@@ -27,6 +27,8 @@ const RightPane = ({
   selectedUploadOption,
   selectActions,
   multiValue,
+  dataNameModalVisible,
+  setDataNameModalVisible,
   handleMultiChange,
   selectedDescribingColumnColor,
   handleColoredColumns,
@@ -56,11 +58,10 @@ const RightPane = ({
   selectedColumns,
 }) => {
   const uploadRef = useRef(null);
-  const { user } = useContext(AuthContext);
+  const {user} = useContext(AuthContext);
   const [modalVisible, setModalVisible] = useState(false);
-  const [dataNameModalVisible, setDataNameModalVisible] = useState(false);
   const [dataName, setDataName] = useState("");
-  const { numClusters, setNumClusters, confirmedClusterMethod, outlierDetectionOptions } = useZustand();
+  const {numClusters, setNumClusters, confirmedClusterMethod, outlierDetectionOptions} = useZustand();
   const navigate = useNavigate();
   // console.log("cluster method " + confirmedClusterMethod + " num clusters " + numClusters);
   // console.log("outlier detection " + outlierDetectionOptions);
@@ -71,7 +72,7 @@ const RightPane = ({
     withCredentials: true, // Ensure credentials (cookies) are sent with requests
   });
 
-  function StyledText({ label, value, range }) {
+  function StyledText({label, value, range}) {
     return (
       <>
         <div
@@ -83,11 +84,11 @@ const RightPane = ({
             marginTop: 5,
           }}
         >
-          <div style={{ marginRight: 10 }}>{label}: </div>
+          <div style={{marginRight: 10}}>{label}: </div>
           {range ? (
-            <div style={{ textAlign: "right" }}>{value ? `Between ${value[0]} and ${value[1]}` : "Not applied"}</div>
+            <div style={{textAlign: "right"}}>{value ? `Between ${value[0]} and ${value[1]}` : "Not applied"}</div>
           ) : (
-            <div style={{ textAlign: "right" }}>{value ? value : "Not applied"}</div>
+            <div style={{textAlign: "right"}}>{value ? value : "Not applied"}</div>
           )}
         </div>
         <hr></hr>
@@ -98,7 +99,7 @@ const RightPane = ({
   // Function to check if access token is valid
   const checkAccessTokenValidity = async () => {
     try {
-      await api.get("/verify");
+      await api.get("/api/verify");
       return true;
     } catch (error) {
       return false;
@@ -108,7 +109,7 @@ const RightPane = ({
   // Function to refresh access token using refresh token
   const refreshAccessToken = async () => {
     try {
-      const response = await api.post("/refresh");
+      const response = await api.post("/api/refresh");
       return response.data.access_token;
     } catch (error) {
       console.error("Error refreshing access token:", error);
@@ -130,7 +131,7 @@ const RightPane = ({
         headers.Authorization = `Bearer ${newAccessToken}`;
       }
 
-      const payload = { data: data, name: dataName, axis: selectedColumns };
+      const payload = {data: data, name: dataName, axis: selectedColumns};
       if (selectedUploadOption) {
         payload.selectedUploadOption = selectedUploadOption;
       }
@@ -152,7 +153,7 @@ const RightPane = ({
         }
         console.log(payload);
       }
-      const response = await api.post("/save", payload, {
+      const response = await api.post("/api/save", payload, {
         headers: {
           ...headers,
         },
@@ -194,17 +195,7 @@ const RightPane = ({
     }
 
     if (!data) {
-      toast.error("Please make sure to upload a dataset first", {
-        position: "top-center",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-        transition: Bounce,
-      });
+      ErrorMessage("Please make sure to upload a dataset first");
       return;
     }
     setDataNameModalVisible(true);
@@ -229,9 +220,9 @@ const RightPane = ({
             minWidth: 250,
           }}
         >
-          <h2 style={{ textAlign: "center", marginTop: 20 }}>Please login to save your work</h2>
+          <h2 style={{textAlign: "center", marginTop: 20}}>Please login to save your work</h2>
           <AppButton
-            style={{ marginTop: 20, fontSize: 20, width: "30%", minWidth: 70 }}
+            style={{marginTop: 20, fontSize: 20, width: "30%", minWidth: 70}}
             title={"login"}
             onClick={() => navigate("/login")}
           ></AppButton>
@@ -256,9 +247,9 @@ const RightPane = ({
             minWidth: 250,
           }}
         >
-          <h2 style={{ textAlign: "center", marginTop: 20 }}>Please enter the data name</h2>
+          <h2 style={{textAlign: "center", marginTop: 20}}>Please enter the data name</h2>
           <form
-            style={{ display: "flex", flexDirection: "column", alignItems: "center" }}
+            style={{display: "flex", flexDirection: "column", alignItems: "center"}}
             onSubmit={() => {
               postSavedData();
               setDataNameModalVisible(false);
@@ -267,13 +258,13 @@ const RightPane = ({
             <input
               required
               type="text"
-              style={{ width: 150, marginTop: 30, borderRadius: 10, paddingLeft: 10, paddingRight: 10 }}
+              style={{width: 150, marginTop: 30, borderRadius: 10, paddingLeft: 10, paddingRight: 10}}
               onChange={(e) => setDataName(e.target.value)}
             />
-            <AppButton style={{ marginTop: 20, fontSize: 20, minWidth: 70 }} title={"save"} type="submit"></AppButton>
+            <AppButton style={{marginTop: 20, fontSize: 20, minWidth: 70}} title={"save"} type="submit"></AppButton>
           </form>
           <h5></h5>
-          <div style={{ marginTop: 40, width: "100%" }}>
+          <div style={{marginTop: 40, width: "100%"}}>
             <StyledText label={"Data Added"} value={"Yes"}></StyledText>
             <StyledText
               label={"clustering algorithm applied"}
@@ -288,8 +279,8 @@ const RightPane = ({
               label={"Outlier Detection mode"}
               value={
                 outlierDetectionOptions.outlierDetectionAlgo &&
-                outlierDetectionOptions.outlierDetectionAlgo < 4 &&
-                outlierDetectionOptions.outlierDetectionAlgo != 0
+                  outlierDetectionOptions.outlierDetectionAlgo < 4 &&
+                  outlierDetectionOptions.outlierDetectionAlgo != 0
                   ? outlierDetectionOptions.outlierDetectionMode
                     ? "Or"
                     : "And"
@@ -302,9 +293,9 @@ const RightPane = ({
               value={
                 outlierDetectionOptions.outlierDetectionColumns
                   ? [
-                      outlierDetectionOptions.outlierDetectionColumns[0],
-                      outlierDetectionOptions.outlierDetectionColumns[1],
-                    ]
+                    outlierDetectionOptions.outlierDetectionColumns[0],
+                    outlierDetectionOptions.outlierDetectionColumns[1],
+                  ]
                   : null
               }
             ></StyledText>
@@ -315,7 +306,7 @@ const RightPane = ({
       <div className="right-pane">
         <AppButton
           className={"save-button"}
-          style={{ width: "100%", marginTop: 10, marginBottom: 0 }}
+          style={{width: "100%", marginTop: 10, marginBottom: 0}}
           title={"save"}
           onClick={handleSave}
         ></AppButton>
@@ -331,8 +322,8 @@ const RightPane = ({
           {selectedUploadOption !== "admixture" && selectedUploadOption !== "pcairandadmixture" && (
             <div>
               <TabPanel>
-                <div style={{ display: "flex", flexDirection: "column" }}>
-                  <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+                <div style={{display: "flex", flexDirection: "column"}}>
+                  <div style={{display: "flex", flexDirection: "column", alignItems: "center"}}>
                     <div className="row-md-8"></div>
 
                     <div
@@ -359,7 +350,7 @@ const RightPane = ({
                       <div>
                         <div className="describingColumnDropDown" style={styles.describingColumnDropDown}>
                           <label className="form-sub-label">Identify by Colors</label>
-                          <div style={{ width: "100%", marginTop: "1%" }}>
+                          <div style={{width: "100%", marginTop: "1%"}}>
                             <Select
                               className="select-settings"
                               value={selectedDescribingColumnColor}
@@ -370,7 +361,7 @@ const RightPane = ({
                         </div>
                         <div className="describingColumnDropDown">
                           <label className="form-sub-label">Identify by Shape</label>
-                          <div style={{ width: "100%", marginTop: "1%" }}>
+                          <div style={{width: "100%", marginTop: "1%"}}>
                             <Select
                               className="select-settings"
                               value={selectedDescribingColumnShape}
@@ -400,7 +391,7 @@ const RightPane = ({
                         }}
                       />
                       <AppButton
-                        style={{ width: "100%", marginTop: 20 }}
+                        style={{width: "100%", marginTop: 20}}
                         title={"Add Metadata"}
                         className={"add-metadata-button"}
                         // defaultButton
@@ -411,7 +402,7 @@ const RightPane = ({
                           }
                           uploadRef.current.click();
                         }}
-                        // disabled={data == null || data.length === 0}
+                      // disabled={data == null || data.length === 0}
                       ></AppButton>
                       <input
                         ref={uploadRef}
@@ -420,7 +411,7 @@ const RightPane = ({
                         onChange={handleMetaDataUpload}
                         onClick={onInputMetadataClick}
                         disabled={data == null || data.length === 0}
-                        style={{ display: "none" }}
+                        style={{display: "none"}}
                       />
                       {/* <label
                     style={{
@@ -466,7 +457,7 @@ const RightPane = ({
             <div>
               <TabPanel>
                 <div
-                  style={{ height: "100%", display: "flex", justifyContent: "space-between", flexDirection: "column" }}
+                  style={{height: "100%", display: "flex", justifyContent: "space-between", flexDirection: "column"}}
                 >
                   <AdmixOptions
                     initialAlpha={alphaVal}

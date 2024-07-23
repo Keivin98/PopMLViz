@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, {useState} from "react";
 import "./components/registerFP.css";
-import { database } from "../../Components/firebase";
-import { ref, push, child, update } from "firebase/database";
-import { Link, useNavigate } from "react-router-dom";
+import {database} from "../../Components/firebase";
+import {ref, push, child, update} from "firebase/database";
+import {Link, useNavigate} from "react-router-dom";
 import ParticlesBg from "particles-bg";
 import BackButton from "../BackButton";
-import { FaRegEye, FaRegEyeSlash } from "react-icons/fa6";
+import {FaRegEye, FaRegEyeSlash} from "react-icons/fa6";
 import axios from "axios";
 import AppButton from "../AppButton";
 import ParticleBackground from "../ParticleBackground";
@@ -28,7 +28,7 @@ function Register() {
   const navigate = useNavigate();
 
   const handleInputChange = (e) => {
-    const { id, value } = e.target;
+    const {id, value} = e.target;
     if (id === "email") {
       setEmail(value);
     }
@@ -54,12 +54,12 @@ function Register() {
       ErrorMessage("Passwords do not match!")
       return;
     }
-    const obj = { email, password };
+    const obj = {email, password};
     setIsLoading(true);
 
     try {
       const response = await axios.post(
-        `${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}${process.env.REACT_APP_PORT}/register`,
+        `${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}${process.env.REACT_APP_PORT}/api/register`,
         obj,
         {
           headers: {
@@ -115,7 +115,7 @@ function Register() {
     <div className="auth-container">
       <ParticleBackground></ParticleBackground>
 
-      <div style={{ position: "absolute", top: 50, left: 50 }}>
+      <div style={{position: "absolute", top: 50, left: 50}}>
         <BackButton handleBack={handleBack} arrowColor={"#EEE"} color={"black"}></BackButton>
       </div>
       <div className="wrapper">
@@ -129,7 +129,7 @@ function Register() {
               flexDirection: "column",
             }}
           >
-            <div style={{ marginBottom: 30 }}>You are all set!</div>
+            <div style={{marginBottom: 30}}>You are all set!</div>
             <AppButton title={"login"} onClick={() => navigate("/login")}></AppButton>
           </div>
         ) : (
@@ -170,7 +170,7 @@ function Register() {
                   Password
                 </label>
                 <div
-                  style={{ position: "absolute", right: 10, top: 10 }}
+                  style={{position: "absolute", right: 10, top: 10}}
                   onClick={() => {
                     setPasswordVisible(!passwordVisible);
                   }}
@@ -198,7 +198,7 @@ function Register() {
                   Confirm Password
                 </label>
                 <div
-                  style={{ position: "absolute", right: 10, top: 10 }}
+                  style={{position: "absolute", right: 10, top: 10}}
                   onClick={() => {
                     setConfirmPasswordVisible(!confirmPasswordVisible);
                   }}
@@ -215,7 +215,7 @@ function Register() {
                 </p>
               </div>
             </form>
-            {registrationText && <p style={{ textAlign: "center", marginTop: "20px" }}>{registrationText}</p>}
+            {registrationText && <p style={{textAlign: "center", marginTop: "20px"}}>{registrationText}</p>}
           </>
         )}
       </div>

@@ -88,6 +88,12 @@ html, body {
   margin-right: 10px;
 }
 
+.nav-left .logo-small {
+  display: block !important;
+  height: 60px;
+  margin-right: 10px;
+}
+
 .nav-left .site-name {
   font-size: 20px;
   color: #fff;

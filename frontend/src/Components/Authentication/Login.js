@@ -1,15 +1,16 @@
-import React, { useContext, useEffect, useLayoutEffect, useRef, useState } from "react";
+import React, {useContext, useEffect, useLayoutEffect, useRef, useState} from "react";
 import "./components/LoginFP.css";
-import { database } from "../../Components/firebase";
-import { ref, push, child, update } from "firebase/database";
-import { Link, useNavigate } from "react-router-dom";
+import {database} from "../../Components/firebase";
+import {ref, push, child, update} from "firebase/database";
+import {Link, useNavigate} from "react-router-dom";
 import ParticlesBg from "particles-bg";
 import BackButton from "../BackButton";
 import axios from "axios";
-import { FaRegEye, FaRegEyeSlash } from "react-icons/fa6";
-import { AuthContext } from "../../config/AuthProvider";
+import {FaRegEye, FaRegEyeSlash} from "react-icons/fa6";
+import {AuthContext} from "../../config/AuthProvider";
 import ParticleBackground from "../ParticleBackground";
 import ErrorMessage from "../ErrorMessage";
+import SuccessMessage from "../SuccessMessage";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -24,7 +25,7 @@ function Login() {
 
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
-  const { setUser } = useContext(AuthContext);
+  const {setUser} = useContext(AuthContext);
 
   // useEffect(()=>{
   //   setEmailFocused(true)
@@ -32,7 +33,7 @@ function Login() {
   // },[])
 
   const handleInputChange = (e) => {
-    const { name, value } = e.target;
+    const {name, value} = e.target;
     if (name === "email") {
       setEmail(value);
     }
@@ -66,12 +67,12 @@ function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const obj = { email, password };
+    const obj = {email, password};
     setIsLoading(true);
 
     try {
       const response = await axios.post(
-        `${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}${process.env.REACT_APP_PORT}/login`,
+        `${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}${process.env.REACT_APP_PORT}/api/login`,
         obj,
         {
           headers: {
@@ -88,6 +89,7 @@ function Login() {
         console.log(response.data);
         console.log(email);
         navigate("/Dashboard");
+        SuccessMessage("Login successful");
       } else {
         ErrorMessage("Unexpected response from server");
       }
@@ -95,7 +97,10 @@ function Login() {
       setIsLoading(false);
       if (error.response) {
         // Server responded with an error status code
-        if (error.response.status === 401) {
+        if (error.response.status === 404) {
+          ErrorMessage("User not found. Please check the email and try again.");
+        }
+        else if (error.response.status === 401) {
           ErrorMessage("Invalid credentials")
         } else {
           ErrorMessage('Server error! Please check the input and try again. If the error persists, refer to the docs!')
@@ -146,7 +151,7 @@ function Login() {
   return (
     <div className="auth-container">
       <ParticleBackground></ParticleBackground>
-      <div style={{ position: "absolute", top: 50, left: 50 }}>
+      <div style={{position: "absolute", top: 50, left: 50}}>
         <BackButton handleBack={handleBack} arrowColor={"#EEE"} color={"black"}></BackButton>
       </div>
 
@@ -210,7 +215,7 @@ function Login() {
               Password
             </label>
             <div
-              style={{ position: "absolute", right: 10, top: 10 }}
+              style={{position: "absolute", right: 10, top: 10}}
               onClick={() => {
                 setPasswordVisible(!passwordVisible);
               }}
@@ -230,7 +235,7 @@ function Login() {
             </p>
           </div>
         </form>
-        {loginText && <p style={{ textAlign: "center", marginTop: "20px" }}>{loginText}</p>}
+        {loginText && <p style={{textAlign: "center", marginTop: "20px"}}>{loginText}</p>}
       </div>
     </div>
   );

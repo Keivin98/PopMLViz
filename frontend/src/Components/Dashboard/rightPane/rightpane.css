@@ -144,8 +144,10 @@
       height: 100%
     }
     .save-button{
-     margin-top: 0px !important;
-     margin-bottom: 0px !important;
+     display: none !important;
+    }.outlier-block{
+      margin-top: 10px !important;
+      
     }
 
   }

@@ -105,8 +105,7 @@ const TabOutputOptions = ({
             flexDirection: "column",
             justifyContent: "center",
             // alignItems: "center",
-          }}
-        >
+          }}>
           <InputOptions label={"Marker size"}>
             <input
               type="number"
@@ -165,8 +164,11 @@ const TabOutputOptions = ({
                     name={index}
                     style={{ width: 100 }}
                     onChange={(e) => {
+                      
                       const newClusterNames = { ...clusterNames, [index]: e.target.value };
                       setClusterNames(newClusterNames);
+                      console.log(newClusterNames);
+                      
                     }}
                   />
                 </InputOptions>
@@ -182,8 +184,7 @@ const TabOutputOptions = ({
                     name={"Cluster " + (index + 1)}
                     index={index}
                     clusterColors={chosenClusterColors}
-                    setChosenInitialColor={setChosenClusterColors}
-                  ></MarkerColor>
+                    setChosenInitialColor={setChosenClusterColors}></MarkerColor>
                   {/* <hr style={{ backgroundColor: "black", height: 2, opacity: 1, marginBottom: 50 }} /> */}
                 </>
               ))}
@@ -201,13 +202,12 @@ const TabOutputOptions = ({
         flex: 1,
         flexDirection: "column",
         justifyContent: "space-between",
+        backgroundColor: "rgb(245, 246, 247)",
         // alignItems: "center",
-      }}
-    >
+      }}>
       {showOutputOptions()}
       <div
-        style={{ display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "center", bottom: 10 }}
-      >
+        style={{ display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "center", bottom: 10 }}>
         <AppButton
           style={{ width: 200 }}
           title={"Submit"}
@@ -225,8 +225,7 @@ const TabOutputOptions = ({
               chosenClusterColors,
             });
             event.preventDefault();
-          }}
-        ></AppButton>
+          }}></AppButton>
         {/* <AppButton
           style={{ width: 50, height: 50, borderRadius: 100 }}
           title={"Download Image"}

@@ -1,20 +1,21 @@
-import React, { useContext, useState } from "react";
-import { BiLogIn } from "react-icons/bi";
+import React, {useContext, useState} from "react";
+import {BiLogIn} from "react-icons/bi";
 import "./headerFP.css";
 import logo from "../../../assets/logo.jpeg";
+import smallLogo from "../../../assets/Hbku_small.png"
 import PopMLvis from "../../../assets/PopMLvis.pdf";
-import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../../../config/AuthProvider";
-import { FaUser } from "react-icons/fa";
+import {useNavigate} from "react-router-dom";
+import {AuthContext} from "../../../config/AuthProvider";
+import {FaUser} from "react-icons/fa";
 import colors from "../../../config/colors";
 import Modal from "@mui/material/Modal";
-import { FaRegUserCircle } from "react-icons/fa";
+import {FaRegUserCircle} from "react-icons/fa";
 import AppButton from "../../AppButton";
 import axios from "axios";
 
 export default function AppNav({}) {
   const navigate = useNavigate();
-  const { user } = useContext(AuthContext);
+  const {user} = useContext(AuthContext);
   const [modalVisible, setModalVisible] = useState(false);
 
   const handleLoginClick = () => {
@@ -33,8 +34,8 @@ export default function AppNav({}) {
     setModalVisible(false);
 
     try {
-      await api.post("/logout");
-      
+      await api.post("/api/logout");
+
       console.log("User logged out successfully");
       window.location.reload();
     } catch (error) {
@@ -64,13 +65,13 @@ export default function AppNav({}) {
             paddingBottom: 40,
           }}
         >
-          <div style={{ display: "flex", alignItems: "center" }}>
+          <div style={{display: "flex", alignItems: "center"}}>
             <FaRegUserCircle size={30} />
-            <h5 style={{ marginBottom: 0, marginLeft: 10 }}>{user}</h5>
+            <h5 style={{marginBottom: 0, marginLeft: 10}}>{user}</h5>
           </div>
           <AppButton
             color={"red"}
-            style={{ marginTop: 20, display: "flex", justifyContent: "center" }}
+            style={{marginTop: 20, display: "flex", justifyContent: "center"}}
             title={"logout"}
             onClick={handleLogOut}
           ></AppButton>
@@ -78,6 +79,7 @@ export default function AppNav({}) {
       </Modal>
       <div className="nav-left" onClick={() => navigate("/")}>
         <img src={logo} alt="PopMLVis Logo" className="logo" />
+        {/* <img src={smallLogo} alt="PopMLVis Logo" className="logo-small" /> */}
         <span className="site-name">PopMLVis</span>
       </div>
       <ul id="nav" className="nav">
@@ -97,7 +99,7 @@ export default function AppNav({}) {
           </a>
         </li>
         <li>
-          <a style={{cursor: 'pointer'}} className="smoothscroll" onClick={()=> navigate("/tutorial")}>
+          <a style={{cursor: 'pointer'}} className="smoothscroll" onClick={() => navigate("/tutorial")}>
             Tutorial
           </a>
         </li>
