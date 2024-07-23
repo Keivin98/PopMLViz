@@ -93,10 +93,8 @@ function Help() {
       answer:
         `Our platform provides several outlier detection algorithms to help identify anomalies in your data:
         <ul>
-          <li><strong>None:</strong> No outlier detection applied.</li>
           <li><strong>1 SD:</strong> Outliers are detected as data points that are more than 1 standard deviation from the mean.</li>
           <li><strong>2 SD:</strong> Outliers are identified as data points that are more than 2 standard deviations from the mean.</li>
-          <li><strong>3 SD:</strong> Outliers are those data points that are more than 3 standard deviations from the mean.</li>
           <li><strong>Isolation Forest:</strong> An algorithm that isolates outliers instead of profiling normal data points. It is effective for high-dimensional datasets.</li>
           <li><strong>Minimum Covariance Determinant:</strong> A robust method that finds a subset of data points with minimum covariance, useful for detecting outliers in multivariate data.</li>
           <li><strong>Local Outlier Factor:</strong> A method that measures the local density deviation of a data point with respect to its neighbors, identifying outliers based on their local density.</li>

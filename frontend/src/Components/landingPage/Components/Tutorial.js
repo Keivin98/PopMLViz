@@ -65,8 +65,7 @@ export default function Tutorial() {
           }}
           className="video-button"
           onClick={() => handlePress(e)}
-          key={index}
-        >
+          key={index}>
           <FaCirclePlay color={selectedVideo.id == e.id ? colors.secondary : "black"} size={20} />
           <div
             style={{
@@ -75,8 +74,7 @@ export default function Tutorial() {
               fontWeight: 500,
               color: selectedVideo.id == e.id ? colors.secondary : "gray",
               width: "70%",
-            }}
-          >
+            }}>
             {name}
           </div>
           <div
@@ -89,8 +87,7 @@ export default function Tutorial() {
               right: 0,
               width: "20%",
               flexWrap: "nowrap",
-            }}
-          >
+            }}>
             {duration}
           </div>
         </div>
@@ -103,11 +100,27 @@ export default function Tutorial() {
       <AppNav></AppNav>
       <div className="tutorial-container" style={{ gap: 20, padding: 20, paddingTop: 80 }}>
         <div className="video-player" style={{ width: "100%", marginTop: 40 }}>
-          <ReactPlayer width={"100%"} height={"100%"} controls url={selectedVideo.link} onReady={()=> setLoader(false)}></ReactPlayer>
-          {loader && <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', zIndex: 10 }}>
-            <Loader  type="TailSpin" color={colors.secondary} height="100" width="100" />
-          </div>}
-         
+          <div style={{display: "flex", justifyContent: 'center', alignItems: 'center', width: '100%', height: '100%'}}>
+            <ReactPlayer
+              width={"100%"}
+              height={"100%"}
+              controls
+              url={selectedVideo.link}
+              onReady={() => setLoader(false)}></ReactPlayer>
+            {loader && (
+              <div
+                style={{
+                  alignSelf: 'center',
+                  position: "absolute",
+                  // top: "50%",
+                  // left: "50%",
+                  // transform: "translate(-50%, -50%)",
+                  zIndex: 10,
+                }}>
+                <Loader type="TailSpin" color={colors.secondary} height="100" width="100" />
+              </div>
+            )}
+          </div>
 
           <div style={{ overflowY: "auto", height: "30%" }}>
             <h4 className="player-text" style={{ marginTop: 30, marginLeft: 10 }}>
@@ -133,16 +146,14 @@ export default function Tutorial() {
                 padding: 10,
                 marginBottom: 10,
               }}
-              onClick={() => setOpen(!open)}
-            >
+              onClick={() => setOpen(!open)}>
               <div
                 style={{
                   display: "flex",
                   flexDirection: "row",
                   //   width: "90%",
                   alignItems: "center",
-                }}
-              >
+                }}>
                 {/* <IoIosColorPalette size={30} style={{ marginRight: 20, opacity: 0.5 }} /> */}
                 <h6 style={{ marginBottom: 0 }}>{"More"}</h6>
               </div>

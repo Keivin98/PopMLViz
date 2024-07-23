@@ -2544,6 +2544,7 @@ const App = () => {
     setChosenInitialColor(outputState.chosenInitialColor);
     setChosenInitialShape(outputState.selectedInitialShape.label);
     setMarkerSize(outputState.markerSize === undefined ? markerSize : outputState.markerSize);
+    SuccessMessage("Changes have been saved");
   };
   const downloadPlot = (outputState) => {
     setPlotTitle(outputState.plotTitle);

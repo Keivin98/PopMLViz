@@ -16,7 +16,7 @@
 }
 
 
-@media (max-width: 1078px) {
+@media (max-width: 1230px) {
     .inputLabel{
         font-size: 14px !important;
         align-self: flex-start;
