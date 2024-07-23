@@ -21,6 +21,7 @@ import selectClusterActions from "../../../config/selectClusterActions";
 import selectOutlierActions from "../../../config/selectOutlierActions";
 import ErrorMessage from "../../ErrorMessage";
 import SuccessMessage from "../../SuccessMessage";
+import "./leftpane.css";
 
 const Input = styled("input")({
   display: "none",
@@ -68,6 +69,8 @@ function DataUploadModal({
   unprocessedPCA,
   tsne2d,
   tsne3d,
+  runUMAP2D,
+  runUMAP3D,
   runPCAir,
   setProgressBarType,
   fileChanged,
@@ -138,8 +141,7 @@ function DataUploadModal({
             justifyContent: "space-between",
             marginBottom: 5,
             marginTop: 5,
-          }}
-        >
+          }}>
           <div style={{marginRight: 10}}>{label}: </div>
           {range ? (
             <div style={{textAlign: "right"}}>{value ? `Between ${value[0]} and ${value[1]}` : "Not applied"}</div>
@@ -309,13 +311,13 @@ function DataUploadModal({
   };
 
   const handlePCAirFiles = async () => {
-    if (!files[".bed"] || !files[".bim"] || !files[".fam"] || !files.Kinship) {
+    if (!files[".bed"] || !files[".bim"] || !files[".fam"]) {
       ErrorMessage("Please upload all the necessary files for PC-AiR!");
       return;
     }
     let newFilenames = {};
-    setProgressBarType("ProgressBar");
-    setIsMainPageLoading(true);
+    // setProgressBarType("ProgressBar");
+    // setIsMainPageLoading(true);
     handleClose();
     const uploadTasks = [".bed", ".bim", ".fam", "Kinship"].map(async (filename) => {
       const data = new FormData();
@@ -426,8 +428,7 @@ function DataUploadModal({
         onDragOver={(e) => handleDragOver(e, type)}
         onClick={(e) => handleAreaClick(e, type)}
         onDragLeave={(e) => handleDragLeave(e, type)}
-        onDrop={(e) => handleFileUpload(e, type, true)}
-      >
+        onDrop={(e) => handleFileUpload(e, type, true)}>
         {toDisplay}
         {fileInputElement}
       </div>
@@ -447,8 +448,7 @@ function DataUploadModal({
                     setFileChanged(true);
                     samplePCAAdmixDataset(0, index);
                     handleClose();
-                  }}
-                >
+                  }}>
                   {" "}
                   <Typography>{val}</Typography>
                 </Button>
@@ -468,8 +468,7 @@ function DataUploadModal({
                     setFileChanged(true);
                     samplePCAAdmixDataset(1, index);
                     handleClose();
-                  }}
-                >
+                  }}>
                   {" "}
                   <Typography>{val}</Typography>
                 </Button>
@@ -494,7 +493,7 @@ function DataUploadModal({
             <div style={{display: "flex", justifyContent: "center"}}>
               <Button
                 variant="contained"
-                style={{marginTop: "20px", backgroundColor: green[500], color: "white"}}
+                style={{marginTop: "20px", backgroundColor: colors.secondary, color: "white"}}
                 onClick={() => {
                   if (dataProcessed) {
                     processedPCA(files.PCA.processed);
@@ -502,8 +501,7 @@ function DataUploadModal({
                     if (!files) unprocessedPCA(files.PCA.unprocessed, files.PCA.unprocessed.name);
                   }
                   setFileChanged(true);
-                }}
-              >
+                }}>
                 Submit
               </Button>
             </div>
@@ -526,12 +524,11 @@ function DataUploadModal({
             <div style={{display: "flex", justifyContent: "center"}}>
               <Button
                 variant="contained"
-                style={{marginTop: "20px", backgroundColor: green[500], color: "white"}}
+                style={{marginTop: "20px", backgroundColor: colors.secondary, color: "white"}}
                 onClick={() => {
                   processedAdmix([files.PCA.processed, files.Admix]);
                   setFileChanged(true);
-                }}
-              >
+                }}>
                 Submit
               </Button>
             </div>
@@ -554,12 +551,11 @@ function DataUploadModal({
             <div style={{display: "flex", justifyContent: "center"}}>
               <Button
                 variant="contained"
-                style={{marginTop: "20px", backgroundColor: green[500], color: "white"}}
+                style={{marginTop: "20px", backgroundColor: colors.secondary, color: "white"}}
                 onClick={async () => {
                   await handlePCAirFiles();
                   setFileChanged(true);
-                }}
-              >
+                }}>
                 Submit
               </Button>
             </div>
@@ -575,12 +571,11 @@ function DataUploadModal({
             <div style={{display: "flex", justifyContent: "center"}}>
               <Button
                 variant="contained"
-                style={{marginTop: "20px", backgroundColor: green[500], color: "white"}}
+                style={{marginTop: "20px", backgroundColor: colors.secondary, color: "white"}}
                 onClick={() => {
                   tsne2d(files.PCA.unprocessed);
                   setFileChanged(true);
-                }}
-              >
+                }}>
                 Submit
               </Button>
             </div>
@@ -596,12 +591,51 @@ function DataUploadModal({
             <div style={{display: "flex", justifyContent: "center"}}>
               <Button
                 variant="contained"
-                style={{marginTop: "20px", backgroundColor: green[500], color: "white"}}
+                style={{marginTop: "20px", backgroundColor: colors.secondary, color: "white"}}
                 onClick={() => {
                   tsne3d(files.PCA.unprocessed);
                   setFileChanged(true);
-                }}
-              >
+                }}>
+                Submit
+              </Button>
+            </div>
+          </div>
+        );
+      case "UMAP 2D (using PCA data)":
+        return (
+          <div>
+            <Typography variant="h6" gutterBottom>
+              Expected: PCA data
+            </Typography>
+            {renderDragDropArea("PCA")}
+            <div style={{display: "flex", justifyContent: "center"}}>
+              <Button
+                variant="contained"
+                style={{marginTop: "20px", backgroundColor: colors.secondary, color: "white"}}
+                onClick={() => {
+                  runUMAP2D(files.PCA.unprocessed);
+                  setFileChanged(true);
+                }}>
+                Submit
+              </Button>
+            </div>
+          </div>
+        );
+      case "UMAP 3D (using PCA data)":
+        return (
+          <div>
+            <Typography variant="h6" gutterBottom>
+              Expected: PCA data
+            </Typography>
+            {renderDragDropArea("PCA")}
+            <div style={{display: "flex", justifyContent: "center"}}>
+              <Button
+                variant="contained"
+                style={{marginTop: "20px", backgroundColor: colors.secondary, color: "white"}}
+                onClick={() => {
+                  runUMAP3D(files.PCA.unprocessed);
+                  setFileChanged(true);
+                }}>
                 Submit
               </Button>
             </div>
@@ -652,15 +686,14 @@ function DataUploadModal({
               gap: "10px",
               alignItems: "center",
               justifyContent: "space-between",
-            }}
-          >
+            }}>
             {console.log(savedData.plots)}
             {savedPlots && savedPlots.plots?.length > 0 ? (
               savedPlots.plots.map((plot) => (
                 <div
-                  style={{display: "flex", width: "100%", justifyContent: "center", alignItems: "center", gap: 10}}
-                >
+                  style={{display: "flex", width: "100%", justifyContent: "center", alignItems: "center", gap: 10}}>
                   <div
+                    className="saved-plot-btn"
                     style={{
                       width: "80%",
                       minHeight: 50,
@@ -670,6 +703,7 @@ function DataUploadModal({
                       paddingRight: 20,
                       paddingLeft: 20,
                       display: "flex",
+                      cursor: "pointer",
                       alignItems: "center",
                       justifyContent: "space-between",
                       flexWrap: "wrap",
@@ -682,8 +716,7 @@ function DataUploadModal({
                         resetSaveState: resetSaveState,
                       });
                       handleClose();
-                    }}
-                  >
+                    }}>
                     <div style={{overflow: "hidden"}}>{plot.title}</div>
                     <div style={{fontWeight: 200}}>{plot.date.split(" ")[0]}</div>
                   </div>
@@ -695,14 +728,14 @@ function DataUploadModal({
                     }}
                     style={{
                       backgroundColor: colors.secondary,
+                      cursor: "pointer",
                       height: 45,
                       width: 45,
                       display: "flex",
                       justifyContent: "center",
                       alignItems: "center",
                       borderRadius: 50,
-                    }}
-                  >
+                    }}>
                     <MdOutlineMoreHoriz color={"white"} size={35} />
                   </div>
 
@@ -725,8 +758,8 @@ function DataUploadModal({
                       justifyContent: "center",
                       alignItems: "center",
                       borderRadius: 50,
-                    }}
-                  >
+                      cursor: "pointer",
+                    }}>
                     <FaTrash color="red" />
                   </div>
                 </div>
@@ -748,6 +781,8 @@ function DataUploadModal({
                 "PC-AiR (using PLINK files and Kinship) ",
                 "t-SNE 2D (using PCA data)",
                 "t-SNE 3D (using PCA data)",
+                "UMAP 2D (using PCA data)",
+                "UMAP 3D (using PCA data)",
               ];
 
         return (
@@ -809,8 +844,7 @@ function DataUploadModal({
         p: 4,
         borderRadius: 2,
         minWidth: 310,
-      }}
-    >
+      }}>
       <div style={{display: "flex", justifyContent: "start", marginBottom: "20px"}}>
         {dataSelectionStep !== "initial" && <BackButton handleBack={handleBack}></BackButton>}
         <h2 style={{marginBottom: 0}}>{getTitle()}</h2>
@@ -832,8 +866,7 @@ function DataUploadModal({
           style={{display: "block", fontFamily: "Poppins, san-serif", width: "100%"}}
           variant="outlined"
           className={classes.customButton}
-          onClick={handleOpen}
-        >
+          onClick={handleOpen}>
           Choose Data
         </Button>
       </div>
@@ -853,8 +886,7 @@ function DataUploadModal({
             alignItems: "center",
             flexDirection: "column",
             minWidth: 250,
-          }}
-        >
+          }}>
           <h2 style={{textAlign: "center", marginTop: 20}}>{savedData.title}</h2>
           <h5></h5>
           <div style={{marginTop: 40, width: "100%"}}>
@@ -864,20 +896,17 @@ function DataUploadModal({
                 selectClusterActions[savedData.clusteringAlgo]?.label
                   ? selectClusterActions[savedData.clusteringAlgo]?.label
                   : null
-              }
-            ></StyledText>
+              }></StyledText>
             <StyledText
               label={"Number of clusters"}
-              value={savedData.numCluster ? savedData.numCluster : null}
-            ></StyledText>
+              value={savedData.numCluster ? savedData.numCluster : null}></StyledText>
             <StyledText
               label={"Outlier Detection algorithm applied"}
               value={
                 selectOutlierActions[savedData.outlierDetectionAlgo]?.label
                   ? selectOutlierActions[savedData.outlierDetectionAlgo]?.label
                   : null
-              }
-            ></StyledText>
+              }></StyledText>
             <StyledText
               label={"Outlier Detection mode"}
               value={
@@ -888,8 +917,7 @@ function DataUploadModal({
                     ? "Or"
                     : "And"
                   : null
-              }
-            ></StyledText>
+              }></StyledText>
             <StyledText
               label={"Outlier Detection Range"}
               range={true}
@@ -897,8 +925,7 @@ function DataUploadModal({
                 savedData.outlierDetectionAlgo
                   ? [savedData.outlierDetectionColumnsStart, savedData.outlierDetectionColumnsEnd]
                   : null
-              }
-            ></StyledText>
+              }></StyledText>
           </div>
         </div>
       </Modal>

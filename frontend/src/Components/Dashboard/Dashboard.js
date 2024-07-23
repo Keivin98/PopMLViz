@@ -114,6 +114,7 @@ const App = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [scatterErrorShown, setScatterErrorShown] = useState(false);
   const [scatter2ErrorShown, setScatter2ErrorShown] = useState(false);
+  const [dataNameModalVisible, setDataNameModalVisible] = useState(false);
 
   const { numClusters, setNumClusters, setConfirmedClusterMethod, setOutlierDetectionOptions } = useZustand();
 
@@ -778,7 +779,7 @@ const App = () => {
         if (outliers) {
           if (DIM === 2) {
             data_new.push({
-              name: "Outliers " + clusterNames[k],
+              name: "Outliers for " + clusterNames[k],
               x: x_clusters_outliers[k],
               y: y_clusters_outliers[k],
               z: z_clusters_outliers[k],
@@ -795,7 +796,7 @@ const App = () => {
             });
           } else {
             data_new.push({
-              name: "Outliers " + clusterNames[k],
+              name: "Outliers for " + clusterNames[k],
               x: x_clusters_outliers[k],
               y: y_clusters_outliers[k],
               mode: "markers",
@@ -810,7 +811,7 @@ const App = () => {
             });
           }
         }
-        var name = clusterNames && clusterNames[k] ? clusterNames[k] : "Cluster " + k + 1;
+        var name = clusterNames && clusterNames[k] ? clusterNames[k] : "Cluster " + (k + 1);
         if (DIM === 2) {
           data_new.push({
             name: name,
@@ -819,7 +820,7 @@ const App = () => {
             z: z_clusters[k],
             mode: "markers",
             type: "scatter3d",
-            marker: { color: colors[k], size: markerSize },
+            marker: { color: colors[k], size: markerSize, symbol: chosenInitialShape },
             text: cluster_texts[k],
             hovertemplate: hoverTemplate,
           });
@@ -829,7 +830,7 @@ const App = () => {
             x: x_clusters[k],
             y: y_clusters[k],
             mode: "markers",
-            marker: { color: colors[k], size: markerSize },
+            marker: { color: colors[k], size: markerSize, symbol: chosenInitialShape },
             text: cluster_texts[k],
             hovertemplate: hoverTemplate,
           });
@@ -1367,7 +1368,6 @@ const App = () => {
     }
     if (savedData) {
       console.log("savedData");
-      console.log(savedData);
       let axis = savedData.axis;
       console.log(axis);
       let noAxis = axis.every((a) => a == null); // check if all axis are null, return true if all are null
@@ -1576,6 +1576,10 @@ const App = () => {
             runTSNE2d();
           } else if (selectedUploadOption === "t-SNE 3D") {
             runTSNE3d();
+          } else if (selectedUploadOption === "UMAP 2D") {
+            runUMAP2D();
+          } else if (selectedUploadOption === "UMAP 3D") {
+            runUMAP3D();
           }
         });
       };
@@ -1610,6 +1614,15 @@ const App = () => {
 
   const handleTSNE3D = (file) => {
     setSelectedUploadOption("t-SNE 3D");
+    handleFileUploadNew(file);
+  };
+
+  const handleUMAP2D = (file) => {
+    setSelectedUploadOption("UMAP 2D");
+    handleFileUploadNew(file);
+  };
+  const handleUMAP3D = (file) => {
+    setSelectedUploadOption("UMAP 3D");
     handleFileUploadNew(file);
   };
 
@@ -1762,8 +1775,12 @@ const App = () => {
       runKmeans(s.num_clusters, s.plot);
     } else if (s.selectedClusterMethod == 1) {
       runHC(s.num_clusters, s.plot);
-    } else {
+    } else if (s.selectedClusterMethod == 2) {
       runFuzzy(s.num_clusters, s.plot);
+    } else if (s.selectedClusterMethod == 3) {
+      runGMM(s.num_clusters, s.plot);
+    } else {
+      runSpectral(s.num_clusters, s.plot);
     }
   };
 
@@ -1911,6 +1928,115 @@ const App = () => {
       });
   };
 
+  const runGMM = (num_clusters, saved_plot) => {
+    const formData = {
+      df: saved_plot ? saved_plot : data,
+      num_clusters: num_clusters,
+    };
+
+    setIsLoading(true);
+    setProgressBarType("Loader");
+
+    axios
+      .post(
+        `${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}${process.env.REACT_APP_PORT}/api/rungmm/`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
+      .then((r) => {
+        var cluster_names = {};
+        [...Array(num_clusters)].map((x, index) => {
+          cluster_names[index] = "Cluster " + (index + 1);
+        });
+        setIsLoading(false);
+        setClusterColors(r.data.result);
+        setClusterNames(cluster_names);
+        setShowOutputOptions(true);
+        setColoredData([]);
+        setSelectedDescribingColumn({ value: "None", label: "None" });
+        setNumClusters(num_clusters);
+      })
+      .catch(() => {
+        setIsLoading(false);
+        ErrorMessage("Network error! Please check the request or try again.");
+      });
+  };
+
+  const runSpectral = (num_clusters, saved_plot) => {
+    const formData = {
+      df: saved_plot ? saved_plot : data,
+      num_clusters: num_clusters,
+    };
+
+    setIsLoading(true);
+    setProgressBarType("Loader");
+
+    axios
+      .post(
+        `${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}${process.env.REACT_APP_PORT}/api/runspectral/`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
+      .then((r) => {
+        var cluster_names = {};
+        [...Array(num_clusters)].map((x, index) => {
+          cluster_names[index] = "Cluster " + (index + 1);
+        });
+        setIsLoading(false);
+        setClusterColors(r.data.result);
+        setClusterNames(cluster_names);
+        setShowOutputOptions(true);
+        setColoredData([]);
+        setSelectedDescribingColumn({ value: "None", label: "None" });
+        setNumClusters(num_clusters);
+      })
+      .catch(() => {
+        setIsLoading(false);
+        ErrorMessage("Network error! Please check the request or try again.");
+      });
+  };
+
+  // const runDBSCAN = (eps, minSamples, saved_plot) => {
+  //   const formData = {
+  //     df: saved_plot ? saved_plot : data,
+  //     eps: eps,
+  //     min_samples: minSamples,
+  //   };
+
+  //   setIsLoading(true);
+  //   setProgressBarType("Loader");
+
+  //   axios
+  //     .post(
+  //       `${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}${process.env.REACT_APP_PORT}/api/rundbscan/`,
+  //       formData,
+  //       {
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //       }
+  //     )
+  //     .then((r) => {
+  //       setIsLoading(false);
+  //       setClusterColors(r.data.result);
+  //       setShowOutputOptions(true);
+  //       setColoredData([]);
+  //       setSelectedDescribingColumn({ value: "None", label: "None" });
+  //     })
+  //     .catch(() => {
+  //       setIsLoading(false);
+  //       ErrorMessage("Server error! Please check the input and try again. If the error persists, refer to the docs!");
+  //     });
+  // };
+
   const runTSNE2d = () => {
     const formData = {
       df: data,
@@ -1976,6 +2102,72 @@ const App = () => {
       .catch(() => {
         setIsLoading(false);
         ErrorMessage("Server error! Please check the input and try again. If the error persists, refer to the docs! ");
+      });
+  };
+  const runUMAP2D = () => {
+    const formData = {
+      df: data,
+    };
+
+    setIsLoading(true);
+    setProgressBarType("ProgressBar");
+    setProgressBarTimeInterval(70);
+
+    axios
+      .post(
+        `${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}${process.env.REACT_APP_PORT}/api/cmumap2d/`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
+      .then((r) => {
+        setIsLoading(false);
+        setColoredData([]);
+        setSelectedDescribingColumn({ value: "None", label: "None" });
+        setOutlierData([]);
+        setClusterNames({});
+        setClusterColors([]);
+        processData(r.data, false);
+      })
+      .catch(() => {
+        setIsLoading(false);
+        ErrorMessage("Server error! Please check the input and try again. If the error persists, refer to the docs!");
+      });
+  };
+  const runUMAP3D = () => {
+    const formData = {
+      df: data,
+    };
+
+    setIsLoading(true);
+    setProgressBarType("ProgressBar");
+    setProgressBarTimeInterval(70);
+
+    axios
+      .post(
+        `${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}${process.env.REACT_APP_PORT}/api/cmumap3d/`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
+      .then((r) => {
+        setIsLoading(false);
+        setColoredData([]);
+        setSelectedDescribingColumn({ value: "None", label: "None" });
+        setOutlierData([]);
+        setClusterNames({});
+        setClusterColors([]);
+        processData(r.data, false);
+      })
+      .catch(() => {
+        setIsLoading(false);
+        ErrorMessage("Server error! Please check the input and try again. If the error persists, refer to the docs!");
       });
   };
 
@@ -2341,7 +2533,14 @@ const App = () => {
   };
 
   const handleTabOutputCallback = (outputState) => {
-    setClusterNames(outputState.clusterNames);
+    if (!data) {
+      ErrorMessage("Please upload a dataset first");
+      return;
+    }
+    if (Object.keys(outputState.clusterNames).length !== 0) {
+      setClusterNames(outputState.clusterNames);
+    }
+
     setChosenClusterColors(outputState.chosenClusterColors);
     setPlotTitle(outputState.plotTitle);
     setPicWidth(outputState.width);
@@ -2350,6 +2549,7 @@ const App = () => {
     setChosenInitialColor(outputState.chosenInitialColor);
     setChosenInitialShape(outputState.selectedInitialShape.label);
     setMarkerSize(outputState.markerSize === undefined ? markerSize : outputState.markerSize);
+    SuccessMessage("Changes have been saved");
   };
   const downloadPlot = (outputState) => {
     setPlotTitle(outputState.plotTitle);
@@ -2424,6 +2624,8 @@ const App = () => {
           handleUnprocessedPCA={handleUnprocessedPCA}
           handleTSNE2D={handleTSNE2D}
           handleTSNE3D={handleTSNE3D}
+          runUMAP2D={handleUMAP2D}
+          runUMAP3D={handleUMAP3D}
           runPCAir={runPCAir}
           runCluster={runCluster}
           runOutliers={runOutliers}
@@ -2473,6 +2675,8 @@ const App = () => {
         />
 
         <BottomPane
+          dataNameModalVisible={dataNameModalVisible}
+          setDataNameModalVisible={setDataNameModalVisible}
           setProgressBarType={setProgressBarType}
           downloadPlot={downloadPlot}
           selectedUploadOption={selectedUploadOption}
@@ -2490,6 +2694,8 @@ const App = () => {
           data={data}
           handleMetaDataUpload={handleMetaDataUpload}
           onInputMetadataClick={onInputMetadataClick}
+          runUMAP2D={handleUMAP2D}
+          runUMAP3D={handleUMAP3D}
           allActions={allActions}
           setMappingIDColumn={setMappingIDColumn}
           alphaVal={alphaVal}
@@ -2528,6 +2734,8 @@ const App = () => {
 
         <RightPane
           downloadPlot={downloadPlot}
+          dataNameModalVisible={dataNameModalVisible}
+          setDataNameModalVisible={setDataNameModalVisible}
           selectedUploadOption={selectedUploadOption}
           selectActions={selectActions}
           multiValue={multiValue}

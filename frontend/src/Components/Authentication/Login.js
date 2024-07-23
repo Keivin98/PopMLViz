@@ -10,6 +10,7 @@ import {FaRegEye, FaRegEyeSlash} from "react-icons/fa6";
 import {AuthContext} from "../../config/AuthProvider";
 import ParticleBackground from "../ParticleBackground";
 import ErrorMessage from "../ErrorMessage";
+import SuccessMessage from "../SuccessMessage";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -88,6 +89,7 @@ function Login() {
         console.log(response.data);
         console.log(email);
         navigate("/Dashboard");
+        SuccessMessage("Login successful");
       } else {
         ErrorMessage("Unexpected response from server");
       }
@@ -95,7 +97,10 @@ function Login() {
       setIsLoading(false);
       if (error.response) {
         // Server responded with an error status code
-        if (error.response.status === 401) {
+        if (error.response.status === 404) {
+          ErrorMessage("User not found. Please check the email and try again.");
+        }
+        else if (error.response.status === 401) {
           ErrorMessage("Invalid credentials")
         } else {
           ErrorMessage('Server error! Please check the input and try again. If the error persists, refer to the docs!')

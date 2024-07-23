@@ -35,6 +35,8 @@ const LeftPane = ({
   processData,
   uploadSavedData,
   setIsMainPageLoading,
+  runUMAP2D,
+  runUMAP3D
 }) => {
   const navigate = useNavigate();
   // console.log(processData)
@@ -77,6 +79,8 @@ const LeftPane = ({
           unprocessedPCA={handleUnprocessedPCA}
           tsne2d={handleTSNE2D}
           tsne3d={handleTSNE3D}
+          runUMAP2D={runUMAP2D}
+          runUMAP3D={runUMAP3D}
           setIsMainPageLoading={setIsMainPageLoading}
           runPCAir={runPCAir}
           selectedColumns={selectedColumns}

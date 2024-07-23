@@ -36,17 +36,17 @@ def create_database():
     
     conn.commit()
 
-    c.execute("select * from users")    
-    # c.execute("DELETE FROM plots")      
-    rows = c.fetchall()
-    for row in rows:
-        print(row)
+    # c.execute("select * from users")    
+    # # c.execute("DELETE FROM plots")      
+    # rows = c.fetchall()
+    # for row in rows:
+    #     print(row)
 
-    c.execute("select * from plots")    
+    # c.execute("select * from plots")    
 
-    rows1 = c.fetchall()
-    for row in rows1:
-        print(row)
+    # rows1 = c.fetchall()
+    # for row in rows1:
+    #     print(row)
 
     conn.close()
 

@@ -27,6 +27,8 @@ const RightPane = ({
   selectedUploadOption,
   selectActions,
   multiValue,
+  dataNameModalVisible,
+  setDataNameModalVisible,
   handleMultiChange,
   selectedDescribingColumnColor,
   handleColoredColumns,
@@ -58,7 +60,6 @@ const RightPane = ({
   const uploadRef = useRef(null);
   const {user} = useContext(AuthContext);
   const [modalVisible, setModalVisible] = useState(false);
-  const [dataNameModalVisible, setDataNameModalVisible] = useState(false);
   const [dataName, setDataName] = useState("");
   const {numClusters, setNumClusters, confirmedClusterMethod, outlierDetectionOptions} = useZustand();
   const navigate = useNavigate();
@@ -194,17 +195,7 @@ const RightPane = ({
     }
 
     if (!data) {
-      toast.error("Please make sure to upload a dataset first", {
-        position: "top-center",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-        transition: Bounce,
-      });
+      ErrorMessage("Please make sure to upload a dataset first");
       return;
     }
     setDataNameModalVisible(true);
