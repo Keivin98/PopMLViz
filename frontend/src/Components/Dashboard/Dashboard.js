@@ -677,7 +677,6 @@ const App = () => {
   };
 
   const scatterWithClusters = (DIM, x, y, z, outliers, coloredData) => {
-    console.log("scatterWithClusters", DIM, x, y, z, outliers, coloredData);
     var x_clusters = [];
     var y_clusters = [];
     var layout = {};
@@ -780,7 +779,7 @@ const App = () => {
         if (outliers) {
           if (DIM === 2) {
             data_new.push({
-              name: "Outliers " + clusterNames[k],
+              name: "Outliers for " + clusterNames[k],
               x: x_clusters_outliers[k],
               y: y_clusters_outliers[k],
               z: z_clusters_outliers[k],
@@ -797,7 +796,7 @@ const App = () => {
             });
           } else {
             data_new.push({
-              name: "Outliers " + clusterNames[k],
+              name: "Outliers for " + clusterNames[k],
               x: x_clusters_outliers[k],
               y: y_clusters_outliers[k],
               mode: "markers",
@@ -1132,7 +1131,6 @@ const App = () => {
     );
   };
   const scatter2d = (x, y) => {
-    console.log("changed here");
     var x1 = [];
     var y1 = [];
     var cluster_texts = [];
@@ -1370,7 +1368,6 @@ const App = () => {
     }
     if (savedData) {
       console.log("savedData");
-      console.log(savedData);
       let axis = savedData.axis;
       console.log(axis);
       let noAxis = axis.every((a) => a == null); // check if all axis are null, return true if all are null
@@ -2536,9 +2533,13 @@ const App = () => {
   };
 
   const handleTabOutputCallback = (outputState) => {
-    console.log(outputState.clusterNames);
-    setClusterNames(outputState.clusterNames);
-    console.log(clusterNames);
+    if (!data) {
+      ErrorMessage("Please upload a dataset first");
+      return;
+    }
+    if (Object.keys(outputState.clusterNames).length !== 0) {
+      setClusterNames(outputState.clusterNames);
+    }
 
     setChosenClusterColors(outputState.chosenClusterColors);
     setPlotTitle(outputState.plotTitle);
