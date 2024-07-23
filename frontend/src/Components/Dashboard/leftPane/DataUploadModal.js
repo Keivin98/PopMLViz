@@ -21,6 +21,7 @@ import selectClusterActions from "../../../config/selectClusterActions";
 import selectOutlierActions from "../../../config/selectOutlierActions";
 import ErrorMessage from "../../ErrorMessage";
 import SuccessMessage from "../../SuccessMessage";
+import "./leftpane.css";
 
 const Input = styled("input")({
   display: "none",
@@ -492,7 +493,7 @@ function DataUploadModal({
             <div style={{ display: "flex", justifyContent: "center" }}>
               <Button
                 variant="contained"
-                style={{ marginTop: "20px", backgroundColor: green[500], color: "white" }}
+                style={{ marginTop: "20px", backgroundColor: colors.secondary, color: "white" }}
                 onClick={() => {
                   if (dataProcessed) {
                     processedPCA(files.PCA.processed);
@@ -523,7 +524,7 @@ function DataUploadModal({
             <div style={{ display: "flex", justifyContent: "center" }}>
               <Button
                 variant="contained"
-                style={{ marginTop: "20px", backgroundColor: green[500], color: "white" }}
+                style={{ marginTop: "20px", backgroundColor: colors.secondary, color: "white" }}
                 onClick={() => {
                   processedAdmix([files.PCA.processed, files.Admix]);
                   setFileChanged(true);
@@ -550,7 +551,7 @@ function DataUploadModal({
             <div style={{ display: "flex", justifyContent: "center" }}>
               <Button
                 variant="contained"
-                style={{ marginTop: "20px", backgroundColor: green[500], color: "white" }}
+                style={{ marginTop: "20px", backgroundColor: colors.secondary, color: "white" }}
                 onClick={async () => {
                   await handlePCAirFiles();
                   setFileChanged(true);
@@ -570,7 +571,7 @@ function DataUploadModal({
             <div style={{ display: "flex", justifyContent: "center" }}>
               <Button
                 variant="contained"
-                style={{ marginTop: "20px", backgroundColor: green[500], color: "white" }}
+                style={{ marginTop: "20px", backgroundColor: colors.secondary, color: "white" }}
                 onClick={() => {
                   tsne2d(files.PCA.unprocessed);
                   setFileChanged(true);
@@ -590,7 +591,7 @@ function DataUploadModal({
             <div style={{ display: "flex", justifyContent: "center" }}>
               <Button
                 variant="contained"
-                style={{ marginTop: "20px", backgroundColor: green[500], color: "white" }}
+                style={{ marginTop: "20px", backgroundColor: colors.secondary, color: "white" }}
                 onClick={() => {
                   tsne3d(files.PCA.unprocessed);
                   setFileChanged(true);
@@ -610,7 +611,7 @@ function DataUploadModal({
             <div style={{ display: "flex", justifyContent: "center" }}>
               <Button
                 variant="contained"
-                style={{ marginTop: "20px", backgroundColor: green[500], color: "white" }}
+                style={{ marginTop: "20px", backgroundColor: colors.secondary, color: "white" }}
                 onClick={() => {
                   runUMAP2D(files.PCA.unprocessed);
                   setFileChanged(true);
@@ -630,7 +631,7 @@ function DataUploadModal({
             <div style={{ display: "flex", justifyContent: "center" }}>
               <Button
                 variant="contained"
-                style={{ marginTop: "20px", backgroundColor: green[500], color: "white" }}
+                style={{ marginTop: "20px", backgroundColor: colors.secondary, color: "white" }}
                 onClick={() => {
                   runUMAP3D(files.PCA.unprocessed);
                   setFileChanged(true);
@@ -692,6 +693,7 @@ function DataUploadModal({
                 <div
                   style={{ display: "flex", width: "100%", justifyContent: "center", alignItems: "center", gap: 10 }}>
                   <div
+                    className="saved-plot-btn"
                     style={{
                       width: "80%",
                       minHeight: 50,
@@ -701,6 +703,7 @@ function DataUploadModal({
                       paddingRight: 20,
                       paddingLeft: 20,
                       display: "flex",
+                      cursor: "pointer",
                       alignItems: "center",
                       justifyContent: "space-between",
                       flexWrap: "wrap",
@@ -725,6 +728,7 @@ function DataUploadModal({
                     }}
                     style={{
                       backgroundColor: colors.secondary,
+                      cursor: "pointer",
                       height: 45,
                       width: 45,
                       display: "flex",
@@ -754,6 +758,7 @@ function DataUploadModal({
                       justifyContent: "center",
                       alignItems: "center",
                       borderRadius: 50,
+                      cursor: "pointer",
                     }}>
                     <FaTrash color="red" />
                   </div>

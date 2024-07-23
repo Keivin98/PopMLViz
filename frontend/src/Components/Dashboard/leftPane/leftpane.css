@@ -24,6 +24,10 @@
     align-items: center;
     margin-top: 20px;
 }
+.saved-plot-btn:hover{
+    background-color: #DADADA !important;
+
+}
 
 @media (max-width: 1300px) {
     .logo-container{
