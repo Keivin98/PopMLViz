@@ -167,6 +167,7 @@ const TabOutputOptions = ({
                     onChange={(e) => {
                       const newClusterNames = { ...clusterNames, [index]: e.target.value };
                       setClusterNames(newClusterNames);
+                      console.log(newClusterNames);
                     }}
                   />
                 </InputOptions>

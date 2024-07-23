@@ -80,7 +80,7 @@ const ClusteringAlgorithmsTab = ({ onChange }) => {
                   }),
                   control: (provided) => ({
                     ...provided,
-                    fontSize: 10,
+                    fontSize: 13,
                     // width: 100,
                   }),
                 }}

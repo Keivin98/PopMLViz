@@ -119,7 +119,7 @@ const OutlierDetectionTab = ({ onChange, numFeatures, removeOutliers, allActions
                 styles={{
                   control: (baseStyles, state) => ({
                     ...baseStyles,
-                    fontSize: 10,
+                    fontSize: 13,
                     width: 105
                     // width: 100,
                     // height: "100px"

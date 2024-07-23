@@ -677,6 +677,7 @@ const App = () => {
   };
 
   const scatterWithClusters = (DIM, x, y, z, outliers, coloredData) => {
+    console.log("scatterWithClusters", DIM, x, y, z, outliers, coloredData);
     var x_clusters = [];
     var y_clusters = [];
     var layout = {};
@@ -811,7 +812,7 @@ const App = () => {
             });
           }
         }
-        var name = clusterNames && clusterNames[k] ? clusterNames[k] : "Cluster " + k + 1;
+        var name = clusterNames && clusterNames[k] ? clusterNames[k] : "Cluster " + (k + 1);
         if (DIM === 2) {
           data_new.push({
             name: name,
@@ -820,7 +821,7 @@ const App = () => {
             z: z_clusters[k],
             mode: "markers",
             type: "scatter3d",
-            marker: { color: colors[k], size: markerSize },
+            marker: { color: colors[k], size: markerSize, symbol: chosenInitialShape },
             text: cluster_texts[k],
             hovertemplate: hoverTemplate,
           });
@@ -830,7 +831,7 @@ const App = () => {
             x: x_clusters[k],
             y: y_clusters[k],
             mode: "markers",
-            marker: { color: colors[k], size: markerSize },
+            marker: { color: colors[k], size: markerSize, symbol: chosenInitialShape },
             text: cluster_texts[k],
             hovertemplate: hoverTemplate,
           });
@@ -1131,6 +1132,7 @@ const App = () => {
     );
   };
   const scatter2d = (x, y) => {
+    console.log("changed here");
     var x1 = [];
     var y1 = [];
     var cluster_texts = [];
@@ -1778,10 +1780,10 @@ const App = () => {
       runHC(s.num_clusters, s.plot);
     } else if (s.selectedClusterMethod == 2) {
       runFuzzy(s.num_clusters, s.plot);
-    } else if (s.selectedClusterMethod == 3){
+    } else if (s.selectedClusterMethod == 3) {
       runGMM(s.num_clusters, s.plot);
-    }else{
-      runSpectral(s.num_clusters, s.plot)
+    } else {
+      runSpectral(s.num_clusters, s.plot);
     }
   };
 
@@ -1966,7 +1968,6 @@ const App = () => {
         ErrorMessage("Network error! Please check the request or try again.");
       });
   };
-
 
   const runSpectral = (num_clusters, saved_plot) => {
     const formData = {
@@ -2535,7 +2536,10 @@ const App = () => {
   };
 
   const handleTabOutputCallback = (outputState) => {
+    console.log(outputState.clusterNames);
     setClusterNames(outputState.clusterNames);
+    console.log(clusterNames);
+
     setChosenClusterColors(outputState.chosenClusterColors);
     setPlotTitle(outputState.plotTitle);
     setPicWidth(outputState.width);

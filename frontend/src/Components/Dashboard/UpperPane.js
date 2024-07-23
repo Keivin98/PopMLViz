@@ -148,7 +148,7 @@ const UpperPane = ({
               options={selectActions}
               onChange={handleSelectYChange}
               // isDisabled={(selectedOption !== "3D" && selectedOption !== "2D") || selectedUploadOption === "admixture"}
-              isDisabled={selectedOption !== "3D" && selectedOption !== "2D"}
+              isDisabled={selectedOption !== "3D" && selectedOption !== "2D"}              
             />
           </div>
         </div>
