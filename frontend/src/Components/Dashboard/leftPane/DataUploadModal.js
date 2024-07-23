@@ -317,7 +317,7 @@ function DataUploadModal({
     }
     let newFilenames = {};
     // setProgressBarType("ProgressBar");
-    setIsMainPageLoading(true);
+    // setIsMainPageLoading(true);
     handleClose();
     const uploadTasks = [".bed", ".bim", ".fam", "Kinship"].map(async (filename) => {
       const data = new FormData();
@@ -353,7 +353,7 @@ function DataUploadModal({
         resetSaveState();
         runPCAir(newFilenames[".bed"], newFilenames[".bim"], newFilenames[".fam"], newFilenames["Kinship"]);
         SuccessMessage("Data uploaded successfully!");
-        // setIsMainPageLoading(false);
+        setIsMainPageLoading(false);
       })
       .catch((error) => {
         console.error("An error occurred during the upload: ", error);

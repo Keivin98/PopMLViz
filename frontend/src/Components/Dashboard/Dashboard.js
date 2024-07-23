@@ -1572,21 +1572,22 @@ const App = () => {
         const data = XLSX.utils.sheet_to_csv(ws, { header: 1 });
         console.log("data");
         console.log(data);
-        processData(data, false, type);
-        if (type === 3) {
-          return mergeDataWithMetaData();
-        }
-        if (uploadOption === "PCA") {
-        } else if (uploadOption === "t-SNE 2D") {
-          console.log("running");
-          runTSNE2d();
-        } else if (uploadOption === "t-SNE 3D") {
-          runTSNE3d();
-        } else if (uploadOption === "UMAP 2D") {
-          runUMAP2D();
-        } else if (uploadOption === "UMAP 3D") {
-          runUMAP3D();
-        }
+        processData(data, false, type).then(() => {
+          if (type === 3) {
+            return mergeDataWithMetaData();
+          }
+          if (uploadOption === "PCA") {
+          } else if (uploadOption === "t-SNE 2D") {
+            console.log("running");
+            runTSNE2d();
+          } else if (uploadOption === "t-SNE 3D") {
+            runTSNE3d();
+          } else if (uploadOption === "UMAP 2D") {
+            runUMAP2D();
+          } else if (uploadOption === "UMAP 3D") {
+            runUMAP3D();
+          }
+        });
       };
       resetSaveState();
       handleClose();
@@ -2163,7 +2164,7 @@ const App = () => {
       setTimeout(() => {
         console.log("Waited 1 second!");
       }, 1000); // 1000 milliseconds = 1 second
-      
+
     const formData = {
       df: data,
     };
