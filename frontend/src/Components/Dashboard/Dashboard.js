@@ -1362,8 +1362,10 @@ const App = () => {
           setMetaDataColumnsFunction(columns);
         }
       } else {
+        console.log(list);
         setData(list);
         setColumnsState(columns);
+        console.log(data);
       }
     }
     if (savedData) {
@@ -1499,17 +1501,16 @@ const App = () => {
         const ws = wb.Sheets[wsname];
         /* Convert array of arrays */
         const data = XLSX.utils.sheet_to_csv(ws, { header: 1 });
-        processData(data, false, type).then(() => {
-          if (type === 3) {
-            return mergeDataWithMetaData();
-          }
-          if (selectedUploadOption === "PCA") {
-          } else if (selectedUploadOption === "t-SNE 2D") {
-            runTSNE2d();
-          } else if (selectedUploadOption === "t-SNE 3D") {
-            runTSNE3d();
-          }
-        });
+        processData(data, false, type);
+        if (type === 3) {
+          return mergeDataWithMetaData();
+        }
+        if (selectedUploadOption === "PCA") {
+        } else if (selectedUploadOption === "t-SNE 2D") {
+          runTSNE2d();
+        } else if (selectedUploadOption === "t-SNE 3D") {
+          runTSNE3d();
+        }
       };
       reader.readAsBinaryString(file);
     }
@@ -1543,12 +1544,12 @@ const App = () => {
   };
 
   //upload data for processed data and unprocessed Correlation Matrix by calling UploadCMDatasetNew, T_SNE 2D and T_SNE 3D, so it handles every upload except for PC-AIR
-  const handleFileUploadNew = (file, type) => {
+  const handleFileUploadNew = (file, type, uploadOption) => {
     if (!file) {
       ErrorMessage("Please select a file to upload");
       return;
     }
-    if (selectedUploadOption === "Correlation Matrix") {
+    if (uploadOption === "Correlation Matrix") {
       UploadCMDatasetNew(file, type);
     } else {
       setSelectedFile(file);
@@ -1558,6 +1559,8 @@ const App = () => {
       setClusterNames([]);
       setClusterColors([]);
       const reader = new FileReader();
+      console.log("fiel");
+      console.log(file);
       reader.onload = (evt) => {
         /* Parse data */
         const bstr = evt.target.result;
@@ -1567,21 +1570,23 @@ const App = () => {
         const ws = wb.Sheets[wsname];
         /* Convert array of arrays */
         const data = XLSX.utils.sheet_to_csv(ws, { header: 1 });
-        processData(data, false, type).then(() => {
-          if (type === 3) {
-            return mergeDataWithMetaData();
-          }
-          if (selectedUploadOption === "PCA") {
-          } else if (selectedUploadOption === "t-SNE 2D") {
-            runTSNE2d();
-          } else if (selectedUploadOption === "t-SNE 3D") {
-            runTSNE3d();
-          } else if (selectedUploadOption === "UMAP 2D") {
-            runUMAP2D();
-          } else if (selectedUploadOption === "UMAP 3D") {
-            runUMAP3D();
-          }
-        });
+        console.log("data");
+        console.log(data);
+        processData(data, false, type);
+        if (type === 3) {
+          return mergeDataWithMetaData();
+        }
+        if (uploadOption === "PCA") {
+        } else if (uploadOption === "t-SNE 2D") {
+          console.log("running");
+          runTSNE2d();
+        } else if (uploadOption === "t-SNE 3D") {
+          runTSNE3d();
+        } else if (uploadOption === "UMAP 2D") {
+          runUMAP2D();
+        } else if (uploadOption === "UMAP 3D") {
+          runUMAP3D();
+        }
       };
       resetSaveState();
       handleClose();
@@ -1592,38 +1597,39 @@ const App = () => {
   //processed upload
   const handleProcessedPCA = (file) => {
     setSelectedUploadOption("PCA");
-    handleFileUploadNew(file);
+    handleFileUploadNew(file, null, "PCA");
   };
   //handle upload data that is processed and admix
   const handleProcessedAdmix = (files) => {
     setSelectedUploadOption("pcairandadmixture");
-    handleFileUploadNew(files[0], 1);
-    handleFileUploadNew(files[1], 2);
+    handleFileUploadNew(files[0], 1, "pcairandadmixture");
+    handleFileUploadNew(files[1], 2, "pcairandadmixture");
   };
 
   //unprocessed upload for Correlation Matrix
   const handleUnprocessedPCA = (file, name) => {
     setSelectedUploadOption("Correlation Matrix");
-    handleFileUploadNew(file, name);
+    handleFileUploadNew(file, name, "Correlation Matrix");
   };
 
   const handleTSNE2D = (file) => {
+    console.log(file);
     setSelectedUploadOption("t-SNE 2D");
-    handleFileUploadNew(file);
+    handleFileUploadNew(file, null, "t-SNE 2D");
   };
 
   const handleTSNE3D = (file) => {
     setSelectedUploadOption("t-SNE 3D");
-    handleFileUploadNew(file);
+    handleFileUploadNew(file, null, "t-SNE 3D");
   };
 
   const handleUMAP2D = (file) => {
     setSelectedUploadOption("UMAP 2D");
-    handleFileUploadNew(file);
+    handleFileUploadNew(file, null, "UMAP 2D");
   };
   const handleUMAP3D = (file) => {
     setSelectedUploadOption("UMAP 3D");
-    handleFileUploadNew(file);
+    handleFileUploadNew(file, null, "UMAP 3D");
   };
 
   // const handleAdmixFileUpload1 = (e) => {
@@ -2038,6 +2044,11 @@ const App = () => {
   // };
 
   const runTSNE2d = () => {
+    if (!data)
+      setTimeout(() => {
+        console.log("Waited 1 second!");
+      }, 1000); // 1000 milliseconds = 1 second
+
     const formData = {
       df: data,
     };
@@ -2072,6 +2083,11 @@ const App = () => {
   };
 
   const runTSNE3d = () => {
+    if (!data)
+      setTimeout(() => {
+        console.log("Waited 1 second!");
+      }, 1000); // 1000 milliseconds = 1 second
+
     const formData = {
       df: data,
     };
@@ -2105,6 +2121,11 @@ const App = () => {
       });
   };
   const runUMAP2D = () => {
+    if (!data)
+      setTimeout(() => {
+        console.log("Waited 1 second!");
+      }, 1000); // 1000 milliseconds = 1 second
+
     const formData = {
       df: data,
     };
@@ -2138,6 +2159,11 @@ const App = () => {
       });
   };
   const runUMAP3D = () => {
+    if (!data)
+      setTimeout(() => {
+        console.log("Waited 1 second!");
+      }, 1000); // 1000 milliseconds = 1 second
+      
     const formData = {
       df: data,
     };

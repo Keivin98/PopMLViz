@@ -331,7 +331,7 @@ def runPCAIR():
     result_name = random_string(12)
     if kinship_name == "":
         robjects.r('''
-        .libPaths("/Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/library")
+        .libPaths("/home/local/QCRI/kisufaj/R/x86_64-pc-linux-gnu-library/4.1”)
         library(GENESIS)
         library(SNPRelate)
         library(GWASTools)
@@ -354,7 +354,7 @@ def runPCAIR():
         ''' % (bed_name, bim_name, fam_name, gds_name, gds_name, fam_name, result_name))
     else:
         robjects.r('''
-        .libPaths("/Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/library")
+        .libPaths("/home/local/QCRI/kisufaj/R/x86_64-pc-linux-gnu-library/4.1”)
         library(GENESIS)
         library(SNPRelate)
         library(GWASTools)
