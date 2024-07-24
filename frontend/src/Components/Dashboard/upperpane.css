@@ -26,6 +26,7 @@
 }
 .select{
     font-size: 12px !important;
+    width: 100px;
 }
 .selectContainer{
     width: 100% ;
@@ -67,5 +68,12 @@
         marg
         in-left: 10px;
     } */
+  }
+
+  @media (max-width: 755px) {
+    .select{
+        width: auto;
+    }
+
   }
 

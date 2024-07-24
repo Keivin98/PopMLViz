@@ -30,6 +30,8 @@ from umap import UMAP
 from sklearn.cluster import DBSCAN
 from sklearn.mixture import GaussianMixture
 from sklearn.cluster import SpectralClustering
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.covariance import EllipticEnvelope
 
 main_blueprint = Blueprint('main', __name__)
 bcrypt = Bcrypt()
@@ -331,7 +333,7 @@ def runPCAIR():
     result_name = random_string(12)
     if kinship_name == "":
         robjects.r('''
-        .libPaths("/home/local/QCRI/kisufaj/R/x86_64-pc-linux-gnu-library/4.1”)
+        .libPaths("/home/local/QCRI/kisufaj/R/x86_64-pc-linux-gnu-library/4.1")
         library(GENESIS)
         library(SNPRelate)
         library(GWASTools)
@@ -354,7 +356,7 @@ def runPCAIR():
         ''' % (bed_name, bim_name, fam_name, gds_name, gds_name, fam_name, result_name))
     else:
         robjects.r('''
-        .libPaths("/home/local/QCRI/kisufaj/R/x86_64-pc-linux-gnu-library/4.1”)
+        .libPaths("/home/local/QCRI/kisufaj/R/x86_64-pc-linux-gnu-library/4.1")
         library(GENESIS)
         library(SNPRelate)
         library(GWASTools)
@@ -439,6 +441,18 @@ def detectoutliers():
     if std_freedom == 7:
         clf = OneClassSVM(kernel='rbf').fit_predict(df[columns_of_interest])
         clf_binary = {0: list(map(outliers, clf))}
+        clf_df = pd.DataFrame(clf_binary)
+        return clf_df.to_csv()
+
+
+    # K-Nearest Neighbors (KNN)
+    if std_freedom == 8:
+        clf = KNeighborsClassifier(n_neighbors=5).fit(df[columns_of_interest], df[columns_of_interest])
+        distances, _ = clf.kneighbors(df[columns_of_interest])
+        mean_distances = distances.mean(axis=1)
+        threshold = mean_distances.mean() + 2 * mean_distances.std()
+        outliers_list = [1 if distance > threshold else 0 for distance in mean_distances]
+        clf_binary = {0: list(map(outliers, outliers_list))}
         clf_df = pd.DataFrame(clf_binary)
         return clf_df.to_csv()
     

@@ -31,5 +31,13 @@ const selectOutlierActions = [
     label: "OneClassSVM",
     value: 7,
   },
+  {
+    label: "k-Nearest Neighbors",
+    value: 8,
+  },
+  // {
+  //   label: "OneClassSVM",
+  //   value: 8,
+  // },
 ];
 export default selectOutlierActions;   

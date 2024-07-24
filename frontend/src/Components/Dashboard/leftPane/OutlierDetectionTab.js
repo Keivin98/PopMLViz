@@ -35,6 +35,7 @@ const OutlierDetectionTab = ({ onChange, numFeatures, removeOutliers, allActions
     if (
       allActions.filter((elem) => {
         return Array.isArray(elem) || elem.label.includes("PC");
+        
       }).length > 0
     ) {
       return "PC";
@@ -105,7 +106,6 @@ const OutlierDetectionTab = ({ onChange, numFeatures, removeOutliers, allActions
           <FcMindMap size={30} style={{ marginRight: "3%", opacity: 0.5 }} />
           <label className="label-txt">Outlier Detection </label>
         </div>
-
         <AiFillCaretDown style={{ marginTop: "3%" }} />
       </div>
 

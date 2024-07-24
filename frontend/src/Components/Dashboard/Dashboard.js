@@ -154,6 +154,23 @@ const App = () => {
     };
   }, []);
 
+  // useEffect(() => {
+  //   if (data) {
+  //     if (selectedUploadOption === "PCA") {
+  //     } else if (selectedUploadOption === "t-SNE 2D") {
+  //       console.log("running");
+  //       runTSNE2d();
+  //     } else if (selectedUploadOption === "t-SNE 3D") {
+  //       runTSNE3d();
+  //     } else if (selectedUploadOption === "UMAP 2D") {
+  //       runUMAP2D();
+  //     } else if (selectedUploadOption === "UMAP 3D") {
+  //       runUMAP3D();
+  //     }
+  //   }
+  //   // console.log(data);
+  // }, [data]);
+
   function resetSaveState() {
     setConfirmedClusterMethod(null);
     setOutlierDetectionOptions({});
@@ -1366,6 +1383,7 @@ const App = () => {
         setData(list);
         setColumnsState(columns);
         console.log(data);
+      
       }
     }
     if (savedData) {
@@ -1425,6 +1443,7 @@ const App = () => {
         console.log(s);
         runOutliers(s, true);
       }
+      return list;
     }
   };
   const mergeDataWithMetaData = () => {
@@ -1561,7 +1580,7 @@ const App = () => {
       const reader = new FileReader();
       console.log("fiel");
       console.log(file);
-      reader.onload = (evt) => {
+      reader.onload = async (evt) => {
         /* Parse data */
         const bstr = evt.target.result;
         const wb = XLSX.read(bstr, { type: "binary" });
@@ -1572,22 +1591,22 @@ const App = () => {
         const data = XLSX.utils.sheet_to_csv(ws, { header: 1 });
         console.log("data");
         console.log(data);
-        processData(data, false, type).then(() => {
-          if (type === 3) {
-            return mergeDataWithMetaData();
-          }
-          if (uploadOption === "PCA") {
-          } else if (uploadOption === "t-SNE 2D") {
-            console.log("running");
-            runTSNE2d();
-          } else if (uploadOption === "t-SNE 3D") {
-            runTSNE3d();
-          } else if (uploadOption === "UMAP 2D") {
-            runUMAP2D();
-          } else if (uploadOption === "UMAP 3D") {
-            runUMAP3D();
-          }
-        });
+        let dt = await processData(data, false, type);
+
+        if (type === 3) {
+          return mergeDataWithMetaData();
+        }
+        if (uploadOption === "PCA") {
+        } else if (uploadOption === "t-SNE 2D") {
+          console.log("running");
+          runTSNE2d(dt);
+        } else if (uploadOption === "t-SNE 3D") {
+          runTSNE3d(dt);
+        } else if (uploadOption === "UMAP 2D") {
+          runUMAP2D(dt);
+        } else if (uploadOption === "UMAP 3D") {
+          runUMAP3D(dt);
+        }
       };
       resetSaveState();
       handleClose();
@@ -2044,14 +2063,11 @@ const App = () => {
   //     });
   // };
 
-  const runTSNE2d = () => {
-    if (!data)
-      setTimeout(() => {
-        console.log("Waited 1 second!");
-      }, 1000); // 1000 milliseconds = 1 second
+  const runTSNE2d = (dt) => {
+    // if (!data) setTimeout(() => {}, 1000);
 
     const formData = {
-      df: data,
+      df: dt ? dt : data,
     };
     setIsLoading(true);
     setProgressBarType("ProgressBar");
@@ -2071,11 +2087,13 @@ const App = () => {
       .then((r) => {
         setIsLoading(false);
         setColoredData([]);
+
         setSelectedDescribingColumn({ value: "None", label: "None" });
         setOutlierData([]);
         setClusterNames({});
         setClusterColors([]);
         processData(r.data, false);
+        onValueChangeDims("2D", false, true);
       })
       .catch(() => {
         setIsLoading(false);
@@ -2083,14 +2101,14 @@ const App = () => {
       });
   };
 
-  const runTSNE3d = () => {
-    if (!data)
-      setTimeout(() => {
-        console.log("Waited 1 second!");
-      }, 1000); // 1000 milliseconds = 1 second
+  const runTSNE3d = (dt) => {
+    // if (!data)
+    //   setTimeout(() => {
+    //     console.log("Waited 1 second!");
+    //   }, 1000); // 1000 milliseconds = 1 second
 
     const formData = {
-      df: data,
+      df: dt ? dt : data,
     };
     setIsLoading(true);
     setProgressBarType("ProgressBar");
@@ -2115,20 +2133,21 @@ const App = () => {
         setClusterNames({});
         setClusterColors([]);
         processData(r.data, false);
+        onValueChangeDims("3D", false, true);
       })
       .catch(() => {
         setIsLoading(false);
         ErrorMessage("Server error! Please check the input and try again. If the error persists, refer to the docs! ");
       });
   };
-  const runUMAP2D = () => {
-    if (!data)
-      setTimeout(() => {
-        console.log("Waited 1 second!");
-      }, 1000); // 1000 milliseconds = 1 second
+  const runUMAP2D = (dt) => {
+    // if (!data)
+    //   setTimeout(() => {
+    //     console.log("Waited 1 second!");
+    //   }, 1000); // 1000 milliseconds = 1 second
 
     const formData = {
-      df: data,
+      df: dt ? dt : data,
     };
 
     setIsLoading(true);
@@ -2153,20 +2172,21 @@ const App = () => {
         setClusterNames({});
         setClusterColors([]);
         processData(r.data, false);
+        onValueChangeDims("2D", false, true);
       })
       .catch(() => {
         setIsLoading(false);
         ErrorMessage("Server error! Please check the input and try again. If the error persists, refer to the docs!");
       });
   };
-  const runUMAP3D = () => {
-    if (!data)
-      setTimeout(() => {
-        console.log("Waited 1 second!");
-      }, 1000); // 1000 milliseconds = 1 second
+  const runUMAP3D = (dt) => {
+    // if (!data)
+    //   setTimeout(() => {
+    //     console.log("Waited 1 second!");
+    //   }, 1000); // 1000 milliseconds = 1 second
 
     const formData = {
-      df: data,
+      df: dt ? dt : data,
     };
 
     setIsLoading(true);
@@ -2191,6 +2211,7 @@ const App = () => {
         setClusterNames({});
         setClusterColors([]);
         processData(r.data, false);
+        onValueChangeDims("3D", false, true);
       })
       .catch(() => {
         setIsLoading(false);
@@ -2344,6 +2365,7 @@ const App = () => {
     saved_plot,
     selectedUploadOptionSaved
   ) => {
+    console.log(selectedOutlierMethod)
     if (selectedOutlierMethod === 0) {
       updateOutlierData([]);
     } else {
