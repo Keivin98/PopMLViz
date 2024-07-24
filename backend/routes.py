@@ -32,6 +32,8 @@ from umap import UMAP
 from sklearn.cluster import DBSCAN
 from sklearn.mixture import GaussianMixture
 from sklearn.cluster import SpectralClustering
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.covariance import EllipticEnvelope
 
 main_blueprint = Blueprint('main', __name__)
 bcrypt = Bcrypt()
@@ -441,6 +443,18 @@ def detectoutliers():
     if std_freedom == 7:
         clf = OneClassSVM(kernel='rbf').fit_predict(df[columns_of_interest])
         clf_binary = {0: list(map(outliers, clf))}
+        clf_df = pd.DataFrame(clf_binary)
+        return clf_df.to_csv()
+
+
+    # K-Nearest Neighbors (KNN)
+    if std_freedom == 8:
+        clf = KNeighborsClassifier(n_neighbors=5).fit(df[columns_of_interest], df[columns_of_interest])
+        distances, _ = clf.kneighbors(df[columns_of_interest])
+        mean_distances = distances.mean(axis=1)
+        threshold = mean_distances.mean() + 2 * mean_distances.std()
+        outliers_list = [1 if distance > threshold else 0 for distance in mean_distances]
+        clf_binary = {0: list(map(outliers, outliers_list))}
         clf_df = pd.DataFrame(clf_binary)
         return clf_df.to_csv()
     
