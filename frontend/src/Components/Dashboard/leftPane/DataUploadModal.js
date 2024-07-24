@@ -316,7 +316,7 @@ function DataUploadModal({
       return;
     }
     let newFilenames = {};
-    setProgressBarType("ProgressBar");
+    // setProgressBarType("ProgressBar");
     setIsMainPageLoading(true);
     handleClose();
     const uploadTasks = [".bed", ".bim", ".fam", "Kinship"].map(async (filename) => {
