@@ -49,10 +49,10 @@ const ScatterAdmix = ({
 
   const updatedLayout = {
     margin: {
-      l: 20,
-      r: 20,
-      t: 20,
-      b: 20,
+      l: 40,
+      r: 40,
+      t: 40,
+      b: 40,
     },
     autosize: true,
   };
@@ -292,10 +292,10 @@ const ScatterAdmix = ({
           x: 0.99,
         },
         margin: {
-          l: 20,
-          r: 20,
-          t: 20,
-          b: 20,
+          l: 40,
+          r: 40,
+          t: 40,
+          b: 40,
         },
         autosize: true,
         scene: {
@@ -344,10 +344,10 @@ const ScatterAdmix = ({
     } else {
       layout = {
         margin: {
-          l: 20,
-          r: 20,
-          t: 20,
-          b: 20,
+          l: 40,
+          r: 40,
+          t: 40,
+          b: 40,
         },
         title: plot_title,
         xaxis: { title: x },
