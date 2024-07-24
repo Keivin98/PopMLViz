@@ -10,10 +10,10 @@ const ScatterPlot = ({ data, layout, picWidth, picHeight, picFormat, plotTitle }
     const updatedLayout = {
       ...layout,
       margin: {
-        l: 20,
-        r: 20,
-        t: 20,
-        b: 20,
+        l: 40,
+        r: 40,
+        t: 40,
+        b: 40,
       },
       autosize: true,
       responsive: true,
