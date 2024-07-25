@@ -495,10 +495,11 @@ function DataUploadModal({
                 variant="contained"
                 style={{ marginTop: "20px", backgroundColor: colors.secondary, color: "white" }}
                 onClick={() => {
+                 
                   if (dataProcessed) {
                     processedPCA(files.PCA.processed);
                   } else {
-                    if (!files) unprocessedPCA(files.PCA.unprocessed, files.PCA.unprocessed.name);
+                    unprocessedPCA(files.PCA.unprocessed, files.PCA?.unprocessed?.name);
                   }
                   setFileChanged(true);
                 }}>
