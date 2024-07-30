@@ -1357,35 +1357,6 @@ const App = () => {
         }
       }
     }
-
-    // prepare columns list from headers
-    const columns = headers.map((c) => ({
-      name: c,
-      selector: c,
-    }));
-    if (outliers === true) {
-      updateOutlierData(list);
-    } else {
-      if (type != null) {
-        if (type === 1) {
-          setData(list);
-          setColumnsState(columns);
-        }
-        if (type === 2) {
-          setAdmix(list);
-        }
-        if (type === 3) {
-          setMetaData(list);
-          setMetaDataColumnsFunction(columns);
-        }
-      } else {
-        console.log(list);
-        setData(list);
-        setColumnsState(columns);
-        console.log(data);
-      
-      }
-    }
     if (savedData) {
       console.log("savedData");
       let axis = savedData.axis;
@@ -1443,7 +1414,34 @@ const App = () => {
         console.log(s);
         runOutliers(s, true);
       }
-      return list;
+    }
+    // prepare columns list from headers
+    const columns = headers.map((c) => ({
+      name: c,
+      selector: c,
+    }));
+    if (outliers === true) {
+      updateOutlierData(list);
+    } else {
+      if (type != null) {
+        if (type === 1) {
+          setData(list);
+          setColumnsState(columns);
+        }
+        if (type === 2) {
+          setAdmix(list);
+        }
+        if (type === 3) {
+          setMetaData(list);
+          setMetaDataColumnsFunction(columns);
+        }
+      } else {
+        console.log(list);
+        setData(list);
+        setColumnsState(columns);
+        console.log(data);
+        return list;
+      }
     }
   };
   const mergeDataWithMetaData = () => {
@@ -2365,7 +2363,7 @@ const App = () => {
     saved_plot,
     selectedUploadOptionSaved
   ) => {
-    console.log(selectedOutlierMethod)
+    console.log(selectedOutlierMethod);
     if (selectedOutlierMethod === 0) {
       updateOutlierData([]);
     } else {
