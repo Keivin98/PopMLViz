@@ -10,12 +10,13 @@ export default function BackButton({ handleBack, color, arrowColor }) {
         borderRadius: 50,
         width: 40,
         height: 40,
+        paddingLeft: 5,
+        paddingRight: 5,
         backgroundColor: color ? color : "#EEE",
         justifyContent: "center",
         alignItems: "center",
         marginRight: 30,
-      }}
-    >
+      }}>
       <ArrowBackIcon htmlColor={arrowColor ? arrowColor : "black"} style={{ cursor: "pointer" }} />
     </div>
   );
