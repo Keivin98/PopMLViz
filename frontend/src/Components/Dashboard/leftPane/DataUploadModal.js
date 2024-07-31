@@ -495,7 +495,6 @@ function DataUploadModal({
                 variant="contained"
                 style={{ marginTop: "20px", backgroundColor: colors.secondary, color: "white" }}
                 onClick={() => {
-                 
                   if (dataProcessed) {
                     processedPCA(files.PCA.processed);
                   } else {
@@ -730,8 +729,9 @@ function DataUploadModal({
                     style={{
                       backgroundColor: colors.secondary,
                       cursor: "pointer",
-                      height: 45,
-                      width: 45,
+                      padding: 5,
+                      // height: 45,
+                      // width: 45,
                       display: "flex",
                       justifyContent: "center",
                       alignItems: "center",
@@ -753,15 +753,16 @@ function DataUploadModal({
                     onClick={() => handleDelete(plot.title)}
                     style={{
                       backgroundColor: "#EEE",
-                      height: 45,
-                      width: 45,
+                      // height: 45,
+                      // width: 45,
+                      padding: 15,
                       display: "flex",
                       justifyContent: "center",
                       alignItems: "center",
                       borderRadius: 50,
                       cursor: "pointer",
                     }}>
-                    <FaTrash color="red" />
+                    <FaTrash size={20} color="red" />
                   </div>
                 </div>
               ))
@@ -845,6 +846,8 @@ function DataUploadModal({
         p: 4,
         borderRadius: 2,
         minWidth: 310,
+        maxHeight: "80vh",
+        overflowY: "scroll",
       }}>
       <div style={{ display: "flex", justifyContent: "start", marginBottom: "20px" }}>
         {dataSelectionStep !== "initial" && <BackButton handleBack={handleBack}></BackButton>}

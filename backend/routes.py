@@ -392,7 +392,7 @@ def detectoutliers():
         if input_format == "pca":
             return ('PC%d' % (x))
         elif input_format == "umap":
-            return ('UMAP-%d' % (x))
+            return ('UMAP-%d' % (x+1))
         else:    
             return ('TSNE-%d' % (x))
 
@@ -409,14 +409,16 @@ def detectoutliers():
     request_df = request.get_json()['df']
     request_method = request.get_json()['method']
     column_range_req = request.get_json()['columnRange']
-    column_range = list(range(column_range_req[0], column_range_req[1] + 1)) # [1,2,3,4,5,6,7,8,9,10]
+    if column_range_req[0] > column_range_req[1]:
+        column_range = list(range(column_range_req[1], column_range_req[0] + 1))
+    else:    
+        column_range = list(range(column_range_req[0], column_range_req[1] + 1)) # [1,2,3,4,5,6,7,8,9,10]
 
     combine_type = int(request.get_json()['combineType'])
     std_freedom = int(request_method)
     input_format = request.get_json()['inputFormat']
     df = pd.json_normalize(request_df)
     newdf = {}
-    print(column_range)
     columns_of_interest = list(map(choose_columns, column_range))
     
     #Isolation Forest
