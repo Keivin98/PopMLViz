@@ -868,7 +868,7 @@ function DataUploadModal({
           variant="outlined"
           className={classes.customButton}
           onClick={handleOpen}>
-          Choose Data
+          Add Data
         </Button>
       </div>
       <Modal open={showOptionModal} onClose={() => setShowOptionModal(false)}>

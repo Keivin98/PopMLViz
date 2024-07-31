@@ -1820,9 +1820,23 @@ const App = () => {
     console.log(s);
     let inputFormat;
     if (!saved) {
-      inputFormat = selectedUploadOption.includes("t-SNE") ? "tsne" : "pca";
+      if (selectedUploadOption.includes("t-SNE")) {
+        inputFormat = "tsne";
+      } else if (selectedUploadOption.includes("PCA")) {
+        inputFormat = "pca";
+      } else {
+        inputFormat = "umap";
+      }
+      // inputFormat = selectedUploadOption.includes("t-SNE") ? "tsne" : "pca";
     } else {
-      inputFormat = s.selectedUploadOption.includes("t-SNE") ? "tsne" : "pca";
+      if (s.selectedUploadOption.includes("t-SNE")) {
+        inputFormat = "tsne";
+      } else if (s.selectedUploadOption.includes("PCA")) {
+        inputFormat = "pca";
+      } else {
+        inputFormat = "umap";
+      }
+      // inputFormat = s.selectedUploadOption.includes("t-SNE") ? "tsne" : "pca";
     }
     detectOutliers(s.selectedOutlierMethod, s.columnRange, s.pressed, inputFormat, s.plot, s.selectedUploadOption);
   };
@@ -1840,7 +1854,7 @@ const App = () => {
     setIsLoading(true);
     setProgressBarType("Loader");
     setAdmix([]);
-    setSelectedUploadOption("PCA");
+    // setSelectedUploadOption("PCA");
 
     axios
       .post(
@@ -2391,9 +2405,18 @@ const App = () => {
         .then((r) => {
           setIsLoading(false);
           if (saved_plot) {
-            setSelectedUploadOption(selectedUploadOptionSaved.includes("t-SNE") ? "PCA" : selectedUploadOptionSaved);
+            setSelectedUploadOption(
+              selectedUploadOptionSaved.includes("t-SNE")
+                ? "t-SNE"
+                : selectedUploadOptionSaved.includes("PCA")
+                ? "PCA"
+                : "UMAP"
+            );
+            console.log(selectedUploadOptionSaved);
           } else {
-            setSelectedUploadOption(selectedUploadOption.includes("t-SNE") ? "PCA" : selectedUploadOption);
+            setSelectedUploadOption(
+              selectedUploadOption.includes("t-SNE") ? "t-SNE" : selectedUploadOption.includes("PCA") ? "PCA" : "UMAP"
+            );
           }
           setSelectedColorShape(0); // keep it always to zero, because we do not need the shaped data
           processData(r.data, true);
