@@ -26,7 +26,17 @@ import Navbar from "react-bootstrap/Navbar";
 import Dendrogram from "../Components/Dashboard/centralPane/Dendrogram";
 
 require("dotenv").config();
+
 const randomColors = [
+  "#ff7f0e",
+  "#2ca02c",
+  "#d62728",
+  "#9467bd",
+  "#8c564b",
+  "#e377c2",
+  "#7f7f7f",
+  "#bcbd22",
+  "#17becf",
   "#3f91ba",
   "#801f65",
   "#86af43",
@@ -40,7 +50,9 @@ const randomColors = [
   "#a3a6ed",
   "#0740ba",
   "#277f05",
+  "#1f77b4",
 ];
+
 
 const randomShapes = [
   "circle",

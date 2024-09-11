@@ -1,17 +1,17 @@
-import React, { createContext, useState, useEffect } from "react";
+import React, {createContext, useState, useEffect} from "react";
 import axios from "axios";
 
 
 const AuthContext = createContext();
 
-const AuthProvider = ({ children }) => {
+const AuthProvider = ({children}) => {
   const [user, setUser] = useState(null);
 
   // Function to refresh access token using refresh token
   const refreshAccessToken = async () => {
     try {
       const response = await axios.post(
-        `${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}${process.env.REACT_APP_PORT}/refresh`,
+        `${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}${process.env.REACT_APP_PORT}/api/refresh`,
         {},
         {
           withCredentials: true,
@@ -19,8 +19,10 @@ const AuthProvider = ({ children }) => {
       );
 
       if (response.status === 200) {
+
         const { user } = response.data;
         // console.log("user "+ user)
+
 
         setUser(user);
       }
@@ -35,14 +37,14 @@ const AuthProvider = ({ children }) => {
     const verifyToken = async () => {
       try {
         const response = await axios.get(
-          `${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}${process.env.REACT_APP_PORT}/verify`,
+          `${process.env.REACT_APP_PROTOCOL}://${process.env.REACT_APP_DOMAIN}${process.env.REACT_APP_PORT}/api/verify`,
           {
             withCredentials: true, // This sends the cookies
           }
         );
 
         if (response.status === 200) {
-          const { user } = response.data;
+          const {user} = response.data;
           setUser(user);
           // console.log(user);
         }
@@ -56,7 +58,7 @@ const AuthProvider = ({ children }) => {
     verifyToken();
   }, []);
 
-  return <AuthContext.Provider value={{ user, setUser }}>{children}</AuthContext.Provider>;
+  return <AuthContext.Provider value={{user, setUser}}>{children}</AuthContext.Provider>;
 };
 
-export { AuthContext, AuthProvider };
+export {AuthContext, AuthProvider};

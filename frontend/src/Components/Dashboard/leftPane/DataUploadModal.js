@@ -1,11 +1,11 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, {useEffect, useState, useRef} from "react";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import { green } from "@mui/material/colors";
-import { styled } from "@mui/material/styles";
-import { makeStyles } from "@mui/styles";
+import {green} from "@mui/material/colors";
+import {styled} from "@mui/material/styles";
+import {makeStyles} from "@mui/styles";
 import font from "../../../config/font";
 import BackButton from "../../BackButton";
 import axios from "axios";
@@ -13,10 +13,10 @@ import fetchSavedData from "./fetchSavedData";
 import Loader from "react-loader-spinner";
 import colors from "../../../config/colors";
 import fetchSpecificPlot from "./fetchSpecificPlot";
-import { FaTrash } from "react-icons/fa6";
-import { checkAccessTokenValidity, api, refreshAccessToken } from "../../../config/tokenValidityChecker";
+import {FaTrash} from "react-icons/fa6";
+import {checkAccessTokenValidity, api, refreshAccessToken} from "../../../config/tokenValidityChecker";
 import AppButton from "../../AppButton";
-import { MdOutlineMoreHoriz } from "react-icons/md";
+import {MdOutlineMoreHoriz} from "react-icons/md";
 import selectClusterActions from "../../../config/selectClusterActions";
 import selectOutlierActions from "../../../config/selectOutlierActions";
 import ErrorMessage from "../../ErrorMessage";
@@ -84,7 +84,7 @@ function DataUploadModal({
   color
 }) {
   const defaultFile = {
-    PCA: { processed: null, unprocessed: null },
+    PCA: {processed: null, unprocessed: null},
     Admix: null,
     ".bed": null,
     ".bim": null,
@@ -103,7 +103,7 @@ function DataUploadModal({
 
   // State to keep track of drag over for each type
   const [dragOver, setDragOver] = useState({
-    PCA: { processed: false, unprocessed: false },
+    PCA: {processed: false, unprocessed: false},
     Admix: false,
     ".bed": false,
     ".bim": false,
@@ -123,7 +123,7 @@ function DataUploadModal({
   }, []);
 
   const refs = {
-    PCA: { processed: useRef(null), unprocessed: useRef(null) },
+    PCA: {processed: useRef(null), unprocessed: useRef(null)},
     Admix: useRef(null),
     ".bed": useRef(null),
     ".bim": useRef(null),
@@ -132,7 +132,7 @@ function DataUploadModal({
   };
   const fileInputRefs = useRef({});
 
-  function StyledText({ label, value, range }) {
+  function StyledText({label, value, range}) {
     return (
       <>
         <div
@@ -143,11 +143,11 @@ function DataUploadModal({
             marginBottom: 5,
             marginTop: 5,
           }}>
-          <div style={{ marginRight: 10 }}>{label}: </div>
+          <div style={{marginRight: 10}}>{label}: </div>
           {range ? (
-            <div style={{ textAlign: "right" }}>{value ? `Between ${value[0]} and ${value[1]}` : "Not applied"}</div>
+            <div style={{textAlign: "right"}}>{value ? `Between ${value[0]} and ${value[1]}` : "Not applied"}</div>
           ) : (
-            <div style={{ textAlign: "right" }}>{value ? value : "Not applied"}</div>
+            <div style={{textAlign: "right"}}>{value ? value : "Not applied"}</div>
           )}
         </div>
         <hr></hr>
@@ -157,7 +157,7 @@ function DataUploadModal({
 
   const resetUploads = () => {
     setFiles({
-      PCA: { processed: null, unprocessed: null },
+      PCA: {processed: null, unprocessed: null},
       Admix: null,
       ".bed": null,
       ".bim": null,
@@ -167,7 +167,7 @@ function DataUploadModal({
 
     // State to keep track of drag over for each type
     setDragOver({
-      PCA: { processed: false, unprocessed: false },
+      PCA: {processed: false, unprocessed: false},
       Admix: false,
       ".bed": false,
       ".bim": false,
@@ -180,7 +180,7 @@ function DataUploadModal({
 
   const handleDragLeave = (e, type) => {
     e.preventDefault();
-    let newDragOverState = { ...dragOver };
+    let newDragOverState = {...dragOver};
 
     if (type === "PCA") {
       if (dataProcessed) {
@@ -201,8 +201,8 @@ function DataUploadModal({
 
     const uploadedFiles = drop ? e.dataTransfer.files[0] : e.target.files[0];
 
-    let newFilesState = { ...files };
-    let newDragOverState = { ...dragOver };
+    let newFilesState = {...files};
+    let newDragOverState = {...dragOver};
 
     if (uploadedFiles) {
       if (type === "PCA") {
@@ -233,7 +233,7 @@ function DataUploadModal({
     try {
       const response = await api.post(
         "/api/deletePlot",
-        { title: title },
+        {title: title},
         {
           headers: {
             ...headers,
@@ -242,8 +242,10 @@ function DataUploadModal({
         }
       );
       if (response.status == 200) {
+
         // console.log(response.data);
         fetchSavedData({ setSavedPlots, setIsLoading, selectedColumns });
+
       }
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -264,7 +266,7 @@ function DataUploadModal({
     } else if (selection === "example") {
       setDataSelectionStep("exampleData");
     } else if (selection === "saved") {
-      fetchSavedData({ setDataSelectionStep, setSavedPlots, setIsLoading, selectedColumns });
+      fetchSavedData({setDataSelectionStep, setSavedPlots, setIsLoading, selectedColumns});
       setDataSelectionStep("saved");
       // console.log(savedPlots);
     }
@@ -296,7 +298,7 @@ function DataUploadModal({
   const handleDragOver = (e, type) => {
     e.preventDefault();
 
-    let newDragOverState = { ...dragOver };
+    let newDragOverState = {...dragOver};
 
     if (type === "PCA") {
       if (dataProcessed) {
@@ -439,12 +441,12 @@ function DataUploadModal({
     switch (selectedOption) {
       case "Example: PCA":
         return (
-          <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+          <div style={{display: "flex", flexDirection: "column", gap: "10px"}}>
             {sampleDatasets.map((val, index) => {
               return (
                 <Button
                   variant="contained"
-                  style={{ width: "60%", margin: "auto", color: "white", backgroundColor: colors.secondary }}
+                  style={{width: "60%", margin: "auto", color: "white", backgroundColor: colors.secondary}}
                   onClick={() => {
                     setFileChanged(true);
                     samplePCAAdmixDataset(0, index);
@@ -459,12 +461,12 @@ function DataUploadModal({
         );
       case "Example: Admixed PCA":
         return (
-          <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+          <div style={{display: "flex", flexDirection: "column", gap: "10px"}}>
             {sampleDatasets.map((val, index) => {
               return (
                 <Button
                   variant="contained"
-                  style={{ width: "60%", margin: "auto", color: "white", backgroundColor: colors.secondary }}
+                  style={{width: "60%", margin: "auto", color: "white", backgroundColor: colors.secondary}}
                   onClick={() => {
                     setFileChanged(true);
                     samplePCAAdmixDataset(1, index);
@@ -491,10 +493,10 @@ function DataUploadModal({
               {text}
             </Typography>
             {renderDragDropArea("PCA")}
-            <div style={{ display: "flex", justifyContent: "center" }}>
+            <div style={{display: "flex", justifyContent: "center"}}>
               <Button
                 variant="contained"
-                style={{ marginTop: "20px", backgroundColor: colors.secondary, color: "white" }}
+                style={{marginTop: "20px", backgroundColor: colors.secondary, color: "white"}}
                 onClick={() => {
                   if (dataProcessed) {
                     processedPCA(files.PCA.processed);
@@ -522,10 +524,10 @@ function DataUploadModal({
                 {renderDragDropArea(type)}
               </div>
             ))}
-            <div style={{ display: "flex", justifyContent: "center" }}>
+            <div style={{display: "flex", justifyContent: "center"}}>
               <Button
                 variant="contained"
-                style={{ marginTop: "20px", backgroundColor: colors.secondary, color: "white" }}
+                style={{marginTop: "20px", backgroundColor: colors.secondary, color: "white"}}
                 onClick={() => {
                   processedAdmix([files.PCA.processed, files.Admix]);
                   setFileChanged(true);
@@ -549,10 +551,10 @@ function DataUploadModal({
                 {renderDragDropArea(type)}
               </div>
             ))}
-            <div style={{ display: "flex", justifyContent: "center" }}>
+            <div style={{display: "flex", justifyContent: "center"}}>
               <Button
                 variant="contained"
-                style={{ marginTop: "20px", backgroundColor: colors.secondary, color: "white" }}
+                style={{marginTop: "20px", backgroundColor: colors.secondary, color: "white"}}
                 onClick={async () => {
                   await handlePCAirFiles();
                   setFileChanged(true);
@@ -569,10 +571,10 @@ function DataUploadModal({
               Expected: PCA data
             </Typography>
             {renderDragDropArea("PCA")}
-            <div style={{ display: "flex", justifyContent: "center" }}>
+            <div style={{display: "flex", justifyContent: "center"}}>
               <Button
                 variant="contained"
-                style={{ marginTop: "20px", backgroundColor: colors.secondary, color: "white" }}
+                style={{marginTop: "20px", backgroundColor: colors.secondary, color: "white"}}
                 onClick={() => {
                   tsne2d(files.PCA.unprocessed);
                   setFileChanged(true);
@@ -589,10 +591,10 @@ function DataUploadModal({
               Expected: PCA data
             </Typography>
             {renderDragDropArea("PCA")}
-            <div style={{ display: "flex", justifyContent: "center" }}>
+            <div style={{display: "flex", justifyContent: "center"}}>
               <Button
                 variant="contained"
-                style={{ marginTop: "20px", backgroundColor: colors.secondary, color: "white" }}
+                style={{marginTop: "20px", backgroundColor: colors.secondary, color: "white"}}
                 onClick={() => {
                   tsne3d(files.PCA.unprocessed);
                   setFileChanged(true);
@@ -609,10 +611,10 @@ function DataUploadModal({
               Expected: PCA data
             </Typography>
             {renderDragDropArea("PCA")}
-            <div style={{ display: "flex", justifyContent: "center" }}>
+            <div style={{display: "flex", justifyContent: "center"}}>
               <Button
                 variant="contained"
-                style={{ marginTop: "20px", backgroundColor: colors.secondary, color: "white" }}
+                style={{marginTop: "20px", backgroundColor: colors.secondary, color: "white"}}
                 onClick={() => {
                   runUMAP2D(files.PCA.unprocessed);
                   setFileChanged(true);
@@ -629,10 +631,10 @@ function DataUploadModal({
               Expected: PCA data
             </Typography>
             {renderDragDropArea("PCA")}
-            <div style={{ display: "flex", justifyContent: "center" }}>
+            <div style={{display: "flex", justifyContent: "center"}}>
               <Button
                 variant="contained"
-                style={{ marginTop: "20px", backgroundColor: colors.secondary, color: "white" }}
+                style={{marginTop: "20px", backgroundColor: colors.secondary, color: "white"}}
                 onClick={() => {
                   runUMAP3D(files.PCA.unprocessed);
                   setFileChanged(true);
@@ -655,7 +657,7 @@ function DataUploadModal({
     switch (dataSelectionStep) {
       case "initial":
         return (
-          <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+          <div style={{display: "flex", flexDirection: "column", gap: "10px"}}>
             <Button variant="outlined" style={buttonStyle} onClick={() => handleDataSelection("own")}>
               Upload Your Own Data
             </Button>
@@ -669,7 +671,7 @@ function DataUploadModal({
         );
       case "ownData":
         return (
-          <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+          <div style={{display: "flex", flexDirection: "column", gap: "10px"}}>
             <Button variant="outlined" style={buttonStyle} onClick={() => handleProcessingSelection(true)}>
               Data Processed
             </Button>
@@ -692,7 +694,7 @@ function DataUploadModal({
             {savedPlots && savedPlots.plots?.length > 0 ? (
               savedPlots.plots.map((plot) => (
                 <div
-                  style={{ display: "flex", width: "100%", justifyContent: "center", alignItems: "center", gap: 10 }}>
+                  style={{display: "flex", width: "100%", justifyContent: "center", alignItems: "center", gap: 10}}>
                   <div
                     className="saved-plot-btn"
                     style={{
@@ -718,8 +720,8 @@ function DataUploadModal({
                       });
                       handleClose();
                     }}>
-                    <div style={{ overflow: "hidden" }}>{plot.title}</div>
-                    <div style={{ fontWeight: 200 }}>{plot.date.split(" ")[0]}</div>
+                    <div style={{overflow: "hidden"}}>{plot.title}</div>
+                    <div style={{fontWeight: 200}}>{plot.date.split(" ")[0]}</div>
                   </div>
                   <div
                     onClick={() => {
@@ -778,8 +780,8 @@ function DataUploadModal({
           dataSelectionStep === "exampleData"
             ? ["Example: PCA", "Example: Admixed PCA"]
             : dataProcessed
-            ? ["PCA", "Admixed PCA"]
-            : [
+              ? ["PCA", "Admixed PCA"]
+              : [
                 "PCA (using Correlation Matrix)",
                 "PC-AiR (using PLINK files and Kinship) ",
                 "t-SNE 2D (using PCA data)",
@@ -789,7 +791,7 @@ function DataUploadModal({
               ];
 
         return (
-          <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+          <div style={{display: "flex", flexDirection: "column", gap: "10px"}}>
             {options.map((option) => (
               <Button variant="outlined" key={option} style={buttonStyle} onClick={() => handleOptionSelection(option)}>
                 {option}
@@ -850,13 +852,13 @@ function DataUploadModal({
         maxHeight: "80vh",
         overflowY: "scroll",
       }}>
-      <div style={{ display: "flex", justifyContent: "start", marginBottom: "20px" }}>
+      <div style={{display: "flex", justifyContent: "start", marginBottom: "20px"}}>
         {dataSelectionStep !== "initial" && <BackButton handleBack={handleBack}></BackButton>}
-        <h2 style={{ marginBottom: 0 }}>{getTitle()}</h2>
+        <h2 style={{marginBottom: 0}}>{getTitle()}</h2>
       </div>
       {renderOptions()}
       {isLoading && (
-        <div style={{ top: "50%", left: "50%", transform: "translate(-50%, -50%)", position: "absolute" }}>
+        <div style={{top: "50%", left: "50%", transform: "translate(-50%, -50%)", position: "absolute"}}>
           <Loader type="TailSpin" color="#00BFFF" height="100" width="100" />
         </div>
       )}
@@ -866,9 +868,12 @@ function DataUploadModal({
   // console.log(files);
   return (
     <div>
-      <div style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+      <div style={{flex: 1, justifyContent: "center", alignItems: "center"}}>
         <Button
+
           style={{ display: "block", fontFamily: "Poppins, san-serif", width: "100%", backgroundColor: color? color: colors.gray }}
+
+
           variant="outlined"
           className={classes.customButton}
           onClick={handleOpen}>
@@ -892,9 +897,9 @@ function DataUploadModal({
             flexDirection: "column",
             minWidth: 250,
           }}>
-          <h2 style={{ textAlign: "center", marginTop: 20 }}>{savedData.title}</h2>
+          <h2 style={{textAlign: "center", marginTop: 20}}>{savedData.title}</h2>
           <h5></h5>
-          <div style={{ marginTop: 40, width: "100%" }}>
+          <div style={{marginTop: 40, width: "100%"}}>
             <StyledText
               label={"clustering algorithm applied"}
               value={
@@ -916,8 +921,8 @@ function DataUploadModal({
               label={"Outlier Detection mode"}
               value={
                 savedData.outlierDetectionAlgo &&
-                savedData.outlierDetectionAlgo < 4 &&
-                savedData.outlierDetectionAlgo != 0
+                  savedData.outlierDetectionAlgo < 4 &&
+                  savedData.outlierDetectionAlgo != 0
                   ? savedData.isOr
                     ? "Or"
                     : "And"
