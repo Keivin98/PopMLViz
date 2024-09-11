@@ -55,6 +55,9 @@ body {
   transform: none !important;
   will-change: unset !important;
 }
+.bottom-drawer{
+  display: none;
+}
 
 @media (max-width: 625px) {
   .container {
@@ -96,6 +99,9 @@ body {
     height: 100%;
   }
   .logo {
+    display: block;
+  }
+  .bottom-drawer{
     display: block;
   }
 }
