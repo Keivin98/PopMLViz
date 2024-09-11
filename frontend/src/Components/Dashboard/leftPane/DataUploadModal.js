@@ -242,7 +242,7 @@ function DataUploadModal({
         }
       );
       if (response.status == 200) {
-        console.log(response.data);
+        // console.log(response.data);
         fetchSavedData({ setSavedPlots, setIsLoading, selectedColumns });
       }
     } catch (error) {
@@ -266,7 +266,7 @@ function DataUploadModal({
     } else if (selection === "saved") {
       fetchSavedData({ setDataSelectionStep, setSavedPlots, setIsLoading, selectedColumns });
       setDataSelectionStep("saved");
-      console.log(savedPlots);
+      // console.log(savedPlots);
     }
   };
 
@@ -338,7 +338,7 @@ function DataUploadModal({
         }
         const responseData = await response.json();
         newFilenames[filename] = responseData.filename;
-        console.log(filename, responseData.filename);
+        // console.log(filename, responseData.filename);
 
         return responseData;
       } catch (error) {
@@ -688,7 +688,7 @@ function DataUploadModal({
               alignItems: "center",
               justifyContent: "space-between",
             }}>
-            {console.log(savedData.plots)}
+            {/* {console.log(savedData.plots)} */}
             {savedPlots && savedPlots.plots?.length > 0 ? (
               savedPlots.plots.map((plot) => (
                 <div
@@ -725,7 +725,7 @@ function DataUploadModal({
                     onClick={() => {
                       setShowOptionModal(true);
                       setSavedData(plot);
-                      console.log("pressed");
+                      // console.log("pressed");
                     }}
                     style={{
                       backgroundColor: colors.secondary,

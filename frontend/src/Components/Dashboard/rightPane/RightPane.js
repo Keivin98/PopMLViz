@@ -120,7 +120,7 @@ const RightPane = ({
   // Function to perform authenticated requests
   const postSavedData = async () => {
     try {
-      console.log(dataName);
+      // console.log(dataName);
 
       const isValid = await checkAccessTokenValidity();
       let headers = {};
@@ -137,7 +137,7 @@ const RightPane = ({
       if (confirmedClusterMethod !== null) {
         payload.clusteringAlgo = confirmedClusterMethod;
         payload.numClusters = numClusters;
-        console.log(payload);
+        // console.log(payload);
       }
       if (outlierDetectionOptions || outlierDetectionOptions?.outlierDetectionAlg == "None") {
         payload.outlierDetectionAlgo = outlierDetectionOptions?.outlierDetectionAlgo || null;
@@ -150,7 +150,7 @@ const RightPane = ({
         } else {
           payload.isOr = false;
         }
-        console.log(payload);
+        // console.log(payload);
       }
       const response = await api.post("/save", payload, {
         headers: {
@@ -159,8 +159,8 @@ const RightPane = ({
         withCredentials: true,
       });
 
-      console.log(response.data);
-      console.log(selectedColumns);
+      // console.log(response.data);
+      // console.log(selectedColumns);
       SuccessMessage("Data is saved successfully!");
       return response.data;
     } catch (error) {

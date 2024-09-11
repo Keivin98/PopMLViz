@@ -79,7 +79,7 @@ function Header(props) {
               </a>
               <a
                 className="button btn github-btn special-btn"
-                href="https://github.com/qcri/QCAI-PopMLVis"
+                href="https://github.com/Keivin98/PopMLViz"
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => gaEventTracker("Github")}

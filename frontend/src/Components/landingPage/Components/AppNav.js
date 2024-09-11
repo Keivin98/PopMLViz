@@ -36,7 +36,7 @@ export default function AppNav({}) {
     try {
       await api.post("/logout");
       
-      console.log("User logged out successfully");
+      // console.log("User logged out successfully");
       window.location.reload();
     } catch (error) {
       console.error("Error logging out:", error);
@@ -89,7 +89,7 @@ export default function AppNav({}) {
           </a>
         </li>
         <li>
-          <a href="https://github.com/ibrahim-Alasalimy/PopMLViz" target="_blank" rel="noopener noreferrer">
+          <a href="https://github.com/Keivin98/PopMLViz" target="_blank" rel="noopener noreferrer">
             Github
           </a>
         </li>

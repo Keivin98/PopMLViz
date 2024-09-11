@@ -17,7 +17,7 @@ function arrayToCSV(data) {
 export default async function fetchSpecificPlot({ setIsLoading, plotName, processData, resetSaveState }) {
   try {
     setIsLoading(true);
-    console.log(plotName);
+    // console.log(plotName);
     const isValid = await checkAccessTokenValidity();
     let headers = {};
     if (!isValid) {
@@ -35,14 +35,14 @@ export default async function fetchSpecificPlot({ setIsLoading, plotName, proces
       withCredentials: true,
     });
 
-    console.log(response.data.plot.plot);
-    console.log(response.data.plot);
+    // console.log(response.data.plot.plot);
+    // console.log(response.data.plot);
     const csv = arrayToCSV(response.data.plot.plot);
     // Use the processData function that now takes a string instead of an array
     // console.log(csv);
 
     processData(csv, false, null, response.data.plot);
-    console.log(response.data.plot);
+    // console.log(response.data.plot);
     resetSaveState();
     SuccessMessage("Saved data uploaded successfully!");
     setIsLoading(false);

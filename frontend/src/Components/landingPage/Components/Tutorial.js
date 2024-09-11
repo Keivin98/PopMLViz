@@ -49,7 +49,7 @@ export default function Tutorial() {
   const handlePress = (link) => {
     setSelectedVideo(link);
   };
-  console.log(selectedVideo);
+  // console.log(selectedVideo);
   const videoCard = (name, link, index, duration, e) => {
     return (
       <>
