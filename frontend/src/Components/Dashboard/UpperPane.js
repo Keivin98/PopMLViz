@@ -126,6 +126,7 @@ const UpperPane = ({
               }}
               options={selectActions}
               onChange={handleSelectXChange}
+              isSearchable={false} 
               // isDisabled={selectedUploadOption === "admixture"} //why disabled?
             />
             {/* {axisErrorMessage && (
@@ -147,6 +148,7 @@ const UpperPane = ({
               }}
               options={selectActions}
               onChange={handleSelectYChange}
+              isSearchable={false} 
               // isDisabled={(selectedOption !== "3D" && selectedOption !== "2D") || selectedUploadOption === "admixture"}
               isDisabled={selectedOption !== "3D" && selectedOption !== "2D"}              
             />
@@ -165,6 +167,7 @@ const UpperPane = ({
               }}
               options={selectActions}
               onChange={handleSelectZChange}
+              isSearchable={false} 
               // isDisabled={selectedOption !== "3D" || selectedUploadOption === "admixture"}
               isDisabled={selectedOption !== "3D"}
             />

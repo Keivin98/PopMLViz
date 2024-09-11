@@ -81,6 +81,7 @@ function DataUploadModal({
   processData,
   setIsMainPageLoading,
   selectedColumns,
+  color
 }) {
   const defaultFile = {
     PCA: { processed: null, unprocessed: null },
@@ -867,7 +868,7 @@ function DataUploadModal({
     <div>
       <div style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
         <Button
-          style={{ display: "block", fontFamily: "Poppins, san-serif", width: "100%" }}
+          style={{ display: "block", fontFamily: "Poppins, san-serif", width: "100%", backgroundColor: color? color: colors.gray }}
           variant="outlined"
           className={classes.customButton}
           onClick={handleOpen}>
