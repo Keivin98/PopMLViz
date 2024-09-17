@@ -109,7 +109,7 @@ function Help() {
     {
       question: "How can I contribute to PopMLVis?",
       answer:
-        'We welcome contributions from the community! You can contribute by reporting issues, suggesting new features, or submitting pull requests on our <a href="https://github.com/ibrahim-Alasalimy/PopMLViz" target="_blank" rel="noopener noreferrer">GitHub repository</a>.',
+        'We welcome contributions from the community! You can contribute by reporting issues, suggesting new features, or submitting pull requests on our <a href="https://github.com/Keivin98/PopMLViz" target="_blank" rel="noopener noreferrer">GitHub repository</a>.',
     },
     {
       question: "What is PC-AIR?",

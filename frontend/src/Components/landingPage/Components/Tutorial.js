@@ -49,7 +49,7 @@ export default function Tutorial() {
   const handlePress = (link) => {
     setSelectedVideo(link);
   };
-  console.log(selectedVideo);
+  // console.log(selectedVideo);
   const videoCard = (name, link, index, duration, e) => {
     return (
       <>
@@ -99,7 +99,7 @@ export default function Tutorial() {
     <div style={{ width: "100%", height: "100%" }}>
       <AppNav></AppNav>
       <div className="tutorial-container" style={{ gap: 20, padding: 20, paddingTop: 80 }}>
-        <div className="video-player" style={{ width: "100%", marginTop: 40 }}>
+        <div className="video-player" style={{ width: "100%", marginTop: 20 }}>
           <div style={{display: "flex", justifyContent: 'center', alignItems: 'center', width: '100%', height: '100%'}}>
             <ReactPlayer
               width={"100%"}
@@ -122,7 +122,7 @@ export default function Tutorial() {
             )}
           </div>
 
-          <div style={{ overflowY: "auto", height: "30%" }}>
+          <div style={{ overflowY: "auto", height: "40%" }}>
             <h4 className="player-text" style={{ marginTop: 30, marginLeft: 10 }}>
               Tutorial: {selectedVideo.name}
             </h4>

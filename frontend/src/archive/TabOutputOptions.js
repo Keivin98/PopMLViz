@@ -114,6 +114,7 @@ class TabOutputOptions extends Component {
               options={this.state.selectShapeOptions}
               onChange={this.handleSelectShapeOptions}
               defaultValue={this.state.selectedInitialShape}
+              isSearchable={false} // Disable the search input, preventing the keyboard from opening
             />
           </div>
         </div>
@@ -167,6 +168,7 @@ class TabOutputOptions extends Component {
                 options={this.state.selectActions}
                 onChange={this.handleFormatChange}
                 defaultValue={this.state.selectedColumn}
+                isSearchable={false} // Disable the search input, preventing the keyboard from opening
               />
             </div>
           </div>
