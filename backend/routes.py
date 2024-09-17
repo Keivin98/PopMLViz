@@ -1,10 +1,12 @@
+import os
+import ssl
 from flask import jsonify, request, send_file
-from .app import create_app
+from app import create_app
 import pandas as pd
 import json
 from sklearn.decomposition import PCA
 import random, string
-from .common import runKmeans
+from common import runKmeans
 from sklearn.cluster import KMeans
 from sklearn.manifold import TSNE
 import os
@@ -153,7 +155,7 @@ def runHC():
     
     if not pca_cols:
         pca_cols = pca_df.columns
-    hc = AgglomerativeClustering(n_clusters=num_clusters, metric='euclidean', linkage='ward').fit_predict(pca_df[pca_cols])
+    hc = AgglomerativeClustering(n_clusters=num_clusters, linkage='ward').fit_predict(pca_df[pca_cols])
     
     plt.figure(figsize=(10, 7))
     dendrogram(linkage(pca_df[pca_cols], method='ward'))
@@ -526,7 +528,7 @@ def hello():
 
 
 
-@app.route('/register', methods=['POST'],  strict_slashes=False)
+@app.route('/api/register', methods=['POST'],  strict_slashes=False)
 @cross_origin(supports_credentials=True)
 def register():
     data = request.get_json()
@@ -548,7 +550,7 @@ def register():
         return jsonify(message="User already exists"), 409
 
 
-@app.route('/login', methods=['POST'],  strict_slashes=False)
+@app.route('/api/login', methods=['POST'],  strict_slashes=False)
 @cross_origin(supports_credentials=True)
 def login():
     data = request.get_json()
@@ -579,7 +581,7 @@ def login():
 
 
 
-@app.route('/verify', methods=['GET'])
+@app.route('/api/verify', methods=['GET'])
 @cross_origin(supports_credentials=True)
 @jwt_required()
 def verify():
@@ -602,7 +604,7 @@ def delete_plot():
     conn.close()
     return jsonify({"plot": "Plot deleted successfully"}), 200
 
-@app.route('/save', methods=['POST'])
+@app.route('/api/save', methods=['POST'])
 @cross_origin(supports_credentials=True)
 @jwt_required()
 def save_plot():
@@ -724,7 +726,7 @@ def get_plot():
         return jsonify({"error": "Plot not found"}), 404
 
 
-@app.route('/refresh', methods=['POST'])
+@app.route('/api/refresh', methods=['POST'])
 @cross_origin(supports_credentials=True)
 @jwt_required(refresh=True)
 def refresh():
@@ -735,7 +737,7 @@ def refresh():
     return response
 
 
-@app.route('/logout', methods=['POST'])
+@app.route('/api/logout', methods=['POST'])
 @cross_origin(supports_credentials=True)
 @jwt_required(refresh=True)
 def logout():
@@ -744,5 +746,8 @@ def logout():
     response.set_cookie('refresh_token_cookie', "", httponly=True,secure=True, samesite='none', max_age=0)
     return response
 
+context = ('/etc/nginx/conf.d/certs/2024/wildcard.qcri.org.crt', '/etc/nginx/conf.d/certs/2024/wildcard.qcri.org.key')
 if __name__ == "__main__":
-    app.run(host='127.0.0.1', port=5000, debug=True)
+    context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
+    context.load_cert_chain('path/to/certificate.crt', 'path/to/private.key')
+    app.run(host='0.0.0.0', port=5001, ssl_context=context)
