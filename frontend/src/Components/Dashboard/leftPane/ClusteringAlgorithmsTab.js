@@ -72,6 +72,7 @@ const ClusteringAlgorithmsTab = ({ onChange }) => {
               <Select
                 options={selectClusterActions}
                 defaultValue={selectClusterActions.find((x) => x.value === selectedClusterMethod)}
+                isSearchable={false} // Disable the search input, preventing the keyboard from opening
                 styles={{
                   option: (provided) => ({
                     ...provided,

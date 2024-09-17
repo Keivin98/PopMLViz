@@ -167,7 +167,7 @@ const TabOutputOptions = ({
                       
                       const newClusterNames = { ...clusterNames, [index]: e.target.value };
                       setClusterNames(newClusterNames);
-                      console.log(newClusterNames);
+                      // console.log(newClusterNames);
                       
                     }}
                   />

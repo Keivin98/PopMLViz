@@ -18,7 +18,6 @@ import useZustand from "../../../config/useZustand";
 import selectOutlierActions from "../../../config/selectOutlierActions";
 
 const OutlierDetectionTab = ({ onChange, numFeatures, removeOutliers, allActions }) => {
-
   const [selectedOutlierMethod, setSelectedOutlierMethod] = useState({
     label: "None",
     value: 0,
@@ -35,7 +34,6 @@ const OutlierDetectionTab = ({ onChange, numFeatures, removeOutliers, allActions
     if (
       allActions.filter((elem) => {
         return Array.isArray(elem) || elem.label.includes("PC");
-        
       }).length > 0
     ) {
       return "PC";
@@ -94,15 +92,13 @@ const OutlierDetectionTab = ({ onChange, numFeatures, removeOutliers, allActions
           display: "flex",
           flexDirection: "row",
         }}
-        onClick={() => setOpen(!open)}
-      >
+        onClick={() => setOpen(!open)}>
         <div
           style={{
             display: "flex",
             flexDirection: "row",
             width: "80%",
-          }}
-        >
+          }}>
           <FcMindMap size={30} style={{ marginRight: "3%", opacity: 0.5 }} />
           <label className="label-txt">Outlier Detection </label>
         </div>
@@ -116,11 +112,12 @@ const OutlierDetectionTab = ({ onChange, numFeatures, removeOutliers, allActions
               <Select
                 options={selectOutlierActions}
                 defaultValue={selectOutlierActions.find((x) => x.value === selectedOutlierMethod)}
+                isSearchable={false} // Disable the search input, preventing the keyboard from opening
                 styles={{
                   control: (baseStyles, state) => ({
                     ...baseStyles,
                     fontSize: 13,
-                    width: 105
+                    width: 105,
                     // width: 100,
                     // height: "100px"
                   }),
@@ -128,7 +125,7 @@ const OutlierDetectionTab = ({ onChange, numFeatures, removeOutliers, allActions
                     ...provided,
                     color: "black",
                     fontSize: 13,
-                    
+
                     // height: "100px"
                   }),
                 }}
@@ -136,7 +133,7 @@ const OutlierDetectionTab = ({ onChange, numFeatures, removeOutliers, allActions
               />
             </InputOptions>
             <div style={{ display: "flex", color: "white", marginTop: 10, marginBottom: 10 }}>
-              {selectedOutlierMethod < 4 && selectedOutlierMethod !=0 && (
+              {selectedOutlierMethod < 4 && selectedOutlierMethod != 0 && (
                 <InputOptions label={"Mode"}>
                   <Switch labelRight={pressed === true ? "OR" : "AND"} onChange={handleChangeSwitch} />
                 </InputOptions>
@@ -164,8 +161,7 @@ const OutlierDetectionTab = ({ onChange, numFeatures, removeOutliers, allActions
                 marginRight: 5,
                 width: "100%",
               }}
-              disabled={selectedOutlierMethod == null}
-            ></AppButton>
+              disabled={selectedOutlierMethod == null}></AppButton>
             <div
               className="trash-can"
               style={{
@@ -176,15 +172,13 @@ const OutlierDetectionTab = ({ onChange, numFeatures, removeOutliers, allActions
                 height: 40,
                 borderRadius: 100,
                 backgroundColor: "white",
-              }}
-            >
+              }}>
               <IconButton
                 variant="outlined"
                 aria-label="delete"
                 size="medium"
                 style={{ color: "red", backgroundColor: "transparent" }}
-                onClick={removeOutliers}
-              >
+                onClick={removeOutliers}>
                 <AiFillDelete />
               </IconButton>
             </div>

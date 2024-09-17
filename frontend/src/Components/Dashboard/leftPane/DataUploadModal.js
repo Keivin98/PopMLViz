@@ -81,6 +81,7 @@ function DataUploadModal({
   processData,
   setIsMainPageLoading,
   selectedColumns,
+  color
 }) {
   const defaultFile = {
     PCA: {processed: null, unprocessed: null},
@@ -241,8 +242,10 @@ function DataUploadModal({
         }
       );
       if (response.status == 200) {
-        console.log(response.data);
-        fetchSavedData({setSavedPlots, setIsLoading, selectedColumns});
+
+        // console.log(response.data);
+        fetchSavedData({ setSavedPlots, setIsLoading, selectedColumns });
+
       }
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -265,7 +268,7 @@ function DataUploadModal({
     } else if (selection === "saved") {
       fetchSavedData({setDataSelectionStep, setSavedPlots, setIsLoading, selectedColumns});
       setDataSelectionStep("saved");
-      console.log(savedPlots);
+      // console.log(savedPlots);
     }
   };
 
@@ -337,7 +340,7 @@ function DataUploadModal({
         }
         const responseData = await response.json();
         newFilenames[filename] = responseData.filename;
-        console.log(filename, responseData.filename);
+        // console.log(filename, responseData.filename);
 
         return responseData;
       } catch (error) {
@@ -495,7 +498,6 @@ function DataUploadModal({
                 variant="contained"
                 style={{marginTop: "20px", backgroundColor: colors.secondary, color: "white"}}
                 onClick={() => {
-                 
                   if (dataProcessed) {
                     processedPCA(files.PCA.processed);
                   } else {
@@ -688,7 +690,7 @@ function DataUploadModal({
               alignItems: "center",
               justifyContent: "space-between",
             }}>
-            {console.log(savedData.plots)}
+            {/* {console.log(savedData.plots)} */}
             {savedPlots && savedPlots.plots?.length > 0 ? (
               savedPlots.plots.map((plot) => (
                 <div
@@ -725,13 +727,14 @@ function DataUploadModal({
                     onClick={() => {
                       setShowOptionModal(true);
                       setSavedData(plot);
-                      console.log("pressed");
+                      // console.log("pressed");
                     }}
                     style={{
                       backgroundColor: colors.secondary,
                       cursor: "pointer",
-                      height: 45,
-                      width: 45,
+                      padding: 5,
+                      // height: 45,
+                      // width: 45,
                       display: "flex",
                       justifyContent: "center",
                       alignItems: "center",
@@ -753,15 +756,16 @@ function DataUploadModal({
                     onClick={() => handleDelete(plot.title)}
                     style={{
                       backgroundColor: "#EEE",
-                      height: 45,
-                      width: 45,
+                      // height: 45,
+                      // width: 45,
+                      padding: 15,
                       display: "flex",
                       justifyContent: "center",
                       alignItems: "center",
                       borderRadius: 50,
                       cursor: "pointer",
                     }}>
-                    <FaTrash color="red" />
+                    <FaTrash size={20} color="red" />
                   </div>
                 </div>
               ))
@@ -845,6 +849,8 @@ function DataUploadModal({
         p: 4,
         borderRadius: 2,
         minWidth: 310,
+        maxHeight: "80vh",
+        overflowY: "scroll",
       }}>
       <div style={{display: "flex", justifyContent: "start", marginBottom: "20px"}}>
         {dataSelectionStep !== "initial" && <BackButton handleBack={handleBack}></BackButton>}
@@ -864,11 +870,14 @@ function DataUploadModal({
     <div>
       <div style={{flex: 1, justifyContent: "center", alignItems: "center"}}>
         <Button
-          style={{display: "block", fontFamily: "Poppins, san-serif", width: "100%"}}
+
+          style={{ display: "block", fontFamily: "Poppins, san-serif", width: "100%", backgroundColor: color? color: colors.gray }}
+
+
           variant="outlined"
           className={classes.customButton}
           onClick={handleOpen}>
-          Choose Data
+          Add Data
         </Button>
       </div>
       <Modal open={showOptionModal} onClose={() => setShowOptionModal(false)}>

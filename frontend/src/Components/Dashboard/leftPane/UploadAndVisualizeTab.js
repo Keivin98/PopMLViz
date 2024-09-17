@@ -27,7 +27,8 @@ function UploadAndVisualizeTab({
   processData,
   setIsMainPageLoading,
   uploadSavedData,
-  selectedColumns
+  selectedColumns,
+  btncolor
 }) {
   const [selectedUploadOption, setSelectedUploadOption] = useState(null);
   // const [selectedFile, setSelectedFile] = useState(null);
@@ -86,6 +87,7 @@ function UploadAndVisualizeTab({
             selectedColumns={selectedColumns}
             runPCAir={runPCAir}
             processData={processData}
+            color={btncolor}
           />
         </div>
         {/* <AiFillCaretDown style={{marginTop: "3%"}} /> */}

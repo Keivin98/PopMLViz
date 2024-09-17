@@ -82,9 +82,11 @@ const RightPane = ({
             justifyContent: "space-between",
             marginBottom: 5,
             marginTop: 5,
+
           }}
         >
           <div style={{marginRight: 10}}>{label}: </div>
+
           {range ? (
             <div style={{textAlign: "right"}}>{value ? `Between ${value[0]} and ${value[1]}` : "Not applied"}</div>
           ) : (
@@ -121,7 +123,7 @@ const RightPane = ({
   // Function to perform authenticated requests
   const postSavedData = async () => {
     try {
-      console.log(dataName);
+      // console.log(dataName);
 
       const isValid = await checkAccessTokenValidity();
       let headers = {};
@@ -138,7 +140,7 @@ const RightPane = ({
       if (confirmedClusterMethod !== null) {
         payload.clusteringAlgo = confirmedClusterMethod;
         payload.numClusters = numClusters;
-        console.log(payload);
+        // console.log(payload);
       }
       if (outlierDetectionOptions || outlierDetectionOptions?.outlierDetectionAlg == "None") {
         payload.outlierDetectionAlgo = outlierDetectionOptions?.outlierDetectionAlgo || null;
@@ -151,7 +153,7 @@ const RightPane = ({
         } else {
           payload.isOr = false;
         }
-        console.log(payload);
+        // console.log(payload);
       }
       const response = await api.post("/api/save", payload, {
         headers: {
@@ -160,8 +162,8 @@ const RightPane = ({
         withCredentials: true,
       });
 
-      console.log(response.data);
-      console.log(selectedColumns);
+      // console.log(response.data);
+      // console.log(selectedColumns);
       SuccessMessage("Data is saved successfully!");
       return response.data;
     } catch (error) {
@@ -218,14 +220,15 @@ const RightPane = ({
             alignItems: "center",
             flexDirection: "column",
             minWidth: 250,
+
           }}
         >
           <h2 style={{textAlign: "center", marginTop: 20}}>Please login to save your work</h2>
+
           <AppButton
             style={{marginTop: 20, fontSize: 20, width: "30%", minWidth: 70}}
             title={"login"}
-            onClick={() => navigate("/login")}
-          ></AppButton>
+            onClick={() => navigate("/login")}></AppButton>
         </div>
       </Modal>
 
@@ -245,16 +248,22 @@ const RightPane = ({
             alignItems: "center",
             flexDirection: "column",
             minWidth: 250,
+
+            maxHeight: "90vh", // Ensures the modal doesn't exceed the viewport height
+            overflowY: "auto", // Allows scrolling if content exceeds height
+          }}>
+
           }}
         >
           <h2 style={{textAlign: "center", marginTop: 20}}>Please enter the data name</h2>
+
           <form
             style={{display: "flex", flexDirection: "column", alignItems: "center"}}
             onSubmit={() => {
               postSavedData();
               setDataNameModalVisible(false);
-            }}
-          >
+            }}>
+            <h2 style={{ textAlign: "center", marginTop: 50 }}>Please enter the data name</h2>
             <input
               required
               type="text"
@@ -268,13 +277,11 @@ const RightPane = ({
             <StyledText label={"Data Added"} value={"Yes"}></StyledText>
             <StyledText
               label={"clustering algorithm applied"}
-              value={selectClusterActions[confirmedClusterMethod]?.label}
-            ></StyledText>
+              value={selectClusterActions[confirmedClusterMethod]?.label}></StyledText>
             <StyledText label={"Number of clusters"} value={confirmedClusterMethod ? numClusters : null}></StyledText>
             <StyledText
               label={"Outlier Detection algorithm applied"}
-              value={selectOutlierActions[outlierDetectionOptions.outlierDetectionAlgo]?.label}
-            ></StyledText>
+              value={selectOutlierActions[outlierDetectionOptions.outlierDetectionAlgo]?.label}></StyledText>
             <StyledText
               label={"Outlier Detection mode"}
               value={
@@ -285,8 +292,7 @@ const RightPane = ({
                     ? "Or"
                     : "And"
                   : null
-              }
-            ></StyledText>
+              }></StyledText>
             <StyledText
               label={"Outlier Detection Range"}
               range={true}
@@ -297,8 +303,7 @@ const RightPane = ({
                     outlierDetectionOptions.outlierDetectionColumns[1],
                   ]
                   : null
-              }
-            ></StyledText>
+              }></StyledText>
           </div>
         </div>
       </Modal>
@@ -308,8 +313,7 @@ const RightPane = ({
           className={"save-button"}
           style={{width: "100%", marginTop: 10, marginBottom: 0}}
           title={"save"}
-          onClick={handleSave}
-        ></AppButton>
+          onClick={handleSave}></AppButton>
         <Tabs className={"optionsContainer grid-r"}>
           <TabList className="tab-list">
             <Tab className="tab">
@@ -331,8 +335,7 @@ const RightPane = ({
                         width: "90%",
                         marginTop: "3%",
                         marginLeft: "3%",
-                      }}
-                    >
+                      }}>
                       <label className="form-label">Describing Columns</label>
                       <Select
                         className="select-settings"
@@ -379,8 +382,7 @@ const RightPane = ({
                         width: "90%",
                         marginTop: "10%",
                         marginLeft: "3%",
-                      }}
-                    >
+                      }}>
                       <label className="form-label">Mapping ID Column</label>
                       <Select
                         placeholder="Mapping ID"
@@ -457,8 +459,9 @@ const RightPane = ({
             <div>
               <TabPanel>
                 <div
-                  style={{height: "100%", display: "flex", justifyContent: "space-between", flexDirection: "column"}}
-                >
+
+                  style={{ height: "100%", display: "flex", justifyContent: "space-between", flexDirection: "column" }}>
+
                   <AdmixOptions
                     initialAlpha={alphaVal}
                     initialCertainty={certaintyVal}

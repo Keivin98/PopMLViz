@@ -19,8 +19,10 @@ const AuthProvider = ({children}) => {
       );
 
       if (response.status === 200) {
-        const {user} = response.data;
-        console.log("user " + user)
+
+        const { user } = response.data;
+        // console.log("user "+ user)
+
 
         setUser(user);
       }
@@ -44,7 +46,7 @@ const AuthProvider = ({children}) => {
         if (response.status === 200) {
           const {user} = response.data;
           setUser(user);
-          console.log(user);
+          // console.log(user);
         }
       } catch (error) {
         setUser(null);

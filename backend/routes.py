@@ -35,6 +35,7 @@ from sklearn.cluster import SpectralClustering
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.covariance import EllipticEnvelope
 
+
 main_blueprint = Blueprint('main', __name__)
 bcrypt = Bcrypt()
 
@@ -62,7 +63,7 @@ def runKmeans():
         num_clusters = 2
     pca_df = pd.json_normalize(request_df)
     try:
-        pca_cols = [x for x in pca_df.columns if 'PC' in x or 'TSNE' in x]
+        pca_cols = [x for x in pca_df.columns if 'PC' in x or 'TSNE' in x or 'UMAP' in x]
     except:
         pca_cols = pca_df.columns
     
@@ -82,7 +83,7 @@ def runSpectral():
     
     pca_df = pd.json_normalize(request_df)
     try:
-        pca_cols = [x for x in pca_df.columns if 'PC' in x or 'TSNE' in x]
+        pca_cols = [x for x in pca_df.columns if 'PC' in x or 'TSNE' in x or 'UMAP' in x]
     except:
         pca_cols = pca_df.columns
     
@@ -104,7 +105,7 @@ def runGMM():
 
     pca_df = pd.json_normalize(request_df)
     try:
-        pca_cols = [x for x in pca_df.columns if 'PC' in x or 'TSNE' in x]
+        pca_cols = [x for x in pca_df.columns if 'PC' in x or 'TSNE' in x or 'UMAP' in x]
     except:
         pca_cols = pca_df.columns
     
@@ -148,7 +149,7 @@ def runHC():
         num_clusters = 2
     pca_df = pd.json_normalize(request_df, max_level=0)
     try:
-        pca_cols = [x for x in pca_df.columns if 'PC' in x or 'TSNE' in x]
+        pca_cols = [x for x in pca_df.columns if 'PC' in x or 'TSNE' in x or 'UMAP' in x]
     except:
         pca_cols = pca_df.columns
     
@@ -180,7 +181,7 @@ def runFuzzy():
         num_clusters = 2
     pca_df = pd.json_normalize(request_df)
     try:
-        pca_cols = [x for x in pca_df.columns if 'PC' in x or 'TSNE' in x]
+        pca_cols = [x for x in pca_df.columns if 'PC' in x or 'TSNE' in x or 'UMAP' in x]
     except:
         pca_cols = pca_df.columns
     
@@ -200,7 +201,7 @@ def cmtsne2d():
     request_df = request.get_json()['df']
     pca_df = pd.json_normalize(request_df)
     try:
-        pca_cols = [x for x in pca_df.columns if 'PC' in x or 'TSNE' in x]
+        pca_cols = [x for x in pca_df.columns if 'PC' in x or 'TSNE' in x ]
         other_cols = [x for x in pca_df.columns if 'PC' not in x and 'TSNE' not in x]
         if not pca_cols:
             pca_cols = pca_df.columns
@@ -240,8 +241,8 @@ def cmumap2d():
     request_df = request.get_json()['df']
     pca_df = pd.json_normalize(request_df)
     try:
-        pca_cols = [x for x in pca_df.columns if 'PC' in x or 'TSNE' in x]
-        other_cols = [x for x in pca_df.columns if 'PC' not in x and 'TSNE' not in x]
+        pca_cols = [x for x in pca_df.columns if 'PC' in x or 'UMAP' in x]
+        other_cols = [x for x in pca_df.columns if 'PC' not in x and 'UMAP' not in x]
         if not pca_cols:
             pca_cols = pca_df.columns
             other_cols = []
@@ -260,8 +261,8 @@ def cmumap3d():
     request_df = request.get_json()['df']
     pca_df = pd.json_normalize(request_df)
     try:
-        pca_cols = [x for x in pca_df.columns if 'PC' in x or 'TSNE' in x]
-        other_cols = [x for x in pca_df.columns if 'PC' not in x and 'TSNE' not in x]
+        pca_cols = [x for x in pca_df.columns if 'PC' in x or 'UMAP' in x]
+        other_cols = [x for x in pca_df.columns if 'PC' not in x and 'UMAP' not in x]
         if not pca_cols:
             pca_cols = pca_df.columns
             other_cols = []
@@ -392,7 +393,9 @@ def detectoutliers():
     def choose_columns(x):
         if input_format == "pca":
             return ('PC%d' % (x))
-        else:
+        elif input_format == "umap":
+            return ('UMAP-%d' % (x+1))
+        else:    
             return ('TSNE-%d' % (x))
 
     def binary(x):
@@ -408,14 +411,16 @@ def detectoutliers():
     request_df = request.get_json()['df']
     request_method = request.get_json()['method']
     column_range_req = request.get_json()['columnRange']
-    column_range = list(range(column_range_req[0], column_range_req[1] + 1)) # [1,2,3,4,5,6,7,8,9,10]
+    if column_range_req[0] > column_range_req[1]:
+        column_range = list(range(column_range_req[1], column_range_req[0] + 1))
+    else:    
+        column_range = list(range(column_range_req[0], column_range_req[1] + 1)) # [1,2,3,4,5,6,7,8,9,10]
 
     combine_type = int(request.get_json()['combineType'])
     std_freedom = int(request_method)
     input_format = request.get_json()['inputFormat']
     df = pd.json_normalize(request_df)
     newdf = {}
-
     columns_of_interest = list(map(choose_columns, column_range))
     
     #Isolation Forest

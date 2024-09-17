@@ -14,8 +14,8 @@ export default async function fetchSavedData({ setIsLoading, setSavedPlots, setD
           Authorization: `Bearer ${newAccessToken}`,
         },
       });
-      console.log(response.data);
-      console.log("data is fetched!");
+      // console.log(response.data);
+      // console.log("data is fetched!");
       setSavedPlots(response.data);
       setIsLoading(false);
       if (setDataSelectionStep) {
@@ -24,7 +24,7 @@ export default async function fetchSavedData({ setIsLoading, setSavedPlots, setD
       return response.data;
     } else {
       const response = await api.get("/api/getSavedData", { withCredentials: true });
-      console.log(response.data);
+      // console.log(response.data);
       setSavedPlots(response.data);
       setIsLoading(false);
       if (setDataSelectionStep) {

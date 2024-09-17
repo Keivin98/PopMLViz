@@ -55,6 +55,9 @@ body {
   transform: none !important;
   will-change: unset !important;
 }
+.bottom-drawer{
+  display: none;
+}
 
 @media (max-width: 625px) {
   .container {
@@ -84,7 +87,8 @@ body {
   .bottom {
     display: block;
     grid-area: bottom;
-    height: 100%;
+    height: 80%;
+    margin-top: 100px;
     /* background-color: rgb(245, 246, 247); */
     width: 100%;
     /* overflow-y: auto;
@@ -95,6 +99,9 @@ body {
     height: 100%;
   }
   .logo {
+    display: block;
+  }
+  .bottom-drawer{
     display: block;
   }
 }

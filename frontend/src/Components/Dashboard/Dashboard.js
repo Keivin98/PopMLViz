@@ -593,7 +593,7 @@ const App = () => {
         var categoryID2 = uniqueTags2.indexOf(shapedData[i]);
 
         var categoryID = categoryID1 * uniqueTags2.length + categoryID2;
-        console.log(categoryID1, categoryID2, uniqueTags2, shapedData[i], categoryID, data_new.length);
+        // console.log(categoryID1, categoryID2, uniqueTags2, shapedData[i], categoryID, data_new.length);
         if (DIM === 0) {
           data_new[categoryID].x.push(i);
           data_new[categoryID].y.push(data[i][x]);
@@ -1358,22 +1358,22 @@ const App = () => {
       }
     }
     if (savedData) {
-      console.log("savedData");
+      // console.log("savedData");
       let axis = savedData.axis;
-      console.log(axis);
+      // console.log(axis);
       let noAxis = axis.every((a) => a == null); // check if all axis are null, return true if all are null
-      console.log(noAxis);
+      // console.log(noAxis);
       if (noAxis == false) {
         let counter = 0;
         // console.log("bruh")
         for (let i = 0; i < 3; i++) {
           if (axis[i] == null) {
-            console.log("returned at " + i);
+            // console.log("returned at " + i);
             continue;
           }
           counter++;
         }
-        console.log(counter);
+        // console.log(counter);
         let value;
         if (counter == 1) {
           value = "1D";
@@ -1382,7 +1382,7 @@ const App = () => {
         } else {
           value = "3D";
         }
-        console.log(selectedColumns);
+        // console.log(selectedColumns);
 
         onValueChangeDims(value, false, true);
         if (counter == 1) {
@@ -1392,7 +1392,7 @@ const App = () => {
         } else {
           setSelectedColumns([axis[0], axis[1], axis[2]]);
         }
-        console.log(selectedColumns);
+        // console.log(selectedColumns);
       }
       if (savedData.clusteringAlgo) {
         let s = {
@@ -1400,7 +1400,7 @@ const App = () => {
           num_clusters: savedData.numCluster,
           plot: savedData.plot,
         };
-        console.log(s);
+        // console.log(s);
         runCluster(s, true);
       }
       if (savedData.outlierDetectionAlgo) {
@@ -1411,7 +1411,7 @@ const App = () => {
           selectedUploadOption: savedData.selectedUploadOption,
           plot: savedData.plot,
         };
-        console.log(s);
+        // console.log(s);
         runOutliers(s, true);
       }
     }
@@ -1436,10 +1436,10 @@ const App = () => {
           setMetaDataColumnsFunction(columns);
         }
       } else {
-        console.log(list);
+        // console.log(list);
         setData(list);
         setColumnsState(columns);
-        console.log(data);
+        // console.log(data);
         return list;
       }
     }
@@ -1553,9 +1553,9 @@ const App = () => {
 
     // Call processData directly with the transformed data and columns
     processData(data, false);
-    console.log("Data uploaded successfully!");
+    // console.log("Data uploaded successfully!");
 
-    console.log(data);
+    // console.log(data);
 
     // Additional steps like running TSNE or other processing could be added here if needed
   };
@@ -1576,8 +1576,7 @@ const App = () => {
       setClusterNames([]);
       setClusterColors([]);
       const reader = new FileReader();
-      console.log("fiel");
-      console.log(file);
+      // console.log(file);
       reader.onload = async (evt) => {
         /* Parse data */
         const bstr = evt.target.result;
@@ -1587,8 +1586,8 @@ const App = () => {
         const ws = wb.Sheets[wsname];
         /* Convert array of arrays */
         const data = XLSX.utils.sheet_to_csv(ws, { header: 1 });
-        console.log("data");
-        console.log(data);
+        // console.log("data");
+        // console.log(data);
         let dt = await processData(data, false, type);
 
         if (type === 3) {
@@ -1596,7 +1595,6 @@ const App = () => {
         }
         if (uploadOption === "PCA") {
         } else if (uploadOption === "t-SNE 2D") {
-          console.log("running");
           runTSNE2d(dt);
         } else if (uploadOption === "t-SNE 3D") {
           runTSNE3d(dt);
@@ -1631,7 +1629,7 @@ const App = () => {
   };
 
   const handleTSNE2D = (file) => {
-    console.log(file);
+    // console.log(file);
     setSelectedUploadOption("t-SNE 2D");
     handleFileUploadNew(file, null, "t-SNE 2D");
   };
@@ -1668,17 +1666,17 @@ const App = () => {
 
   const handleSelectXChange = (value) => {
     setSelectedColumns([value.label, selectedColumns[1], selectedColumns[2]]);
-    console.log(selectedColumns);
+    // console.log(selectedColumns);
   };
 
   const handleSelectYChange = (value) => {
     setSelectedColumns([selectedColumns[0], value.label, selectedColumns[2]]);
-    console.log(selectedColumns);
+    // console.log(selectedColumns);
   };
 
   const handleSelectZChange = (value) => {
     setSelectedColumns([selectedColumns[0], selectedColumns[1], value.label]);
-    console.log(selectedColumns);
+    // console.log(selectedColumns);
   };
 
   const onUploadValueChange = (event) => {
@@ -1816,13 +1814,27 @@ const App = () => {
         return;
       }
     }
-    console.log("s: ");
-    console.log(s);
+    // console.log("s: ");
+    // console.log(s);
     let inputFormat;
     if (!saved) {
-      inputFormat = selectedUploadOption.includes("t-SNE") ? "tsne" : "pca";
+      if (selectedUploadOption.includes("t-SNE")) {
+        inputFormat = "tsne";
+      } else if (selectedUploadOption.includes("PCA")) {
+        inputFormat = "pca";
+      } else {
+        inputFormat = "umap";
+      }
+      // inputFormat = selectedUploadOption.includes("t-SNE") ? "tsne" : "pca";
     } else {
-      inputFormat = s.selectedUploadOption.includes("t-SNE") ? "tsne" : "pca";
+      if (s.selectedUploadOption.includes("t-SNE")) {
+        inputFormat = "tsne";
+      } else if (s.selectedUploadOption.includes("PCA")) {
+        inputFormat = "pca";
+      } else {
+        inputFormat = "umap";
+      }
+      // inputFormat = s.selectedUploadOption.includes("t-SNE") ? "tsne" : "pca";
     }
     detectOutliers(s.selectedOutlierMethod, s.columnRange, s.pressed, inputFormat, s.plot, s.selectedUploadOption);
   };
@@ -1840,7 +1852,7 @@ const App = () => {
     setIsLoading(true);
     setProgressBarType("Loader");
     setAdmix([]);
-    setSelectedUploadOption("PCA");
+    // setSelectedUploadOption("PCA");
 
     axios
       .post(
@@ -2352,7 +2364,7 @@ const App = () => {
         setIsLoading(false);
         ErrorMessage("Server error! Please check the input and try again. If the error persists, refer to the docs! ");
       });
-    console.log("samplePCAAdmixDataset2");
+    // console.log("samplePCAAdmixDataset2");
   };
 
   const detectOutliers = (
@@ -2363,7 +2375,7 @@ const App = () => {
     saved_plot,
     selectedUploadOptionSaved
   ) => {
-    console.log(selectedOutlierMethod);
+    // console.log(selectedOutlierMethod);
     if (selectedOutlierMethod === 0) {
       updateOutlierData([]);
     } else {
@@ -2391,16 +2403,25 @@ const App = () => {
         .then((r) => {
           setIsLoading(false);
           if (saved_plot) {
-            setSelectedUploadOption(selectedUploadOptionSaved.includes("t-SNE") ? "PCA" : selectedUploadOptionSaved);
+            setSelectedUploadOption(
+              selectedUploadOptionSaved.includes("t-SNE")
+                ? "t-SNE"
+                : selectedUploadOptionSaved.includes("PCA")
+                ? "PCA"
+                : "UMAP"
+            );
+            // console.log(selectedUploadOptionSaved);
           } else {
-            setSelectedUploadOption(selectedUploadOption.includes("t-SNE") ? "PCA" : selectedUploadOption);
+            setSelectedUploadOption(
+              selectedUploadOption.includes("t-SNE") ? "t-SNE" : selectedUploadOption.includes("PCA") ? "PCA" : "UMAP"
+            );
           }
           setSelectedColorShape(0); // keep it always to zero, because we do not need the shaped data
           processData(r.data, true);
         })
         .catch((e) => {
           setIsLoading(false);
-          console.log(e);
+          // console.log(e);
           ErrorMessage(
             "Server error! Please check the input and try again. If the error persists, refer to the docs! "
           );

@@ -18,6 +18,9 @@ const ScatterPlot = ({ data, layout, picWidth, picHeight, picFormat, plotTitle }
       autosize: true,
       responsive: true,
     };
+    var config = {
+      scrollZoom: false // Disable zooming when scrolling
+    };
 
     Plotly.newPlot(scatterRef.current, data, updatedLayout, {
       toImageButtonOptions: {
