@@ -149,6 +149,55 @@ export default function BottomPane({
               overflowY: "auto",
               overflowX: "hidden",
             }}>
+            <div
+              style={{
+                flexDirection: "row",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                marginBottom: 20,
+                gap: 5,
+                marginRight: 5,
+                marginLeft: 5,
+              }}>
+              <form style={{ flex: 1 }}>
+                <UploadAndVisualizeTab
+                  setProgressBarType={setProgressBarType}
+                  modalOpen={modalOpen}
+                  setModalOpen={setModalOpen}
+                  handleClose={handleClose}
+                  fileChanged={fileChanged}
+                  resetSaveState={resetSaveState}
+                  setFileChanged={setFileChanged}
+                  onChange={UploadTabChange}
+                  samplePCAAdmixDataset={samplePCAAdmixDataset2}
+                  processedPCA={handleProcessedPCA} // handleFileUpload
+                  processedAdmix={handleProcessedAdmix} // handleAdmixFileUpload1
+                  unprocessedPCA={handleUnprocessedPCA}
+                  tsne2d={handleTSNE2D}
+                  uploadSavedData={uploadSavedData}
+                  tsne3d={handleTSNE3D}
+                  runUMAP2D={runUMAP2D}
+                  runUMAP3D={runUMAP3D}
+                  processData={processData}
+                  setIsMainPageLoading={setIsMainPageLoading}
+                  runPCAir={runPCAir}
+                  btncolor={colors.gray}
+                />
+              </form>
+              <div
+                onClick={handleSave}
+                style={{
+                  display: "flex",
+                  padding: 15,
+                  justifyContent: "center",
+                  alignItems: "center",
+                  borderRadius: 50,
+                  backgroundColor: colors.secondary,
+                }}>
+                <IoIosSave size={20} color="white" />
+              </div>
+            </div>
             <hr style={{ backgroundColor: "white", height: 2, opacity: 1 }} />
             <ClusteringAlgorithmsTab onChange={runCluster} />
             <hr style={{ backgroundColor: "white", height: 2, opacity: 1 }} />
@@ -402,55 +451,7 @@ export default function BottomPane({
 
   return (
     <CustomDrawerContainer className="bottom-drawer">
-      <div
-        style={{
-          flexDirection: "row",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          marginBottom: 20,
-          gap: 5,
-          marginRight: 5,
-          marginLeft: 5,
-        }}>
-        <form style={{ flex: 1 }}>
-          <UploadAndVisualizeTab
-            setProgressBarType={setProgressBarType}
-            modalOpen={modalOpen}
-            setModalOpen={setModalOpen}
-            handleClose={handleClose}
-            fileChanged={fileChanged}
-            resetSaveState={resetSaveState}
-            setFileChanged={setFileChanged}
-            onChange={UploadTabChange}
-            samplePCAAdmixDataset={samplePCAAdmixDataset2}
-            processedPCA={handleProcessedPCA} // handleFileUpload
-            processedAdmix={handleProcessedAdmix} // handleAdmixFileUpload1
-            unprocessedPCA={handleUnprocessedPCA}
-            tsne2d={handleTSNE2D}
-            uploadSavedData={uploadSavedData}
-            tsne3d={handleTSNE3D}
-            runUMAP2D={runUMAP2D}
-            runUMAP3D={runUMAP3D}
-            processData={processData}
-            setIsMainPageLoading={setIsMainPageLoading}
-            runPCAir={runPCAir}
-            btncolor={colors.gray}
-          />
-        </form>
-        <div
-          onClick={handleSave}
-          style={{
-            display: "flex",
-            padding: 15,
-            justifyContent: "center",
-            alignItems: "center",
-            borderRadius: 50,
-            backgroundColor: colors.secondary,
-          }}>
-          <IoIosSave size={20} color="white" />
-        </div>
-      </div>
+     
       <CssBaseline />
       <Global
         styles={{
